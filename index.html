@@ -28,11 +28,11 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-600 selection:text-white">
 
     <script>
-        // Production Data Pipelines
+        // Production Google Apps Script Webhook Pipeline
         const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; 
         
-        // PASTE YOUR GEMINI API KEY HERE (OR ENTER IT DIRECTLY IN THE UI CHAT BOX)
-        let DEFAULT_GEMINI_API_KEY = ""; 
+        // API key is securely loaded from browser storage to avoid Git secret exposure
+        let DEFAULT_GEMINI_API_KEY = localStorage.getItem("nacos_gemini_api_key") || ""; 
     </script>
 
     <!-- Header Navigation -->
@@ -166,7 +166,6 @@
                     <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-300">30-60-90 Day Progressive Action Roadmap</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="roadmap-container">
-                    <!-- Days 1-30 -->
                     <div class="p-4 rounded-xl bg-slate-900/80 border border-indigo-900/50 space-y-3 print-card">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-indigo-400">DAYS 1 - 30</span>
@@ -178,7 +177,6 @@
                             <li><strong class="text-white">Post-Meeting Ego Audit:</strong> Spend 5 minutes weekly noting any impulse to defend status vs analyze data.</li>
                         </ul>
                     </div>
-                    <!-- Days 31-60 -->
                     <div class="p-4 rounded-xl bg-slate-900/80 border border-emerald-900/50 space-y-3 print-card">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-emerald-400">DAYS 31 - 60</span>
@@ -190,7 +188,6 @@
                             <li><strong class="text-white">Blind-Spot Audit:</strong> Ask 2 colleagues: <em>"What is one blind spot in my execution?"</em> Listen without defending.</li>
                         </ul>
                     </div>
-                    <!-- Days 61-90 -->
                     <div class="p-4 rounded-xl bg-slate-900/80 border border-amber-900/50 space-y-3 print-card">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-amber-400">DAYS 61 - 90</span>
@@ -217,9 +214,8 @@
                             <p class="text-[11px] text-slate-400">Powered by Gemini Flash • Discuss your personalized scores and action plan</p>
                         </div>
                     </div>
-                    <!-- API Key Settings Toggle -->
                     <div class="flex items-center gap-2">
-                        <input type="password" id="geminiApiKeyInput" placeholder="Enter Gemini API Key" class="bg-slate-950 border border-slate-700 text-xs px-2.5 py-1 rounded-lg text-slate-200 focus:outline-none focus:border-indigo-500 w-44">
+                        <input type="password" id="geminiApiKeyInput" placeholder="Paste Gemini API Key" onchange="saveApiKey(this.value)" class="bg-slate-950 border border-slate-700 text-xs px-2.5 py-1 rounded-lg text-slate-200 focus:outline-none focus:border-indigo-500 w-48">
                     </div>
                 </div>
 
@@ -321,6 +317,18 @@
         let userProfile = {};
         let computedResults = {};
         let conversationHistory = [];
+
+        function saveApiKey(val) {
+            localStorage.setItem("nacos_gemini_api_key", val.trim());
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedKey = localStorage.getItem("nacos_gemini_api_key");
+            const keyInput = document.getElementById('geminiApiKeyInput');
+            if (savedKey && keyInput) {
+                keyInput.value = savedKey;
+            }
+        });
 
         function startAssessment() {
             const name = document.getElementById('userName').value.trim();
@@ -566,54 +574,71 @@
             const userText = input.value.trim();
             if (!userText) return;
 
-            const apiKey = document.getElementById('geminiApiKeyInput').value.trim() || DEFAULT_GEMINI_API_KEY;
+            const apiKey = (document.getElementById('geminiApiKeyInput').value || "").trim() || localStorage.getItem("nacos_gemini_api_key");
             if (!apiKey) {
-                alert("Please paste your Gemini API Key in the box above to chat with your AI Coach.");
+                alert("Please paste your Gemini API Key in the box above.");
                 return;
             }
+
+            // Save key in localStorage for continuous session persistence
+            saveApiKey(apiKey);
 
             // Append User Message to UI
             appendChatMessage("user", userText);
             input.value = "";
 
-            // Prepare System Prompt with Participant Context
-            const systemPrompt = `You are the NACOS-20 Executive Mindset Coach. You are speaking with ${userProfile.name || 'a professional'} (${userProfile.role || 'Knowledge Worker'}).
-Their verified Mindset Assessment scores are:
-- Global Score: ${computedResults.gni}/100 (${computedResults.archetype})
-- Mental Adaptability & Learning (CPEF): ${computedResults.dimIndices.CPEF}%
-- Mistake Recovery & Grit (ESLFT): ${computedResults.dimIndices.ESLFT}%
-- Composure Under Pressure (PSAV): ${computedResults.dimIndices.PSAV}%
-- Feedback & Peer Learning (DESG): ${computedResults.dimIndices.DESG}%
+            // Prepare Prompt Context with Assessment Scores
+            const contextPrompt = `You are the NACOS-20 Executive Mindset Coach speaking with ${userProfile.name || 'a professional'} (${userProfile.role || 'Knowledge Worker'}).
+User Diagnostic Profile:
+- Global Score: ${computedResults.gni || 0}/100 (${computedResults.archetype || 'Assessed'})
+- Mental Adaptability (CPEF): ${computedResults.dimIndices?.CPEF || 0}%
+- Mistake Recovery (ESLFT): ${computedResults.dimIndices?.ESLFT || 0}%
+- Composure Under Pressure (PSAV): ${computedResults.dimIndices?.PSAV || 0}%
+- Feedback & Peer Learning (DESG): ${computedResults.dimIndices?.DESG || 0}%
 
-Instructions:
-1. Explain concepts using plain workplace language, avoiding heavy medical jargon unless helpful.
-2. Provide concrete, actionable scripts, exercises, and encouragement.
-3. Keep responses concise (under 120 words), conversational, and empathetic.`;
+User Inquiry: ${userText}
 
-            conversationHistory.push({ role: "user", parts: [{ text: userText }] });
+Provide an empathetic, actionable, plain-language response under 120 words. Focus on practical workplace execution.`;
 
             // Show Typing Indicator
             const typingId = appendChatMessage("ai", "Thinking...");
 
             try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+                
+                const response = await fetch(url, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-goog-api-key': apiKey
+                    },
                     body: JSON.stringify({
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        contents: conversationHistory
+                        contents: [
+                            {
+                                parts: [{ text: contextPrompt }]
+                            }
+                        ]
                     })
                 });
 
                 const data = await response.json();
-                const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm having trouble analyzing your request. Please check your API key.";
+
+                if (data.error) {
+                    document.getElementById(typingId).innerText = `Google API Error (${data.error.code}): ${data.error.message}`;
+                    return;
+                }
+
+                const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
                 
-                // Update conversation history & UI
-                conversationHistory.push({ role: "model", parts: [{ text: aiReply }] });
-                document.getElementById(typingId).innerText = aiReply;
+                if (aiReply) {
+                    conversationHistory.push({ role: "model", parts: [{ text: aiReply }] });
+                    document.getElementById(typingId).innerText = aiReply;
+                } else {
+                    document.getElementById(typingId).innerText = "No response generated. Please try again.";
+                }
 
             } catch (err) {
-                document.getElementById(typingId).innerText = "Error contacting Gemini. Please verify your internet connection and API key.";
+                document.getElementById(typingId).innerText = `Network/Connection Error: ${err.message}`;
             }
         }
 
