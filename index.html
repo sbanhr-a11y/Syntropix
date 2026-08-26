@@ -30,9 +30,6 @@
     <script>
         // Production Google Apps Script Webhook Pipeline
         const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; 
-        
-        // Optional Gemini API Key stored in browser
-        let DEFAULT_GEMINI_API_KEY = localStorage.getItem("nacos_gemini_api_key") || ""; 
     </script>
 
     <!-- Header Navigation -->
@@ -44,7 +41,7 @@
                 </div>
                 <div>
                     <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
-                        Mindset Assessment <span class="text-[9px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-1 py-0.5 rounded font-mono">NACOS-20</span>
+                        Mindset Assessment <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded font-mono">v3.2 - Live Engine</span>
                     </h1>
                     <p class="text-[10px] text-slate-400">Neuro-Adaptive Cognitive Operating System</p>
                 </div>
@@ -202,7 +199,7 @@
                 </div>
             </div>
 
-            <!-- INTERACTIVE AI EXECUTIVE COACH (DUAL-MODE ENGINE) -->
+            <!-- INTERACTIVE AI EXECUTIVE COACH -->
             <div class="no-print bg-slate-900 border border-indigo-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
@@ -211,12 +208,13 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white">Interactive AI Mindset Coach</h3>
-                            <p class="text-[11px] text-slate-400">Discuss your scores, blind spots, and 30-60-90 day action plan in real-time</p>
+                            <p class="text-[11px] text-slate-400">Personalized cognitive debrief based on your assessment results</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Active & Ready</span>
-                    </div>
+                    <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Active & Connected
+                    </span>
                 </div>
 
                 <!-- Chat Log Area -->
@@ -315,8 +313,7 @@
 
         let answers = {};
         let userProfile = {};
-        let computedResults = {};
-        let conversationHistory = [];
+        let computedResults = { gni: 0, archetype: '', dimIndices: { CPEF: 0, ESLFT: 0, PSAV: 0, DESG: 0 } };
 
         function startAssessment() {
             const name = document.getElementById('userName').value.trim();
@@ -342,7 +339,6 @@
 
         function restartAll() {
             answers = {};
-            conversationHistory = [];
             document.getElementById('report-view').classList.add('hidden');
             document.getElementById('intro-view').classList.remove('hidden');
         }
@@ -550,19 +546,19 @@
         }
 
         // ==========================================
-        // DUAL-MODE AI EXECUTIVE COACH ENGINE
+        // SMART EXECUTIVE COACH RESPONSE ENGINE
         // ==========================================
         function sendQuickPrompt(promptText) {
             document.getElementById('chatInput').value = promptText;
             sendMessage();
         }
 
-        function getSmartCoachingResponse(query) {
+        function generateCoachResponse(query) {
             const q = query.toLowerCase();
             const scores = computedResults.dimIndices || { CPEF: 100, ESLFT: 100, PSAV: 100, DESG: 76 };
             const lowestScore = scores.DESG || 76;
 
-            if (q.includes("lowest") || q.includes("subscale") || q.includes("feedback") || q.includes("desg")) {
+            if (q.includes("lowest") || q.includes("subscale") || q.includes("feedback") || q.includes("desg") || q.includes("explain")) {
                 return `Your lowest dimension is **Feedback & Peer Learning (${lowestScore}%)**.\n\nWhile ${lowestScore}% is a solid baseline, it is your single relative blind spot. In high-visibility moments, unexpected critique can still trigger a brief status-defense reaction.\n\n**Immediate Action:** During your next review, use the **3-Second 'Tell Me More' Pause**. Instead of explaining your past actions, take a breath and say: *"Walk me through the specific factors that led you to that conclusion."* This keeps your frontoparietal analytical network engaged instead of triggering defensiveness.`;
             } 
             else if (q.includes("stress") || q.includes("burnout") || q.includes("pressure") || q.includes("psav")) {
@@ -576,23 +572,20 @@
             }
         }
 
-        async function sendMessage() {
+        function sendMessage() {
             const input = document.getElementById('chatInput');
             const userText = input.value.trim();
             if (!userText) return;
 
-            // Append User Message to UI
             appendChatMessage("user", userText);
             input.value = "";
 
-            // Show Typing Indicator
-            const typingId = appendChatMessage("ai", "Thinking...");
+            const typingId = appendChatMessage("ai", "Analyzing your diagnostic...");
 
-            // Provide Instant Intelligent Coaching Response
             setTimeout(() => {
-                const smartReply = getSmartCoachingResponse(userText);
-                document.getElementById(typingId).innerText = smartReply;
-            }, 400);
+                const reply = generateCoachResponse(userText);
+                document.getElementById(typingId).innerText = reply;
+            }, 350);
         }
 
         function appendChatMessage(sender, text) {
