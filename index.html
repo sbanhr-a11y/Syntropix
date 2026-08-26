@@ -28,8 +28,11 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-600 selection:text-white">
 
     <script>
-        // Production Google Apps Script Webhook Pipeline
+        // Production Data Pipelines
         const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; 
+        
+        // PASTE YOUR GEMINI API KEY HERE (OR ENTER IT DIRECTLY IN THE UI CHAT BOX)
+        let DEFAULT_GEMINI_API_KEY = ""; 
     </script>
 
     <!-- Header Navigation -->
@@ -58,7 +61,7 @@
         <section id="intro-view" class="max-w-lg mx-auto space-y-6">
             <div class="text-center space-y-2">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Mindset Assessment</h2>
-                <p class="text-xs sm:text-sm text-slate-400">Evaluate cognitive plasticity, error calibration, stress valence, and feedback orientation.</p>
+                <p class="text-xs sm:text-sm text-slate-400">Discover your cognitive operating profile across adaptability, mistake recovery, composure under pressure, and feedback integration.</p>
             </div>
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
@@ -104,7 +107,7 @@
             </div>
         </section>
 
-        <!-- STEP 3: COLOR-CODED DIAGNOSTIC & ACTION REPORT SCREEN -->
+        <!-- STEP 3: COMPREHENSIVE REPORT + AI COACH SCREEN -->
         <section id="report-view" class="hidden space-y-8">
             <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
                 <div class="text-xs text-slate-400">
@@ -141,36 +144,115 @@
                 </div>
             </div>
 
-            <!-- Empirical Metrics Grid -->
+            <!-- PLAIN-LANGUAGE METRICS TRANSLATION -->
             <div class="space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Empirical Subscale Metrics</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="dim-score-grid"></div>
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Everyday Workplace Breakdown</h3>
+                    <span class="text-[10px] font-mono text-indigo-400">Plain-Language Diagnostic</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="plain-dim-grid"></div>
             </div>
 
             <!-- Visual Alignment Radar -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center print-card">
-                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 self-start">Polar Subscale Topology</h4>
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 self-start">Mindset Topology Map</h4>
                 <canvas id="radarChart" width="280" height="280" class="max-w-xs w-full"></canvas>
             </div>
 
-            <!-- COLOR-CODED SECTION 1: DETECTED GAPS & VULNERABILITIES -->
-            <div class="space-y-3">
+            <!-- 30-60-90 DAY ACTION ROADMAP -->
+            <div class="space-y-4">
                 <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-rose-400">Identified Vulnerabilities & Blind Spots</h3>
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-300">30-60-90 Day Progressive Action Roadmap</h3>
                 </div>
-                <p class="text-xs text-slate-400">Targeted areas where implicit cognitive barriers, threat responses, or fatigue risks currently lower operational throughput.</p>
-                <div class="space-y-3" id="gaps-container"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="roadmap-container">
+                    <!-- Days 1-30 -->
+                    <div class="p-4 rounded-xl bg-slate-900/80 border border-indigo-900/50 space-y-3 print-card">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-400">DAYS 1 - 30</span>
+                            <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-indigo-950 text-indigo-300">PHASE 1</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-200">Awareness & Emotional Decoupling</h4>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li><strong class="text-white">The 3-Second "Tell Me More" Pause:</strong> When critique is offered, pause and say: <em>"Walk me through your perspective."</em></li>
+                            <li><strong class="text-white">Post-Meeting Ego Audit:</strong> Spend 5 minutes weekly noting any impulse to defend status vs analyze data.</li>
+                        </ul>
+                    </div>
+                    <!-- Days 31-60 -->
+                    <div class="p-4 rounded-xl bg-slate-900/80 border border-emerald-900/50 space-y-3 print-card">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-emerald-400">DAYS 31 - 60</span>
+                            <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300">PHASE 2</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-200">Peer Synergy & Calibration</h4>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li><strong class="text-white">Deconstruct Peer Excellence:</strong> When a peer succeeds, schedule 15 mins to learn their workflow model.</li>
+                            <li><strong class="text-white">Blind-Spot Audit:</strong> Ask 2 colleagues: <em>"What is one blind spot in my execution?"</em> Listen without defending.</li>
+                        </ul>
+                    </div>
+                    <!-- Days 61-90 -->
+                    <div class="p-4 rounded-xl bg-slate-900/80 border border-amber-900/50 space-y-3 print-card">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-400">DAYS 61 - 90</span>
+                            <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300">PHASE 3</span>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-200">Systemic Mastery & Recovery</h4>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
+                            <li><strong class="text-white">Adversarial Red-Teaming:</strong> Have a teammate challenge your project assumptions before launch.</li>
+                            <li><strong class="text-white">Autonomic Recovery Cadence:</strong> Schedule 15-min mental disconnects during intense days to prevent overload.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <!-- COLOR-CODED SECTION 2: EVIDENCE-BASED ACTION PROTOCOLS -->
-            <div class="space-y-3">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-emerald-400">Action Plan & Intervention Protocols</h3>
+            <!-- INTERACTIVE AI EXECUTIVE COACH (GEMINI FLASH) -->
+            <div class="no-print bg-slate-900 border border-indigo-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-xs font-black text-white">
+                            AI
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white">Interactive AI Mindset Coach</h3>
+                            <p class="text-[11px] text-slate-400">Powered by Gemini Flash • Discuss your personalized scores and action plan</p>
+                        </div>
+                    </div>
+                    <!-- API Key Settings Toggle -->
+                    <div class="flex items-center gap-2">
+                        <input type="password" id="geminiApiKeyInput" placeholder="Enter Gemini API Key" class="bg-slate-950 border border-slate-700 text-xs px-2.5 py-1 rounded-lg text-slate-200 focus:outline-none focus:border-indigo-500 w-44">
+                    </div>
                 </div>
-                <p class="text-xs text-slate-400">High-leverage cognitive and behavioral adjustments to optimize baseline performance.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="action-plan-container"></div>
+
+                <!-- Chat Log Area -->
+                <div id="chat-messages" class="h-64 overflow-y-auto bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 text-xs leading-relaxed">
+                    <div class="flex gap-2.5 items-start">
+                        <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-xl">
+                            Hello! I’ve reviewed your mindset diagnostic. What would you like to explore or practice first?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Prompt Chips -->
+                <div class="flex flex-wrap gap-2 pt-1">
+                    <button onclick="sendQuickPrompt('Explain my lowest subscale score in plain terms.')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
+                        💡 Explain my lowest subscale score
+                    </button>
+                    <button onclick="sendQuickPrompt('How can I leverage my high stress tolerance without burning out?')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
+                        ⚡ Stress & Burnout Management
+                    </button>
+                    <button onclick="sendQuickPrompt('Give me a script to ask my manager for tough feedback tomorrow.')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
+                        📝 Tough Feedback Script
+                    </button>
+                </div>
+
+                <!-- Input Box -->
+                <div class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Ask your AI Coach a question..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                    <button onclick="sendMessage()" id="sendBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-lg shadow-indigo-600/20">
+                        Send
+                    </button>
+                </div>
             </div>
 
             <div id="sync-status" class="no-print p-3 rounded-lg bg-slate-900 border border-slate-800 text-center text-xs text-slate-400">
@@ -184,35 +266,31 @@
         const dimensions = [
             { 
                 id: 'CPEF', 
-                name: 'Cognitive Plasticity & Epistemic Flexibility', 
-                desc: 'Belief in dynamic synaptic capacity vs static talent limits.',
-                gapText: 'Risk of trait-based plateauing. When encountering complex domains, you may perceive the initial cognitive difficulty as a lack of natural ability rather than active neuroplastic adaptation.',
-                protocolTitle: 'Deliberate Friction Interval',
-                protocolDesc: 'Engage in 45-minute structured deep-work blocks on unfamiliar problems. Reframe initial confusion as the physiological signal required for synaptic remodeling.'
+                plainName: 'Mental Adaptability & Learning Curve',
+                academicName: 'Cognitive Plasticity & Epistemic Flexibility', 
+                plainMeaning: 'You treat intelligence and capability like a muscle. Unfamiliar technical domains and complex problems energize you rather than intimidate you.',
+                whatToWatch: 'Avoid over-intellectualizing when straightforward execution is needed.'
             },
             { 
                 id: 'ESLFT', 
-                name: 'Error Salience & Limbic Friction Tolerance', 
-                desc: 'Conscious error appraisal (Pe) and persistence through cognitive friction.',
-                gapText: 'Elevated error sensitivity. Mistakes risk triggering amygdala-driven threat responses, leading to loss aversion and hesitation in taking on high-uncertainty assignments.',
-                protocolTitle: '5-Minute Error Postmortem',
-                protocolDesc: 'Immediately deconstruct errors into: (1) Operational cue missed, (2) Faulty premise, (3) Systemic adjustment. Separate personal competence from procedural variables.'
+                plainName: 'Mistake Recovery & Problem Grit',
+                academicName: 'Error Salience & Limbic Friction Tolerance', 
+                plainMeaning: 'Mistakes do not bruise your ego. You view failures as diagnostic clues to fix systems rather than personal flaws.',
+                whatToWatch: 'Ensure you also celebrate completed wins, not just the friction of fixing problems.'
             },
             { 
                 id: 'PSAV', 
-                name: 'Psychophysiological Stress & Allostatic Valence', 
-                desc: 'Framing heightened sympathetic arousal as metabolic readiness.',
-                gapText: 'Stress-debilitating vulnerability. High-stakes deadlines and ambiguity may trigger executive function narrowing, accelerating mental fatigue.',
-                protocolTitle: 'Physiological Sigh & Arousal Reappraisal',
-                protocolDesc: 'Consciously frame elevated heart rate as adaptive glucose and oxygen delivery to the cortex. Execute 3 cycles of physiological sighs (two nasal inhales, one long exhale) to stabilize autonomic tone.'
+                plainName: 'Composure Under Pressure',
+                academicName: 'Psychophysiological Stress & Allostatic Valence', 
+                plainMeaning: 'You turn intense workplace pressure into execution focus. High-stakes deadlines sharpen your clarity rather than paralyzing you.',
+                whatToWatch: 'Watch out for silent physical fatigue; high focus can mask the need for rest.'
             },
             { 
                 id: 'DESG', 
-                name: 'Decentered Evaluation & Synergistic Growth', 
-                desc: 'Decoupling ego from feedback and using peer mastery as a blueprint.',
-                gapText: 'Evaluative defensiveness. Critical feedback or superior peer performance risks triggering status-defense mechanisms, impairing diagnostic data integration.',
-                protocolTitle: 'Blind Spot Calibration Session',
-                protocolDesc: 'Proactively ask two colleagues: "What is one operational blind spot in my workflow?" Document their observations neutrally without defending your initial decisions.'
+                plainName: 'Feedback & Peer Learning',
+                academicName: 'Decentered Evaluation & Synergistic Growth', 
+                plainMeaning: 'How easily you decouple your self-worth from critical feedback, and whether you see exceptional colleagues as coaches or competitors.',
+                whatToWatch: 'Notice any initial urge to explain or defend your choices when critiqued in public forums.'
             }
         ];
 
@@ -241,6 +319,8 @@
 
         let answers = {};
         let userProfile = {};
+        let computedResults = {};
+        let conversationHistory = [];
 
         function startAssessment() {
             const name = document.getElementById('userName').value.trim();
@@ -266,6 +346,7 @@
 
         function restartAll() {
             answers = {};
+            conversationHistory = [];
             document.getElementById('report-view').classList.add('hidden');
             document.getElementById('intro-view').classList.remove('hidden');
         }
@@ -343,17 +424,19 @@
 
             if (gni >= 80.0) {
                 archetype = "Dynamic Neuro-Strategist";
-                summary = "High Error Positivity (Pe); pairs dopamine with effort friction; frames stress as metabolic readiness; completely decouples ego from critique.";
+                summary = "You operate with high mental agility, view complex problems as engaging, and turn high workplace pressure into execution focus.";
             } else if (gni >= 65.0) {
                 archetype = "Adaptive Growth Practitioner";
-                summary = "Stable baseline belief in dynamic neural plasticity; resilient through friction; occasional vulnerability under public scrutiny.";
+                summary = "Solid baseline belief in continuous learning with good resilience; occasional defensive lapses under high public visibility.";
             } else if (gni >= 50.0) {
                 archetype = "Cautious Incrementalist";
-                summary = "Growth endorsed conceptually, but execution leans toward loss aversion and low-risk domains under pressure.";
+                summary = "Growth endorsed conceptually, but execution leans toward lower-risk, predictable tasks under heavy pressure.";
             } else {
                 archetype = "Fixed-Defensive Conserver";
-                summary = "Talent viewed as an immutable trait; heightened error-threat sensitivity; operational stress experienced as debilitating friction.";
+                summary = "Talent viewed as static; high error-threat sensitivity; stress experienced as debilitating friction.";
             }
+
+            computedResults = { gni, archetype, summary, dimIndices };
 
             document.getElementById('rep-name').innerText = userProfile.name;
             document.getElementById('rep-date').innerText = new Date().toLocaleDateString();
@@ -361,64 +444,25 @@
             document.getElementById('rep-archetype').innerText = archetype;
             document.getElementById('rep-summary').innerText = summary;
 
-            // Empirical Subscale Metrics Grid
-            const grid = document.getElementById('dim-score-grid');
-            grid.innerHTML = '';
+            // Plain Language Diagnostic Breakdown
+            const plainGrid = document.getElementById('plain-dim-grid');
+            plainGrid.innerHTML = '';
             dimensions.forEach(d => {
                 const score = dimIndices[d.id];
                 const card = document.createElement('div');
-                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-1.5 print-card";
+                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2 print-card";
                 card.innerHTML = `
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="font-bold text-slate-200 print-text-dark">${d.name}</span>
-                        <span class="font-mono font-bold ${score >= 70 ? 'text-emerald-400' : score >= 50 ? 'text-amber-400' : 'text-rose-400'}">${score}%</span>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-200">${d.plainName}</span>
+                        <span class="font-mono font-bold text-xs ${score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-amber-400' : 'text-rose-400'}">${score}%</span>
                     </div>
                     <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                        <div class="h-full ${score >= 70 ? 'bg-emerald-500' : score >= 50 ? 'bg-amber-500' : 'bg-rose-500'}" style="width: ${score}%"></div>
+                        <div class="h-full ${score >= 80 ? 'bg-emerald-500' : score >= 60 ? 'bg-amber-500' : 'bg-rose-500'}" style="width: ${score}%"></div>
                     </div>
-                    <p class="text-[10px] text-slate-400">${d.desc}</p>
+                    <p class="text-[11px] text-slate-300 leading-relaxed">${d.plainMeaning}</p>
+                    <p class="text-[10px] text-slate-500 italic"><strong class="text-slate-400">Growth Watchout:</strong> ${d.whatToWatch}</p>
                 `;
-                grid.appendChild(card);
-            });
-
-            // Gaps & Vulnerabilities Rendering (Red/Rose styling)
-            const gapsContainer = document.getElementById('gaps-container');
-            gapsContainer.innerHTML = '';
-            let loggedGaps = [];
-
-            dimensions.forEach(d => {
-                const score = dimIndices[d.id];
-                const isGap = score < 75;
-                if (isGap) loggedGaps.push(`${d.name} (${score}%)`);
-
-                const gapCard = document.createElement('div');
-                gapCard.className = `p-4 rounded-xl border ${isGap ? 'bg-rose-950/20 border-rose-800/60' : 'bg-slate-900/60 border-slate-800'} space-y-1.5 print-card`;
-                gapCard.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold ${isGap ? 'text-rose-400' : 'text-slate-300'}">${d.name}</span>
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded ${isGap ? 'bg-rose-900/40 text-rose-300 border border-rose-700/50' : 'bg-slate-800 text-slate-400'}">
-                            ${isGap ? 'PRIORITY GAP' : 'STABLE BASELINE'}
-                        </span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed print-text-dark">${d.gapText}</p>
-                `;
-                gapsContainer.appendChild(gapCard);
-            });
-
-            // Action Plan & Protocols Rendering (Emerald/Green styling)
-            const actionContainer = document.getElementById('action-plan-container');
-            actionContainer.innerHTML = '';
-            dimensions.forEach(d => {
-                const actCard = document.createElement('div');
-                actCard.className = "p-4 rounded-xl bg-emerald-950/20 border border-emerald-800/60 space-y-2 print-card";
-                actCard.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-emerald-400">${d.protocolTitle}</span>
-                        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-900/40 text-emerald-300 uppercase">${d.id} Protocol</span>
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed print-text-dark">${d.protocolDesc}</p>
-                `;
-                actionContainer.appendChild(actCard);
+                plainGrid.appendChild(card);
             });
 
             document.getElementById('quiz-view').classList.add('hidden');
@@ -427,7 +471,7 @@
 
             renderRadar(dimIndices);
 
-            // Log data directly to Google Drive via Apps Script
+            // Log data to Google Sheet
             transmitToGoogleDrive({
                 timestamp: new Date().toISOString(),
                 name: userProfile.name,
@@ -439,7 +483,7 @@
                 eslft: dimIndices.ESLFT,
                 psav: dimIndices.PSAV,
                 desg: dimIndices.DESG,
-                gaps: loggedGaps
+                gaps: [`DESG: ${dimIndices.DESG}%`]
             });
         }
 
@@ -451,7 +495,7 @@
 
             ctx.clearRect(0, 0, w, h);
             const keys = ['CPEF', 'ESLFT', 'PSAV', 'DESG'];
-            const labels = ['Plasticity', 'Error Friction', 'Stress Valence', 'Decentered Growth'];
+            const labels = ['Adaptability', 'Grit / Errors', 'Composure', 'Peer Learning'];
             const total = keys.length;
 
             [0.25, 0.5, 0.75, 1.0].forEach(lvl => {
@@ -494,14 +538,7 @@
 
         function transmitToGoogleDrive(payload) {
             const syncText = document.getElementById('sync-text');
-
-            if (!GOOGLE_SHEET_WEBHOOK_URL) {
-                syncText.innerText = "Logged locally (Local Mode)";
-                syncText.className = "text-amber-400 font-mono";
-                return;
-            }
-
-            syncText.innerText = "Transmitting to Google Drive database...";
+            if (!GOOGLE_SHEET_WEBHOOK_URL) return;
 
             fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                 method: 'POST',
@@ -509,12 +546,100 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                syncText.innerText = "Successfully logged to Google Drive database";
+                syncText.innerText = "Logged to Google Sheet database";
                 syncText.className = "text-emerald-400 font-mono font-medium";
             }).catch(() => {
-                syncText.innerText = "Saved locally in session";
-                syncText.className = "text-slate-400 font-mono";
+                syncText.innerText = "Saved locally";
             });
+        }
+
+        // ==========================================
+        // GEMINI FLASH AI COACH ENGINE
+        // ==========================================
+        function sendQuickPrompt(promptText) {
+            document.getElementById('chatInput').value = promptText;
+            sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const userText = input.value.trim();
+            if (!userText) return;
+
+            const apiKey = document.getElementById('geminiApiKeyInput').value.trim() || DEFAULT_GEMINI_API_KEY;
+            if (!apiKey) {
+                alert("Please paste your Gemini API Key in the box above to chat with your AI Coach.");
+                return;
+            }
+
+            // Append User Message to UI
+            appendChatMessage("user", userText);
+            input.value = "";
+
+            // Prepare System Prompt with Participant Context
+            const systemPrompt = `You are the NACOS-20 Executive Mindset Coach. You are speaking with ${userProfile.name || 'a professional'} (${userProfile.role || 'Knowledge Worker'}).
+Their verified Mindset Assessment scores are:
+- Global Score: ${computedResults.gni}/100 (${computedResults.archetype})
+- Mental Adaptability & Learning (CPEF): ${computedResults.dimIndices.CPEF}%
+- Mistake Recovery & Grit (ESLFT): ${computedResults.dimIndices.ESLFT}%
+- Composure Under Pressure (PSAV): ${computedResults.dimIndices.PSAV}%
+- Feedback & Peer Learning (DESG): ${computedResults.dimIndices.DESG}%
+
+Instructions:
+1. Explain concepts using plain workplace language, avoiding heavy medical jargon unless helpful.
+2. Provide concrete, actionable scripts, exercises, and encouragement.
+3. Keep responses concise (under 120 words), conversational, and empathetic.`;
+
+            conversationHistory.push({ role: "user", parts: [{ text: userText }] });
+
+            // Show Typing Indicator
+            const typingId = appendChatMessage("ai", "Thinking...");
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: conversationHistory
+                    })
+                });
+
+                const data = await response.json();
+                const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm having trouble analyzing your request. Please check your API key.";
+                
+                // Update conversation history & UI
+                conversationHistory.push({ role: "model", parts: [{ text: aiReply }] });
+                document.getElementById(typingId).innerText = aiReply;
+
+            } catch (err) {
+                document.getElementById(typingId).innerText = "Error contacting Gemini. Please verify your internet connection and API key.";
+            }
+        }
+
+        function appendChatMessage(sender, text) {
+            const container = document.getElementById('chat-messages');
+            const msgId = "msg-" + Date.now();
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex gap-2.5 items-start ${sender === 'user' ? 'justify-end' : ''}`;
+
+            if (sender === 'user') {
+                wrapper.innerHTML = `
+                    <div class="bg-indigo-600 rounded-lg p-3 text-white max-w-xl">
+                        ${text}
+                    </div>
+                    <div class="w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-[10px] shrink-0">You</div>
+                `;
+            } else {
+                wrapper.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
+                    <div id="${msgId}" class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-xl whitespace-pre-wrap">${text}</div>
+                `;
+            }
+
+            container.appendChild(wrapper);
+            container.scrollTop = container.scrollHeight;
+            return msgId;
         }
     </script>
 </body>
