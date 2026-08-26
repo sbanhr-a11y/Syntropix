@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindset Assessment | NACOS-20™</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0f172a', 950: '#020617' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .print-card { border: 1px solid #cbd5e1 !important; box-shadow: none !important; background: white !important; }
+            .print-text-dark { color: #0f172a !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-600 selection:text-white">
+
+    <script>
+        // Production Google Apps Script Webhook Pipeline
+        const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; 
+    </script>
+
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-base shadow-lg shadow-indigo-500/20">
+                    Ψ
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                        Mindset Assessment <span class="text-[9px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-1 py-0.5 rounded font-mono">NACOS-20</span>
+                    </h1>
+                    <p class="text-[10px] text-slate-400">Neuro-Adaptive Cognitive Operating System</p>
+                </div>
+            </div>
+            <span class="text-[10px] font-mono text-slate-400 bg-slate-800 border border-slate-700 px-2.5 py-1 rounded-full">
+                Psychometric Standard
+            </span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- STEP 1: REGISTRATION SCREEN -->
+        <section id="intro-view" class="max-w-lg mx-auto space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Mindset Assessment</h2>
+                <p class="text-xs sm:text-sm text-slate-400">Evaluate cognitive plasticity, error calibration, stress valence, and feedback orientation.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1" for="userName">Full Name <span class="text-rose-400">*</span></label>
+                    <input type="text" id="userName" placeholder="e.g. Alex Morgan" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1" for="userEmail">Professional Email <span class="text-rose-400">*</span></label>
+                    <input type="email" id="userEmail" placeholder="e.g. alex.m@organization.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1" for="userRole">Functional Title / Role</label>
+                    <input type="text" id="userRole" placeholder="e.g. Lead Product Strategist" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <button onclick="startAssessment()" class="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/30">
+                    Start 20-Item Assessment
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 2: QUESTIONNAIRE SCREEN -->
+        <section id="quiz-view" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 sticky top-14 z-40 backdrop-blur">
+                <div class="flex items-center justify-between text-xs font-medium text-slate-300 mb-2">
+                    <span id="progress-text">0 / 20 Answered</span>
+                    <span class="text-[10px] text-slate-400 font-mono">1 = Strongly Disagree | 6 = Strongly Agree</span>
+                </div>
+                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <div id="questions-list" class="space-y-4"></div>
+
+            <div class="flex justify-between items-center pt-4">
+                <button onclick="cancelAssessment()" class="px-4 py-2 rounded-lg border border-slate-800 text-xs text-slate-400 hover:bg-slate-900 transition">
+                    Exit
+                </button>
+                <button id="submit-btn" onclick="generateDiagnosticReport()" disabled class="px-6 py-2.5 rounded-lg bg-indigo-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
+                    Generate Diagnostic Report
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 3: COLOR-CODED DIAGNOSTIC & ACTION REPORT SCREEN -->
+        <section id="report-view" class="hidden space-y-8">
+            <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
+                <div class="text-xs text-slate-400">
+                    Mindset report generated for <span id="rep-name" class="text-white font-medium"></span> on <span id="rep-date" class="text-slate-300"></span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                        Export / Print PDF
+                    </button>
+                    <button onclick="restartAll()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium transition">
+                        Retake
+                    </button>
+                </div>
+            </div>
+
+            <!-- Score Summary Card -->
+            <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-2xl p-6 print-card space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div>
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Global Mindset Score</div>
+                        <div class="flex items-baseline gap-2 mt-1">
+                            <span id="global-score" class="text-4xl font-black text-white print-text-dark">0.0</span>
+                            <span class="text-slate-400 text-xs">/ 100</span>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 border-t md:border-t-0 md:border-l border-slate-800 md:pl-6 space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-semibold text-slate-400 print-text-dark">Operating Profile:</span>
+                            <span id="rep-archetype" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"></span>
+                        </div>
+                        <p id="rep-summary" class="text-xs text-slate-300 print-text-dark leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empirical Metrics Grid -->
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Empirical Subscale Metrics</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="dim-score-grid"></div>
+            </div>
+
+            <!-- Visual Alignment Radar -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center print-card">
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 self-start">Polar Subscale Topology</h4>
+                <canvas id="radarChart" width="280" height="280" class="max-w-xs w-full"></canvas>
+            </div>
+
+            <!-- COLOR-CODED SECTION 1: DETECTED GAPS & VULNERABILITIES -->
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-rose-400">Identified Vulnerabilities & Blind Spots</h3>
+                </div>
+                <p class="text-xs text-slate-400">Targeted areas where implicit cognitive barriers, threat responses, or fatigue risks currently lower operational throughput.</p>
+                <div class="space-y-3" id="gaps-container"></div>
+            </div>
+
+            <!-- COLOR-CODED SECTION 2: EVIDENCE-BASED ACTION PROTOCOLS -->
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-emerald-400">Action Plan & Intervention Protocols</h3>
+                </div>
+                <p class="text-xs text-slate-400">High-leverage cognitive and behavioral adjustments to optimize baseline performance.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="action-plan-container"></div>
+            </div>
+
+            <div id="sync-status" class="no-print p-3 rounded-lg bg-slate-900 border border-slate-800 text-center text-xs text-slate-400">
+                Data pipeline sync: <span id="sync-text" class="text-slate-300 font-mono">Initialized</span>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const dimensions = [
+            { 
+                id: 'CPEF', 
+                name: 'Cognitive Plasticity & Epistemic Flexibility', 
+                desc: 'Belief in dynamic synaptic capacity vs static talent limits.',
+                gapText: 'Risk of trait-based plateauing. When encountering complex domains, you may perceive the initial cognitive difficulty as a lack of natural ability rather than active neuroplastic adaptation.',
+                protocolTitle: 'Deliberate Friction Interval',
+                protocolDesc: 'Engage in 45-minute structured deep-work blocks on unfamiliar problems. Reframe initial confusion as the physiological signal required for synaptic remodeling.'
+            },
+            { 
+                id: 'ESLFT', 
+                name: 'Error Salience & Limbic Friction Tolerance', 
+                desc: 'Conscious error appraisal (Pe) and persistence through cognitive friction.',
+                gapText: 'Elevated error sensitivity. Mistakes risk triggering amygdala-driven threat responses, leading to loss aversion and hesitation in taking on high-uncertainty assignments.',
+                protocolTitle: '5-Minute Error Postmortem',
+                protocolDesc: 'Immediately deconstruct errors into: (1) Operational cue missed, (2) Faulty premise, (3) Systemic adjustment. Separate personal competence from procedural variables.'
+            },
+            { 
+                id: 'PSAV', 
+                name: 'Psychophysiological Stress & Allostatic Valence', 
+                desc: 'Framing heightened sympathetic arousal as metabolic readiness.',
+                gapText: 'Stress-debilitating vulnerability. High-stakes deadlines and ambiguity may trigger executive function narrowing, accelerating mental fatigue.',
+                protocolTitle: 'Physiological Sigh & Arousal Reappraisal',
+                protocolDesc: 'Consciously frame elevated heart rate as adaptive glucose and oxygen delivery to the cortex. Execute 3 cycles of physiological sighs (two nasal inhales, one long exhale) to stabilize autonomic tone.'
+            },
+            { 
+                id: 'DESG', 
+                name: 'Decentered Evaluation & Synergistic Growth', 
+                desc: 'Decoupling ego from feedback and using peer mastery as a blueprint.',
+                gapText: 'Evaluative defensiveness. Critical feedback or superior peer performance risks triggering status-defense mechanisms, impairing diagnostic data integration.',
+                protocolTitle: 'Blind Spot Calibration Session',
+                protocolDesc: 'Proactively ask two colleagues: "What is one operational blind spot in my workflow?" Document their observations neutrally without defending your initial decisions.'
+            }
+        ];
+
+        const questions = [
+            { id: 1, dim: 'CPEF', text: "An individual’s capacity to master highly complex analytical domains can be continually re-architected through deliberate cognitive strain, regardless of their starting aptitude.", rev: false },
+            { id: 2, dim: 'CPEF', text: "When an employee repeatedly struggles to grasp an advanced operational model, it demonstrates that their natural intellectual boundary has been reached.", rev: true },
+            { id: 3, dim: 'CPEF', text: "Advanced strategic and creative insight is primarily the result of sustained neural adaptation through focused training rather than inherited talent.", rev: false },
+            { id: 4, dim: 'CPEF', text: "Critical executive aptitudes, such as complex pattern recognition and abstract reasoning, are fixed by adulthood and cannot be significantly expanded.", rev: true },
+            { id: 5, dim: 'CPEF', text: "Actively grappling with unfamiliar problem structures permanently alters and enhances my problem-solving frameworks.", rev: false },
+            { id: 6, dim: 'ESLFT', text: "When I encounter an execution breakdown, my immediate reaction is analytical curiosity regarding which procedural parameter malfunctioned.", rev: false },
+            { id: 7, dim: 'ESLFT', text: "Making an unexpected error in a high-visibility project feels like direct evidence of professional deficiency.", rev: true },
+            { id: 8, dim: 'ESLFT', text: "I intentionally take on tasks with steep learning curves because the internal friction experienced during struggle is where capability expands.", rev: false },
+            { id: 9, dim: 'ESLFT', text: "I prefer working on tasks with established procedures where predictable outcomes and minimal errors are guaranteed.", rev: true },
+            { id: 10, dim: 'ESLFT', text: "Hitting an impasse on a strategic initiative indicates that my mental model requires recalibration, not that I lack the ability to resolve it.", rev: false },
+            { id: 11, dim: 'PSAV', text: "I view heightened physiological arousal (such as rapid pulse or intense focus before a high-stakes delivery) as the body mobilizing energy for peak execution.", rev: false },
+            { id: 12, dim: 'PSAV', text: "Intense operational friction and workplace pressure inevitably deplete my judgment and degrade the quality of my output.", rev: true },
+            { id: 13, dim: 'PSAV', text: "Navigating continuous organizational volatility and ambiguous constraints builds adaptive operational capability.", rev: false },
+            { id: 14, dim: 'PSAV', text: "When project demands become chaotic, my ability to think clearly declines rapidly.", rev: true },
+            { id: 15, dim: 'PSAV', text: "Cognitive tension and high-stakes demands help sharpen my concentration and accelerate tactical problem-solving.", rev: false },
+            { id: 16, dim: 'DESG', text: "I treat direct, critical scrutiny of my work as diagnostic calibration data rather than an attack on my professional standing.", rev: false },
+            { id: 17, dim: 'DESG', text: "When a colleague achieves superior execution in my primary functional area, it triggers feelings of professional vulnerability.", rev: true },
+            { id: 18, dim: 'DESG', text: "I actively seek out performance feedback from individuals whose perspectives challenge my conclusions to uncover operational blind spots.", rev: false },
+            { id: 19, dim: 'DESG', text: "When my proposals are challenged in open forums, my initial physiological response is to defend my position rather than examine alternative premises.", rev: true },
+            { id: 20, dim: 'DESG', text: "Observing a colleague demonstrate superior mastery motivates me to study their workflow and integrate their methods into my own.", rev: false }
+        ];
+
+        let answers = {};
+        let userProfile = {};
+
+        function startAssessment() {
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const role = document.getElementById('userRole').value.trim();
+
+            if (!name || !email) {
+                alert("Please enter both your name and professional email.");
+                return;
+            }
+
+            userProfile = { name, email, role, date: new Date().toISOString() };
+            document.getElementById('intro-view').classList.add('hidden');
+            document.getElementById('quiz-view').classList.remove('hidden');
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelAssessment() {
+            document.getElementById('quiz-view').classList.add('hidden');
+            document.getElementById('intro-view').classList.remove('hidden');
+        }
+
+        function restartAll() {
+            answers = {};
+            document.getElementById('report-view').classList.add('hidden');
+            document.getElementById('intro-view').classList.remove('hidden');
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-list');
+            container.innerHTML = '';
+
+            questions.forEach((q) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3";
+                card.id = `q-${q.id}`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-[10px] font-mono text-indigo-400">
+                        <span>ITEM ${q.id.toString().padStart(2, '0')} / 20</span>
+                        <span class="text-slate-500 uppercase">${q.dim}</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">${q.text}</p>
+                    <div class="grid grid-cols-6 gap-1 pt-1">
+                        ${[1, 2, 3, 4, 5, 6].map(val => `
+                            <button type="button" onclick="selectAnswer(${q.id}, ${val})" class="opt-btn-${q.id} py-1.5 text-center rounded border border-slate-800 bg-slate-950 text-slate-400 hover:border-indigo-500 text-xs transition">
+                                ${val}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            updateProgress();
+        }
+
+        function selectAnswer(qId, val) {
+            answers[qId] = val;
+            const buttons = document.querySelectorAll(`.opt-btn-${qId}`);
+            buttons.forEach((btn, idx) => {
+                if (idx + 1 === val) {
+                    btn.className = `opt-btn-${qId} py-1.5 text-center rounded border border-indigo-500 bg-indigo-600/30 text-indigo-200 text-xs font-bold transition`;
+                } else {
+                    btn.className = `opt-btn-${qId} py-1.5 text-center rounded border border-slate-800 bg-slate-950 text-slate-400 text-xs transition`;
+                }
+            });
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const count = Object.keys(answers).length;
+            const pct = Math.round((count / 20) * 100);
+            document.getElementById('progress-text').innerText = `${count} / 20 Answered`;
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+            document.getElementById('submit-btn').disabled = (count !== 20);
+        }
+
+        function generateDiagnosticReport() {
+            let dimRaw = { CPEF: 0, ESLFT: 0, PSAV: 0, DESG: 0 };
+            let totalTransformed = 0;
+
+            questions.forEach(q => {
+                const raw = answers[q.id];
+                const transformed = q.rev ? (7 - raw) : raw;
+                dimRaw[q.dim] += transformed;
+                totalTransformed += transformed;
+            });
+
+            let dimIndices = {};
+            dimensions.forEach(d => {
+                const mean = dimRaw[d.id] / 5.0;
+                dimIndices[d.id] = Math.round(((mean - 1.0) / 5.0) * 1000) / 10;
+            });
+
+            const gni = Math.round((((totalTransformed - 20) / 100) * 100) * 10) / 10;
+
+            let archetype = "";
+            let summary = "";
+
+            if (gni >= 80.0) {
+                archetype = "Dynamic Neuro-Strategist";
+                summary = "High Error Positivity (Pe); pairs dopamine with effort friction; frames stress as metabolic readiness; completely decouples ego from critique.";
+            } else if (gni >= 65.0) {
+                archetype = "Adaptive Growth Practitioner";
+                summary = "Stable baseline belief in dynamic neural plasticity; resilient through friction; occasional vulnerability under public scrutiny.";
+            } else if (gni >= 50.0) {
+                archetype = "Cautious Incrementalist";
+                summary = "Growth endorsed conceptually, but execution leans toward loss aversion and low-risk domains under pressure.";
+            } else {
+                archetype = "Fixed-Defensive Conserver";
+                summary = "Talent viewed as an immutable trait; heightened error-threat sensitivity; operational stress experienced as debilitating friction.";
+            }
+
+            document.getElementById('rep-name').innerText = userProfile.name;
+            document.getElementById('rep-date').innerText = new Date().toLocaleDateString();
+            document.getElementById('global-score').innerText = gni.toFixed(1);
+            document.getElementById('rep-archetype').innerText = archetype;
+            document.getElementById('rep-summary').innerText = summary;
+
+            // Empirical Subscale Metrics Grid
+            const grid = document.getElementById('dim-score-grid');
+            grid.innerHTML = '';
+            dimensions.forEach(d => {
+                const score = dimIndices[d.id];
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-1.5 print-card";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-slate-200 print-text-dark">${d.name}</span>
+                        <span class="font-mono font-bold ${score >= 70 ? 'text-emerald-400' : score >= 50 ? 'text-amber-400' : 'text-rose-400'}">${score}%</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                        <div class="h-full ${score >= 70 ? 'bg-emerald-500' : score >= 50 ? 'bg-amber-500' : 'bg-rose-500'}" style="width: ${score}%"></div>
+                    </div>
+                    <p class="text-[10px] text-slate-400">${d.desc}</p>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Gaps & Vulnerabilities Rendering (Red/Rose styling)
+            const gapsContainer = document.getElementById('gaps-container');
+            gapsContainer.innerHTML = '';
+            let loggedGaps = [];
+
+            dimensions.forEach(d => {
+                const score = dimIndices[d.id];
+                const isGap = score < 75;
+                if (isGap) loggedGaps.push(`${d.name} (${score}%)`);
+
+                const gapCard = document.createElement('div');
+                gapCard.className = `p-4 rounded-xl border ${isGap ? 'bg-rose-950/20 border-rose-800/60' : 'bg-slate-900/60 border-slate-800'} space-y-1.5 print-card`;
+                gapCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold ${isGap ? 'text-rose-400' : 'text-slate-300'}">${d.name}</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded ${isGap ? 'bg-rose-900/40 text-rose-300 border border-rose-700/50' : 'bg-slate-800 text-slate-400'}">
+                            ${isGap ? 'PRIORITY GAP' : 'STABLE BASELINE'}
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed print-text-dark">${d.gapText}</p>
+                `;
+                gapsContainer.appendChild(gapCard);
+            });
+
+            // Action Plan & Protocols Rendering (Emerald/Green styling)
+            const actionContainer = document.getElementById('action-plan-container');
+            actionContainer.innerHTML = '';
+            dimensions.forEach(d => {
+                const actCard = document.createElement('div');
+                actCard.className = "p-4 rounded-xl bg-emerald-950/20 border border-emerald-800/60 space-y-2 print-card";
+                actCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-emerald-400">${d.protocolTitle}</span>
+                        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-900/40 text-emerald-300 uppercase">${d.id} Protocol</span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed print-text-dark">${d.protocolDesc}</p>
+                `;
+                actionContainer.appendChild(actCard);
+            });
+
+            document.getElementById('quiz-view').classList.add('hidden');
+            document.getElementById('report-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            renderRadar(dimIndices);
+
+            // Log data directly to Google Drive via Apps Script
+            transmitToGoogleDrive({
+                timestamp: new Date().toISOString(),
+                name: userProfile.name,
+                email: userProfile.email,
+                role: userProfile.role,
+                globalScore: gni,
+                archetype: archetype,
+                cpef: dimIndices.CPEF,
+                eslft: dimIndices.ESLFT,
+                psav: dimIndices.PSAV,
+                desg: dimIndices.DESG,
+                gaps: loggedGaps
+            });
+        }
+
+        function renderRadar(indices) {
+            const canvas = document.getElementById('radarChart');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const cx = w / 2, cy = h / 2, maxR = 85;
+
+            ctx.clearRect(0, 0, w, h);
+            const keys = ['CPEF', 'ESLFT', 'PSAV', 'DESG'];
+            const labels = ['Plasticity', 'Error Friction', 'Stress Valence', 'Decentered Growth'];
+            const total = keys.length;
+
+            [0.25, 0.5, 0.75, 1.0].forEach(lvl => {
+                ctx.beginPath();
+                ctx.arc(cx, cy, maxR * lvl, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(71, 85, 105, 0.3)';
+                ctx.stroke();
+            });
+
+            for (let i = 0; i < total; i++) {
+                const angle = i * (Math.PI * 2 / total) - Math.PI / 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
+                ctx.strokeStyle = 'rgba(71, 85, 105, 0.5)';
+                ctx.stroke();
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '9px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(labels[i], cx + Math.cos(angle) * (maxR + 18), cy + Math.sin(angle) * (maxR + 18));
+            }
+
+            ctx.beginPath();
+            keys.forEach((k, i) => {
+                const angle = i * (Math.PI * 2 / total) - Math.PI / 2;
+                const r = maxR * Math.max((indices[k] || 0) / 100, 0.05);
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(99, 102, 241, 0.3)';
+            ctx.fill();
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function transmitToGoogleDrive(payload) {
+            const syncText = document.getElementById('sync-text');
+
+            if (!GOOGLE_SHEET_WEBHOOK_URL) {
+                syncText.innerText = "Logged locally (Local Mode)";
+                syncText.className = "text-amber-400 font-mono";
+                return;
+            }
+
+            syncText.innerText = "Transmitting to Google Drive database...";
+
+            fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                syncText.innerText = "Successfully logged to Google Drive database";
+                syncText.className = "text-emerald-400 font-mono font-medium";
+            }).catch(() => {
+                syncText.innerText = "Saved locally in session";
+                syncText.className = "text-slate-400 font-mono";
+            });
+        }
+    </script>
+</body>
+</html>
