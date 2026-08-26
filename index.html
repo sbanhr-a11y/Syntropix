@@ -28,7 +28,7 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-600 selection:text-white">
 
     <script>
-        // Production Google Apps Script Webhook Pipeline
+        // Production Google Apps Script Webhook Pipeline & AI Proxy
         const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; 
     </script>
 
@@ -41,7 +41,7 @@
                 </div>
                 <div>
                     <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
-                        Mindset Assessment <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded font-mono">v3.2 - Live Engine</span>
+                        Mindset Assessment <span class="text-[9px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-mono">NACOS-20</span>
                     </h1>
                     <p class="text-[10px] text-slate-400">Neuro-Adaptive Cognitive Operating System</p>
                 </div>
@@ -199,7 +199,7 @@
                 </div>
             </div>
 
-            <!-- INTERACTIVE AI EXECUTIVE COACH -->
+            <!-- INTERACTIVE AI EXECUTIVE COACH (POWERED BY GEMINI 1.5 FLASH) -->
             <div class="no-print bg-slate-900 border border-indigo-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
@@ -208,21 +208,21 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white">Interactive AI Mindset Coach</h3>
-                            <p class="text-[11px] text-slate-400">Personalized cognitive debrief based on your assessment results</p>
+                            <p class="text-[11px] text-slate-400">Powered by Gemini 1.5 Flash • Ask any question about your scores, comparisons, or career execution</p>
                         </div>
                     </div>
                     <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        Active & Connected
+                        Live Gemini Gateway
                     </span>
                 </div>
 
                 <!-- Chat Log Area -->
-                <div id="chat-messages" class="h-64 overflow-y-auto bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 text-xs leading-relaxed">
+                <div id="chat-messages" class="h-72 overflow-y-auto bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 text-xs leading-relaxed">
                     <div class="flex gap-2.5 items-start">
                         <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
-                        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-xl">
-                            Hello! I’ve reviewed your complete mindset diagnostic. Click any prompt below or type your question to start your debrief.
+                        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">
+                            Hello! I’ve reviewed your complete assessment diagnostic. You can click any prompt below or ask me any custom question about your results, career impact, or how this compares to other frameworks.
                         </div>
                     </div>
                 </div>
@@ -232,17 +232,17 @@
                     <button onclick="sendQuickPrompt('Explain my lowest subscale score in plain terms.')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
                         💡 Explain my lowest subscale score
                     </button>
-                    <button onclick="sendQuickPrompt('How can I leverage my high stress tolerance without burning out?')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
-                        ⚡ Stress & Burnout Management
+                    <button onclick="sendQuickPrompt('How is this assessment different from Hogan, MBTI, or Thomas assessments?')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
+                        📊 Difference from Hogan & Thomas
                     </button>
-                    <button onclick="sendQuickPrompt('Give me a script to ask my manager for tough feedback tomorrow.')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
-                        📝 Tough Feedback Script
+                    <button onclick="sendQuickPrompt('How can I put this assessment to use in my corporate journey?')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
+                        🚀 Corporate Journey Application
                     </button>
                 </div>
 
                 <!-- Input Box -->
                 <div class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Ask your AI Coach a question..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                    <input type="text" id="chatInput" placeholder="Ask your AI Coach any question..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
                     <button onclick="sendMessage()" id="sendBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-lg shadow-indigo-600/20">
                         Send
                     </button>
@@ -314,6 +314,7 @@
         let answers = {};
         let userProfile = {};
         let computedResults = { gni: 0, archetype: '', dimIndices: { CPEF: 0, ESLFT: 0, PSAV: 0, DESG: 0 } };
+        let conversationHistory = [];
 
         function startAssessment() {
             const name = document.getElementById('userName').value.trim();
@@ -339,6 +340,7 @@
 
         function restartAll() {
             answers = {};
+            conversationHistory = [];
             document.getElementById('report-view').classList.add('hidden');
             document.getElementById('intro-view').classList.remove('hidden');
         }
@@ -546,33 +548,27 @@
         }
 
         // ==========================================
-        // SMART EXECUTIVE COACH RESPONSE ENGINE
+        // LIVE GEMINI FLASH AI PROXY ENGINE
         // ==========================================
         function sendQuickPrompt(promptText) {
             document.getElementById('chatInput').value = promptText;
             sendMessage();
         }
 
-        function generateCoachResponse(query) {
-            const q = query.toLowerCase();
-            const scores = computedResults.dimIndices || { CPEF: 100, ESLFT: 100, PSAV: 100, DESG: 76 };
-            const lowestScore = scores.DESG || 76;
-
-            if (q.includes("lowest") || q.includes("subscale") || q.includes("feedback") || q.includes("desg") || q.includes("explain")) {
-                return `Your lowest dimension is **Feedback & Peer Learning (${lowestScore}%)**.\n\nWhile ${lowestScore}% is a solid baseline, it is your single relative blind spot. In high-visibility moments, unexpected critique can still trigger a brief status-defense reaction.\n\n**Immediate Action:** During your next review, use the **3-Second 'Tell Me More' Pause**. Instead of explaining your past actions, take a breath and say: *"Walk me through the specific factors that led you to that conclusion."* This keeps your frontoparietal analytical network engaged instead of triggering defensiveness.`;
-            } 
-            else if (q.includes("stress") || q.includes("burnout") || q.includes("pressure") || q.includes("psav")) {
-                return `Your **Composure Under Pressure score is ${scores.PSAV || 100}%**—an exceptional strength. You naturally convert adrenaline into focus.\n\n**The Risk:** High stress-tolerance scorers often ignore subtle physical fatigue because cognitive focus stays sharp.\n\n**Optimization:** Schedule two mandatory 15-minute 'Autonomic Recovery Cadences' during intense days (zero screens, quiet walking, or 3 cycles of physiological sighs) to maintain sustainable performance.`;
-            } 
-            else if (q.includes("script") || q.includes("manager") || q.includes("tough feedback") || q.includes("ask")) {
-                return `Here is your word-for-word **Tough Feedback Script**:\n\n> *"I'm working on refining my execution on [Project Name]. From your vantage point, what is one blind spot or assumption in my approach that I might be completely overlooking?"*\n\n**Rule:** Listen and take notes without offering justifications. Conclude with: *"Thank you, that gives me clear operational clarity on what to refine."*`;
-            } 
-            else {
-                return `As a **${computedResults.archetype || 'Dynamic Neuro-Strategist'}** with an overall score of **${computedResults.gni || 94}/100**, your cognitive adaptability is exceptional across Adaptability (${scores.CPEF}%) and Mistake Recovery (${scores.ESLFT}%).\n\nTo accelerate your growth on your lowest area (**Feedback & Peer Learning at ${lowestScore}%**), prioritize deconstructing peer excellence and running structured 5-minute error postmortems weekly.`;
-            }
+        function formatMarkdown(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em class="text-indigo-200">$1</em>')
+                .replace(/`([^`]+)`/g, '<code class="bg-slate-800 px-1 py-0.5 rounded text-indigo-300 font-mono text-[11px]">$1</code>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
         }
 
-        function sendMessage() {
+        async function sendMessage() {
             const input = document.getElementById('chatInput');
             const userText = input.value.trim();
             if (!userText) return;
@@ -580,12 +576,42 @@
             appendChatMessage("user", userText);
             input.value = "";
 
-            const typingId = appendChatMessage("ai", "Analyzing your diagnostic...");
+            const typingId = appendChatMessage("ai", "Analyzing with Gemini Flash...");
 
-            setTimeout(() => {
-                const reply = generateCoachResponse(userText);
-                document.getElementById(typingId).innerText = reply;
-            }, 350);
+            const payload = {
+                action: "chat",
+                message: userText,
+                scores: {
+                    name: userProfile.name || 'Participant',
+                    role: userProfile.role || 'Knowledge Worker',
+                    gni: computedResults.gni || 0,
+                    archetype: computedResults.archetype || 'Profile',
+                    cpef: computedResults.dimIndices?.CPEF || 0,
+                    eslft: computedResults.dimIndices?.ESLFT || 0,
+                    psav: computedResults.dimIndices?.PSAV || 0,
+                    desg: computedResults.dimIndices?.DESG || 0
+                },
+                history: conversationHistory
+            };
+
+            try {
+                const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+
+                const resData = await response.json();
+
+                if (resData.status === "success" && resData.reply) {
+                    conversationHistory.push({ role: "user", parts: [{ text: userText }] });
+                    conversationHistory.push({ role: "model", parts: [{ text: resData.reply }] });
+                    document.getElementById(typingId).innerHTML = formatMarkdown(resData.reply);
+                } else {
+                    document.getElementById(typingId).innerText = resData.reply || "Could not retrieve AI response. Please check Google Script deployment.";
+                }
+            } catch (err) {
+                document.getElementById(typingId).innerText = "Gateway connection error. Please ensure Google Script is deployed as a New Version.";
+            }
         }
 
         function appendChatMessage(sender, text) {
@@ -604,7 +630,7 @@
             } else {
                 wrapper.innerHTML = `
                     <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
-                    <div id="${msgId}" class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-xl whitespace-pre-wrap">${text}</div>
+                    <div id="${msgId}" class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">${text}</div>
                 `;
             }
 
