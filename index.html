@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mindset Assessment | NACOS-20™</title>
+    <title>Mindset Assessment | CogniMorph Index™</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -41,7 +41,7 @@
                 </div>
                 <div>
                     <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
-                        Mindset Assessment <span class="text-[9px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-mono">NACOS-20</span>
+                        Mindset Assessment <span class="text-[9px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-mono">CogniMorph Index</span>
                     </h1>
                     <p class="text-[10px] text-slate-400">Neuro-Adaptive Cognitive Operating System</p>
                 </div>
@@ -152,7 +152,7 @@
 
             <!-- Visual Alignment Radar -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center print-card">
-                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 self-start">Mindset Topology Map</h4>
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 self-start">CogniMorph Topology Map</h4>
                 <canvas id="radarChart" width="280" height="280" class="max-w-xs w-full"></canvas>
             </div>
 
@@ -199,7 +199,7 @@
                 </div>
             </div>
 
-            <!-- INTERACTIVE AI EXECUTIVE COACH -->
+            <!-- INTERACTIVE AI EXECUTIVE COACH (COGNIMORPH COACH) -->
             <div class="no-print bg-slate-900 border border-indigo-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
@@ -207,7 +207,7 @@
                             AI
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-white">Interactive AI Mindset Coach</h3>
+                            <h3 class="text-sm font-bold text-white">CogniMorph AI Mindset Coach</h3>
                             <p class="text-[11px] text-slate-400">Powered by Gemini Flash • Ask any question about your scores, comparisons, or career execution</p>
                         </div>
                     </div>
@@ -222,7 +222,7 @@
                     <div class="flex gap-2.5 items-start">
                         <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
                         <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">
-                            Hello! I’ve reviewed your complete assessment diagnostic. You can click any prompt below or ask me any custom question about your results, career impact, or how this compares to other frameworks.
+                            Hello! I’ve reviewed your complete CogniMorph diagnostic. You can click any prompt below or ask me any custom question about your results, career impact, or how this compares to other frameworks.
                         </div>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
 
                 <!-- Input Box -->
                 <div class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Ask your AI Coach any question..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                    <input type="text" id="chatInput" placeholder="Ask your CogniMorph Coach any question..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
                     <button onclick="sendMessage()" id="sendBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-lg shadow-indigo-600/20">
                         Send
                     </button>
@@ -576,7 +576,7 @@
             appendChatMessage("user", userText);
             input.value = "";
 
-            const typingId = appendChatMessage("ai", "Analyzing with Gemini Flash...");
+            const typingId = appendChatMessage("ai", "Analyzing with CogniMorph Coach...");
 
             const payload = {
                 action: "chat",
