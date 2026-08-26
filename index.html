@@ -199,7 +199,7 @@
                 </div>
             </div>
 
-            <!-- INTERACTIVE AI EXECUTIVE COACH (POWERED BY GEMINI 1.5 FLASH) -->
+            <!-- INTERACTIVE AI EXECUTIVE COACH -->
             <div class="no-print bg-slate-900 border border-indigo-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
@@ -208,7 +208,7 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white">Interactive AI Mindset Coach</h3>
-                            <p class="text-[11px] text-slate-400">Powered by Gemini 1.5 Flash • Ask any question about your scores, comparisons, or career execution</p>
+                            <p class="text-[11px] text-slate-400">Powered by Gemini Flash • Ask any question about your scores, comparisons, or career execution</p>
                         </div>
                     </div>
                     <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
@@ -607,10 +607,10 @@
                     conversationHistory.push({ role: "model", parts: [{ text: resData.reply }] });
                     document.getElementById(typingId).innerHTML = formatMarkdown(resData.reply);
                 } else {
-                    document.getElementById(typingId).innerText = resData.reply || "Could not retrieve AI response. Please check Google Script deployment.";
+                    document.getElementById(typingId).innerText = resData.message || resData.reply || "Error: No response generated from server.";
                 }
             } catch (err) {
-                document.getElementById(typingId).innerText = "Gateway connection error. Please ensure Google Script is deployed as a New Version.";
+                document.getElementById(typingId).innerText = "Gateway connection error: " + err.message;
             }
         }
 
