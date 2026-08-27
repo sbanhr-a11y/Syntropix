@@ -343,7 +343,7 @@
 
         <!-- QUESTIONNAIRE -->
         <section id="quiz-view" class="hidden space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 sticky top-14 z-30 backdrop-blur flex items-center justify-between">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 sticky top-14 z-30 backdrop-blur flex items-center justify-between shadow-lg">
                 <div>
                     <span id="progress-text" class="text-xs font-bold text-slate-200">0 / 20 Answered</span>
                     <span class="text-[10px] text-emerald-400 font-mono block">● Auto-Save Active</span>
@@ -353,13 +353,16 @@
                 </div>
             </div>
 
-            <!-- Rating Scale Legend Banner -->
-            <div class="bg-slate-900 border border-indigo-500/40 rounded-xl p-4 text-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-                <span class="font-bold text-indigo-300 uppercase tracking-wider text-[11px]">Rating Scale Guide:</span>
-                <div class="flex flex-wrap items-center gap-3 text-slate-300 text-[11px]">
-                    <span class="px-2 py-1 bg-slate-950 rounded border border-slate-800"><strong>1</strong> = Strongly Disagree</span>
+            <!-- PERMANENT RATING SCALE LEGEND BANNER -->
+            <div class="bg-gradient-to-r from-slate-900 via-indigo-950/50 to-slate-900 border border-indigo-500/50 rounded-xl p-4 text-xs flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                    <span class="font-bold text-indigo-300 uppercase tracking-wider text-[11px]">Rating Scale Guide</span>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-2 text-slate-300 text-[11px]">
+                    <span class="px-2.5 py-1 bg-slate-950 rounded-lg border border-slate-800 text-indigo-300 font-semibold">1 = Strongly Disagree</span>
                     <span class="text-slate-500">to</span>
-                    <span class="px-2 py-1 bg-slate-950 rounded border border-slate-800"><strong>6</strong> = Strongly Agree</span>
+                    <span class="px-2.5 py-1 bg-slate-950 rounded-lg border border-slate-800 text-emerald-300 font-semibold">6 = Strongly Agree</span>
                 </div>
             </div>
 
@@ -932,7 +935,6 @@
             const labels = ['Adaptability', 'Grit', 'Composure', 'Feedback'];
             const total = keys.length;
 
-            // Draw concentric web levels
             ctx.strokeStyle = '#334155';
             ctx.lineWidth = 1;
             for (let level = 1; level <= 4; level++) {
@@ -949,7 +951,6 @@
                 ctx.stroke();
             }
 
-            // Draw axis lines and labels
             for (let i = 0; i < total; i++) {
                 const angle = (Math.PI * 2 / total) * i - Math.PI / 2;
                 ctx.beginPath();
@@ -966,7 +967,6 @@
                 ctx.fillText(labels[i], lx, ly);
             }
 
-            // Draw polygon data fill
             ctx.beginPath();
             ctx.strokeStyle = '#6366f1';
             ctx.fillStyle = 'rgba(99, 102, 241, 0.3)';
@@ -986,7 +986,6 @@
             ctx.fill();
             ctx.stroke();
 
-            // Draw data points
             keys.forEach((key, i) => {
                 const score = dimIndices[key] || 0;
                 const valRatio = score / 100;
