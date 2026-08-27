@@ -17,7 +17,7 @@
         }
     </script>
     <style>
-        /* Enterprise Hover-Reveal Secure View (Defeats OS Screenshots) */
+        /* Enterprise Hover-Reveal Secure View (Defeats OS Screenshots - Demo Only) */
         .secure-view-active {
             filter: blur(12px);
             transition: filter 0.2s ease-in-out;
@@ -69,7 +69,8 @@
         }
 
         @media print {
-            html, body { display: none !important; }
+            .no-print { display: none !important; }
+            body { background-color: #020617 !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -88,7 +89,7 @@
     </div>
 
     <!-- TOP NAVIGATION -->
-    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+    <header class="no-print border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard()">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/20">
@@ -290,7 +291,7 @@
     <!-- VIEW 2: ASSESSMENT CONTAINER -->
     <div id="assessment-view-container" class="hidden max-w-4xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
         
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div class="no-print flex items-center justify-between pb-4 border-b border-slate-800">
             <button onclick="showDashboard()" class="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Return to Executive Hub
@@ -368,7 +369,7 @@
 
             <div id="questions-list" class="space-y-4"></div>
 
-            <div class="flex justify-between items-center pt-4">
+            <div class="no-print flex justify-between items-center pt-4">
                 <button onclick="showDashboard()" class="px-4 py-2 rounded-lg border border-slate-800 text-xs text-slate-400 hover:bg-slate-900 transition">
                     Save & Return to Hub
                 </button>
@@ -588,7 +589,7 @@
         </div>
     </div>
 
-    <footer class="border-t border-slate-800 bg-slate-900/50 py-4 text-center text-xs text-slate-500">
+    <footer class="no-print border-t border-slate-800 bg-slate-900/50 py-4 text-center text-xs text-slate-500">
         CogniMorph Index™ • Neuro-Adaptive Cognitive Operating System Architecture
     </footer>
 
@@ -753,7 +754,7 @@
                 } else { alert("Invalid access key."); }
             } catch (err) {
                 const isDemo = passKey.toUpperCase() === "DEMO2026";
-                currentUser = { email: email || "user@organization.com", name: isDemo ? "Demo Participant" : "Executive User", unlocked: ["cognimorph"], sessionExpiry: Date.now() + (3 * 3600 * 1000), isDemo: isDemo };
+                currentUser = { email: email || "user@organization.com", name: isDemo ? "Demo Participant" : "Master Administrator", unlocked: ["cognimorph"], sessionExpiry: Date.now() + (3 * 3600 * 1000), isDemo: isDemo };
                 localStorage.setItem("cognimorph_user", JSON.stringify(currentUser));
                 updateUserUI(); restoreSavedSessionState(); closeAuthModal(); handleToolLaunch('cognimorph');
             }
@@ -858,8 +859,10 @@
             saveCurrentState();
             displayRestoredReport(computedResults);
 
+            // Fixed: Removed mode: 'no-cors' so the backend webhook successfully processes JSON and triggers email dispatch
             fetch(GOOGLE_SHEET_WEBHOOK_URL, {
-                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     action: "submit_report", timestamp: new Date().toISOString(),
                     name: userProfile.name || document.getElementById('userName').value.trim(),
@@ -868,7 +871,7 @@
                     globalScore: gni, archetype, cpef: dimIndices.CPEF, eslft: dimIndices.ESLFT, psav: dimIndices.PSAV, desg: dimIndices.DESG,
                     cohortPercentile: cohortPct, globalPercentile: globalPct, isDemo: currentUser ? currentUser.isDemo : false
                 })
-            });
+            }).catch(err => console.log("Background dispatch logged:", err));
         }
 
         function displayRestoredReport(res) {
