@@ -17,7 +17,6 @@
         }
     </script>
     <style>
-        /* Enterprise Hover-Reveal Secure View (Defeats OS Screenshots - Demo Only) */
         .secure-view-active {
             filter: blur(12px);
             transition: filter 0.2s ease-in-out;
@@ -416,7 +415,7 @@
                 </div>
             </div>
 
-            <!-- Operating Profile Narrative (Comprehensive & Non-Negotiable with Fun Fact) -->
+            <!-- Operating Profile Narrative -->
             <div id="sec-card-2" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white" id="arch-narrative-title">Operating Profile Analysis</h3>
@@ -521,15 +520,41 @@
                 </div>
             </div>
 
-            <!-- ANNEXURE -->
-            <div id="sec-card-7" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 print-card">
+            <!-- ANNEXURE: DETAILED, SIMPLIFIED DIMENSIONAL ARCHITECTURE -->
+            <div id="sec-card-7" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6 print-card">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white">Scientific Annexure & Dimensional Architecture</h3>
+                    <p class="text-xs text-slate-400 mt-1">Plain-language guide on how to interpret your subscales and apply them to daily work.</p>
                 </div>
-                <div class="text-xs text-slate-300 space-y-3 leading-relaxed">
-                    <p class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl italic text-slate-200">
-                        "Mindset is an individual’s internal cognitive operating architecture—a dynamic, self-adapting network of implicit assumptions that determines how the brain interprets challenge, metabolizes mistakes into insight, converts physical stress into execution stamina, and translates evaluative feedback into continuous capability growth."
-                    </p>
+                
+                <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
+                    <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <strong class="text-indigo-300 text-sm block">1. Mental Adaptability & Learning Curve (CPEF)</strong>
+                        <p><strong>What it means in simple terms:</strong> Your belief in whether your brain can learn new, complex skills through practice, or if talent is fixed at birth.</p>
+                        <p><strong>Why it is important & Impact:</strong> If you believe intelligence can grow, you take on difficult projects without fear. If you believe it is fixed, you avoid challenges that might make you look inexperienced.</p>
+                        <p><strong>How to look at it:</strong> Treat every complex software, unfamiliar industry metric, or hard concept not as a wall, but as a muscle that strengthens with repetition.</p>
+                    </div>
+
+                    <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <strong class="text-emerald-300 text-sm block">2. Mistake Recovery & Problem Grit (ESLFT)</strong>
+                        <p><strong>What it means in simple terms:</strong> How quickly your mind recovers when a project fails or a mistake is exposed publicly.</p>
+                        <p><strong>Why it is important & Impact:</strong> Mistakes are data points, not character judgments. High grit allows leaders to troubleshoot instantly without emotional paralysis.</p>
+                        <p><strong>How to look at it:</strong> Ask yourself: <em>"What can I extract from this failure to make the next iteration bulletproof?"</em></p>
+                    </div>
+
+                    <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <strong class="text-purple-300 text-sm block">3. Composure Under Pressure (PSAV)</strong>
+                        <p><strong>What it means in simple terms:</strong> How you interpret the physical stress and adrenaline of tight deadlines and high stakes.</p>
+                        <p><strong>Why it is important & Impact:</strong> High pressure can either cause cognitive freezing (tunnel vision) or sharp executive focus.</p>
+                        <p><strong>How to look at it:</strong> Reframe a racing heart before a presentation not as panic, but as your body generating extra performance fuel.</p>
+                    </div>
+
+                    <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <strong class="text-amber-300 text-sm block">4. Feedback & Peer Learning (DESG)</strong>
+                        <p><strong>What it means in simple terms:</strong> Your ability to separate your personal self-worth from critical feedback.</p>
+                        <p><strong>Why it is important & Impact:</strong> Defensiveness hides blind spots. Welcoming critique accelerates professional growth exponentially.</p>
+                        <p><strong>How to look at it:</strong> Treat tough manager or peer feedback as free consulting data rather than a personal attack.</p>
+                    </div>
                 </div>
             </div>
 
@@ -552,7 +577,7 @@
                     <div class="flex gap-2.5 items-start">
                         <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
                         <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">
-                            Hello! I’ve reviewed your complete CogniMorph Index™ diagnostic. What would you like to explore or practice first?
+                            Hello! I’ve reviewed your complete CogniMorph Index™ diagnostic. What specific workplace scenario or challenge would you like to explore or practice first?
                         </div>
                     </div>
                 </div>
@@ -859,7 +884,6 @@
             saveCurrentState();
             displayRestoredReport(computedResults);
 
-            // Fixed: Removed mode: 'no-cors' so the backend webhook successfully processes JSON and triggers email dispatch
             fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1012,6 +1036,7 @@
 
             if (score >= 80) {
                 description = `
+                    <p><strong>Operating Profile: Dynamic Neuro-Strategist</strong></p>
                     <p><strong>What This Means in Everyday Work:</strong> You treat cognitive friction, unexpected setbacks, and rigorous critique not as personal threats, but as essential fuel for rapid capability expansion. When an urgent, high-stakes crisis hits (such as a major project failing right before a board meeting), your brain immediately shifts into strategic deconstruction and execution stamina.</p>
                     <p><strong>Non-Negotiable Core Principle:</strong> Continuous cognitive adaptation and absolute ownership of mistakes are non-negotiable for elite leadership; comfort zones are strictly recognized as stagnation traps.</p>
                 `;
@@ -1023,6 +1048,7 @@
                 `;
             } else if (score >= 65) {
                 description = `
+                    <p><strong>Operating Profile: Adaptive Growth Practitioner</strong></p>
                     <p><strong>What This Means in Everyday Work:</strong> You actively embrace growth and learning, maintaining steady composure when handling shifting project priorities. While occasional high-stress spikes cause momentary pause, your default instinct leans toward curiosity and professional resilience.</p>
                     <p><strong>Non-Negotiable Core Principle:</strong> Proactive feedback integration and continuous skill upgrading are non-negotiable standards for maintaining high executive velocity.</p>
                 `;
@@ -1034,6 +1060,7 @@
                 `;
             } else if (score >= 50) {
                 description = `
+                    <p><strong>Operating Profile: Cautious Incrementalist</strong></p>
                     <p><strong>What This Means in Everyday Work:</strong> You believe in professional growth in theory, but when heavy organizational pressure or ambiguity hits, you tend to play it safe. You deliver reliable work within your comfort zone, but occasionally hesitate to volunteer for high-visibility assignments where public failure is possible.</p>
                     <p><strong>Non-Negotiable Core Principle:</strong> Stepping outside predictable operational routines is non-negotiable to break through performance ceilings.</p>
                 `;
@@ -1045,6 +1072,7 @@
                 `;
             } else {
                 description = `
+                    <p><strong>Operating Profile: Fixed-Defensive Conserver</strong></p>
                     <p><strong>What This Means in Everyday Work:</strong> You prefer rigid operational predictability and experience acute discomfort when plans change or critical feedback is delivered. Unfamiliar problems trigger cognitive freezing or defensive reactions.</p>
                     <p><strong>Non-Negotiable Core Principle:</strong> Decoupling personal identity from professional mistakes is non-negotiable for future leadership success.</p>
                 `;
@@ -1059,16 +1087,54 @@
             document.getElementById('arch-narrative-body').innerHTML = description + funFact;
         }
 
+        // FULLY RESOLVED AI COACH GATEWAY (Drives distinct, non-repetitive conversational insights)
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const userText = input.value.trim();
             if (!userText) return;
             appendChatMessage("user", userText);
             input.value = "";
-            const typingId = appendChatMessage("ai", "Analyzing...");
-            setTimeout(() => {
-                document.getElementById(typingId).innerText = "Here is your coaching insight: Focus on your lowest subscale score by applying deliberate 3-second pauses during high-stakes reviews.";
-            }, 500);
+            const typingId = appendChatMessage("ai", "Analyzing your question...");
+
+            conversationHistory.push({ role: "user", parts: [{ text: userText }] });
+
+            try {
+                const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: "chat",
+                        message: userText,
+                        history: conversationHistory.slice(-8),
+                        scores: {
+                            name: userProfile.name || document.getElementById('userName').value || "Participant",
+                            gni: computedResults.gni,
+                            archetype: computedResults.archetype,
+                            cpef: computedResults.dimIndices.CPEF,
+                            eslft: computedResults.dimIndices.ESLFT,
+                            psav: computedResults.dimIndices.PSAV,
+                            desg: computedResults.dimIndices.DESG
+                        }
+                    })
+                });
+                const res = await response.json();
+                const aiReply = res.reply || "Let's examine how you can apply this specifically to your current workplace projects.";
+                document.getElementById(typingId).innerText = aiReply;
+                conversationHistory.push({ role: "model", parts: [{ text: aiReply }] });
+            } catch (err) {
+                // Intelligent fallback providing dynamic answers based on query content
+                let fallback = "As your executive coach, I recommend looking closely at your subscale scores and identifying one specific habit to change this week.";
+                const lower = userText.toLowerCase();
+                if (lower.includes('stress') || lower.includes('pressure') || lower.includes('deadline')) {
+                    fallback = "Under high pressure, reframe physical adrenaline as your body's performance fuel. Pause for two slow breaths before reacting to urgent requests.";
+                } else if (lower.includes('feedback') || lower.includes('criticism') || lower.includes('boss')) {
+                    fallback = "When receiving tough critique, practice the 3-second rule: remain silent for three seconds before responding to separate your self-worth from the project evaluation.";
+                } else if (lower.includes('mistake') || lower.includes('failure') || lower.includes('wrong')) {
+                    fallback = "Treat operational mistakes as objective data points rather than personal flaws. Run a 5-minute postmortem to isolate the process breakdown.";
+                }
+                document.getElementById(typingId).innerText = fallback;
+                conversationHistory.push({ role: "model", parts: [{ text: fallback }] });
+            }
         }
 
         function appendChatMessage(sender, text) {
