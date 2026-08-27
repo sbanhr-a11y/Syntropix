@@ -415,7 +415,7 @@
                 </div>
             </div>
 
-            <!-- Operating Profile Narrative -->
+            <!-- Operating Profile Narrative (Comprehensive & Non-Negotiable with Fun Fact) -->
             <div id="sec-card-2" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white" id="arch-narrative-title">Operating Profile Analysis</h3>
@@ -619,7 +619,7 @@
             { id: 16, dim: 'DESG', text: "I view direct, critical feedback on my work as helpful information to improve, not as a personal insult or attack.", rev: false },
             { id: 17, dim: 'DESG', text: "When a teammate outperforms me in my core area of work, it secretly makes me feel insecure or inadequate.", rev: true },
             { id: 18, dim: 'DESG', text: "I actively ask for feedback from people who disagree with me so I can uncover my own blind spots.", rev: false },
-            { id: 19, dim: 'DESG', text: "When someone publicly questions my ideas in a meeting, my initial reaction is to defend myself rather than listen to their point.", rev: true },
+            { id: 19, dim: 'DESG', text: "Someone publicly questioning my ideas in a meeting triggers an immediate defensive urge rather than curiosity.", rev: true },
             { id: 20, dim: 'DESG', text: "Seeing a colleague excel at something inspires me to learn from their methods and upgrade my own skills.", rev: false }
         ];
 
@@ -1003,7 +1003,57 @@
 
         function renderElaboratedProfileNarrative(archetype, score) {
             document.getElementById('arch-narrative-title').innerText = `Operating Profile: ${archetype} (${score}/100)`;
-            document.getElementById('arch-narrative-body').innerHTML = `<p>You demonstrate key behavioral traits aligned with the <strong>${archetype}</strong> operating profile, governing how you manage cognitive friction, stress, and feedback.</p>`;
+            
+            let description = "";
+            let funFact = "";
+
+            if (score >= 80) {
+                description = `
+                    <p><strong>What This Means in Everyday Work:</strong> You treat cognitive friction, unexpected setbacks, and rigorous critique not as personal threats, but as essential fuel for rapid capability expansion. When an urgent, high-stakes crisis hits (such as a major project failing right before a board meeting), your brain immediately shifts into strategic deconstruction and execution stamina.</p>
+                    <p><strong>Non-Negotiable Core Principle:</strong> Continuous cognitive adaptation and absolute ownership of mistakes are non-negotiable for elite leadership; comfort zones are strictly recognized as stagnation traps.</p>
+                `;
+                funFact = `
+                    <div class="p-3.5 rounded-xl bg-indigo-950/60 border border-indigo-800/60 space-y-1 mt-2">
+                        <span class="text-[11px] font-bold text-indigo-300 uppercase tracking-wider block">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-xs text-slate-300">Your brain releases dopamine not just when you win, but when you overcome friction. By deliberately leaning into complex, high-friction challenges, you physically upgrade your neural plasticity and cognitive stamina.</p>
+                    </div>
+                `;
+            } else if (score >= 65) {
+                description = `
+                    <p><strong>What This Means in Everyday Work:</strong> You actively embrace growth and learning, maintaining steady composure when handling shifting project priorities. While occasional high-stress spikes cause momentary pause, your default instinct leans toward curiosity and professional resilience.</p>
+                    <p><strong>Non-Negotiable Core Principle:</strong> Proactive feedback integration and continuous skill upgrading are non-negotiable standards for maintaining high executive velocity.</p>
+                `;
+                funFact = `
+                    <div class="p-3.5 rounded-xl bg-indigo-950/60 border border-indigo-800/60 space-y-1 mt-2">
+                        <span class="text-[11px] font-bold text-indigo-300 uppercase tracking-wider block">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-xs text-slate-300">Neuroscience shows that actively seeking out constructive critique rewires your amygdala, reducing fear-based defensiveness and boosting long-term executive composure.</p>
+                    </div>
+                `;
+            } else if (score >= 50) {
+                description = `
+                    <p><strong>What This Means in Everyday Work:</strong> You believe in professional growth in theory, but when heavy organizational pressure or ambiguity hits, you tend to play it safe. You deliver reliable work within your comfort zone, but occasionally hesitate to volunteer for high-visibility assignments where public failure is possible.</p>
+                    <p><strong>Non-Negotiable Core Principle:</strong> Stepping outside predictable operational routines is non-negotiable to break through performance ceilings.</p>
+                `;
+                funFact = `
+                    <div class="p-3.5 rounded-xl bg-indigo-950/60 border border-indigo-800/60 space-y-1 mt-2">
+                        <span class="text-[11px] font-bold text-indigo-300 uppercase tracking-wider block">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-xs text-slate-300">Your brain naturally seeks cognitive conservation, preferring familiar habits to save energy. Overriding this default state requires conscious, deliberate exposure to unfamiliar friction.</p>
+                    </div>
+                `;
+            } else {
+                description = `
+                    <p><strong>What This Means in Everyday Work:</strong> You prefer rigid operational predictability and experience acute discomfort when plans change or critical feedback is delivered. Unfamiliar problems trigger cognitive freezing or defensive reactions.</p>
+                    <p><strong>Non-Negotiable Core Principle:</strong> Decoupling personal identity from professional mistakes is non-negotiable for future leadership success.</p>
+                `;
+                funFact = `
+                    <div class="p-3.5 rounded-xl bg-indigo-950/60 border border-indigo-800/60 space-y-1 mt-2">
+                        <span class="text-[11px] font-bold text-indigo-300 uppercase tracking-wider block">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-xs text-slate-300">When threatened by critique, the brain triggers a survival response that shuts down prefrontal cortex problem-solving. Practicing structured pauses helps re-engage higher cognitive centers.</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('arch-narrative-body').innerHTML = description + funFact;
         }
 
         async function sendMessage() {
