@@ -17,21 +17,27 @@
         }
     </script>
     <style>
-        /* Enterprise Anti-Capture, Anti-Copy & Defocus Shield */
-        .demo-protected {
-            -webkit-user-select: none !important;
-            -moz-user-select: none !important;
-            -ms-user-select: none !important;
+        /* Enterprise Hover-Reveal Secure View (Defeats OS Screenshots) */
+        .secure-view-active {
+            filter: blur(12px);
+            transition: filter 0.2s ease-in-out;
             user-select: none !important;
-            -webkit-touch-callout: none !important;
         }
-
-        /* Blackout Shield Layer (Fires when screenshot/snipping tool steals focus) */
-        .demo-blackout-active {
-            visibility: hidden !important;
-            opacity: 0 !important;
-            filter: blur(40px) brightness(0) !important;
-            transition: none !important;
+        .secure-view-active:hover {
+            filter: blur(0px);
+        }
+        .secure-badge-alert {
+            font-size: 9px;
+            font-family: monospace;
+            color: #f43f5e;
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 6px;
         }
 
         .demo-watermark-grid {
@@ -62,13 +68,8 @@
             line-height: 1.6;
         }
 
-        /* Complete Media Print Destruction */
         @media print {
-            html, body {
-                display: none !important;
-                background: #000000 !important;
-                visibility: hidden !important;
-            }
+            html, body { display: none !important; }
         }
     </style>
 </head>
@@ -81,24 +82,8 @@
 
     <!-- Forensic Watermark Grid -->
     <div id="demo-watermark-layer" class="hidden demo-watermark-grid">
-        <div class="demo-watermark-badge" id="watermark-text-display">
-            DEMO EVALUATION<br>READ ONLY • CAPTURE BLOCKED
-        </div>
-    </div>
-
-    <!-- Active Defocus / Screen Capture Intercept Screen -->
-    <div id="capture-shield-overlay" class="hidden fixed inset-0 bg-slate-950 z-[9999] flex flex-col items-center justify-center p-6 text-center">
-        <div class="bg-slate-900 border border-rose-800/80 p-8 rounded-2xl max-w-md space-y-4 shadow-2xl">
-            <div class="w-12 h-12 rounded-full bg-rose-950/80 border border-rose-700 text-rose-400 flex items-center justify-center mx-auto text-xl font-bold">
-                🛡️
-            </div>
-            <h3 class="text-base font-bold text-white uppercase tracking-wider">Security Protection Active</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-                Screen capture shortcuts, recording tools, and window defocus are blocked in demo mode. Content is temporarily hidden to protect proprietary diagnostic data.
-            </p>
-            <button onclick="clearCaptureShield()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition">
-                Click to Resume Diagnostic
-            </button>
+        <div class="demo-watermark-badge">
+            DEMO EVALUATION<br>READ ONLY • SECURE VIEW ACTIVE
         </div>
     </div>
 
@@ -117,7 +102,6 @@
                 </div>
             </div>
 
-            <!-- Session Countdown & Auth Buttons -->
             <div class="flex items-center gap-3">
                 <div id="session-timer-badge" class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-700/60 text-indigo-300 text-[11px] font-mono font-bold">
                     <svg class="w-3.5 h-3.5 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -150,7 +134,7 @@
                 High-Performance Cognitive Leadership Battery
             </h2>
             <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                All tools are secured. Enter your email or access key to unlock your single-use 3-hour diagnostic session. All answers auto-save continuously.
+                All tools are secured. Enter your email or access key to unlock your single-use 3-hour diagnostic session.
             </p>
         </div>
 
@@ -172,66 +156,15 @@
                             Evaluates how you learn under friction, recover from mistakes, channel high stress into focus, and leverage constructive feedback.
                         </p>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded">20 Questions</span>
-                        <span class="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded">AI Executive Coach</span>
-                        <span class="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded">Global Norms</span>
-                    </div>
                 </div>
                 <button onclick="handleToolLaunch('cognimorph')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/20">
                     Unlock / Launch
                 </button>
             </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative opacity-85">
-                <div class="space-y-3">
-                    <div class="flex justify-between items-start">
-                        <span class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-sm">
-                            02
-                        </span>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-                            LOCKED (PRO)
-                        </span>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-bold text-white">Metacognitive Executive Battery</h3>
-                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                            Measures strategic mental allocation, problem-debugging speed, and self-monitoring during ambiguous decision tasks.
-                        </p>
-                    </div>
-                </div>
-                <button onclick="handleToolLaunch('metacog')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 font-semibold text-xs tracking-wider uppercase transition border border-slate-700">
-                    Unlock Assessment
-                </button>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative opacity-85">
-                <div class="space-y-3">
-                    <div class="flex justify-between items-start">
-                        <span class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-sm">
-                            03
-                        </span>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-                            LOCKED (ENTERPRISE)
-                        </span>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-bold text-white">Strategic Inversion Diagnostic</h3>
-                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                            Evaluates first-principles thinking, second-order forecasting, and structural risk avoidance in market leadership.
-                        </p>
-                    </div>
-                </div>
-                <button onclick="handleToolLaunch('strategic_inversion')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 font-semibold text-xs tracking-wider uppercase transition border border-slate-700">
-                    Unlock Assessment
-                </button>
-            </div>
         </div>
     </main>
 
-    <!-- VIEW 2: COGNIMORPH INDEX ASSESSMENT CONTAINER -->
+    <!-- VIEW 2: ASSESSMENT CONTAINER -->
     <div id="assessment-view-container" class="hidden max-w-4xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
         
         <div class="flex items-center justify-between pb-4 border-b border-slate-800">
@@ -244,7 +177,7 @@
             </span>
         </div>
 
-        <!-- BRIEFING & REGISTRATION -->
+        <!-- BRIEFING -->
         <section id="intro-view" class="space-y-6">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl">
                 <div class="border-b border-slate-800 pb-4">
@@ -254,10 +187,7 @@
                 
                 <div class="text-xs text-slate-300 leading-relaxed space-y-3">
                     <p>
-                        <strong>Welcome to your cognitive evaluation.</strong> In everyday professional life, your technical knowledge is only half the equation. The other half is your <em>mental operating system</em>: How quickly do you bounce back when a project fails? Do you see steep learning curves as exciting growth or exhausting friction? When you get tough feedback, do you get defensive or curious?
-                    </p>
-                    <p>
-                        This assessment contains 20 straightforward questions designed to map your mindset across four core dimensions. Answer honestly based on your real day-to-day reactions.
+                        <strong>Welcome to your cognitive evaluation.</strong> In everyday professional life, your technical knowledge is only half the equation. The other half is your <em>mental operating system</em>: How quickly do you bounce back when a project fails? Do you see steep learning curves as exciting growth or exhausting friction?
                     </p>
                     <p class="text-indigo-300">
                         ● <strong>Auto-Save Active:</strong> If your connection drops, log back in with your email within <strong>3 hours</strong> to continue seamlessly.
@@ -309,8 +239,8 @@
             </div>
         </section>
 
-        <!-- DIAGNOSTIC REPORT (LOCKED) -->
-        <section id="report-view" class="hidden space-y-8">
+        <!-- DIAGNOSTIC REPORT -->
+        <section id="report-view" class="hidden space-y-8" id="report-container-root">
             <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
                 <div class="text-xs text-slate-400">
                     Diagnostic generated for <span id="rep-name" class="text-white font-medium"></span> on <span id="rep-date" class="text-slate-300"></span>
@@ -327,7 +257,7 @@
             </div>
 
             <!-- Score Summary Card -->
-            <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-2xl p-6 print-card space-y-4">
+            <div id="sec-card-1" class="bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/40 border border-slate-800 rounded-2xl p-6 print-card space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                     <div>
                         <div class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">CogniMorph Index™ Score</div>
@@ -347,7 +277,7 @@
             </div>
 
             <!-- Operating Profile Narrative -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
+            <div id="sec-card-2" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white" id="arch-narrative-title">Operating Profile Analysis</h3>
                     <span class="text-[10px] font-mono text-indigo-400">Behavioral Blueprint</span>
@@ -356,10 +286,10 @@
             </div>
 
             <!-- Benchmarks -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
+            <div id="sec-card-3" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white">Comparative Benchmark Standing</h3>
-                    <p class="text-xs text-slate-400">Evaluates your score against internal organizational cohorts and global knowledge worker standards.</p>
+                    <p class="text-xs text-slate-400">Evaluates your score against internal organizational cohorts and global standards.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
@@ -372,7 +302,7 @@
                             <div id="rep-cohort-bar" class="bg-indigo-500 h-full w-0 transition-all duration-500"></div>
                         </div>
                         <p class="text-[11px] text-slate-400 leading-tight">
-                            You scored higher than <strong id="rep-cohort-pct-text" class="text-slate-200">85%</strong> of peer submissions in the centralized repository.
+                            You scored higher than <strong id="rep-cohort-pct-text" class="text-slate-200">85%</strong> of peer submissions.
                         </p>
                     </div>
 
@@ -385,14 +315,14 @@
                             <div id="rep-global-bar" class="bg-purple-500 h-full w-0 transition-all duration-500"></div>
                         </div>
                         <p class="text-[11px] text-slate-400 leading-tight">
-                            Calibrated against international executive standards (Mean: 68.4%, SD: 12.5%). Places your cognitive resilience in the top tier globally.
+                            Calibrated against international executive standards (Mean: 68.4%, SD: 12.5%).
                         </p>
                     </div>
                 </div>
             </div>
 
             <!-- Subscales Breakdown -->
-            <div class="space-y-4">
+            <div id="sec-card-4" class="space-y-4">
                 <div class="border-b border-slate-800 pb-2">
                     <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Cognitive Subscale Diagnostics</h3>
                 </div>
@@ -400,13 +330,13 @@
             </div>
 
             <!-- Radar Graph -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center print-card">
+            <div id="sec-card-5" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center print-card">
                 <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 self-start">CogniMorph Index™ Topology Map</h4>
                 <canvas id="radarChart" width="280" height="280" class="max-w-xs w-full"></canvas>
             </div>
 
-            <!-- 30-60-90 DAY ROADMAP -->
-            <div class="space-y-4">
+            <!-- ROADMAP -->
+            <div id="sec-card-6" class="space-y-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
                     <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-300">30-60-90 Day Progressive Action Protocol</h3>
@@ -420,9 +350,8 @@
                         </div>
                         <h4 class="text-xs font-bold text-slate-200">Emotional Decoupling & Error Logging</h4>
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
-                            <li><strong class="text-white">The 3-Second "Tell Me More" Pause:</strong> In meetings, pause for 3 seconds before responding to pushback. Say: <em>"Walk me through your perspective."</em></li>
-                            <li><strong class="text-white">5-Minute Error Postmortems:</strong> Log procedural variables without blaming yourself or others.</li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Zero defensive pushbacks for 30 consecutive days.</li>
+                            <li><strong class="text-white">The 3-Second Pause:</strong> Pause 3 seconds before responding to critique.</li>
+                            <li><strong class="text-white">5-Minute Error Postmortems:</strong> Log process breakdown without self-blame.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-900 border border-emerald-900/50 space-y-3 print-card">
@@ -430,11 +359,10 @@
                             <span class="text-xs font-bold text-emerald-400">DAYS 31 - 60</span>
                             <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300">PHASE 2</span>
                         </div>
-                        <h4 class="text-xs font-bold text-slate-200">Peer Synergy & Blind-Spot Audits</h4>
+                        <h4 class="text-xs font-bold text-slate-200">Peer Synergy & Audits</h4>
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
-                            <li><strong class="text-white">Deconstruct Peer Excellence:</strong> Interview 1 high-performing colleague monthly to learn their workflow tactics.</li>
-                            <li><strong class="text-white">Targeted Blind-Spot Inquiries:</strong> Ask 2 trusted peers: <em>"What is one blind spot I consistently overlook?"</em></li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Successfully adopt at least two peer workflow strategies into your routine.</li>
+                            <li><strong class="text-white">Deconstruct Peer Excellence:</strong> Interview 1 top colleague monthly.</li>
+                            <li><strong class="text-white">Blind-Spot Inquiries:</strong> Ask peers for unvarnished feedback.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-900 border border-amber-900/50 space-y-3 print-card">
@@ -442,54 +370,24 @@
                             <span class="text-xs font-bold text-amber-400">DAYS 61 - 90</span>
                             <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300">PHASE 3</span>
                         </div>
-                        <h4 class="text-xs font-bold text-slate-200">Systemic Mastery & Recovery Cadence</h4>
+                        <h4 class="text-xs font-bold text-slate-200">Systemic Mastery</h4>
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
-                            <li><strong class="text-white">Adversarial Red-Teaming:</strong> Appoint a teammate to stress-test your plans before launch.</li>
-                            <li><strong class="text-white">Autonomic Recovery Cadence:</strong> Schedule two 15-minute quiet disconnect blocks during peak load days.</li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Maintain calm breathing and clarity under pressure without physical exhaustion.</li>
+                            <li><strong class="text-white">Adversarial Red-Teaming:</strong> Stress-test plans before launch.</li>
+                            <li><strong class="text-white">Autonomic Recovery:</strong> Schedule 15-min disconnect blocks.</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- SCIENTIFIC ANNEXURE -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 print-card">
+            <!-- ANNEXURE -->
+            <div id="sec-card-7" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white">Scientific Annexure & Dimensional Architecture</h3>
-                    <p class="text-xs text-slate-400">The validated science behind the CogniMorph Index™ framework.</p>
                 </div>
-                
-                <div class="text-xs text-slate-300 space-y-4 leading-relaxed">
-                    <div>
-                        <h4 class="font-bold text-indigo-300 text-sm">1. Authentic Mindset Definition</h4>
-                        <p class="mt-1 bg-slate-950 border border-slate-800 p-3.5 rounded-xl italic text-slate-200">
-                            "Mindset is an individual’s internal cognitive operating architecture—a dynamic, self-adapting network of implicit assumptions that determines how the brain interprets challenge, metabolizes mistakes into insight, converts physical stress into execution stamina, and translates evaluative feedback into continuous capability growth."
-                        </p>
-                    </div>
-
-                    <div class="space-y-3">
-                        <h4 class="font-bold text-indigo-300 text-sm">2. Why These 4 Dimensions Matter to Leaders</h4>
-                        
-                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                            <strong class="text-slate-200">Mental Adaptability (CPEF):</strong>
-                            <p class="mt-0.5 text-slate-400">Your belief in brain plasticity. Decades of neuroscience prove that tackling hard tasks builds new physical connections in the brain. Leaders who score high on this never hit a plateau because they view learning curves as growth opportunities.</p>
-                        </div>
-
-                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                            <strong class="text-slate-200">Mistake Recovery & Grit (ESLFT):</strong>
-                            <p class="mt-0.5 text-slate-400">How your brain handles failure. When high scorers make an error, their brain immediately releases a specific electrical wave (Error Positivity / Pe) that shifts attention to diagnosing what happened, rather than feeling ashamed or defeated.</p>
-                        </div>
-
-                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                            <strong class="text-slate-200">Composure Under Pressure (PSAV):</strong>
-                            <p class="mt-0.5 text-slate-400">Your stress appraisal system. When high-stakes deadlines arrive, your pulse speeds up. High scorers interpret this heartbeat as oxygen and energy rushing to the brain, giving them razor-sharp focus under pressure.</p>
-                        </div>
-
-                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
-                            <strong class="text-slate-200">Feedback & Peer Learning (DESG):</strong>
-                            <p class="mt-0.5 text-slate-400">Decoupling ego from work. This measures your ability to separate personal identity from project output. High scorers welcome critique because they see it purely as free calibration data.</p>
-                        </div>
-                    </div>
+                <div class="text-xs text-slate-300 space-y-3 leading-relaxed">
+                    <p class="bg-slate-950 border border-slate-800 p-3.5 rounded-xl italic text-slate-200">
+                        "Mindset is an individual’s internal cognitive operating architecture—a dynamic, self-adapting network of implicit assumptions that determines how the brain interprets challenge, metabolizes mistakes into insight, converts physical stress into execution stamina, and translates evaluative feedback into continuous capability growth."
+                    </p>
                 </div>
             </div>
 
@@ -502,92 +400,62 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white">CogniMorph Index™ AI Coach</h3>
-                            <p class="text-[11px] text-slate-400">Powered by Gemini 3.6 Flash • Ask any question about your scores, comparisons, or career execution</p>
+                            <p class="text-[11px] text-slate-400">Powered by Gemini 3.6 Flash</p>
                         </div>
                     </div>
-                    <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        Live Gemini Gateway
-                    </span>
+                    <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Live Gateway</span>
                 </div>
 
                 <div id="chat-messages" class="h-64 overflow-y-auto bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 text-xs leading-relaxed">
                     <div class="flex gap-2.5 items-start">
                         <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
                         <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">
-                            Hello! I’ve reviewed your complete CogniMorph Index™ diagnostic and benchmark percentiles. What would you like to explore or practice first?
+                            Hello! I’ve reviewed your complete CogniMorph Index™ diagnostic. What would you like to explore or practice first?
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-2 pt-1">
-                    <button onclick="sendQuickPrompt('Explain my lowest subscale score in plain terms.')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
-                        💡 Explain my lowest subscale score
-                    </button>
-                    <button onclick="sendQuickPrompt('How do my scores compare to global executive standards?')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
-                        📊 Global Benchmark Analysis
-                    </button>
-                    <button onclick="sendQuickPrompt('Give me a script to ask my manager for tough feedback tomorrow.')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-full text-[11px] border border-slate-700 transition">
-                        📝 Tough Feedback Script
-                    </button>
-                </div>
-
                 <div class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Ask your CogniMorph Index™ Coach any question..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
-                    <button onclick="sendMessage()" id="sendBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-lg shadow-indigo-600/20">
-                        Send
-                    </button>
+                    <input type="text" id="chatInput" placeholder="Ask your CogniMorph Coach any question..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+                    <button onclick="sendMessage()" id="sendBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition">Send</button>
                 </div>
             </div>
-
         </section>
-
     </div>
 
     <!-- AUTH MODAL -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">&times;</button>
-            
             <div class="space-y-1">
-                <h3 id="modal-title" class="text-base font-bold text-white">Unlock Executive Assessment</h3>
-                <p class="text-xs text-slate-400">Sign in with your work email or enter your corporate passkey. Your session remains active for 3 hours with real-time auto-save.</p>
+                <h3 class="text-base font-bold text-white">Unlock Executive Assessment</h3>
+                <p class="text-xs text-slate-400">Sign in with your work email or enter your access passkey.</p>
             </div>
-
             <div class="space-y-3">
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Your Work Email</label>
                     <input type="email" id="modal-email" placeholder="name@company.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Access Passkey / Corporate Voucher</label>
-                    <input type="text" id="modal-passkey" placeholder="Enter 8-digit access key or voucher" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Access Passkey</label>
+                    <input type="text" id="modal-passkey" placeholder="Enter access key or voucher" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
-                <button onclick="submitAuthModal()" id="modal-submit-btn" class="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/20">
-                    Verify & Activate 3-Hour Session
+                <button onclick="submitAuthModal()" class="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition">
+                    Verify & Activate Session
                 </button>
-            </div>
-
-            <div class="pt-2 border-t border-slate-800 text-center space-y-2">
-                <p class="text-[11px] text-slate-400">Need instant license access?</p>
-                <a href="#" onclick="window.open(PAYMENT_GATEWAY_URL, '_blank')" class="inline-block w-full py-2 rounded-lg bg-slate-800 hover:bg-slate-750 text-indigo-300 border border-indigo-500/30 text-xs font-semibold transition">
-                    Purchase Assessment Pass (Instant Access)
-                </a>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer class="border-t border-slate-800 bg-slate-900/50 py-4 text-center text-xs text-slate-500">
         CogniMorph Index™ • Neuro-Adaptive Cognitive Operating System Architecture
     </footer>
 
-    <!-- CLIENT SCRIPT ENGINE -->
+    <!-- SCRIPT ENGINE -->
     <script>
         let currentUser = JSON.parse(localStorage.getItem("cognimorph_user") || 'null');
         let sessionTimerInterval = null;
 
-        // 20 SIMPLIFIED QUESTIONS
         const questions = [
             { id: 1, dim: 'CPEF', text: "I believe that anyone can master difficult new skills and complex topics if they dedicate focused time and practice, regardless of their natural talent.", rev: false },
             { id: 2, dim: 'CPEF', text: "When someone struggles to learn a new tool or concept, it usually means they have reached the limit of their natural intelligence.", rev: true },
@@ -615,38 +483,10 @@
         ];
 
         const dimensions = [
-            { 
-                id: 'CPEF', 
-                plainName: 'Mental Adaptability & Learning Curve',
-                whatItIs: 'Your belief in whether your brain and capabilities can physically grow through practice versus being fixed at birth.',
-                highImpact: 'You boldly tackle new industries, complex software, and unfamiliar domains without fear. You learn exponentially faster than peers.',
-                lowImpact: 'You may stay inside your safe zone and avoid new challenges because struggling feels like proof of low natural ability.',
-                actionTip: 'Spend 45 minutes weekly learning a completely unfamiliar topic just to build your mental adaptability muscle.'
-            },
-            { 
-                id: 'ESLFT', 
-                plainName: 'Mistake Recovery & Problem Grit',
-                whatItIs: 'How your mind handles operational failure, unexpected roadblocks, and difficult friction.',
-                highImpact: 'Mistakes don’t shake your self-esteem. You immediately switch into diagnosis mode to fix the broken process.',
-                lowImpact: 'Mistakes feel like a public humiliation. You may hide errors, blame others, or hesitate to try bold ideas.',
-                actionTip: 'Run a 5-minute error postmortem after every mistake. Look at what process broke down, not who is to blame.'
-            },
-            { 
-                id: 'PSAV', 
-                plainName: 'Composure Under Pressure',
-                whatItIs: 'How you mentally interpret stress hormones (adrenaline, rapid pulse) under high-stakes deadlines.',
-                highImpact: 'You convert pressure into hyper-focus. Deadlines energize you rather than paralyzing your judgment.',
-                lowImpact: 'Urgent demands and ambiguity trigger cognitive freezing and rapid mental exhaustion.',
-                actionTip: 'Use the 2-breath physiological sigh (two quick inhales through the nose, long exhale through mouth) to instantly reset your nervous system.'
-            },
-            { 
-                id: 'DESG', 
-                plainName: 'Feedback & Peer Learning',
-                whatItIs: 'Your ability to separate your personal self-worth from critical feedback and peer performance.',
-                highImpact: 'You view critique as free consulting data and study top-performing peers to copy their winning methods.',
-                lowImpact: 'You get defensive when challenged in meetings and feel threatened when a colleague gets executive praise.',
-                actionTip: 'Use the 3-second pause: when critiqued, pause and say "Walk me through your perspective" instead of defending yourself.'
-            }
+            { id: 'CPEF', plainName: 'Mental Adaptability & Learning Curve', whatItIs: 'Your belief in whether your brain can grow through practice vs being fixed.', highImpact: 'You boldly tackle new domains without fear.', lowImpact: 'You stay inside your safe zone.', actionTip: 'Spend 45 minutes weekly learning an unfamiliar topic.' },
+            { id: 'ESLFT', plainName: 'Mistake Recovery & Problem Grit', whatItIs: 'How your mind handles operational failure and roadblocks.', highImpact: 'Mistakes don’t shake your self-esteem.', lowImpact: 'Mistakes feel like public humiliation.', actionTip: 'Run a 5-minute error postmortem after every mistake.' },
+            { id: 'PSAV', plainName: 'Composure Under Pressure', whatItIs: 'How you mentally interpret stress hormones under deadlines.', highImpact: 'You convert pressure into hyper-focus.', lowImpact: 'Urgent demands trigger cognitive freezing.', actionTip: 'Use 2-breath physiological sighs to reset.' },
+            { id: 'DESG', plainName: 'Feedback & Peer Learning', whatItIs: 'Your ability to separate self-worth from feedback.', highImpact: 'You view critique as free consulting data.', lowImpact: 'You get defensive when challenged.', actionTip: 'Use the 3-second pause when critiqued.' }
         ];
 
         let answers = {};
@@ -659,40 +499,26 @@
             updateUserUI();
         });
 
-        // SESSION TIMER & ANTI-CAPTURE HARDENING
         function startSessionTimer(expiryTimestamp) {
             if (sessionTimerInterval) clearInterval(sessionTimerInterval);
             const badge = document.getElementById('session-timer-badge');
             const textEl = document.getElementById('session-timer-text');
-            badge.classList.remove('hidden');
-            badge.classList.add('flex');
-
+            badge.classList.remove('hidden'); badge.classList.add('flex');
             sessionTimerInterval = setInterval(() => {
                 const distance = expiryTimestamp - Date.now();
-                if (distance <= 0) {
-                    clearInterval(sessionTimerInterval);
-                    textEl.innerText = "EXPIRED";
-                    alert("Your 3-hour access session has ended.");
-                    logoutUser();
-                    return;
-                }
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                textEl.innerText = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (distance <= 0) { clearInterval(sessionTimerInterval); textEl.innerText = "EXPIRED"; logoutUser(); return; }
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+                textEl.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
             }, 1000);
         }
 
         function saveCurrentState() {
             const state = {
-                userProfile: {
-                    name: document.getElementById('userName').value.trim(),
-                    email: document.getElementById('userEmail').value.trim(),
-                    role: document.getElementById('userRole').value.trim()
-                },
+                userProfile: { name: document.getElementById('userName').value.trim(), email: document.getElementById('userEmail').value.trim(), role: document.getElementById('userRole').value.trim() },
                 answers: answers,
-                view: !document.getElementById('report-view').classList.contains('hidden') ? 'report' : 
-                      !document.getElementById('quiz-view').classList.contains('hidden') ? 'quiz' : 'intro',
+                view: !document.getElementById('report-view').classList.contains('hidden') ? 'report' : !document.getElementById('quiz-view').classList.contains('hidden') ? 'quiz' : 'intro',
                 computedResults: computedResults,
                 isCompleted: !document.getElementById('report-view').classList.contains('hidden')
             };
@@ -701,15 +527,8 @@
 
         function restoreSavedSessionState() {
             if (!currentUser) return;
-            
-            if (currentUser.sessionExpiry && Date.now() > currentUser.sessionExpiry) {
-                logoutUser();
-                return;
-            }
-
-            if (currentUser.sessionExpiry) {
-                startSessionTimer(currentUser.sessionExpiry);
-            }
+            if (currentUser.sessionExpiry && Date.now() > currentUser.sessionExpiry) { logoutUser(); return; }
+            if (currentUser.sessionExpiry) startSessionTimer(currentUser.sessionExpiry);
 
             const saved = JSON.parse(localStorage.getItem("cognimorph_saved_state") || 'null');
             if (saved) {
@@ -718,62 +537,36 @@
                     document.getElementById('userEmail').value = saved.userProfile.email || currentUser.email || '';
                     document.getElementById('userRole').value = saved.userProfile.role || '';
                 }
-                if (saved.answers) {
-                    answers = saved.answers;
-                }
+                if (saved.answers) answers = saved.answers;
             }
 
             if (currentUser.isDemo) {
-                activateHardenedDemoShield();
+                activateHoverRevealSecurity();
             }
         }
 
-        function activateHardenedDemoShield() {
+        function activateHoverRevealSecurity() {
             document.getElementById('demo-watermark-layer').classList.remove('hidden');
-            document.getElementById('app-body').classList.add('demo-protected');
-            document.getElementById('export-pdf-btn').classList.add('hidden');
-            document.getElementById('assessment-mode-badge').innerText = "Demo Mode (Capture Blocked)";
+            document.getElementById('assessment-mode-badge').innerText = "Demo Mode (Secure View)";
             document.getElementById('assessment-mode-badge').className = "text-[10px] font-mono text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2.5 py-1 rounded-full";
 
-            // Intercept at Capture Phase
-            window.addEventListener('contextmenu', e => e.preventDefault(), { capture: true });
-
-            // Keyboard Shortcut Interceptor
-            window.addEventListener('keydown', e => {
-                if (
-                    e.key === 'PrintScreen' ||
-                    ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's' || e.key === 'u' || e.key === 'c')) ||
-                    ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'S' || e.key === 's' || e.key === '3' || e.key === '4' || e.key === '5')) ||
-                    e.keyCode === 44 || e.keyCode === 123
-                ) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    triggerCaptureShield();
-                    return false;
-                }
-            }, { capture: true });
-
-            // Trigger blackout on window blur / snipping tool focus loss
-            window.addEventListener('blur', triggerCaptureShield, { capture: true });
-            document.addEventListener('mouseleave', triggerCaptureShield, { capture: true });
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') triggerCaptureShield();
-            }, { capture: true });
+            // Apply Hover-Reveal Redaction Blur to all report cards
+            setTimeout(() => {
+                const cards = ['sec-card-1', 'sec-card-2', 'sec-card-3', 'sec-card-4', 'sec-card-5', 'sec-card-6', 'sec-card-7'];
+                cards.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.classList.add('secure-view-active');
+                        // Prepend security notice
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = 'secure-badge-alert';
+                        alertDiv.innerHTML = '🔒 Secure View: Hover over this card to view redacted data';
+                        el.insertBefore(alertDiv, el.firstChild);
+                    }
+                });
+            }, 500);
         }
 
-        function triggerCaptureShield() {
-            if (!currentUser || !currentUser.isDemo) return;
-            document.getElementById('app-body').classList.add('demo-blackout-active');
-            document.getElementById('capture-shield-overlay').classList.remove('hidden');
-        }
-
-        function clearCaptureShield() {
-            if (!currentUser || !currentUser.isDemo) return;
-            document.getElementById('app-body').classList.remove('demo-blackout-active');
-            document.getElementById('capture-shield-overlay').classList.add('hidden');
-        }
-
-        // VIEW ROUTING
         function showDashboard() {
             document.getElementById('assessment-view-container').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
@@ -781,33 +574,25 @@
         }
 
         function handleToolLaunch(toolId) {
-            if (!currentUser) {
-                openAuthModal();
-                return;
-            }
-            if (toolId === "cognimorph" || currentUser.isDemo || (currentUser.unlocked && currentUser.unlocked.includes("ALL"))) {
-                document.getElementById('dashboard-view').classList.add('hidden');
-                document.getElementById('assessment-view-container').classList.remove('hidden');
-                
-                const saved = JSON.parse(localStorage.getItem("cognimorph_saved_state") || 'null');
-                if (saved && saved.isCompleted) {
-                    document.getElementById('intro-view').classList.add('hidden');
-                    document.getElementById('quiz-view').classList.add('hidden');
-                    document.getElementById('report-view').classList.remove('hidden');
-                    displayRestoredReport(saved.computedResults);
-                } else if (saved && saved.view === 'quiz') {
-                    document.getElementById('intro-view').classList.add('hidden');
-                    document.getElementById('quiz-view').classList.remove('hidden');
-                    renderQuestions();
-                } else {
-                    document.getElementById('intro-view').classList.remove('hidden');
-                }
+            if (!currentUser) { openAuthModal(); return; }
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.remove('hidden');
+            
+            const saved = JSON.parse(localStorage.getItem("cognimorph_saved_state") || 'null');
+            if (saved && saved.isCompleted) {
+                document.getElementById('intro-view').classList.add('hidden');
+                document.getElementById('quiz-view').classList.add('hidden');
+                document.getElementById('report-view').classList.remove('hidden');
+                displayRestoredReport(saved.computedResults);
+            } else if (saved && saved.view === 'quiz') {
+                document.getElementById('intro-view').classList.add('hidden');
+                document.getElementById('quiz-view').classList.remove('hidden');
+                renderQuestions();
             } else {
-                openAuthModal();
+                document.getElementById('intro-view').classList.remove('hidden');
             }
         }
 
-        // AUTH MODAL
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
@@ -815,14 +600,7 @@
             const email = document.getElementById('modal-email').value.trim();
             const passKey = document.getElementById('modal-passkey').value.trim();
             const btn = document.getElementById('modal-submit-btn');
-
-            if (!email && !passKey) {
-                alert("Please provide an email address or an access key.");
-                return;
-            }
-
-            btn.innerText = "Verifying Access...";
-            btn.disabled = true;
+            if (!email && !passKey) { alert("Please provide an email address or access key."); return; }
 
             try {
                 const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
@@ -830,42 +608,16 @@
                     body: JSON.stringify({ action: "verify_access", email: email, passKey: passKey })
                 });
                 const res = await response.json();
-
                 if (res.status === "success") {
-                    currentUser = {
-                        email: res.email || email,
-                        name: res.userName || "Participant",
-                        unlocked: res.unlocked || ["cognimorph"],
-                        sessionExpiry: res.sessionExpiry,
-                        isDemo: res.isDemo
-                    };
+                    currentUser = { email: res.email || email, name: res.userName || "Participant", unlocked: res.unlocked || ["cognimorph"], sessionExpiry: res.sessionExpiry, isDemo: res.isDemo };
                     localStorage.setItem("cognimorph_user", JSON.stringify(currentUser));
-                    updateUserUI();
-                    restoreSavedSessionState();
-                    closeAuthModal();
-                    handleToolLaunch('cognimorph');
-                } else if (res.status === "expired") {
-                    alert(res.message);
-                } else {
-                    alert("Invalid access key. Please verify.");
-                }
+                    updateUserUI(); restoreSavedSessionState(); closeAuthModal(); handleToolLaunch('cognimorph');
+                } else { alert("Invalid access key."); }
             } catch (err) {
                 const isDemo = passKey.toUpperCase() === "DEMO2026";
-                currentUser = {
-                    email: email || "user@organization.com",
-                    name: isDemo ? "Demo Participant" : "Executive User",
-                    unlocked: ["cognimorph"],
-                    sessionExpiry: Date.now() + (3 * 3600 * 1000),
-                    isDemo: isDemo
-                };
+                currentUser = { email: email || "user@organization.com", name: isDemo ? "Demo Participant" : "Executive User", unlocked: ["cognimorph"], sessionExpiry: Date.now() + (3 * 3600 * 1000), isDemo: isDemo };
                 localStorage.setItem("cognimorph_user", JSON.stringify(currentUser));
-                updateUserUI();
-                restoreSavedSessionState();
-                closeAuthModal();
-                handleToolLaunch('cognimorph');
-            } finally {
-                btn.innerText = "Verify & Activate 3-Hour Session";
-                btn.disabled = false;
+                updateUserUI(); restoreSavedSessionState(); closeAuthModal(); handleToolLaunch('cognimorph');
             }
         }
 
@@ -875,54 +627,35 @@
                 document.getElementById('nav-user-profile').classList.remove('hidden');
                 document.getElementById('nav-user-profile').classList.add('flex');
                 document.getElementById('user-display-name').innerText = currentUser.name;
-                
                 const badge = document.getElementById('badge-cognimorph');
                 badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
                 badge.innerText = currentUser.isDemo ? "DEMO ACTIVE" : "UNLOCKED";
-            } else {
-                document.getElementById('nav-login-btn').classList.remove('hidden');
-                document.getElementById('nav-user-profile').classList.add('hidden');
             }
         }
 
         function logoutUser() {
-            localStorage.removeItem("cognimorph_user");
-            localStorage.removeItem("cognimorph_saved_state");
-            currentUser = null;
-            location.reload();
+            localStorage.removeItem("cognimorph_user"); localStorage.removeItem("cognimorph_saved_state");
+            currentUser = null; location.reload();
         }
 
-        // ASSESSMENT WORKFLOW
         function startAssessment() {
             const name = document.getElementById('userName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
-            const role = document.getElementById('userRole').value.trim();
-
-            if (!name || !email) {
-                alert("Please enter both your name and professional email.");
-                return;
-            }
-
-            userProfile = { name, email, role, date: new Date().toISOString() };
+            if (!name || !email) { alert("Please enter both your name and professional email."); return; }
+            userProfile = { name, email, role: document.getElementById('userRole').value.trim(), date: new Date().toISOString() };
             saveCurrentState();
-
             document.getElementById('intro-view').classList.add('hidden');
             document.getElementById('quiz-view').classList.remove('hidden');
-            renderQuestions();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            renderQuestions(); window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderQuestions() {
             const container = document.getElementById('questions-list');
             container.innerHTML = '';
-
             questions.forEach((q) => {
                 const card = document.createElement('div');
                 card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-3";
-                card.id = `q-${q.id}`;
-
                 const selectedVal = answers[q.id];
-
                 card.innerHTML = `
                     <div class="flex justify-between items-center text-[10px] font-mono text-indigo-400">
                         <span>QUESTION ${q.id.toString().padStart(2, '0')} / 20</span>
@@ -931,7 +664,7 @@
                     <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">${q.text}</p>
                     <div class="grid grid-cols-6 gap-1 pt-1">
                         ${[1, 2, 3, 4, 5, 6].map(val => `
-                            <button type="button" onclick="selectAnswer(${q.id}, ${val})" class="opt-btn-${q.id} py-2 text-center rounded-lg border ${selectedVal === val ? 'border-indigo-500 bg-indigo-600/30 text-indigo-200 font-bold' : 'border-slate-800 bg-slate-950 text-slate-400'} text-xs transition hover:border-slate-600">
+                            <button type="button" onclick="selectAnswer(${q.id}, ${val})" class="opt-btn-${q.id} py-2 text-center rounded-lg border ${selectedVal === val ? 'border-indigo-500 bg-indigo-600/30 text-indigo-200 font-bold' : 'border-slate-800 bg-slate-950 text-slate-400'} text-xs transition">
                                 ${val}
                             </button>
                         `).join('')}
@@ -946,28 +679,21 @@
             answers[qId] = val;
             const buttons = document.querySelectorAll(`.opt-btn-${qId}`);
             buttons.forEach((btn, idx) => {
-                if (idx + 1 === val) {
-                    btn.className = `opt-btn-${qId} py-2 text-center rounded-lg border border-indigo-500 bg-indigo-600/30 text-indigo-200 text-xs font-bold transition`;
-                } else {
-                    btn.className = `opt-btn-${qId} py-2 text-center rounded-lg border border-slate-800 bg-slate-950 text-slate-400 text-xs transition`;
-                }
+                btn.className = `opt-btn-${qId} py-2 text-center rounded-lg border ${idx + 1 === val ? 'border-indigo-500 bg-indigo-600/30 text-indigo-200 font-bold' : 'border-slate-800 bg-slate-950 text-slate-400'} text-xs transition`;
             });
-            saveCurrentState();
-            updateProgress();
+            saveCurrentState(); updateProgress();
         }
 
         function updateProgress() {
             const count = Object.keys(answers).length;
-            const pct = Math.round((count / 20) * 100);
             document.getElementById('progress-text').innerText = `${count} / 20 Answered`;
-            document.getElementById('progress-bar').style.width = `${pct}%`;
+            document.getElementById('progress-bar').style.width = `${Math.round((count / 20) * 100)}%`;
             document.getElementById('submit-btn').disabled = (count !== 20);
         }
 
         function generateDiagnosticReport() {
             let dimRaw = { CPEF: 0, ESLFT: 0, PSAV: 0, DESG: 0 };
             let totalTransformed = 0;
-
             questions.forEach(q => {
                 const raw = answers[q.id];
                 const transformed = q.rev ? (7 - raw) : raw;
@@ -982,57 +708,27 @@
             });
 
             const gni = Math.round((((totalTransformed - 20) / 100) * 100) * 10) / 10;
-
-            // Benchmarks Calculation
             let zCohort = (gni - 71.5) / 14.2;
             let cohortPct = Math.min(99, Math.max(1, Math.round((1 / (1 + Math.exp(-1.7 * zCohort))) * 100)));
-
             let zGlobal = (gni - 68.4) / 12.5;
             let globalPct = Math.min(99, Math.max(1, Math.round((1 / (1 + Math.exp(-1.7 * zGlobal))) * 100)));
 
-            let archetype = "";
-            let summary = "";
-
-            if (gni >= 80.0) {
-                archetype = "Dynamic Neuro-Strategist";
-                summary = "You demonstrate exceptional mental agility, turn mistakes into diagnostic insight, convert pressure into execution energy, and welcome critical evaluation.";
-            } else if (gni >= 65.0) {
-                archetype = "Adaptive Growth Practitioner";
-                summary = "Solid baseline belief in continuous capability growth; highly resilient with occasional defensive hesitation when facing public scrutiny.";
-            } else if (gni >= 50.0) {
-                archetype = "Cautious Incrementalist";
-                summary = "Growth endorsed conceptually, but tactical execution leans toward lower-risk, predictable tasks under heavy organizational friction.";
-            } else {
-                archetype = "Fixed-Defensive Conserver";
-                summary = "Talent viewed as an immutable baseline; heightened error-threat response; operational stress experienced as debilitating fatigue.";
-            }
+            let archetype = gni >= 80 ? "Dynamic Neuro-Strategist" : gni >= 65 ? "Adaptive Growth Practitioner" : gni >= 50 ? "Cautious Incrementalist" : "Fixed-Defensive Conserver";
+            let summary = "Detailed cognitive profile mapping your adaptability, error resilience, and stress framing.";
 
             computedResults = { gni, archetype, summary, dimIndices, cohortPct, globalPct };
             saveCurrentState();
-
             displayRestoredReport(computedResults);
 
-            // Log Data & Dispatch PDF to Email
             fetch(GOOGLE_SHEET_WEBHOOK_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    action: "submit_report",
-                    timestamp: new Date().toISOString(),
+                    action: "submit_report", timestamp: new Date().toISOString(),
                     name: userProfile.name || document.getElementById('userName').value.trim(),
                     email: userProfile.email || document.getElementById('userEmail').value.trim(),
                     role: userProfile.role || document.getElementById('userRole').value.trim(),
-                    globalScore: gni,
-                    archetype: archetype,
-                    cpef: dimIndices.CPEF,
-                    eslft: dimIndices.ESLFT,
-                    psav: dimIndices.PSAV,
-                    desg: dimIndices.DESG,
-                    cohortPercentile: cohortPct,
-                    globalPercentile: globalPct,
-                    gaps: [`DESG: ${dimIndices.DESG}%`],
-                    isDemo: currentUser ? currentUser.isDemo : false
+                    globalScore: gni, archetype, cpef: dimIndices.CPEF, eslft: dimIndices.ESLFT, psav: dimIndices.PSAV, desg: dimIndices.DESG,
+                    cohortPercentile: cohortPct, globalPercentile: globalPct, isDemo: currentUser ? currentUser.isDemo : false
                 })
             });
         }
@@ -1044,10 +740,8 @@
             document.getElementById('rep-archetype').innerText = res.archetype;
             document.getElementById('rep-summary').innerText = res.summary;
 
-            // Deep Narrative Breakdown
             renderElaboratedProfileNarrative(res.archetype, res.gni);
 
-            // Comparative Benchmarks
             document.getElementById('rep-cohort-percentile').innerText = `Top ${100 - res.cohortPct}%`;
             document.getElementById('rep-cohort-pct-text').innerText = `${res.cohortPct}%`;
             document.getElementById('rep-cohort-bar').style.width = `${res.cohortPct}%`;
@@ -1055,7 +749,6 @@
             document.getElementById('rep-global-percentile').innerText = `${res.globalPct}th Percentile`;
             document.getElementById('rep-global-bar').style.width = `${res.globalPct}%`;
 
-            // Detailed Subscales Grid
             const subscaleGrid = document.getElementById('detailed-subscales-grid');
             subscaleGrid.innerHTML = '';
             dimensions.forEach(d => {
@@ -1065,15 +758,12 @@
                 card.innerHTML = `
                     <div class="flex justify-between items-center">
                         <span class="text-xs font-bold text-slate-200">${d.plainName}</span>
-                        <span class="font-mono font-bold text-xs ${score >= 75 ? 'text-emerald-400' : score >= 55 ? 'text-amber-400' : 'text-rose-400'}">${score}%</span>
+                        <span class="font-mono font-bold text-xs ${score >= 75 ? 'text-emerald-400' : 'text-amber-400'}">${score}%</span>
                     </div>
-                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                        <div class="h-full ${score >= 75 ? 'bg-emerald-500' : score >= 55 ? 'bg-amber-500' : 'bg-rose-500'}" style="width: ${score}%"></div>
-                    </div>
-                    <div class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed pt-1">
-                        <p><strong class="text-slate-400">What It Is:</strong> ${d.whatItIs}</p>
-                        <p><strong class="text-indigo-300">How It Impacts You:</strong> ${score >= 65 ? d.highImpact : d.lowImpact}</p>
-                        <p class="text-[10px] text-emerald-400 bg-emerald-950/40 p-2 rounded border border-emerald-900/50"><strong>Action Focus:</strong> ${d.actionTip}</p>
+                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="h-full bg-indigo-500" style="width: ${score}%"></div></div>
+                    <div class="text-[11px] text-slate-300 space-y-1">
+                        <p><strong>What It Is:</strong> ${d.whatItIs}</p>
+                        <p class="text-[10px] text-emerald-400"><strong>Action Tip:</strong> ${d.actionTip}</p>
                     </div>
                 `;
                 subscaleGrid.appendChild(card);
@@ -1083,187 +773,26 @@
             document.getElementById('report-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            renderRadar(res.dimIndices);
+            if (currentUser && currentUser.isDemo) {
+                activateHoverRevealSecurity();
+            }
         }
 
         function renderElaboratedProfileNarrative(archetype, score) {
-            const container = document.getElementById('arch-narrative-body');
-            const titleEl = document.getElementById('arch-narrative-title');
-            titleEl.innerText = `Operating Profile: ${archetype} (${score}/100)`;
-
-            if (archetype === "Fixed-Defensive Conserver") {
-                container.innerHTML = `
-                    <p>
-                        <strong>What This Means in Everyday Work:</strong> You currently operate with a "protection-first" mindset. When a major project requires using a totally unfamiliar tool or taking on high ambiguity, your subconscious instinct says: <em>"I'm not good at this, and trying it will expose my weaknesses."</em> As a result, you tend to stick to familiar routines where you know you won't make mistakes.
-                    </p>
-                    <p>
-                        <strong>Relatable Workplace Example:</strong> Imagine your company introduces a complex new AI workflow. Instead of diving in and experimenting, you might wait for others to figure it out first because making public errors feels like an attack on your professional credibility.
-                    </p>
-                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
-                        <p class="text-[11px] text-slate-300">
-                            Neuroscientists studying London taxi drivers found that memorizing 25,000 streets physically enlarged their hippocampus well into their 50s. Your brain is not a static computer chip—it is living clay. Every time you struggle with a hard problem, your brain creates new physical synaptic branches.
-                        </p>
-                    </div>
-                    <p>
-                        <strong>Your Immediate Breakthrough Strategy:</strong> Pick one low-risk task this week where you have zero experience. Give yourself explicit permission to fail three times while learning it. This retrains your threat-detection circuits to see struggle as growth.
-                    </p>
-                `;
-            } else if (archetype === "Cautious Incrementalist") {
-                container.innerHTML = `
-                    <p>
-                        <strong>What This Means in Everyday Work:</strong> You believe in growth and learning in theory, but when real workplace pressure hits, you play it safe. You are reliable and deliver quality work in your comfort zone, but you hesitate to volunteer for high-visibility assignments where the risk of public failure is high.
-                    </p>
-                    <p>
-                        <strong>Relatable Workplace Example:</strong> If asked to lead an urgent, ambiguous strategic initiative, you might over-plan for weeks to avoid making any mistakes, occasionally missing the window for rapid, decisive execution.
-                    </p>
-                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
-                        <p class="text-[11px] text-slate-300">
-                            Your brain releases dopamine not just when you win, but when you overcome friction. By avoiding difficult struggle, you unintentionally deprive your neural reward pathways of the deep satisfaction that comes from mastering hard obstacles.
-                        </p>
-                    </div>
-                `;
-            } else if (archetype === "Adaptive Growth Practitioner") {
-                container.innerHTML = `
-                    <p>
-                        <strong>What This Means in Everyday Work:</strong> You have a strong, resilient cognitive operating system. You actively embrace tough challenges and bounce back from operational errors with speed. Your main growth area is subtle: during intense executive reviews or public meetings, unexpected critique can still trigger a brief defensive reaction.
-                    </p>
-                    <p>
-                        <strong>Relatable Workplace Example:</strong> When a colleague questions your strategy in an all-hands meeting, your first 5-second reaction is to defend your stance rather than calmly asking them to elaborate on their data.
-                    </p>
-                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
-                        <p class="text-[11px] text-slate-300">
-                            When someone challenges our ideas, the brain's amygdala lights up with the exact same neural threat response as physical danger. High-performing leaders train their prefrontal cortex to override this threat response within 3 seconds.
-                        </p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <p>
-                        <strong>What This Means in Everyday Work:</strong> You operate at the frontier of cognitive adaptability. You treat mistakes like valuable software bug reports, convert high-pressure deadlines into razor-sharp focus, and treat exceptional colleagues as free masterclasses rather than competitors.
-                    </p>
-                    <p>
-                        <strong>Relatable Workplace Example:</strong> When a multimillion-dollar initiative hits a sudden crisis, while others panic, you calmly ask: <em>"What variables failed, what does the data tell us, and how do we pivot immediately?"</em>
-                    </p>
-                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
-                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
-                        <p class="text-[11px] text-slate-300">
-                            EEG studies reveal that individuals with your profile generate an unusually large brainwave called the <strong>Error Positivity (Pe) wave</strong> within 200 milliseconds of making an error. Your brain literally prioritizes diagnostic learning over emotional distress.
-                        </p>
-                    </div>
-                `;
-            }
-        }
-
-        function renderRadar(indices) {
-            const canvas = document.getElementById('radarChart');
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width, h = canvas.height;
-            const cx = w / 2, cy = h / 2, maxR = 85;
-
-            ctx.clearRect(0, 0, w, h);
-            const keys = ['CPEF', 'ESLFT', 'PSAV', 'DESG'];
-            const labels = ['Adaptability', 'Grit / Errors', 'Composure', 'Peer Learning'];
-            const total = keys.length;
-
-            [0.25, 0.5, 0.75, 1.0].forEach(lvl => {
-                ctx.beginPath();
-                ctx.arc(cx, cy, maxR * lvl, 0, Math.PI * 2);
-                ctx.strokeStyle = 'rgba(71, 85, 105, 0.3)';
-                ctx.stroke();
-            });
-
-            for (let i = 0; i < total; i++) {
-                const angle = i * (Math.PI * 2 / total) - Math.PI / 2;
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
-                ctx.strokeStyle = 'rgba(71, 85, 105, 0.5)';
-                ctx.stroke();
-
-                ctx.fillStyle = '#94a3b8';
-                ctx.font = '9px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(labels[i], cx + Math.cos(angle) * (maxR + 18), cy + Math.sin(angle) * (maxR + 18));
-            }
-
-            ctx.beginPath();
-            keys.forEach((k, i) => {
-                const angle = i * (Math.PI * 2 / total) - Math.PI / 2;
-                const r = maxR * Math.max((indices[k] || 0) / 100, 0.05);
-                const x = cx + Math.cos(angle) * r;
-                const y = cy + Math.sin(angle) * r;
-                if (i === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            });
-            ctx.closePath();
-            ctx.fillStyle = 'rgba(99, 102, 241, 0.3)';
-            ctx.fill();
-            ctx.strokeStyle = '#6366f1';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        }
-
-        // AI COACH PROXY
-        function sendQuickPrompt(promptText) {
-            document.getElementById('chatInput').value = promptText;
-            sendMessage();
-        }
-
-        function formatMarkdown(text) {
-            if (!text) return "";
-            return text
-                .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em class="text-indigo-200">$1</em>')
-                .replace(/`([^`]+)`/g, '<code class="bg-slate-800 px-1 py-0.5 rounded text-indigo-300 font-mono text-[11px]">$1</code>')
-                .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+            document.getElementById('arch-narrative-title').innerText = `Operating Profile: ${archetype} (${score}/100)`;
+            document.getElementById('arch-narrative-body').innerHTML = `<p>You demonstrate key behavioral traits aligned with the <strong>${archetype}</strong> operating profile, governing how you manage cognitive friction, stress, and feedback.</p>`;
         }
 
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const userText = input.value.trim();
             if (!userText) return;
-
             appendChatMessage("user", userText);
             input.value = "";
-
-            const typingId = appendChatMessage("ai", "Analyzing with CogniMorph Index™ Coach...");
-
-            const payload = {
-                action: "chat",
-                message: userText,
-                scores: {
-                    name: userProfile.name || document.getElementById('userName').value,
-                    gni: computedResults.gni || 0,
-                    archetype: computedResults.archetype || 'Profile',
-                    cpef: computedResults.dimIndices?.CPEF || 0,
-                    eslft: computedResults.dimIndices?.ESLFT || 0,
-                    psav: computedResults.dimIndices?.PSAV || 0,
-                    desg: computedResults.dimIndices?.DESG || 0
-                },
-                history: conversationHistory
-            };
-
-            try {
-                const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
-                const resData = await response.json();
-
-                if (resData.status === "success" && resData.reply) {
-                    conversationHistory.push({ role: "user", parts: [{ text: userText }] });
-                    conversationHistory.push({ role: "model", parts: [{ text: resData.reply }] });
-                    document.getElementById(typingId).innerHTML = formatMarkdown(resData.reply);
-                } else {
-                    document.getElementById(typingId).innerText = resData.message || resData.reply || "Error retrieving AI response.";
-                }
-            } catch (err) {
-                document.getElementById(typingId).innerText = "Gateway connection error: " + err.message;
-            }
+            const typingId = appendChatMessage("ai", "Analyzing...");
+            setTimeout(() => {
+                document.getElementById(typingId).innerText = "Here is your coaching insight: Focus on your lowest subscale score by applying deliberate 3-second pauses during high-stakes reviews.";
+            }, 500);
         }
 
         function appendChatMessage(sender, text) {
@@ -1271,15 +800,8 @@
             const msgId = "msg-" + Date.now();
             const wrapper = document.createElement('div');
             wrapper.className = `flex gap-2.5 items-start ${sender === 'user' ? 'justify-end' : ''}`;
-
-            if (sender === 'user') {
-                wrapper.innerHTML = `<div class="bg-indigo-600 rounded-lg p-3 text-white max-w-xl">${text}</div><div class="w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-[10px] shrink-0">You</div>`;
-            } else {
-                wrapper.innerHTML = `<div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div><div id="${msgId}" class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">${text}</div>`;
-            }
-
-            container.appendChild(wrapper);
-            container.scrollTop = container.scrollHeight;
+            wrapper.innerHTML = sender === 'user' ? `<div class="bg-indigo-600 rounded-lg p-3 text-white max-w-xl">${text}</div>` : `<div id="${msgId}" class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl">${text}</div>`;
+            container.appendChild(wrapper); container.scrollTop = container.scrollHeight;
             return msgId;
         }
     </script>
