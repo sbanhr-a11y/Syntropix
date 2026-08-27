@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CogniMorph Index™ | Executive Platform</title>
+    <title>CogniMorph Index™ | Mindset Assessment</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -17,11 +17,17 @@
         }
     </script>
     <style>
-        /* Anti-Screenshot & Read-Only Demo Shield */
+        /* Anti-Screenshot, Anti-Capture & Demo Security Layer */
         .demo-protected {
             user-select: none !important;
             -webkit-user-select: none !important;
+            -moz-user-select: none !important;
             -ms-user-select: none !important;
+        }
+        .demo-blur-active {
+            filter: blur(28px) grayscale(100%) !important;
+            transition: filter 0.15s ease-in-out;
+            pointer-events: none !important;
         }
         .demo-watermark {
             position: fixed;
@@ -29,23 +35,23 @@
             pointer-events: none;
             z-index: 9999;
             background: repeating-linear-gradient(
-                -45deg,
-                rgba(244, 63, 94, 0.04),
-                rgba(244, 63, 94, 0.04) 100px,
-                rgba(0, 0, 0, 0) 100px,
-                rgba(0, 0, 0, 0) 200px
+                -35deg,
+                rgba(244, 63, 94, 0.05),
+                rgba(244, 63, 94, 0.05) 80px,
+                rgba(0, 0, 0, 0) 80px,
+                rgba(0, 0, 0, 0) 160px
             );
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .demo-watermark-text {
-            transform: rotate(-30deg);
-            font-size: 3rem;
+            transform: rotate(-25deg);
+            font-size: 2.25rem;
             font-weight: 900;
-            color: rgba(244, 63, 94, 0.12);
+            color: rgba(244, 63, 94, 0.15);
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.25em;
             text-align: center;
         }
         @media print {
@@ -64,30 +70,39 @@
         const PAYMENT_GATEWAY_URL = "https://rzp.io/l/your-assessment-pass"; 
     </script>
 
-    <!-- Watermark Container for Demo Mode -->
+    <!-- Demo Watermark Overlay Layer -->
     <div id="demo-watermark-layer" class="hidden demo-watermark">
-        <div class="demo-watermark-text">DEMO EVALUATION • READ ONLY</div>
+        <div class="demo-watermark-text">DEMO EVALUATION • READ ONLY • CAPTURE BLOCKED</div>
+    </div>
+
+    <!-- Defocus Capture Warning Banner -->
+    <div id="defocus-warning" class="hidden fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-6 text-center">
+        <div class="bg-slate-900 border border-rose-800 p-6 rounded-2xl max-w-sm space-y-3">
+            <div class="w-10 h-10 rounded-full bg-rose-950 text-rose-400 flex items-center justify-center mx-auto font-bold text-lg">🛡️</div>
+            <h3 class="text-sm font-bold text-white">Security Protection Active</h3>
+            <p class="text-xs text-slate-400">Demo mode is read-only. Screen captures, window switching, and copying are restricted. Click back into this window to resume.</p>
+        </div>
     </div>
 
     <!-- TOP NAVIGATION -->
-    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard()">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-white text-lg shadow-lg shadow-indigo-500/20">
                     Ψ
                 </div>
                 <div>
-                    <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
-                        CogniMorph Index™ <span class="text-[10px] bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-normal">Executive Suite</span>
+                    <h1 class="text-sm font-bold text-white tracking-tight">
+                        CogniMorph Index™
                     </h1>
                     <p class="text-[10px] text-slate-400">Neuro-Adaptive Cognitive Operating System</p>
                 </div>
             </div>
 
-            <!-- Session Countdown Timer & Auth Controls -->
+            <!-- Session Countdown & Auth Buttons -->
             <div class="flex items-center gap-3">
-                <div id="session-timer-badge" class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-700/60 text-indigo-300 text-[11px] font-mono font-bold animate-pulse">
-                    <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div id="session-timer-badge" class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-700/60 text-indigo-300 text-[11px] font-mono font-bold">
+                    <svg class="w-3.5 h-3.5 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span id="session-timer-text">03:00:00</span>
                 </div>
                 
@@ -99,6 +114,10 @@
                     <span id="user-display-name" class="font-medium text-slate-200"></span>
                     <button onclick="logoutUser()" class="text-[10px] text-slate-500 hover:text-rose-400 underline ml-2">Log out</button>
                 </div>
+
+                <span class="text-[10px] font-mono text-indigo-300 bg-indigo-500/20 border border-indigo-500/30 px-3 py-1 rounded-full hidden sm:inline-block">
+                    Mindset Assessment
+                </span>
             </div>
         </div>
     </header>
@@ -116,14 +135,14 @@
                 High-Performance Cognitive Leadership Battery
             </h2>
             <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                All assessments are enterprise-secured. Sign in or enter an access license key to activate your single-use 3-hour diagnostic window.
+                All tools are secured. Enter your email or access key to unlock your single-use 3-hour diagnostic session. All answers auto-save continuously.
             </p>
         </div>
 
-        <!-- Assessment Catalog Cards -->
+        <!-- Assessment Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <!-- Tool 1: CogniMorph Index (Locked by default; Demo pass unlocks demo version) -->
+            <!-- Tool 1: CogniMorph Index -->
             <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative overflow-hidden group">
                 <div class="space-y-3">
                     <div class="flex justify-between items-start">
@@ -138,17 +157,17 @@
                     <div>
                         <h3 class="text-base font-bold text-white group-hover:text-indigo-300 transition">CogniMorph Index™</h3>
                         <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                            Evaluates cognitive plasticity, error resilience, stress valence, and ego-decoupled feedback integration under execution pressure.
+                            Evaluates how you learn under friction, recover from mistakes, channel high stress into focus, and leverage constructive feedback.
                         </p>
                     </div>
                     <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded">20 Items</span>
+                        <span class="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded">20 Questions</span>
                         <span class="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded">AI Executive Coach</span>
                         <span class="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded">Global Norms</span>
                     </div>
                 </div>
-                <button onclick="handleToolLaunch('cognimorph')" id="btn-cognimorph" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2">
-                    <span>Unlock / Launch</span>
+                <button onclick="handleToolLaunch('cognimorph')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/20">
+                    Unlock / Launch
                 </button>
             </div>
 
@@ -159,7 +178,7 @@
                         <span class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-sm">
                             02
                         </span>
-                        <span id="badge-metacog" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1">
                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                             LOCKED (PRO)
                         </span>
@@ -167,7 +186,7 @@
                     <div>
                         <h3 class="text-base font-bold text-white">Metacognitive Executive Battery</h3>
                         <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                            Measures procedural monitoring, debugging efficiency, and strategic mental allocation during high-ambiguity problem solving.
+                            Measures strategic mental allocation, problem-debugging speed, and self-monitoring during ambiguous decision tasks.
                         </p>
                     </div>
                 </div>
@@ -183,7 +202,7 @@
                         <span class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-sm">
                             03
                         </span>
-                        <span id="badge-strategic" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-1">
                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                             LOCKED (ENTERPRISE)
                         </span>
@@ -191,7 +210,7 @@
                     <div>
                         <h3 class="text-base font-bold text-white">Strategic Inversion Diagnostic</h3>
                         <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                            Quantifies executive capacity for first-principles thinking, second-order forecasting, and structural risk inversion.
+                            Evaluates first-principles thinking, second-order forecasting, and structural risk avoidance in market leadership.
                         </p>
                     </div>
                 </div>
@@ -215,7 +234,7 @@
                 Return to Executive Hub
             </button>
             <span id="assessment-mode-badge" class="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded-full">
-                Live Active Session
+                Active 3-Hour Session
             </span>
         </div>
 
@@ -224,15 +243,18 @@
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl">
                 <div class="border-b border-slate-800 pb-4">
                     <h2 class="text-xl sm:text-2xl font-black text-white">CogniMorph Index™ Assessment Briefing</h2>
-                    <p class="text-xs text-slate-400 mt-1">Neuro-Adaptive Cognitive Operating System Architecture</p>
+                    <p class="text-xs text-slate-400 mt-1">Understanding Your Mental Operating Architecture</p>
                 </div>
                 
                 <div class="text-xs text-slate-300 leading-relaxed space-y-3">
                     <p>
-                        <strong>Welcome to your cognitive leadership evaluation.</strong> In complex organizational environments, technical knowledge is necessary but insufficient. Sustainable executive throughput is governed by your underlying <em>Neuro-Adaptive Cognitive Operating System</em>—the implicit mental architecture that determines how you metabolize operational friction, recover from mistakes, frame high-stakes pressure, and integrate critical feedback.
+                        <strong>Welcome to your cognitive evaluation.</strong> In everyday professional life, your technical knowledge is only half the equation. The other half is your <em>mental operating system</em>: How quickly do you bounce back when a project fails? Do you see steep learning curves as exciting growth or exhausting friction? When you get tough feedback, do you get defensive or curious?
                     </p>
                     <p>
-                        This diagnostic evaluates your real-time cognitive responses across 20 calibrated scenarios. All responses are <strong>auto-saved in real time</strong>. If you experience network disruption, you may log back in anytime within your <strong>3-hour active session window</strong> to continue exactly where you left off.
+                        This assessment contains 20 straightforward questions designed to map your mindset across four core dimensions. There are no right or wrong answers. Answer honestly based on your real day-to-day reactions.
+                    </p>
+                    <p class="text-indigo-300">
+                        ● <strong>Auto-Save Active:</strong> If your browser closes or your connection drops, log back in with your email within <strong>3 hours</strong> to continue seamlessly.
                     </p>
                 </div>
 
@@ -246,20 +268,20 @@
                         <input type="email" id="userEmail" oninput="saveCurrentState()" placeholder="name@organization.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-300 mb-1" for="userRole">Executive Role / Domain</label>
-                        <input type="text" id="userRole" oninput="saveCurrentState()" placeholder="e.g. VP Strategy" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <label class="block text-[11px] font-semibold text-slate-300 mb-1" for="userRole">Your Role / Function</label>
+                        <input type="text" id="userRole" oninput="saveCurrentState()" placeholder="e.g. Engineering Lead" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                 </div>
 
                 <button onclick="startAssessment()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/30">
-                    Proceed to 20-Item Diagnostic
+                    Start 20-Item Assessment
                 </button>
             </div>
         </section>
 
         <!-- QUESTIONNAIRE -->
         <section id="quiz-view" class="hidden space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 sticky top-14 z-40 backdrop-blur flex items-center justify-between">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 sticky top-14 z-30 backdrop-blur flex items-center justify-between">
                 <div>
                     <span id="progress-text" class="text-xs font-bold text-slate-200">0 / 20 Answered</span>
                     <span class="text-[10px] text-emerald-400 font-mono block">● Auto-Save Active</span>
@@ -281,21 +303,20 @@
             </div>
         </section>
 
-        <!-- COMPREHENSIVE DIAGNOSTIC REPORT -->
+        <!-- COMPREHENSIVE DIAGNOSTIC REPORT (LOCKED - NO RETAKES) -->
         <section id="report-view" class="hidden space-y-8">
             
-            <!-- Report Actions / Print Controls -->
             <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
                 <div class="text-xs text-slate-400">
                     Diagnostic generated for <span id="rep-name" class="text-white font-medium"></span> on <span id="rep-date" class="text-slate-300"></span>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] text-indigo-300 bg-indigo-950 border border-indigo-800/80 px-2.5 py-1 rounded-full font-mono">
+                        🔒 Assessment Completed (1-Time Access)
+                    </span>
                     <button id="export-pdf-btn" onclick="window.print()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-medium transition flex items-center gap-1.5">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                        Export / Print PDF
-                    </button>
-                    <button onclick="restartAll()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium transition">
-                        Retake Diagnostic
+                        Print / PDF
                     </button>
                 </div>
             </div>
@@ -320,18 +341,28 @@
                 </div>
             </div>
 
+            <!-- ELABORATED OPERATING PROFILE STORY & FACTS -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card" id="archetype-narrative-card">
+                <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-white" id="arch-narrative-title">Deep Operating Profile Analysis</h3>
+                    <span class="text-[10px] font-mono text-indigo-400">Behavioral Blueprint</span>
+                </div>
+                <div class="text-xs text-slate-300 leading-relaxed space-y-3" id="arch-narrative-body">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
             <!-- TWO-CRITERIA COMPARATIVE BENCHMARK SECTION -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white">Comparative Benchmark Standing</h3>
-                    <p class="text-xs text-slate-400">Evaluates your cognitive score against internal organizational submissions and global executive standards.</p>
+                    <p class="text-xs text-slate-400">Evaluates your score against internal organizational cohorts and global knowledge worker standards.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                    <!-- Criterion A: Internal Cohort Benchmark -->
                     <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                         <div class="flex justify-between items-center text-xs">
-                            <span class="font-bold text-indigo-300">Internal Database Cohort</span>
+                            <span class="font-bold text-indigo-300">Internal Cohort Benchmark</span>
                             <span id="rep-cohort-percentile" class="font-mono font-bold text-emerald-400">Top 15%</span>
                         </div>
                         <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
@@ -342,26 +373,30 @@
                         </p>
                     </div>
 
-                    <!-- Criterion B: Global Executive Standards Benchmark -->
                     <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                         <div class="flex justify-between items-center text-xs">
-                            <span class="font-bold text-purple-300">Global Executive Standard Norm</span>
+                            <span class="font-bold text-purple-300">Global Executive Standard</span>
                             <span id="rep-global-percentile" class="font-mono font-bold text-emerald-400">88th Percentile</span>
                         </div>
                         <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
                             <div id="rep-global-bar" class="bg-purple-500 h-full w-0 transition-all duration-500"></div>
                         </div>
                         <p class="text-[11px] text-slate-400 leading-tight">
-                            Calibrated against international executive norms (Mean: 68.4%, SD: 12.5%). Places your cognitive resilience in the top tier globally.
+                            Calibrated against international executive standards (Mean: 68.4%, SD: 12.5%). Places your cognitive resilience in the top tier globally.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Plain-Language Breakdown Grid -->
-            <div class="space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Subscale Cognitive Dimensions</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="plain-dim-grid"></div>
+            <!-- IN-DEPTH SUBSCALE BREAKDOWN (ALL 4 DIMENSIONS ELABORATED) -->
+            <div class="space-y-4">
+                <div class="border-b border-slate-800 pb-2">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">In-Depth Cognitive Subscale Diagnostics</h3>
+                    <p class="text-[11px] text-slate-400">Detailed breakdown of how your score directly impacts your everyday performance, relationships, and decision-making.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="detailed-subscales-grid">
+                    <!-- Populated dynamically -->
+                </div>
             </div>
 
             <!-- Polar Radar Graph -->
@@ -370,7 +405,7 @@
                 <canvas id="radarChart" width="280" height="280" class="max-w-xs w-full"></canvas>
             </div>
 
-            <!-- COMPREHENSIVE 30-60-90 DAY ROADMAP -->
+            <!-- 30-60-90 DAY ROADMAP -->
             <div class="space-y-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
@@ -383,11 +418,11 @@
                             <span class="text-xs font-bold text-indigo-400">DAYS 1 - 30</span>
                             <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-indigo-950 text-indigo-300">PHASE 1</span>
                         </div>
-                        <h4 class="text-xs font-bold text-slate-200">Awareness & Emotional Decoupling</h4>
+                        <h4 class="text-xs font-bold text-slate-200">Emotional Decoupling & Error Logging</h4>
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
-                            <li><strong class="text-white">The 3-Second "Tell Me More" Pause:</strong> In high-stakes critique, pause and say: <em>"Walk me through your perspective."</em></li>
-                            <li><strong class="text-white">5-Minute Error Postmortems:</strong> Log procedural variables without character self-criticism.</li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Zero defensive verbal pushbacks logged during 30 days.</li>
+                            <li><strong class="text-white">The 3-Second "Tell Me More" Pause:</strong> In meetings, pause for 3 seconds before responding to pushback. Say: <em>"Walk me through your perspective."</em></li>
+                            <li><strong class="text-white">5-Minute Error Postmortems:</strong> Log procedural variables without blaming yourself or others.</li>
+                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Track your reaction time: Goal is zero defensive pushbacks for 30 consecutive days.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-900 border border-emerald-900/50 space-y-3 print-card">
@@ -395,11 +430,11 @@
                             <span class="text-xs font-bold text-emerald-400">DAYS 31 - 60</span>
                             <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300">PHASE 2</span>
                         </div>
-                        <h4 class="text-xs font-bold text-slate-200">Peer Synergy & Calibration</h4>
+                        <h4 class="text-xs font-bold text-slate-200">Peer Synergy & Blind-Spot Audits</h4>
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
-                            <li><strong class="text-white">Deconstruct Peer Excellence:</strong> Interview 1 top peer monthly to model their strategy.</li>
-                            <li><strong class="text-white">Targeted Blind-Spot Inquiries:</strong> Ask 2 colleagues: <em>"What is one blind spot I miss?"</em></li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Complete 2 structural peer workflow adoptions.</li>
+                            <li><strong class="text-white">Deconstruct Peer Excellence:</strong> Interview 1 high-performing colleague monthly to learn their workflow tactics.</li>
+                            <li><strong class="text-white">Targeted Blind-Spot Inquiries:</strong> Ask 2 trusted peers: <em>"What is one blind spot I consistently overlook?"</em></li>
+                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Successfully adopt at least two peer workflow strategies into your own routine.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-900 border border-amber-900/50 space-y-3 print-card">
@@ -407,39 +442,53 @@
                             <span class="text-xs font-bold text-amber-400">DAYS 61 - 90</span>
                             <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300">PHASE 3</span>
                         </div>
-                        <h4 class="text-xs font-bold text-slate-200">Systemic Mastery & Recovery</h4>
+                        <h4 class="text-xs font-bold text-slate-200">Systemic Mastery & Recovery Cadence</h4>
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
-                            <li><strong class="text-white">Adversarial Red-Teaming:</strong> Appoint a team member to stress-test your plans before launch.</li>
-                            <li><strong class="text-white">Autonomic Recovery Cadence:</strong> Schedule 15-min quiet disconnect blocks during peak load.</li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Maintain consistent HRV and decision latency under deadline pressure.</li>
+                            <li><strong class="text-white">Adversarial Red-Teaming:</strong> Appoint a teammate to deliberately stress-test your plans before launch.</li>
+                            <li><strong class="text-white">Autonomic Recovery Cadence:</strong> Schedule two 15-minute quiet disconnect blocks during peak load days.</li>
+                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Maintain calm breathing and clarity under pressure without physical exhaustion.</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- SCIENTIFIC ANNEXURE -->
+            <!-- SCIENTIFIC ANNEXURE & MINDSET DEFINITION -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white">Scientific Annexure & Dimensional Architecture</h3>
-                    <p class="text-xs text-slate-400">Theoretical foundation and cognitive behavioral criteria of the CogniMorph Index™.</p>
+                    <p class="text-xs text-slate-400">The validated science behind the CogniMorph Index™ framework.</p>
                 </div>
                 
                 <div class="text-xs text-slate-300 space-y-4 leading-relaxed">
                     <div>
-                        <h4 class="font-bold text-indigo-300">1. Proprietary Mindset Definition</h4>
-                        <p class="mt-1">
-                            <em>Mindset is an individual’s internal cognitive operating architecture—a dynamic, neuro-adaptable framework of implicit assumptions that governs how the brain filters reality, metabolizes error and friction, translates autonomic stress into execution stamina, and decodes evaluative signals from the environment into strategic action.</em>
+                        <h4 class="font-bold text-indigo-300 text-sm">1. Authentic Mindset Definition</h4>
+                        <p class="mt-1 bg-slate-950 border border-slate-800 p-3.5 rounded-xl italic text-slate-200">
+                            "Mindset is an individual’s internal cognitive operating architecture—a dynamic, self-adapting network of implicit assumptions that determines how the brain interprets challenge, metabolizes mistakes into insight, converts physical stress into execution stamina, and translates evaluative feedback into continuous capability growth."
                         </p>
                     </div>
 
-                    <div>
-                        <h4 class="font-bold text-indigo-300">2. Dimensional Subscales</h4>
-                        <ul class="mt-1.5 space-y-2 list-disc list-inside">
-                            <li><strong>Cognitive Plasticity & Epistemic Flexibility (CPEF):</strong> Belief in dynamic synaptic capacity vs static talent limits; willingness to restructure mental models.</li>
-                            <li><strong>Error Salience & Limbic Friction Tolerance (ESLFT):</strong> Conscious error appraisal (Error Positivity / Pe waveform) and dopamine-effort pairing during unmastered tasks.</li>
-                            <li><strong>Psychophysiological Stress & Allostatic Valence (PSAV):</strong> Cognitive appraisal of autonomic arousal as metabolic energy mobilization rather than toxic distress.</li>
-                            <li><strong>Decentered Evaluation & Synergistic Growth (DESG):</strong> Decoupling personal identity from critical feedback and leveraging peer mastery as an operational blueprint.</li>
-                        </ul>
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-indigo-300 text-sm">2. Why These 4 Dimensions Matter to Leaders</h4>
+                        
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <strong class="text-slate-200">Mental Adaptability (CPEF):</strong>
+                            <p class="mt-0.5 text-slate-400">Your belief in brain plasticity. Decades of neuroscience prove that tackling hard tasks builds new physical connections in the brain. Leaders who score high on this never hit a plateau because they view learning curves as growth opportunities.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <strong class="text-slate-200">Mistake Recovery & Grit (ESLFT):</strong>
+                            <p class="mt-0.5 text-slate-400">How your brain handles failure. When high scorers make an error, their brain immediately releases a specific electrical wave (Error Positivity / Pe) that shifts their attention to diagnosing what happened, rather than feeling ashamed or defeated.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <strong class="text-slate-200">Composure Under Pressure (PSAV):</strong>
+                            <p class="mt-0.5 text-slate-400">Your stress appraisal system. When high-stakes deadlines arrive, your pulse speeds up. High scorers interpret this heartbeat as oxygen and energy rushing to the brain, giving them razor-sharp focus under pressure.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+                            <strong class="text-slate-200">Feedback & Peer Learning (DESG):</strong>
+                            <p class="mt-0.5 text-slate-400">Decoupling ego from work. This measures your ability to separate your personal identity from your project output. High scorers welcome critique because they see it purely as free calibration data.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -453,7 +502,7 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white">CogniMorph Index™ AI Coach</h3>
-                            <p class="text-[11px] text-slate-400">Powered by Gemini 3.6 Flash • Discuss your report, benchmark standing, and growth strategy</p>
+                            <p class="text-[11px] text-slate-400">Powered by Gemini 3.6 Flash • Ask any question about your scores, comparisons, or career execution</p>
                         </div>
                     </div>
                     <span class="text-[10px] font-mono px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
@@ -466,7 +515,7 @@
                     <div class="flex gap-2.5 items-start">
                         <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
                         <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">
-                            Hello! I’ve reviewed your complete CogniMorph Index™ diagnostic and benchmark percentiles. What would you like to deconstruct or practice?
+                            Hello! I’ve reviewed your complete CogniMorph Index™ diagnostic and benchmark percentiles. What would you like to explore or practice first?
                         </div>
                     </div>
                 </div>
@@ -496,7 +545,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- AUTH & UNLOCK MODAL DIALOG -->
+    <!-- AUTH & UNLOCK MODAL DIALOG (CONFIDENTIAL PLACEHOLDER) -->
     <!-- ========================================================================= -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
@@ -504,7 +553,7 @@
             
             <div class="space-y-1">
                 <h3 id="modal-title" class="text-base font-bold text-white">Unlock Executive Assessment</h3>
-                <p class="text-xs text-slate-400">Sign in with your work email or enter your Passkey. Standard sessions remain active for 3 hours.</p>
+                <p class="text-xs text-slate-400">Sign in with your work email or enter your corporate passkey. Your session remains active for 3 hours with real-time auto-save.</p>
             </div>
 
             <div class="space-y-3">
@@ -514,7 +563,8 @@
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Access Passkey / Corporate Voucher</label>
-                    <input type="text" id="modal-passkey" placeholder="e.g. DEMO2026 or MASTER2026" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    <!-- Confidential placeholder without revealing real keys -->
+                    <input type="text" id="modal-passkey" placeholder="Enter 8-digit access key or voucher" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
                 <button onclick="submitAuthModal()" id="modal-submit-btn" class="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/20">
                     Verify & Activate 3-Hour Session
@@ -540,34 +590,70 @@
         let currentUser = JSON.parse(localStorage.getItem("cognimorph_user") || 'null');
         let sessionTimerInterval = null;
 
-        const dimensions = [
-            { id: 'CPEF', plainName: 'Mental Adaptability & Learning Curve', desc: 'Belief in dynamic synaptic capacity vs static talent limits. You treat capability as malleable.' },
-            { id: 'ESLFT', plainName: 'Mistake Recovery & Problem Grit', desc: 'Conscious error appraisal (Pe response) and persistence through friction without ego bruises.' },
-            { id: 'PSAV', plainName: 'Composure Under Pressure', desc: 'Cognitive framing of acute physiological stress as metabolic readiness and enhanced focus.' },
-            { id: 'DESG', plainName: 'Feedback & Peer Learning', desc: 'Decoupling self-worth from critical feedback and treating peer mastery as an operational blueprint.' }
+        // SIMPLIFIED, HUMANIZED 20-QUESTION INSTRUMENT
+        const questions = [
+            // CPEF (1 - 5)
+            { id: 1, dim: 'CPEF', text: "I believe that anyone can master difficult new skills and complex topics if they dedicate focused time and practice, regardless of their natural talent.", rev: false },
+            { id: 2, dim: 'CPEF', text: "When someone struggles to learn a new tool or concept, it usually means they have reached the limit of their natural intelligence.", rev: true },
+            { id: 3, dim: 'CPEF', text: "Exceptional creativity and problem-solving abilities come from consistent practice and learning, not from being born a genius.", rev: false },
+            { id: 4, dim: 'CPEF', text: "A person's core thinking ability and mental sharpness are mostly set in stone once they reach adulthood.", rev: true },
+            { id: 5, dim: 'CPEF', text: "Pushing myself to work on unfamiliar, difficult problems fundamentally makes my brain sharper and more adaptable.", rev: false },
+
+            // ESLFT (6 - 10)
+            { id: 6, dim: 'ESLFT', text: "When a plan or project fails, my first instinct is curiosity to understand what went wrong and how to fix it.", rev: false },
+            { id: 7, dim: 'ESLFT', text: "Making a visible mistake in front of colleagues or managers makes me feel like I am not good enough at my job.", rev: true },
+            { id: 8, dim: 'ESLFT', text: "I enjoy taking on challenging projects with steep learning curves because the struggle is where I grow the most.", rev: false },
+            { id: 9, dim: 'ESLFT', text: "I prefer sticking to routine tasks that I know I can do smoothly without making any mistakes.", rev: true },
+            { id: 10, dim: 'ESLFT', text: "When I get completely stuck on a problem, it means I need to try a different approach, not that I lack the intelligence to solve it.", rev: false },
+
+            // PSAV (11 - 15)
+            { id: 11, dim: 'PSAV', text: "When I feel energized or nervous before a big deadline, I treat that adrenaline as extra fuel to help me perform at my best.", rev: false },
+            { id: 12, dim: 'PSAV', text: "Working under tight deadlines and heavy workplace pressure quickly clouds my thinking and lowers the quality of my work.", rev: true },
+            { id: 13, dim: 'PSAV', text: "Navigating workplace changes and unexpected disruptions helps me become a stronger and more resourceful professional.", rev: false },
+            { id: 14, dim: 'PSAV', text: "When work becomes chaotic and unpredictable, I feel overwhelmed and find it very hard to focus.", rev: true },
+            { id: 15, dim: 'PSAV', text: "High-stakes challenges and intense situations bring out my best focus and help me solve problems faster.", rev: false },
+
+            // DESG (16 - 20)
+            { id: 16, dim: 'DESG', text: "I view direct, critical feedback on my work as helpful information to improve, not as a personal insult or attack.", rev: false },
+            { id: 17, dim: 'DESG', text: "When a teammate outperforms me in my core area of work, it secretly makes me feel insecure or inadequate.", rev: true },
+            { id: 18, dim: 'DESG', text: "I actively ask for feedback from people who disagree with me so I can uncover my own blind spots.", rev: false },
+            { id: 19, dim: 'DESG', text: "When someone publicly questions my ideas in a meeting, my immediate reaction is to defend myself rather than listen to their point.", rev: true },
+            { id: 20, dim: 'DESG', text: "Seeing a colleague excel at something inspires me to learn from their methods and upgrade my own skills.", rev: false }
         ];
 
-        const questions = [
-            { id: 1, dim: 'CPEF', text: "An individual’s capacity to master highly complex analytical domains can be continually re-architected through deliberate cognitive strain, regardless of their starting aptitude.", rev: false },
-            { id: 2, dim: 'CPEF', text: "When an employee repeatedly struggles to grasp an advanced operational model, it demonstrates that their natural intellectual boundary has been reached.", rev: true },
-            { id: 3, dim: 'CPEF', text: "Advanced strategic and creative insight is primarily the result of sustained neural adaptation through focused training rather than inherited talent.", rev: false },
-            { id: 4, dim: 'CPEF', text: "Critical executive aptitudes, such as complex pattern recognition and abstract reasoning, are fixed by adulthood and cannot be significantly expanded.", rev: true },
-            { id: 5, dim: 'CPEF', text: "Actively grappling with unfamiliar problem structures permanently alters and enhances my problem-solving frameworks.", rev: false },
-            { id: 6, dim: 'ESLFT', text: "When I encounter an execution breakdown, my immediate reaction is analytical curiosity regarding which procedural parameter malfunctioned.", rev: false },
-            { id: 7, dim: 'ESLFT', text: "Making an unexpected error in a high-visibility project feels like direct evidence of professional deficiency.", rev: true },
-            { id: 8, dim: 'ESLFT', text: "I intentionally take on tasks with steep learning curves because the internal friction experienced during struggle is where capability expands.", rev: false },
-            { id: 9, dim: 'ESLFT', text: "I prefer working on tasks with established procedures where predictable outcomes and minimal errors are guaranteed.", rev: true },
-            { id: 10, dim: 'ESLFT', text: "Hitting an impasse on a strategic initiative indicates that my mental model requires recalibration, not that I lack the ability to resolve it.", rev: false },
-            { id: 11, dim: 'PSAV', text: "I view heightened physiological arousal (such as rapid pulse or intense focus before a high-stakes delivery) as the body mobilizing energy for peak execution.", rev: false },
-            { id: 12, dim: 'PSAV', text: "Intense operational friction and workplace pressure inevitably deplete my judgment and degrade the quality of my output.", rev: true },
-            { id: 13, dim: 'PSAV', text: "Navigating continuous organizational volatility and ambiguous constraints builds adaptive operational capability.", rev: false },
-            { id: 14, dim: 'PSAV', text: "When project demands become chaotic, my ability to think clearly declines rapidly.", rev: true },
-            { id: 15, dim: 'PSAV', text: "Cognitive tension and high-stakes demands help sharpen my concentration and accelerate tactical problem-solving.", rev: false },
-            { id: 16, dim: 'DESG', text: "I treat direct, critical scrutiny of my work as diagnostic calibration data rather than an attack on my professional standing.", rev: false },
-            { id: 17, dim: 'DESG', text: "When a colleague achieves superior execution in my primary functional area, it triggers feelings of professional vulnerability.", rev: true },
-            { id: 18, dim: 'DESG', text: "I actively seek out performance feedback from individuals whose perspectives challenge my conclusions to uncover operational blind spots.", rev: false },
-            { id: 19, dim: 'DESG', text: "When my proposals are challenged in open forums, my initial physiological response is to defend my position rather than examine alternative premises.", rev: true },
-            { id: 20, dim: 'DESG', text: "Observing a colleague demonstrate superior mastery motivates me to study their workflow and integrate their methods into my own.", rev: false }
+        const dimensions = [
+            { 
+                id: 'CPEF', 
+                plainName: 'Mental Adaptability & Learning Curve',
+                whatItIs: 'Your belief in whether your brain and capabilities can physically grow through practice versus being fixed at birth.',
+                highImpact: 'You boldly tackle new industries, complex software, and unfamiliar domains without fear. You learn exponentially faster than peers.',
+                lowImpact: 'You may stay inside your safe zone and avoid new challenges because struggling feels like proof of low natural ability.',
+                actionTip: 'Spend 45 minutes weekly learning a completely unfamiliar topic just to build your mental adaptability muscle.'
+            },
+            { 
+                id: 'ESLFT', 
+                plainName: 'Mistake Recovery & Problem Grit',
+                whatItIs: 'How your mind handles operational failure, unexpected roadblocks, and difficult friction.',
+                highImpact: 'Mistakes don’t shake your self-esteem. You immediately switch into diagnosis mode to fix the broken process.',
+                lowImpact: 'Mistakes feel like a public humiliation. You may hide errors, blame others, or hesitate to try bold ideas.',
+                actionTip: 'Run a 5-minute error postmortem after every mistake. Look at what process broke down, not who is to blame.'
+            },
+            { 
+                id: 'PSAV', 
+                plainName: 'Composure Under Pressure',
+                whatItIs: 'How you mentally interpret stress hormones (adrenaline, rapid pulse) under high-stakes deadlines.',
+                highImpact: 'You convert pressure into hyper-focus. Deadlines energize you rather than paralyzing your judgment.',
+                lowImpact: 'Urgent demands and ambiguity trigger cognitive freezing and rapid mental exhaustion.',
+                actionTip: 'Use the 2-breath physiological sigh (two quick inhales through the nose, long exhale through mouth) to instantly reset your nervous system.'
+            },
+            { 
+                id: 'DESG', 
+                plainName: 'Feedback & Peer Learning',
+                whatItIs: 'Your ability to separate your personal self-worth from critical feedback and peer performance.',
+                highImpact: 'You view critique as free consulting data and study top-performing peers to copy their winning methods.',
+                lowImpact: 'You get defensive when challenged in meetings and feel threatened when a colleague gets executive praise.',
+                actionTip: 'Use the 3-second pause: when critiqued, pause and say "Walk me through your perspective" instead of defending yourself.'
+            }
         ];
 
         let answers = {};
@@ -580,7 +666,7 @@
             updateUserUI();
         });
 
-        // 3-HOUR SESSION MANAGEMENT & AUTO-SAVE
+        // 3-HOUR SESSION TIMER & HARDENED ANTI-CAPTURE SHIELD
         function startSessionTimer(expiryTimestamp) {
             if (sessionTimerInterval) clearInterval(sessionTimerInterval);
             const badge = document.getElementById('session-timer-badge');
@@ -592,7 +678,7 @@
                 const distance = expiryTimestamp - Date.now();
                 if (distance <= 0) {
                     clearInterval(sessionTimerInterval);
-                    textEl.innerText = "SESSION EXPIRED";
+                    textEl.innerText = "EXPIRED";
                     alert("Your 3-hour access session has ended.");
                     logoutUser();
                     return;
@@ -614,7 +700,8 @@
                 answers: answers,
                 view: !document.getElementById('report-view').classList.contains('hidden') ? 'report' : 
                       !document.getElementById('quiz-view').classList.contains('hidden') ? 'quiz' : 'intro',
-                computedResults: computedResults
+                computedResults: computedResults,
+                isCompleted: !document.getElementById('report-view').classList.contains('hidden')
             };
             localStorage.setItem("cognimorph_saved_state", JSON.stringify(state));
         }
@@ -622,7 +709,6 @@
         function restoreSavedSessionState() {
             if (!currentUser) return;
             
-            // Check Expiry
             if (currentUser.sessionExpiry && Date.now() > currentUser.sessionExpiry) {
                 logoutUser();
                 return;
@@ -645,24 +731,60 @@
             }
 
             if (currentUser.isDemo) {
-                applyDemoProtections();
+                activateHardenedDemoShield();
             }
         }
 
-        function applyDemoProtections() {
+        function activateHardenedDemoShield() {
             document.getElementById('demo-watermark-layer').classList.remove('hidden');
             document.getElementById('app-body').classList.add('demo-protected');
             document.getElementById('export-pdf-btn').classList.add('hidden');
-            document.getElementById('assessment-mode-badge').innerText = "Demo Mode (Read Only)";
+            document.getElementById('assessment-mode-badge').innerText = "Demo Mode (Capture Blocked)";
             document.getElementById('assessment-mode-badge').className = "text-[10px] font-mono text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2.5 py-1 rounded-full";
-            
-            // Disable right click and print shortcut
+
+            // 1. Right Click Blocker
             document.addEventListener('contextmenu', e => e.preventDefault());
+
+            // 2. Keyboard Shortcut Blocker (PrintScreen, Win+Shift+S, Cmd+Shift+3/4/5, Ctrl+P, F12)
             window.addEventListener('keydown', e => {
-                if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's')) {
+                if (
+                    e.key === 'PrintScreen' ||
+                    ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's' || e.key === 'u' || e.key === 'c')) ||
+                    ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'S' || e.key === 's' || e.key === '3' || e.key === '4' || e.key === '5')) ||
+                    e.keyCode === 44 || e.keyCode === 123
+                ) {
                     e.preventDefault();
+                    triggerSecurityBlur();
+                    return false;
                 }
             });
+
+            // 3. Screen Obfuscation on Window Defocus / Snipping Tool Detection
+            window.addEventListener('blur', () => {
+                triggerSecurityBlur();
+            });
+            window.addEventListener('focus', () => {
+                clearSecurityBlur();
+            });
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    triggerSecurityBlur();
+                } else {
+                    clearSecurityBlur();
+                }
+            });
+        }
+
+        function triggerSecurityBlur() {
+            if (!currentUser || !currentUser.isDemo) return;
+            document.getElementById('app-body').classList.add('demo-blur-active');
+            document.getElementById('defocus-warning').classList.remove('hidden');
+        }
+
+        function clearSecurityBlur() {
+            if (!currentUser || !currentUser.isDemo) return;
+            document.getElementById('app-body').classList.remove('demo-blur-active');
+            document.getElementById('defocus-warning').classList.add('hidden');
         }
 
         // VIEW ROUTING
@@ -682,15 +804,16 @@
                 document.getElementById('assessment-view-container').classList.remove('hidden');
                 
                 const saved = JSON.parse(localStorage.getItem("cognimorph_saved_state") || 'null');
-                if (saved && saved.view === 'quiz') {
-                    document.getElementById('intro-view').classList.add('hidden');
-                    document.getElementById('quiz-view').classList.remove('hidden');
-                    renderQuestions();
-                } else if (saved && saved.view === 'report') {
+                if (saved && saved.isCompleted) {
+                    // Assessment already generated -> Lock to report view permanently (No retakes)
                     document.getElementById('intro-view').classList.add('hidden');
                     document.getElementById('quiz-view').classList.add('hidden');
                     document.getElementById('report-view').classList.remove('hidden');
                     displayRestoredReport(saved.computedResults);
+                } else if (saved && saved.view === 'quiz') {
+                    document.getElementById('intro-view').classList.add('hidden');
+                    document.getElementById('quiz-view').classList.remove('hidden');
+                    renderQuestions();
                 } else {
                     document.getElementById('intro-view').classList.remove('hidden');
                 }
@@ -709,11 +832,11 @@
             const btn = document.getElementById('modal-submit-btn');
 
             if (!email && !passKey) {
-                alert("Please provide an email or access passkey.");
+                alert("Please provide an email address or an access key.");
                 return;
             }
 
-            btn.innerText = "Verifying License...";
+            btn.innerText = "Verifying Access...";
             btn.disabled = true;
 
             try {
@@ -742,7 +865,6 @@
                     alert("Invalid access key. Please verify.");
                 }
             } catch (err) {
-                // Offline fallback
                 const isDemo = passKey.toUpperCase() === "DEMO2026";
                 currentUser = {
                     email: email || "user@organization.com",
@@ -792,7 +914,7 @@
             const role = document.getElementById('userRole').value.trim();
 
             if (!name || !email) {
-                alert("Please enter both your name and email.");
+                alert("Please enter both your name and professional email.");
                 return;
             }
 
@@ -805,34 +927,26 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function restartAll() {
-            answers = {};
-            conversationHistory = [];
-            localStorage.removeItem("cognimorph_saved_state");
-            document.getElementById('report-view').classList.add('hidden');
-            document.getElementById('intro-view').classList.remove('hidden');
-        }
-
         function renderQuestions() {
             const container = document.getElementById('questions-list');
             container.innerHTML = '';
 
             questions.forEach((q) => {
                 const card = document.createElement('div');
-                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3";
+                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 sm:p-5 space-y-3";
                 card.id = `q-${q.id}`;
 
                 const selectedVal = answers[q.id];
 
                 card.innerHTML = `
                     <div class="flex justify-between items-center text-[10px] font-mono text-indigo-400">
-                        <span>ITEM ${q.id.toString().padStart(2, '0')} / 20</span>
+                        <span>QUESTION ${q.id.toString().padStart(2, '0')} / 20</span>
                         <span class="text-slate-500 uppercase">${q.dim}</span>
                     </div>
                     <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">${q.text}</p>
                     <div class="grid grid-cols-6 gap-1 pt-1">
                         ${[1, 2, 3, 4, 5, 6].map(val => `
-                            <button type="button" onclick="selectAnswer(${q.id}, ${val})" class="opt-btn-${q.id} py-1.5 text-center rounded border ${selectedVal === val ? 'border-indigo-500 bg-indigo-600/30 text-indigo-200 font-bold' : 'border-slate-800 bg-slate-950 text-slate-400'} text-xs transition">
+                            <button type="button" onclick="selectAnswer(${q.id}, ${val})" class="opt-btn-${q.id} py-2 text-center rounded-lg border ${selectedVal === val ? 'border-indigo-500 bg-indigo-600/30 text-indigo-200 font-bold' : 'border-slate-800 bg-slate-950 text-slate-400'} text-xs transition hover:border-slate-600">
                                 ${val}
                             </button>
                         `).join('')}
@@ -848,9 +962,9 @@
             const buttons = document.querySelectorAll(`.opt-btn-${qId}`);
             buttons.forEach((btn, idx) => {
                 if (idx + 1 === val) {
-                    btn.className = `opt-btn-${qId} py-1.5 text-center rounded border border-indigo-500 bg-indigo-600/30 text-indigo-200 text-xs font-bold transition`;
+                    btn.className = `opt-btn-${qId} py-2 text-center rounded-lg border border-indigo-500 bg-indigo-600/30 text-indigo-200 text-xs font-bold transition`;
                 } else {
-                    btn.className = `opt-btn-${qId} py-1.5 text-center rounded border border-slate-800 bg-slate-950 text-slate-400 text-xs transition`;
+                    btn.className = `opt-btn-${qId} py-2 text-center rounded-lg border border-slate-800 bg-slate-950 text-slate-400 text-xs transition`;
                 }
             });
             saveCurrentState();
@@ -884,12 +998,10 @@
 
             const gni = Math.round((((totalTransformed - 20) / 100) * 100) * 10) / 10;
 
-            // Comparative Benchmark Logic
-            // Cohort: Simulated against repository mean 71.5, SD 14.2
+            // Benchmarks Calculation
             let zCohort = (gni - 71.5) / 14.2;
             let cohortPct = Math.min(99, Math.max(1, Math.round((1 / (1 + Math.exp(-1.7 * zCohort))) * 100)));
 
-            // Global Standards: Meta-norm mean 68.4, SD 12.5
             let zGlobal = (gni - 68.4) / 12.5;
             let globalPct = Math.min(99, Math.max(1, Math.round((1 / (1 + Math.exp(-1.7 * zGlobal))) * 100)));
 
@@ -898,10 +1010,10 @@
 
             if (gni >= 80.0) {
                 archetype = "Dynamic Neuro-Strategist";
-                summary = "You demonstrate exceptional cognitive plasticity, treat operational friction as an analytical asset, and frame stress as metabolic execution fuel.";
+                summary = "You demonstrate exceptional mental agility, turn mistakes into diagnostic insight, convert pressure into execution energy, and welcome critical evaluation.";
             } else if (gni >= 65.0) {
                 archetype = "Adaptive Growth Practitioner";
-                summary = "Solid baseline belief in continuous capability development; highly resilient with occasional status defensiveness under intense visibility.";
+                summary = "Solid baseline belief in continuous capability growth; highly resilient with occasional defensive hesitation when facing public scrutiny.";
             } else if (gni >= 50.0) {
                 archetype = "Cautious Incrementalist";
                 summary = "Growth endorsed conceptually, but tactical execution leans toward lower-risk, predictable tasks under heavy organizational friction.";
@@ -915,7 +1027,7 @@
 
             displayRestoredReport(computedResults);
 
-            // Log Data & Dispatch Email
+            // Transmit to Google Apps Script (Saves to sheet + Auto-emails PDF)
             fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -947,7 +1059,10 @@
             document.getElementById('rep-archetype').innerText = res.archetype;
             document.getElementById('rep-summary').innerText = res.summary;
 
-            // Benchmarks
+            // Render Deep Profile Narrative with Examples and Brain Facts
+            renderElaboratedProfileNarrative(res.archetype, res.gni);
+
+            // Comparative Benchmarks
             document.getElementById('rep-cohort-percentile').innerText = `Top ${100 - res.cohortPct}%`;
             document.getElementById('rep-cohort-pct-text').innerText = `${res.cohortPct}%`;
             document.getElementById('rep-cohort-bar').style.width = `${res.cohortPct}%`;
@@ -955,24 +1070,28 @@
             document.getElementById('rep-global-percentile').innerText = `${res.globalPct}th Percentile`;
             document.getElementById('rep-global-bar').style.width = `${res.globalPct}%`;
 
-            // Plain-Language Breakdown
-            const plainGrid = document.getElementById('plain-dim-grid');
-            plainGrid.innerHTML = '';
+            // Detailed Subscale Grid
+            const subscaleGrid = document.getElementById('detailed-subscales-grid');
+            subscaleGrid.innerHTML = '';
             dimensions.forEach(d => {
                 const score = res.dimIndices[d.id];
                 const card = document.createElement('div');
-                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2 print-card";
+                card.className = "bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3 print-card";
                 card.innerHTML = `
                     <div class="flex justify-between items-center">
                         <span class="text-xs font-bold text-slate-200">${d.plainName}</span>
-                        <span class="font-mono font-bold text-xs ${score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-amber-400' : 'text-rose-400'}">${score}%</span>
+                        <span class="font-mono font-bold text-xs ${score >= 75 ? 'text-emerald-400' : score >= 55 ? 'text-amber-400' : 'text-rose-400'}">${score}%</span>
                     </div>
                     <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                        <div class="h-full ${score >= 80 ? 'bg-emerald-500' : score >= 60 ? 'bg-amber-500' : 'bg-rose-500'}" style="width: ${score}%"></div>
+                        <div class="h-full ${score >= 75 ? 'bg-emerald-500' : score >= 55 ? 'bg-amber-500' : 'bg-rose-500'}" style="width: ${score}%"></div>
                     </div>
-                    <p class="text-[11px] text-slate-300 leading-relaxed">${d.desc}</p>
+                    <div class="text-[11px] text-slate-300 space-y-1.5 leading-relaxed pt-1">
+                        <p><strong class="text-slate-400">What It Is:</strong> ${d.whatItIs}</p>
+                        <p><strong class="text-indigo-300">How It Impacts You:</strong> ${score >= 65 ? d.highImpact : d.lowImpact}</p>
+                        <p class="text-[10px] text-emerald-400 bg-emerald-950/40 p-2 rounded border border-emerald-900/50"><strong>Action Focus:</strong> ${d.actionTip}</p>
+                    </div>
                 `;
-                plainGrid.appendChild(card);
+                subscaleGrid.appendChild(card);
             });
 
             document.getElementById('quiz-view').classList.add('hidden');
@@ -980,6 +1099,77 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             renderRadar(res.dimIndices);
+        }
+
+        function renderElaboratedProfileNarrative(archetype, score) {
+            const container = document.getElementById('arch-narrative-body');
+            const titleEl = document.getElementById('arch-narrative-title');
+            titleEl.innerText = `Operating Profile: ${archetype} (${score}/100)`;
+
+            if (archetype === "Fixed-Defensive Conserver") {
+                container.innerHTML = `
+                    <p>
+                        <strong>What This Means in Everyday Work:</strong> You currently operate with a "protection-first" mindset. When a major project requires using a totally unfamiliar tool or taking on high ambiguity, your subconscious instinct says: <em>"I'm not good at this, and trying it will expose my weaknesses."</em> As a result, you tend to stick to familiar routines where you know you won't make mistakes.
+                    </p>
+                    <p>
+                        <strong>Relatable Workplace Example:</strong> Imagine your company introduces a complex new AI workflow. Instead of diving in and experimenting, you might wait for others to figure it out first because making public errors feels like an attack on your professional credibility.
+                    </p>
+                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-[11px] text-slate-300">
+                            Neuroscientists studying London taxi drivers found that memorizing 25,000 streets physically enlarged their hippocampus well into their 50s. Your brain is not a static computer chip—it is living clay. Every time you struggle with a hard problem, your brain creates new physical synaptic branches.
+                        </p>
+                    </div>
+                    <p>
+                        <strong>Your Immediate Breakthrough Strategy:</strong> Pick one low-risk task this week where you have zero experience. Give yourself explicit permission to fail three times while learning it. This retrains your threat-detection circuits to see struggle as growth.
+                    </p>
+                `;
+            } else if (archetype === "Cautious Incrementalist") {
+                container.innerHTML = `
+                    <p>
+                        <strong>What This Means in Everyday Work:</strong> You believe in growth and learning in theory, but when real workplace pressure hits, you play it safe. You are reliable and deliver quality work in your comfort zone, but you hesitate to volunteer for high-visibility assignments where the risk of public failure is high.
+                    </p>
+                    <p>
+                        <strong>Relatable Workplace Example:</strong> If asked to lead an urgent, ambiguous strategic initiative, you might over-plan for weeks to avoid making any mistakes, occasionally missing the window for rapid, decisive execution.
+                    </p>
+                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-[11px] text-slate-300">
+                            Your brain releases dopamine not just when you win, but when you overcome friction. By avoiding difficult struggle, you unintentionally deprive your neural reward pathways of the deep satisfaction that comes from mastering hard obstacles.
+                        </p>
+                    </div>
+                `;
+            } else if (archetype === "Adaptive Growth Practitioner") {
+                container.innerHTML = `
+                    <p>
+                        <strong>What This Means in Everyday Work:</strong> You have a strong, resilient cognitive operating system. You actively embrace tough challenges and bounce back from operational errors with speed. Your main growth area is subtle: during intense executive reviews or public meetings, unexpected critique can still trigger a brief defensive reaction.
+                    </p>
+                    <p>
+                        <strong>Relatable Workplace Example:</strong> When a colleague questions your strategy in an all-hands meeting, your first 5-second reaction is to defend your stance rather than calmly asking them to elaborate on their data.
+                    </p>
+                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-[11px] text-slate-300">
+                            When someone challenges our ideas, the brain's amygdala lights up with the exact same neural threat response as physical danger. High-performing leaders train their prefrontal cortex to override this threat response within 3 seconds.
+                        </p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <p>
+                        <strong>What This Means in Everyday Work:</strong> You operate at the frontier of cognitive adaptability. You treat mistakes like valuable software bug reports, convert high-pressure deadlines into razor-sharp focus, and treat exceptional colleagues as free masterclasses rather than competitors.
+                    </p>
+                    <p>
+                        <strong>Relatable Workplace Example:</strong> When a multimillion-dollar initiative hits a sudden crisis, while others panic, you calmly ask: <em>"What variables failed, what does the data tell us, and how do we pivot immediately?"</em>
+                    </p>
+                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">🧠 Fascinating Brain Science Fact</span>
+                        <p class="text-[11px] text-slate-300">
+                            EEG studies reveal that individuals with your profile generate an unusually large brainwave called the <strong>Error Positivity (Pe) wave</strong> within 200 milliseconds of making an error. Your brain literally prioritizes diagnostic learning over emotional distress.
+                        </p>
+                    </div>
+                `;
+            }
         }
 
         function renderRadar(indices) {
@@ -1031,7 +1221,7 @@
             ctx.stroke();
         }
 
-        // AI COACH ENGINE
+        // AI COACH PROXY
         function sendQuickPrompt(promptText) {
             document.getElementById('chatInput').value = promptText;
             sendMessage();
@@ -1084,7 +1274,7 @@
                     conversationHistory.push({ role: "model", parts: [{ text: resData.reply }] });
                     document.getElementById(typingId).innerHTML = formatMarkdown(resData.reply);
                 } else {
-                    document.getElementById(typingId).innerText = resData.message || resData.reply || "Error retrieving response.";
+                    document.getElementById(typingId).innerText = resData.message || resData.reply || "Error retrieving AI response.";
                 }
             } catch (err) {
                 document.getElementById(typingId).innerText = "Gateway connection error: " + err.message;
