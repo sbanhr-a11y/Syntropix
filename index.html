@@ -17,49 +17,58 @@
         }
     </script>
     <style>
-        /* Anti-Screenshot, Anti-Capture & Demo Security Layer */
+        /* Enterprise Anti-Capture, Anti-Copy & Defocus Shield */
         .demo-protected {
-            user-select: none !important;
             -webkit-user-select: none !important;
             -moz-user-select: none !important;
             -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-touch-callout: none !important;
         }
-        .demo-blur-active {
-            filter: blur(28px) grayscale(100%) !important;
-            transition: filter 0.15s ease-in-out;
-            pointer-events: none !important;
+
+        /* Blackout Shield Layer (Fires when screenshot/snipping tool steals focus) */
+        .demo-blackout-active {
+            visibility: hidden !important;
+            opacity: 0 !important;
+            filter: blur(40px) brightness(0) !important;
+            transition: none !important;
         }
-        .demo-watermark {
+
+        .demo-watermark-grid {
             position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 9998;
             background: repeating-linear-gradient(
-                -35deg,
-                rgba(244, 63, 94, 0.05),
-                rgba(244, 63, 94, 0.05) 80px,
-                rgba(0, 0, 0, 0) 80px,
-                rgba(0, 0, 0, 0) 160px
+                -30deg,
+                rgba(244, 63, 94, 0.04),
+                rgba(244, 63, 94, 0.04) 70px,
+                rgba(0, 0, 0, 0) 70px,
+                rgba(0, 0, 0, 0) 140px
             );
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .demo-watermark-text {
+
+        .demo-watermark-badge {
             transform: rotate(-25deg);
-            font-size: 2.25rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            color: rgba(244, 63, 94, 0.15);
+            color: rgba(244, 63, 94, 0.14);
             text-transform: uppercase;
             letter-spacing: 0.25em;
             text-align: center;
+            line-height: 1.6;
         }
+
+        /* Complete Media Print Destruction */
         @media print {
-            .no-print { display: none !important; }
-            .demo-print-block { display: none !important; }
-            body { background: white !important; color: black !important; }
-            .print-card { border: 1px solid #cbd5e1 !important; box-shadow: none !important; background: white !important; }
-            .print-text-dark { color: #0f172a !important; }
+            html, body {
+                display: none !important;
+                background: #000000 !important;
+                visibility: hidden !important;
+            }
         }
     </style>
 </head>
@@ -70,17 +79,26 @@
         const PAYMENT_GATEWAY_URL = "https://rzp.io/l/your-assessment-pass"; 
     </script>
 
-    <!-- Demo Watermark Overlay Layer -->
-    <div id="demo-watermark-layer" class="hidden demo-watermark">
-        <div class="demo-watermark-text">DEMO EVALUATION • READ ONLY • CAPTURE BLOCKED</div>
+    <!-- Forensic Watermark Grid -->
+    <div id="demo-watermark-layer" class="hidden demo-watermark-grid">
+        <div class="demo-watermark-badge" id="watermark-text-display">
+            DEMO EVALUATION<br>READ ONLY • CAPTURE BLOCKED
+        </div>
     </div>
 
-    <!-- Defocus Capture Warning Banner -->
-    <div id="defocus-warning" class="hidden fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-6 text-center">
-        <div class="bg-slate-900 border border-rose-800 p-6 rounded-2xl max-w-sm space-y-3">
-            <div class="w-10 h-10 rounded-full bg-rose-950 text-rose-400 flex items-center justify-center mx-auto font-bold text-lg">🛡️</div>
-            <h3 class="text-sm font-bold text-white">Security Protection Active</h3>
-            <p class="text-xs text-slate-400">Demo mode is read-only. Screen captures, window switching, and copying are restricted. Click back into this window to resume.</p>
+    <!-- Active Defocus / Screen Capture Intercept Screen -->
+    <div id="capture-shield-overlay" class="hidden fixed inset-0 bg-slate-950 z-[9999] flex flex-col items-center justify-center p-6 text-center">
+        <div class="bg-slate-900 border border-rose-800/80 p-8 rounded-2xl max-w-md space-y-4 shadow-2xl">
+            <div class="w-12 h-12 rounded-full bg-rose-950/80 border border-rose-700 text-rose-400 flex items-center justify-center mx-auto text-xl font-bold">
+                🛡️
+            </div>
+            <h3 class="text-base font-bold text-white uppercase tracking-wider">Security Protection Active</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Screen capture shortcuts, recording tools, and window defocus are blocked in demo mode. Content is temporarily hidden to protect proprietary diagnostic data.
+            </p>
+            <button onclick="clearCaptureShield()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition">
+                Click to Resume Diagnostic
+            </button>
         </div>
     </div>
 
@@ -122,11 +140,8 @@
         </div>
     </header>
 
-    <!-- ========================================================================= -->
-    <!-- VIEW 1: UNIFIED EXECUTIVE SUITE DASHBOARD (ALL LOCKED BY DEFAULT) -->
-    <!-- ========================================================================= -->
+    <!-- VIEW 1: DASHBOARD -->
     <main id="dashboard-view" class="max-w-6xl mx-auto px-4 py-10 flex-1 w-full space-y-10">
-        
         <div class="space-y-3 text-center max-w-2xl mx-auto">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 text-[11px] font-medium">
                 <span>Executive Diagnostic & Cognitive Architecture</span>
@@ -139,10 +154,7 @@
             </p>
         </div>
 
-        <!-- Assessment Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <!-- Tool 1: CogniMorph Index -->
             <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative overflow-hidden group">
                 <div class="space-y-3">
                     <div class="flex justify-between items-start">
@@ -171,7 +183,6 @@
                 </button>
             </div>
 
-            <!-- Tool 2: Metacognitive Executive Battery -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative opacity-85">
                 <div class="space-y-3">
                     <div class="flex justify-between items-start">
@@ -195,7 +206,6 @@
                 </button>
             </div>
 
-            <!-- Tool 3: Strategic Inversion Diagnostic -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative opacity-85">
                 <div class="space-y-3">
                     <div class="flex justify-between items-start">
@@ -218,14 +228,10 @@
                     Unlock Assessment
                 </button>
             </div>
-
         </div>
-
     </main>
 
-    <!-- ========================================================================= -->
     <!-- VIEW 2: COGNIMORPH INDEX ASSESSMENT CONTAINER -->
-    <!-- ========================================================================= -->
     <div id="assessment-view-container" class="hidden max-w-4xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
         
         <div class="flex items-center justify-between pb-4 border-b border-slate-800">
@@ -251,10 +257,10 @@
                         <strong>Welcome to your cognitive evaluation.</strong> In everyday professional life, your technical knowledge is only half the equation. The other half is your <em>mental operating system</em>: How quickly do you bounce back when a project fails? Do you see steep learning curves as exciting growth or exhausting friction? When you get tough feedback, do you get defensive or curious?
                     </p>
                     <p>
-                        This assessment contains 20 straightforward questions designed to map your mindset across four core dimensions. There are no right or wrong answers. Answer honestly based on your real day-to-day reactions.
+                        This assessment contains 20 straightforward questions designed to map your mindset across four core dimensions. Answer honestly based on your real day-to-day reactions.
                     </p>
                     <p class="text-indigo-300">
-                        ● <strong>Auto-Save Active:</strong> If your browser closes or your connection drops, log back in with your email within <strong>3 hours</strong> to continue seamlessly.
+                        ● <strong>Auto-Save Active:</strong> If your connection drops, log back in with your email within <strong>3 hours</strong> to continue seamlessly.
                     </p>
                 </div>
 
@@ -303,9 +309,8 @@
             </div>
         </section>
 
-        <!-- COMPREHENSIVE DIAGNOSTIC REPORT (LOCKED - NO RETAKES) -->
+        <!-- DIAGNOSTIC REPORT (LOCKED) -->
         <section id="report-view" class="hidden space-y-8">
-            
             <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
                 <div class="text-xs text-slate-400">
                     Diagnostic generated for <span id="rep-name" class="text-white font-medium"></span> on <span id="rep-date" class="text-slate-300"></span>
@@ -341,18 +346,16 @@
                 </div>
             </div>
 
-            <!-- ELABORATED OPERATING PROFILE STORY & FACTS -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card" id="archetype-narrative-card">
+            <!-- Operating Profile Narrative -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-white" id="arch-narrative-title">Deep Operating Profile Analysis</h3>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-white" id="arch-narrative-title">Operating Profile Analysis</h3>
                     <span class="text-[10px] font-mono text-indigo-400">Behavioral Blueprint</span>
                 </div>
-                <div class="text-xs text-slate-300 leading-relaxed space-y-3" id="arch-narrative-body">
-                    <!-- Populated dynamically -->
-                </div>
+                <div class="text-xs text-slate-300 leading-relaxed space-y-3" id="arch-narrative-body"></div>
             </div>
 
-            <!-- TWO-CRITERIA COMPARATIVE BENCHMARK SECTION -->
+            <!-- Benchmarks -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white">Comparative Benchmark Standing</h3>
@@ -369,7 +372,7 @@
                             <div id="rep-cohort-bar" class="bg-indigo-500 h-full w-0 transition-all duration-500"></div>
                         </div>
                         <p class="text-[11px] text-slate-400 leading-tight">
-                            You scored higher than <strong id="rep-cohort-pct-text" class="text-slate-200">85%</strong> of peer submissions in the centralized organizational repository.
+                            You scored higher than <strong id="rep-cohort-pct-text" class="text-slate-200">85%</strong> of peer submissions in the centralized repository.
                         </p>
                     </div>
 
@@ -388,18 +391,15 @@
                 </div>
             </div>
 
-            <!-- IN-DEPTH SUBSCALE BREAKDOWN (ALL 4 DIMENSIONS ELABORATED) -->
+            <!-- Subscales Breakdown -->
             <div class="space-y-4">
                 <div class="border-b border-slate-800 pb-2">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">In-Depth Cognitive Subscale Diagnostics</h3>
-                    <p class="text-[11px] text-slate-400">Detailed breakdown of how your score directly impacts your everyday performance, relationships, and decision-making.</p>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Cognitive Subscale Diagnostics</h3>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="detailed-subscales-grid">
-                    <!-- Populated dynamically -->
-                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="detailed-subscales-grid"></div>
             </div>
 
-            <!-- Polar Radar Graph -->
+            <!-- Radar Graph -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center print-card">
                 <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 self-start">CogniMorph Index™ Topology Map</h4>
                 <canvas id="radarChart" width="280" height="280" class="max-w-xs w-full"></canvas>
@@ -409,7 +409,7 @@
             <div class="space-y-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-300">Comprehensive 30-60-90 Day Action Protocol</h3>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-300">30-60-90 Day Progressive Action Protocol</h3>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -422,7 +422,7 @@
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
                             <li><strong class="text-white">The 3-Second "Tell Me More" Pause:</strong> In meetings, pause for 3 seconds before responding to pushback. Say: <em>"Walk me through your perspective."</em></li>
                             <li><strong class="text-white">5-Minute Error Postmortems:</strong> Log procedural variables without blaming yourself or others.</li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Track your reaction time: Goal is zero defensive pushbacks for 30 consecutive days.</li>
+                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Zero defensive pushbacks for 30 consecutive days.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-900 border border-emerald-900/50 space-y-3 print-card">
@@ -434,7 +434,7 @@
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
                             <li><strong class="text-white">Deconstruct Peer Excellence:</strong> Interview 1 high-performing colleague monthly to learn their workflow tactics.</li>
                             <li><strong class="text-white">Targeted Blind-Spot Inquiries:</strong> Ask 2 trusted peers: <em>"What is one blind spot I consistently overlook?"</em></li>
-                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Successfully adopt at least two peer workflow strategies into your own routine.</li>
+                            <li><strong class="text-white">Self-Evaluation Metric:</strong> Successfully adopt at least two peer workflow strategies into your routine.</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-900 border border-amber-900/50 space-y-3 print-card">
@@ -444,7 +444,7 @@
                         </div>
                         <h4 class="text-xs font-bold text-slate-200">Systemic Mastery & Recovery Cadence</h4>
                         <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside">
-                            <li><strong class="text-white">Adversarial Red-Teaming:</strong> Appoint a teammate to deliberately stress-test your plans before launch.</li>
+                            <li><strong class="text-white">Adversarial Red-Teaming:</strong> Appoint a teammate to stress-test your plans before launch.</li>
                             <li><strong class="text-white">Autonomic Recovery Cadence:</strong> Schedule two 15-minute quiet disconnect blocks during peak load days.</li>
                             <li><strong class="text-white">Self-Evaluation Metric:</strong> Maintain calm breathing and clarity under pressure without physical exhaustion.</li>
                         </ul>
@@ -452,7 +452,7 @@
                 </div>
             </div>
 
-            <!-- SCIENTIFIC ANNEXURE & MINDSET DEFINITION -->
+            <!-- SCIENTIFIC ANNEXURE -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 print-card">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold uppercase tracking-wider text-white">Scientific Annexure & Dimensional Architecture</h3>
@@ -477,7 +477,7 @@
 
                         <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
                             <strong class="text-slate-200">Mistake Recovery & Grit (ESLFT):</strong>
-                            <p class="mt-0.5 text-slate-400">How your brain handles failure. When high scorers make an error, their brain immediately releases a specific electrical wave (Error Positivity / Pe) that shifts their attention to diagnosing what happened, rather than feeling ashamed or defeated.</p>
+                            <p class="mt-0.5 text-slate-400">How your brain handles failure. When high scorers make an error, their brain immediately releases a specific electrical wave (Error Positivity / Pe) that shifts attention to diagnosing what happened, rather than feeling ashamed or defeated.</p>
                         </div>
 
                         <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
@@ -487,13 +487,13 @@
 
                         <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
                             <strong class="text-slate-200">Feedback & Peer Learning (DESG):</strong>
-                            <p class="mt-0.5 text-slate-400">Decoupling ego from work. This measures your ability to separate your personal identity from your project output. High scorers welcome critique because they see it purely as free calibration data.</p>
+                            <p class="mt-0.5 text-slate-400">Decoupling ego from work. This measures your ability to separate personal identity from project output. High scorers welcome critique because they see it purely as free calibration data.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- AI EXECUTIVE COACH -->
+            <!-- AI COACH -->
             <div class="no-print bg-slate-900 border border-indigo-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
@@ -544,9 +544,7 @@
 
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- AUTH & UNLOCK MODAL DIALOG (CONFIDENTIAL PLACEHOLDER) -->
-    <!-- ========================================================================= -->
+    <!-- AUTH MODAL -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">&times;</button>
@@ -563,7 +561,6 @@
                 </div>
                 <div>
                     <label class="block text-[11px] font-semibold text-slate-300 mb-1">Access Passkey / Corporate Voucher</label>
-                    <!-- Confidential placeholder without revealing real keys -->
                     <input type="text" id="modal-passkey" placeholder="Enter 8-digit access key or voucher" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
                 <button onclick="submitAuthModal()" id="modal-submit-btn" class="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/20">
@@ -585,35 +582,31 @@
         CogniMorph Index™ • Neuro-Adaptive Cognitive Operating System Architecture
     </footer>
 
-    <!-- JAVASCRIPT CLIENT ENGINE -->
+    <!-- CLIENT SCRIPT ENGINE -->
     <script>
         let currentUser = JSON.parse(localStorage.getItem("cognimorph_user") || 'null');
         let sessionTimerInterval = null;
 
-        // SIMPLIFIED, HUMANIZED 20-QUESTION INSTRUMENT
+        // 20 SIMPLIFIED QUESTIONS
         const questions = [
-            // CPEF (1 - 5)
             { id: 1, dim: 'CPEF', text: "I believe that anyone can master difficult new skills and complex topics if they dedicate focused time and practice, regardless of their natural talent.", rev: false },
             { id: 2, dim: 'CPEF', text: "When someone struggles to learn a new tool or concept, it usually means they have reached the limit of their natural intelligence.", rev: true },
             { id: 3, dim: 'CPEF', text: "Exceptional creativity and problem-solving abilities come from consistent practice and learning, not from being born a genius.", rev: false },
             { id: 4, dim: 'CPEF', text: "A person's core thinking ability and mental sharpness are mostly set in stone once they reach adulthood.", rev: true },
             { id: 5, dim: 'CPEF', text: "Pushing myself to work on unfamiliar, difficult problems fundamentally makes my brain sharper and more adaptable.", rev: false },
 
-            // ESLFT (6 - 10)
             { id: 6, dim: 'ESLFT', text: "When a plan or project fails, my first instinct is curiosity to understand what went wrong and how to fix it.", rev: false },
             { id: 7, dim: 'ESLFT', text: "Making a visible mistake in front of colleagues or managers makes me feel like I am not good enough at my job.", rev: true },
             { id: 8, dim: 'ESLFT', text: "I enjoy taking on challenging projects with steep learning curves because the struggle is where I grow the most.", rev: false },
             { id: 9, dim: 'ESLFT', text: "I prefer sticking to routine tasks that I know I can do smoothly without making any mistakes.", rev: true },
             { id: 10, dim: 'ESLFT', text: "When I get completely stuck on a problem, it means I need to try a different approach, not that I lack the intelligence to solve it.", rev: false },
 
-            // PSAV (11 - 15)
             { id: 11, dim: 'PSAV', text: "When I feel energized or nervous before a big deadline, I treat that adrenaline as extra fuel to help me perform at my best.", rev: false },
             { id: 12, dim: 'PSAV', text: "Working under tight deadlines and heavy workplace pressure quickly clouds my thinking and lowers the quality of my work.", rev: true },
             { id: 13, dim: 'PSAV', text: "Navigating workplace changes and unexpected disruptions helps me become a stronger and more resourceful professional.", rev: false },
             { id: 14, dim: 'PSAV', text: "When work becomes chaotic and unpredictable, I feel overwhelmed and find it very hard to focus.", rev: true },
             { id: 15, dim: 'PSAV', text: "High-stakes challenges and intense situations bring out my best focus and help me solve problems faster.", rev: false },
 
-            // DESG (16 - 20)
             { id: 16, dim: 'DESG', text: "I view direct, critical feedback on my work as helpful information to improve, not as a personal insult or attack.", rev: false },
             { id: 17, dim: 'DESG', text: "When a teammate outperforms me in my core area of work, it secretly makes me feel insecure or inadequate.", rev: true },
             { id: 18, dim: 'DESG', text: "I actively ask for feedback from people who disagree with me so I can uncover my own blind spots.", rev: false },
@@ -666,7 +659,7 @@
             updateUserUI();
         });
 
-        // 3-HOUR SESSION TIMER & HARDENED ANTI-CAPTURE SHIELD
+        // SESSION TIMER & ANTI-CAPTURE HARDENING
         function startSessionTimer(expiryTimestamp) {
             if (sessionTimerInterval) clearInterval(sessionTimerInterval);
             const badge = document.getElementById('session-timer-badge');
@@ -742,10 +735,10 @@
             document.getElementById('assessment-mode-badge').innerText = "Demo Mode (Capture Blocked)";
             document.getElementById('assessment-mode-badge').className = "text-[10px] font-mono text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2.5 py-1 rounded-full";
 
-            // 1. Right Click Blocker
-            document.addEventListener('contextmenu', e => e.preventDefault());
+            // Intercept at Capture Phase
+            window.addEventListener('contextmenu', e => e.preventDefault(), { capture: true });
 
-            // 2. Keyboard Shortcut Blocker (PrintScreen, Win+Shift+S, Cmd+Shift+3/4/5, Ctrl+P, F12)
+            // Keyboard Shortcut Interceptor
             window.addEventListener('keydown', e => {
                 if (
                     e.key === 'PrintScreen' ||
@@ -754,37 +747,30 @@
                     e.keyCode === 44 || e.keyCode === 123
                 ) {
                     e.preventDefault();
-                    triggerSecurityBlur();
+                    e.stopPropagation();
+                    triggerCaptureShield();
                     return false;
                 }
-            });
+            }, { capture: true });
 
-            // 3. Screen Obfuscation on Window Defocus / Snipping Tool Detection
-            window.addEventListener('blur', () => {
-                triggerSecurityBlur();
-            });
-            window.addEventListener('focus', () => {
-                clearSecurityBlur();
-            });
+            // Trigger blackout on window blur / snipping tool focus loss
+            window.addEventListener('blur', triggerCaptureShield, { capture: true });
+            document.addEventListener('mouseleave', triggerCaptureShield, { capture: true });
             document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') {
-                    triggerSecurityBlur();
-                } else {
-                    clearSecurityBlur();
-                }
-            });
+                if (document.visibilityState === 'hidden') triggerCaptureShield();
+            }, { capture: true });
         }
 
-        function triggerSecurityBlur() {
+        function triggerCaptureShield() {
             if (!currentUser || !currentUser.isDemo) return;
-            document.getElementById('app-body').classList.add('demo-blur-active');
-            document.getElementById('defocus-warning').classList.remove('hidden');
+            document.getElementById('app-body').classList.add('demo-blackout-active');
+            document.getElementById('capture-shield-overlay').classList.remove('hidden');
         }
 
-        function clearSecurityBlur() {
+        function clearCaptureShield() {
             if (!currentUser || !currentUser.isDemo) return;
-            document.getElementById('app-body').classList.remove('demo-blur-active');
-            document.getElementById('defocus-warning').classList.add('hidden');
+            document.getElementById('app-body').classList.remove('demo-blackout-active');
+            document.getElementById('capture-shield-overlay').classList.add('hidden');
         }
 
         // VIEW ROUTING
@@ -805,7 +791,6 @@
                 
                 const saved = JSON.parse(localStorage.getItem("cognimorph_saved_state") || 'null');
                 if (saved && saved.isCompleted) {
-                    // Assessment already generated -> Lock to report view permanently (No retakes)
                     document.getElementById('intro-view').classList.add('hidden');
                     document.getElementById('quiz-view').classList.add('hidden');
                     document.getElementById('report-view').classList.remove('hidden');
@@ -1027,7 +1012,7 @@
 
             displayRestoredReport(computedResults);
 
-            // Transmit to Google Apps Script (Saves to sheet + Auto-emails PDF)
+            // Log Data & Dispatch PDF to Email
             fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -1059,7 +1044,7 @@
             document.getElementById('rep-archetype').innerText = res.archetype;
             document.getElementById('rep-summary').innerText = res.summary;
 
-            // Render Deep Profile Narrative with Examples and Brain Facts
+            // Deep Narrative Breakdown
             renderElaboratedProfileNarrative(res.archetype, res.gni);
 
             // Comparative Benchmarks
@@ -1070,7 +1055,7 @@
             document.getElementById('rep-global-percentile').innerText = `${res.globalPct}th Percentile`;
             document.getElementById('rep-global-bar').style.width = `${res.globalPct}%`;
 
-            // Detailed Subscale Grid
+            // Detailed Subscales Grid
             const subscaleGrid = document.getElementById('detailed-subscales-grid');
             subscaleGrid.innerHTML = '';
             dimensions.forEach(d => {
