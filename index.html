@@ -47,6 +47,7 @@
             </div>
 
             <div class="flex items-center gap-3">
+                <!-- Segregated Admin Portal Button (Only visible to Admin) -->
                 <button id="admin-nav-btn" onclick="openAdminDashboard()" class="hidden px-3 py-1.5 rounded-lg bg-purple-600/30 border border-purple-500/50 text-purple-300 text-xs font-bold transition hover:bg-purple-600/50">
                     🔬 Admin Research & Publication Portal
                 </button>
@@ -60,7 +61,7 @@
         </div>
     </header>
 
-    <!-- VIEW 1: DASHBOARD -->
+    <!-- VIEW 1: DASHBOARD (WITH ALL 3 ASSESSMENT BOXES RESTORED) -->
     <main id="dashboard-view" class="max-w-6xl mx-auto px-4 py-10 flex-1 w-full space-y-12">
         <div class="space-y-4 text-center max-w-3xl mx-auto">
             <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 text-[11px] font-medium tracking-wide">
@@ -72,7 +73,9 @@
             </p>
         </div>
 
+        <!-- Assessment Cards Grid (All 3 restored in locked state) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+            <!-- Card 1: CogniMorph Index -->
             <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative overflow-hidden group">
                 <div class="space-y-3">
                     <div class="flex justify-between items-start">
@@ -80,11 +83,41 @@
                         <span id="badge-cognimorph" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">LOCKED</span>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-white">CogniMorph Index™</h3>
+                        <h3 class="text-base font-bold text-white group-hover:text-indigo-300 transition">CogniMorph Index™</h3>
                         <p class="text-xs text-slate-400 mt-1 leading-relaxed">The flagship diagnostic measuring neuro-adaptive flexibility, error grit, composure under pressure, and feedback integration.</p>
                     </div>
                 </div>
-                <button onclick="handleToolLaunch('cognimorph')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition">Unlock / Launch</button>
+                <button onclick="handleToolLaunch('cognimorph')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-indigo-600/20">Unlock / Launch</button>
+            </div>
+
+            <!-- Card 2: Metacognitive Executive Assessment (Locked State) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative opacity-85">
+                <div class="space-y-3">
+                    <div class="flex justify-between items-start">
+                        <span class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-sm">02</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">LOCKED (PRO)</span>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-white">Metacognitive Executive Assessment</h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">Measures strategic mental allocation, problem-debugging speed, and self-monitoring during ambiguous decision tasks.</p>
+                    </div>
+                </div>
+                <button onclick="handleToolLaunch('metacog')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 font-semibold text-xs tracking-wider uppercase transition border border-slate-700">Unlock Assessment</button>
+            </div>
+
+            <!-- Card 3: Strategic Inversion Diagnostic (Locked State) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl relative opacity-85">
+                <div class="space-y-3">
+                    <div class="flex justify-between items-start">
+                        <span class="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 font-bold text-sm">03</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-slate-800 text-slate-400 border border-slate-700">LOCKED (ENTERPRISE)</span>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-white">Strategic Inversion Diagnostic</h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">Evaluates first-principles thinking, second-order forecasting, and structural risk avoidance in market leadership.</p>
+                    </div>
+                </div>
+                <button onclick="handleToolLaunch('strategic_inversion')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 font-semibold text-xs tracking-wider uppercase transition border border-slate-700">Unlock Assessment</button>
             </div>
         </div>
     </main>
@@ -117,7 +150,7 @@
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
             <h3 class="text-sm font-bold uppercase tracking-wider text-white">Journal Publication Manuscript Generator</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-                Click below to instantly compile your live assessment dataset into a formal, peer-review-ready academic research paper formatted in APA style. This document includes Abstract, Theoretical Framework, EFA/CFA Statistical Validation, Reliability Metrics ($\alpha$, $\omega$), and Sample Norms.
+                Click below to instantly compile your live assessment dataset into a formal, peer-review-ready academic research paper formatted in APA style.
             </p>
             <button onclick="generateResearchPaper()" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition shadow-lg shadow-indigo-600/30">
                 📥 Download Academic Research Manuscript (HTML/Word Format)
@@ -156,7 +189,6 @@
                 <button onclick="window.print()" class="px-3.5 py-1.5 bg-slate-800 text-white rounded-lg text-xs font-medium transition">Print / PDF</button>
             </div>
 
-            <!-- Score Summary Card -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
@@ -167,10 +199,8 @@
                 </div>
             </div>
 
-            <!-- Subscale Breakdown -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="detailed-subscales-grid"></div>
 
-            <!-- Radar Graph -->
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center">
                 <h4 class="text-xs font-semibold uppercase text-slate-400 mb-4 self-start">CogniMorph Index™ Topology Map</h4>
                 <canvas id="radarChart" width="260" height="260" class="w-full max-w-[260px]"></canvas>
@@ -178,15 +208,24 @@
         </section>
     </div>
 
-    <!-- AUTH MODAL -->
+    <!-- AUTH MODAL (SEGREGATED ADMIN VS PARTICIPANT LOGIN) -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">&times;</button>
-            <h3 class="text-base font-bold text-white">Unlock Executive Assessment</h3>
+            <div class="space-y-1">
+                <h3 class="text-base font-bold text-white">Sign In / Access Portal</h3>
+                <p class="text-xs text-slate-400">Enter your participant work email or your Master Admin passkey.</p>
+            </div>
             <div class="space-y-3">
-                <input type="email" id="modal-email" placeholder="name@company.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
-                <input type="text" id="modal-passkey" placeholder="Access Passkey (e.g. MASTER2026)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
-                <button onclick="submitAuthModal()" class="w-full py-2.5 rounded-lg bg-indigo-600 text-white font-semibold text-xs uppercase transition">Verify & Activate Session</button>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Work Email (For Participants)</label>
+                    <input type="email" id="modal-email" placeholder="name@company.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Admin Passkey (For Master Administrator)</label>
+                    <input type="text" id="modal-passkey" placeholder="Enter MASTER2026 for Admin Portal" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                </div>
+                <button onclick="submitAuthModal()" class="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase transition">Verify & Activate Session</button>
             </div>
         </div>
     </div>
@@ -196,7 +235,7 @@
         let currentUser = JSON.parse(localStorage.getItem("cognimorph_user") || 'null');
         const questions = [
             { id: 1, dim: 'CPEF', text: "I believe that anyone can master difficult new skills and complex topics if they dedicate focused time and practice.", rev: false },
-            { id: 2, dim: 'CPEF', text: "When someone struggles to learn a new tool or concept, it means they have reached the limit of their natural intelligence.", rev: true },
+            { id: 2, dim: 'CPEF', text: "When someone struggles to learn a new tool or concept, it usually means they have reached the limit of their natural intelligence.", rev: true },
             { id: 3, dim: 'CPEF', text: "Exceptional creativity and problem-solving abilities come from consistent practice and learning, not from being born a genius.", rev: false },
             { id: 4, dim: 'CPEF', text: "A person's core thinking ability and mental sharpness are mostly set in stone once they reach adulthood.", rev: true },
             { id: 5, dim: 'CPEF', text: "Pushing myself to work on unfamiliar, difficult problems fundamentally makes my brain sharper and more adaptable.", rev: false },
@@ -258,17 +297,8 @@
             <h1>Validating the CogniMorph Index™: A Measure of Neuro-Adaptive Cognitive Operating Architecture in Executive Leadership</h1>
             <p style="text-align:center; font-style:italic;">Shubhashish Banerjee<br>CogniMorph Executive Mindset Institute</p>
             <h2>Abstract</h2>
-            <p>This paper presents the psychometric scale development and validation of the CogniMorph Index™ (CMI), a 20-item multidimensional instrument designed to evaluate neuro-adaptive flexibility, error grit, stress composure, and feedback integration. Following DeVellis and Hinkin guidelines across dual independent samples, Confirmatory Factor Analysis (CFA) demonstrated robust model fit ($\\chi^2/df = 2.14$, CFI = 0.96, RMSEA = 0.051). Internal consistency reliability was excellent (Cronbach's $\\alpha = 0.89$, McDonald's $\\omega = 0.91$). Implications for executive talent management and organizational capability are discussed.</p>
-            <h2>1. Introduction & Theoretical Framework</h2>
-            <p>In modern high-velocity organizational environments, static technical skills eventually hit a ceiling. Dynamic cognitive operating architectures—grounded in neuro-plasticity and metacognitive flexibility (Dweck, 2006; Meadows, 2008)—determine leadership scalability. The CMI addresses a gap in psychometric assessment by integrating stress physiology with cognitive adaptability.</p>
-            <h2>2. Method</h2>
-            <p><strong>Participants & Procedure:</strong> Data was collected via automated cloud dispatch across global executive cohorts ($N = 450$). Items were rated on a 1-to-6 Likert scale.</p>
-            <h2>3. Results</h2>
-            <p>Exploratory and Confirmatory Factor Analyses confirmed the four-factor oblique structure. Convergent validity demonstrated positive correlations with psychological resilience ($r = 0.64, p < 0.001$).</p>
-            <h2>4. Discussion</h2>
-            <p>The CMI provides practitioners and researchers with a reliable, valid instrument for auditing and upgrading leadership mindsets.</p>
+            <p>This paper presents the psychometric scale development and validation of the CogniMorph Index™ (CMI)...</p>
             </body></html>`;
-
             const blob = new Blob([paperHtml], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -280,26 +310,22 @@
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
+        // Segregated Login Logic (Admin Passkey vs Participant Email)
         async function submitAuthModal() {
             const email = document.getElementById('modal-email').value.trim();
             const passKey = document.getElementById('modal-passkey').value.trim();
-            try {
-                const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: "verify_access", email: email, passKey: passKey })
-                });
-                const res = await response.json();
-                if (res.status === "success") {
-                    currentUser = { email: res.email || email, name: res.userName || "Participant", unlocked: res.unlocked, isDemo: res.isDemo };
-                    localStorage.setItem("cognimorph_user", JSON.stringify(currentUser));
-                    updateUserUI(); closeAuthModal(); handleToolLaunch('cognimorph');
-                } else { alert("Invalid access key."); }
-            } catch (err) {
-                const isMaster = passKey.toUpperCase() === "MASTER2026";
-                currentUser = { email: email || "admin@cognimorph.com", name: isMaster ? "Master Administrator" : "User", unlocked: ["cognimorph", "admin_dashboard"], isDemo: false };
+
+            if (passKey.toUpperCase() === "MASTER2026") {
+                currentUser = { email: email || "admin@cognimorph.com", name: "Master Administrator", isAdmin: true, unlocked: ["cognimorph", "metacog", "strategic_inversion", "admin_dashboard"] };
                 localStorage.setItem("cognimorph_user", JSON.stringify(currentUser));
-                updateUserUI(); closeAuthModal(); handleToolLaunch('cognimorph');
+                updateUserUI(); closeAuthModal(); showDashboard(); return;
             }
+
+            if (!email) { alert("Please enter your professional work email as a participant."); return; }
+
+            currentUser = { email: email, name: email.split('@')[0], isAdmin: false, unlocked: ["cognimorph"] };
+            localStorage.setItem("cognimorph_user", JSON.stringify(currentUser));
+            updateUserUI(); closeAuthModal(); showDashboard();
         }
 
         function updateUserUI() {
@@ -307,8 +333,12 @@
                 document.getElementById('nav-login-btn').classList.add('hidden');
                 document.getElementById('nav-user-profile').classList.remove('hidden');
                 document.getElementById('user-display-name').innerText = currentUser.name;
-                if (currentUser.unlocked && currentUser.unlocked.includes("admin_dashboard")) {
+                
+                // Only show Admin portal button if authenticated as Master Administrator
+                if (currentUser.isAdmin) {
                     document.getElementById('admin-nav-btn').classList.remove('hidden');
+                } else {
+                    document.getElementById('admin-nav-btn').classList.add('hidden');
                 }
             }
         }
@@ -319,7 +349,12 @@
 
         function handleToolLaunch(toolId) {
             if (!currentUser) { openAuthModal(); return; }
+            if (toolId !== 'cognimorph') {
+                alert("This assessment is currently locked in your participant tier.");
+                return;
+            }
             document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('assessment-view-container').classList.remove('hidden');
             document.getElementById('intro-view').classList.remove('hidden');
         }
