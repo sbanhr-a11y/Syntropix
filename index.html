@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CogniMorph Index™</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PayPal JavaScript SDK with your live Client ID -->
     <script src="https://www.paypal.com/sdk/js?client-id=BAAoaGuJGS0__6_N0d5d14H4qVeNxTSp3Gsaicy_YTipOwRtM9M5XyLz8O_FmviWUkPJLtBUX84kK2HbbE&currency=USD"></script>
     <script>
         tailwind.config = {
@@ -162,11 +161,10 @@
             <span id="assessment-mode-badge" class="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded-full">Active Session</span>
         </div>
 
-        <!-- BRIEFING & TARGET AUDIENCE (Mobile Number replaces designation) -->
         <section id="intro-view" class="space-y-6">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl">
-                <h2 class="text-xl font-black text-white">Assessment Briefing & Secure Checkout</h2>
-                <p class="text-xs text-slate-300">Enter your details below and complete secure checkout via PayPal to instantly unlock your 20-item diagnostic evaluation.</p>
+                <h2 class="text-xl font-black text-white">Assessment Briefing & Access</h2>
+                <p class="text-xs text-slate-300">Enter your details below. Administrator accounts enjoy immediate bypass, while participants complete secure checkout.</p>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-300 mb-1" for="userName">Full Name *</label>
@@ -182,10 +180,17 @@
                     </div>
                 </div>
 
-                <!-- PayPal Button Container -->
-                <div class="pt-4 border-t border-slate-800">
+                <!-- PayPal Section (Hidden for Admin) -->
+                <div id="paypal-section" class="pt-4 border-t border-slate-800">
                     <p class="text-[11px] text-indigo-300 font-medium mb-2">Secure Payment Gateway (USD $49.00 Access Fee):</p>
                     <div id="paypal-button-container"></div>
+                </div>
+
+                <!-- Admin Bypass Section (Visible only to Admin) -->
+                <div id="admin-bypass-section" class="hidden pt-4 border-t border-slate-800">
+                    <button onclick="startAssessmentAfterPayment()" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-purple-600/30">
+                        🚀 Start Assessment (Admin Bypass Mode)
+                    </button>
                 </div>
             </div>
         </section>
@@ -220,22 +225,22 @@
         </section>
     </div>
 
-    <!-- AUTH MODAL (ADMIN VS PARTICIPANT LOGIN) -->
+    <!-- AUTH MODAL -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold">&times;</button>
             <div class="space-y-1">
                 <h3 class="text-base font-bold text-white">Sign In / Access Portal</h3>
-                <p class="text-xs text-slate-400">Enter your participant work email or your Master Admin passkey.</p>
+                <p class="text-xs text-slate-400">Enter your participant work email or sign in with admin email / passkey.</p>
             </div>
             <div class="space-y-3">
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Work Email (For Participants)</label>
-                    <input type="email" id="modal-email" placeholder="name@company.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Work Email / Admin Email</label>
+                    <input type="email" id="modal-email" placeholder="name@company.com or sban.hr@gmail.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
                 </div>
                 <div>
-                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Admin Passkey (For Master Administrator)</label>
-                    <input type="text" id="modal-passkey" placeholder="Enter MASTER2026 for Admin Portal" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Admin Passkey (Optional for Admin)</label>
+                    <input type="text" id="modal-passkey" placeholder="Enter MASTER2026" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
                 </div>
                 <button onclick="submitAuthModal()" class="w-full py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase transition">Verify & Activate Session</button>
             </div>
@@ -326,11 +331,11 @@
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
         async function submitAuthModal() {
-            const email = document.getElementById('modal-email').value.trim();
+            const email = document.getElementById('modal-email').value.trim().toLowerCase();
             const passKey = document.getElementById('modal-passkey').value.trim();
 
-            if (passKey.toUpperCase() === "MASTER2026") {
-                currentUser = { email: email || "admin@cognimorph.com", name: "Master Administrator", isAdmin: true, unlocked: ["cognimorph", "metacog", "strategic_inversion", "admin_dashboard"] };
+            if (passKey.toUpperCase() === "MASTER2026" || email === "sban.hr@gmail.com") {
+                currentUser = { email: email || "sban.hr@gmail.com", name: "Shubhashish Banerjee", isAdmin: true, unlocked: ["cognimorph", "metacog", "strategic_inversion", "admin_dashboard"] };
                 localStorage.setItem("cognimorph_user", JSON.stringify(currentUser));
                 updateUserUI(); closeAuthModal(); showDashboard(); return;
             }
@@ -362,7 +367,7 @@
 
         function handleToolLaunch(toolId) {
             if (!currentUser) { openAuthModal(); return; }
-            if (toolId !== 'cognimorph') {
+            if (toolId !== 'cognimorph' && !currentUser.isAdmin) {
                 alert("This assessment is currently locked in your participant tier.");
                 return;
             }
@@ -370,6 +375,17 @@
             document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('assessment-view-container').classList.remove('hidden');
             document.getElementById('intro-view').classList.remove('hidden');
+
+            if (currentUser && currentUser.isAdmin) {
+                document.getElementById('userName').value = currentUser.name || "Shubhashish Banerjee";
+                document.getElementById('userEmail').value = currentUser.email || "sban.hr@gmail.com";
+                document.getElementById('userMobile').value = "+91 9876543210";
+                document.getElementById('paypal-section').classList.add('hidden');
+                document.getElementById('admin-bypass-section').classList.remove('hidden');
+            } else {
+                document.getElementById('paypal-section').classList.remove('hidden');
+                document.getElementById('admin-bypass-section').classList.add('hidden');
+            }
         }
 
         function initPayPalButton() {
@@ -393,17 +409,26 @@
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        const name = document.getElementById('userName').value.trim();
-                        const email = document.getElementById('userEmail').value.trim();
-                        const mobile = document.getElementById('userMobile').value.trim();
-
-                        userProfile = { name, email, mobile };
-                        document.getElementById('intro-view').classList.add('hidden');
-                        document.getElementById('quiz-view').classList.remove('hidden');
-                        renderQuestions();
+                        startAssessmentAfterPayment();
                     });
                 }
             }).render('#paypal-button-container');
+        }
+
+        function startAssessmentAfterPayment() {
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const mobile = document.getElementById('userMobile').value.trim();
+
+            if (!name || !email || !mobile) {
+                alert("Please fill in your Full Name, Professional Email, and Mobile Number.");
+                return;
+            }
+
+            userProfile = { name, email, mobile };
+            document.getElementById('intro-view').classList.add('hidden');
+            document.getElementById('quiz-view').classList.remove('hidden');
+            renderQuestions();
         }
 
         function renderQuestions() {
