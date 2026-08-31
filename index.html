@@ -402,6 +402,12 @@
                         <div><strong class="text-emerald-400 block mb-1">Core Strengths:</strong><span id="arch-strengths" class="text-slate-400"></span></div>
                         <div><strong class="text-rose-400 block mb-1">Primary Gap Areas:</strong><span id="arch-gaps" class="text-slate-400"></span></div>
                     </div>
+                    
+                    <div class="pt-4 mt-2 border-t border-slate-800/50 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-slate-400">
+                        <span><strong>Participant:</strong> <span id="meta-part-name" class="text-slate-200"></span></span>
+                        <span><strong>Email:</strong> <span id="meta-part-email" class="text-slate-200"></span></span>
+                        <span><strong>Mobile:</strong> <span id="meta-part-mobile" class="text-slate-200"></span></span>
+                    </div>
                 </div>
             </div>
 
@@ -865,7 +871,7 @@
                 return; 
             }
             
-            // NEW LOGIC: Admin and Demo roles bypass the locked session rule allowing infinite retries
+            // LOGIC: Admin and Demo roles bypass the locked session rule allowing infinite retries
             if (sessionData && sessionData.locked) {
                 if (currentUser.role === 'master' || currentUser.role === 'demo') {
                     sessionData = null; 
@@ -1062,24 +1068,24 @@
 
             const prof = sessionData.profile || { name: currentUser.name, email: currentUser.email, mobile: "" };
 
-            // INJECT HEADER DATA
-            document.getElementById('rep-name').innerText = prof.name || "Participant";
-            document.getElementById('rep-date').innerText = new Date().toLocaleDateString();
-            document.getElementById('meta-part-name').innerText = prof.name || "Participant";
-            document.getElementById('meta-part-email').innerText = prof.email || "user@company.com";
-            document.getElementById('meta-part-mobile').innerText = prof.mobile || "N/A";
-
-            // INJECT SCORE & INTERPRETATION
-            document.getElementById('global-score').innerText = gni.toFixed(1);
-            document.getElementById('dynamic-score-text').innerText = `${gni.toFixed(1)}/100`;
-            document.getElementById('rep-archetype').innerText = archKey;
-            document.getElementById('archetype-desc').innerText = arch.desc;
-            document.getElementById('arch-strengths').innerText = " " + arch.strengths;
-            document.getElementById('arch-gaps').innerText = " " + arch.gaps;
+            // INJECT SCORE & INTERPRETATION (Must be rendered before the DOM is injected with metadata to prevent null reference crashes)
+            if(document.getElementById('global-score')) document.getElementById('global-score').innerText = gni.toFixed(1);
+            if(document.getElementById('dynamic-score-text')) document.getElementById('dynamic-score-text').innerText = `${gni.toFixed(1)}/100`;
+            if(document.getElementById('rep-archetype')) document.getElementById('rep-archetype').innerText = archKey;
+            if(document.getElementById('archetype-desc')) document.getElementById('archetype-desc').innerText = arch.desc;
+            if(document.getElementById('arch-strengths')) document.getElementById('arch-strengths').innerText = " " + arch.strengths;
+            if(document.getElementById('arch-gaps')) document.getElementById('arch-gaps').innerText = " " + arch.gaps;
             
             // INJECT PERCENTILE
-            document.getElementById('rep-cohort-percentile').innerText = `${cohortPct}th Percentile`;
-            document.getElementById('rep-cohort-pct-text').innerText = `${cohortPct}%`;
+            if(document.getElementById('rep-cohort-percentile')) document.getElementById('rep-cohort-percentile').innerText = `${cohortPct}th Percentile`;
+            if(document.getElementById('rep-cohort-pct-text')) document.getElementById('rep-cohort-pct-text').innerText = `${cohortPct}%`;
+
+            // INJECT METADATA SAFELY
+            if(document.getElementById('rep-name')) document.getElementById('rep-name').innerText = prof.name || "Participant";
+            if(document.getElementById('rep-date')) document.getElementById('rep-date').innerText = new Date().toLocaleDateString();
+            if(document.getElementById('meta-part-name')) document.getElementById('meta-part-name').innerText = prof.name || "Participant";
+            if(document.getElementById('meta-part-email')) document.getElementById('meta-part-email').innerText = prof.email || "user@company.com";
+            if(document.getElementById('meta-part-mobile')) document.getElementById('meta-part-mobile').innerText = prof.mobile || "N/A";
 
             renderSubscales(dimIndices);
             renderMindsetInference(gni);
@@ -1117,6 +1123,7 @@
 
         function renderSubscales(dimIndices) {
             const container = document.getElementById('detailed-subscales-grid');
+            if(!container) return;
             container.innerHTML = '';
             
             const minScore = Math.min(...Object.values(dimIndices));
@@ -1163,7 +1170,7 @@
             } else {
                 text = "Your combined scores indicate a highly structured, protective mindset. You excel when the rules are clear. However, unexpected changes, harsh feedback, or sudden failures feel deeply personal and uncomfortable, causing you to emotionally withdraw or become rigid. By practicing the exercises below, you can rewire this response and learn to view stress simply as energy, rather than danger.";
             }
-            document.getElementById('combined-inference-text').innerText = text;
+            if(document.getElementById('combined-inference-text')) document.getElementById('combined-inference-text').innerText = text;
         }
 
         function renderTopologyInference(gni) {
@@ -1182,6 +1189,7 @@
 
         function renderActionProtocol() {
             const container = document.getElementById('action-protocol-container');
+            if(!container) return;
             container.innerHTML = '';
             phases.forEach(p => {
                 let exercisesHtml = p.exercises.map(ex => `
@@ -1205,6 +1213,7 @@
 
         function renderAnnexure() {
             const container = document.getElementById('annexure-content');
+            if(!container) return;
             container.innerHTML = '';
             Object.keys(dimensionData).forEach(k => {
                 const d = dimensionData[k];
