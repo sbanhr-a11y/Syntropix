@@ -335,7 +335,7 @@
             <button id="submit-btn" onclick="generateDiagnosticReport()" disabled class="w-full py-3 rounded-xl bg-indigo-600 disabled:opacity-40 text-white text-xs font-bold uppercase transition">Generate Comprehensive Diagnostic Report</button>
         </section>
 
-        <section id="report-view" class="hidden space-y-8" id="report-content-area">
+        <section id="report-view" class="hidden space-y-8">
             
             <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800">
                 <div class="flex items-center gap-3">
@@ -432,6 +432,7 @@
                     <div class="space-y-3 text-xs text-slate-300 leading-relaxed border-t md:border-t-0 md:border-l border-slate-800 md:pl-6">
                         <h5 class="font-bold text-white uppercase text-[11px] tracking-wider text-indigo-300">Topology Architecture</h5>
                         <p><strong>What the Graph Says:</strong> A balanced polygon indicates steady multi-dimensional agility under stress. An asymmetrical or constricted shape highlights specific mental bottlenecks where stress triggers defensive rigidity rather than adaptive problem-solving.</p>
+                        <p id="topology-inference-text" class="mt-2"></p>
                     </div>
                 </div>
             </div>
@@ -799,7 +800,7 @@
                 }
             } catch (e) {
                 // FALLBACK FOR DEVELOPMENT IF APPS SCRIPT NOT YET CONNECTED
-                if (email === "admin" && pass === "admin") {
+                if (email === "admin" && pass === "MasterSyntropix2026!") {
                     currentUser = { name: "Master Admin", email: "admin", role: "master" };
                     localStorage.setItem("syntropix_user", JSON.stringify(currentUser));
                     updateUserUI(); closeAuthModal(); return;
@@ -902,13 +903,15 @@
                 return;
             }
 
-            userProfile = { name, email, mobile };
+            const userProfile = { name, email, mobile };
             
-            // Initialize the 3-hour session
+            // Initialize or update the 3-hour session
             if (!sessionData) {
                 sessionData = { startTime: Date.now(), answers: {}, locked: false, profile: userProfile };
-                localStorage.setItem("syntropix_session", JSON.stringify(sessionData));
+            } else {
+                sessionData.profile = userProfile; // Update profile if session existed but wasn't locked
             }
+            localStorage.setItem("syntropix_session", JSON.stringify(sessionData));
 
             document.getElementById('intro-view').classList.add('hidden');
             document.getElementById('quiz-view').classList.remove('hidden');
@@ -1016,7 +1019,7 @@
 
             computedResults = { gni, archKey, cohortPct, dimIndices, context: JSON.stringify(dimIndices) };
 
-            const prof = sessionData.profile || userProfile || { name: currentUser.name, email: currentUser.email, mobile: "" };
+            const prof = sessionData.profile || { name: currentUser.name, email: currentUser.email, mobile: "" };
 
             // INJECT HEADER DATA
             document.getElementById('rep-name').innerText = prof.name || "Participant";
@@ -1047,7 +1050,7 @@
             renderTopologyInference(gni);
 
             // FIRE REPORT TO SECURE BACKEND FOR PDF EMAIL
-            const reportHtml = document.getElementById('report-content-area').innerHTML;
+            const reportHtml = document.getElementById('report-view').innerHTML;
             fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                 method: 'POST',
                 body: JSON.stringify({ 
