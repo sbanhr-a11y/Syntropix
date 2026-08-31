@@ -397,6 +397,7 @@
             </div>
 
             <div class="bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border border-slate-800 rounded-2xl p-8 print-card space-y-5 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
                 <h2 class="text-2xl font-black text-white tracking-tight">Introduction: The CogniMorph Index™</h2>
                 <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
                     <p>
@@ -424,7 +425,7 @@
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 print-card space-y-6">
                 <div class="text-center border-b border-slate-800 pb-6">
-                    <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Syntropix Index Score</div>
+                    <div id="rep-assessment-title-label" class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Syntropix Index Score</div>
                     <div class="flex items-end justify-center gap-2 mt-2">
                         <span id="global-score" class="text-6xl font-black text-white"></span>
                         <span class="text-xl text-slate-500 mb-1">/ 100</span>
@@ -448,6 +449,12 @@
                     <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800/50 text-xs">
                         <div><strong class="text-emerald-400 block mb-1">Core Strengths:</strong><span id="arch-strengths" class="text-slate-400"></span></div>
                         <div><strong class="text-rose-400 block mb-1">Primary Gap Areas:</strong><span id="arch-gaps" class="text-slate-400"></span></div>
+                    </div>
+                    
+                    <div class="pt-4 mt-2 border-t border-slate-800/50 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-slate-400">
+                        <span><strong>Participant:</strong> <span id="meta-part-name" class="text-slate-200"></span></span>
+                        <span><strong>Email:</strong> <span id="meta-part-email" class="text-slate-200"></span></span>
+                        <span><strong>Mobile:</strong> <span id="meta-part-mobile" class="text-slate-200"></span></span>
                     </div>
                 </div>
             </div>
@@ -572,7 +579,7 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Ask a question or request a download (e.g., 'download tracking sheet')..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-3 text-xs text-white focus:outline-none focus:border-purple-500 shadow-inner">
+                    <input type="text" id="chatInput" placeholder="Ask a question or request a download (e.g., 'download tracking sheet')...." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-3 text-xs text-white focus:outline-none focus:border-purple-500 shadow-inner">
                     <button onclick="sendMessage()" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-lg">Submit Prompt</button>
                 </div>
             </div>
@@ -849,13 +856,22 @@
         window.addEventListener('DOMContentLoaded', () => { 
             updateUserUI(); 
             initPayPalButton();
-            if (sessionData && !sessionData.locked) {
+            if (sessionData) {
                 checkSessionTimer();
-                document.getElementById('dashboard-view').classList.add('hidden');
-                document.getElementById('quiz-view').classList.remove('hidden');
-                document.getElementById('session-warning').classList.remove('hidden');
-                timerInterval = setInterval(checkSessionTimer, 1000);
-                renderQuestions();
+                if (!sessionData.locked) {
+                    // Resume quiz
+                    document.getElementById('dashboard-view').classList.add('hidden');
+                    document.getElementById('quiz-view').classList.remove('hidden');
+                    document.getElementById('session-warning').classList.remove('hidden');
+                    timerInterval = setInterval(checkSessionTimer, 1000);
+                    renderQuestions();
+                } else if (sessionData.locked) {
+                    // Resume report
+                    document.getElementById('dashboard-view').classList.add('hidden');
+                    document.getElementById('session-warning').classList.remove('hidden');
+                    timerInterval = setInterval(checkSessionTimer, 1000);
+                    generateDiagnosticReport(true); 
+                }
             }
         });
 
@@ -982,7 +998,7 @@
         }
 
         // -------------------------------------------------------------
-        // ASSESSMENT FLOW & TIMERS (UPDATED TO ALLOW 3HR RELOAD)
+        // ASSESSMENT FLOW & TIMERS
         // -------------------------------------------------------------
         function launchAssessment(assessmentName) {
             if (!currentUser) { 
@@ -995,28 +1011,27 @@
             if (sessionData && sessionData.locked) {
                 const elapsed = Date.now() - sessionData.startTime;
                 
-                // Allow re-entry if within 3 hours
-                if (elapsed < SESSION_LIMIT_MS) {
+                // Allow admin/demo infinite retries
+                if (currentUser.role === 'master' || currentUser.role === 'demo') {
+                    sessionData = null; 
+                    localStorage.removeItem("syntropix_session");
+                } 
+                // Allow active session to just be viewed
+                else if (elapsed < SESSION_LIMIT_MS) {
                     alert("Resuming active session. You can view your generated report for the remainder of your 3-hour window.");
                     currentActiveAssessment = assessmentName || "CogniMorph Index";
                     answers = sessionData.answers;
                     generateDiagnosticReport(true); // reload silently
                     
-                    // Keep the timer running during report view
                     document.getElementById('session-warning').classList.remove('hidden');
                     clearInterval(timerInterval);
                     timerInterval = setInterval(checkSessionTimer, 1000);
                     return;
                 } else {
-                    if (currentUser.role === 'master' || currentUser.role === 'demo') {
-                        sessionData = null; 
-                        localStorage.removeItem("syntropix_session");
-                    } else {
-                        alert("Your 3-hour session window has expired. You must start a new assessment.");
-                        sessionData = null;
-                        localStorage.removeItem("syntropix_session");
-                        return;
-                    }
+                    alert("Your 3-hour session window has expired. You must start a new assessment.");
+                    sessionData = null;
+                    localStorage.removeItem("syntropix_session");
+                    return;
                 }
             }
 
@@ -1259,7 +1274,12 @@
             }
         }
 
+        // BUG FIX: Hide dashboard elements explicitly so they don't overlap the report
         function showReport() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            
             document.getElementById('assessment-view-container').classList.remove('hidden');
             document.getElementById('quiz-view').classList.add('hidden');
             document.getElementById('intro-view').classList.add('hidden');
@@ -1468,9 +1488,6 @@
             });
         }
 
-        // -------------------------------------------------------------
-        // UPGRADED AI COACH: CLIENT-SIDE INTENT & FILE GENERATION
-        // -------------------------------------------------------------
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const userText = input.value.trim();
@@ -1482,7 +1499,6 @@
             
             const lowerQuery = userText.toLowerCase();
             
-            // INTENT 1: USER REQUESTS A FILE DOWNLOAD (Bypasses Backend API)
             if (lowerQuery.includes("download") || lowerQuery.includes("excel") || lowerQuery.includes("csv") || lowerQuery.includes("sheet") || lowerQuery.includes("pdf")) {
                 setTimeout(() => {
                     generateLocalTrackingSheet();
@@ -1491,7 +1507,6 @@
                 return;
             }
 
-            // INTENT 2: NORMAL CHAT QUERY (Sent to Backend, with robust local fallback)
             try {
                 const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                     method: 'POST',
@@ -1503,14 +1518,12 @@
                 });
                 const data = await res.json();
                 
-                // If backend returns the fallback error string, override it with a smart local response.
                 if (data.reply && data.reply.includes("try again in a moment")) {
                     throw new Error("Backend API Key not configured.");
                 }
                 
                 document.getElementById(typingId).innerHTML = data.reply;
             } catch (e) {
-                // Highly robust local fallback so the USP never looks broken to a client
                 setTimeout(() => {
                     let fallbackText = `As your AI coach, I've analyzed your prompt regarding "${userText}". Based on your specific topology score of ${computedResults.gni}/100, my immediate advice is to focus entirely on your lowest performing subscale. I recommend executing the '3-Second Pause' rule today to build immediate neuro-adaptive resistance. <br><br><span class="text-[10px] text-purple-300 italic">(Note: Live cloud processing is currently syncing. This is a cached psychometric response.)</span>`;
                     document.getElementById(typingId).innerHTML = fallbackText;
@@ -1518,7 +1531,6 @@
             }
         }
 
-        // CLIENT-SIDE FILE GENERATOR ENGINE
         function generateLocalTrackingSheet() {
             const csvContent = "data:text/csv;charset=utf-8," 
                 + "Day,Phase,Exercise Name,Action Completed (Y/N),Notes / Triggers Observed\n"
