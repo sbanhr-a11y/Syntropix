@@ -20,6 +20,20 @@
     <style>
         .logo-img { height: 44px; width: auto; object-fit: contain; }
         .gap-highlight { box-shadow: 0 0 15px rgba(244, 63, 94, 0.3); border-color: #f43f5e !important; }
+        .demo-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.03);
+            z-index: 9999;
+            pointer-events: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+        }
         @media print { 
             .no-print { display: none !important; } 
             body { background-color: #020617 !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; } 
@@ -28,6 +42,8 @@
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-600 selection:text-white flex flex-col justify-between" id="app-body">
+
+    <div id="demo-watermark" class="hidden demo-watermark">DEMO PREVIEW ONLY</div>
 
     <script>
         // Set this to your deployed Apps Script URL for backend operations
@@ -342,7 +358,7 @@
                     <img src="logo.png" alt="Logo" class="h-6 w-auto object-contain">
                     <div class="text-xs text-slate-400">Diagnostic report for <span id="rep-name" class="text-white font-medium"></span> on <span id="rep-date" class="text-slate-300"></span></div>
                 </div>
-                <button onclick="window.print()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-medium transition">Print / PDF</button>
+                <button id="print-pdf-btn" onclick="window.print()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-medium transition">Print / PDF</button>
             </div>
 
             <div class="bg-indigo-950/40 border border-indigo-500/40 rounded-2xl p-6 space-y-3 print-card">
@@ -560,7 +576,7 @@
 
     <script>
         // -------------------------------------------------------------
-        // CORE STATE & SESSION MANAGEMENT (3 HOUR TIMER + AUTO SAVE)
+        // CORE STATE & SESSION MANAGEMENT
         // -------------------------------------------------------------
         let currentUser = JSON.parse(localStorage.getItem("syntropix_user") || 'null');
         let sessionData = JSON.parse(localStorage.getItem("syntropix_session") || 'null');
@@ -722,7 +738,7 @@
         });
 
         // -------------------------------------------------------------
-        // UI NAVIGATION FUNCTIONS (WITH SCROLL FIX)
+        // UI NAVIGATION FUNCTIONS
         // -------------------------------------------------------------
         function showDashboard(skipScroll = false) {
             document.getElementById('assessment-view-container').classList.add('hidden');
@@ -765,7 +781,7 @@
         }
 
         // -------------------------------------------------------------
-        // AUTHENTICATION LOGIC (4 ROLES)
+        // AUTHENTICATION LOGIC
         // -------------------------------------------------------------
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
@@ -802,6 +818,11 @@
                 // FALLBACK FOR DEVELOPMENT IF APPS SCRIPT NOT YET CONNECTED
                 if (email === "admin" && pass === "MasterSyntropix2026!") {
                     currentUser = { name: "Master Admin", email: "admin", role: "master" };
+                    localStorage.setItem("syntropix_user", JSON.stringify(currentUser));
+                    updateUserUI(); closeAuthModal(); return;
+                }
+                if (email === "demo" && pass === "DemoAccess26") {
+                    currentUser = { name: "Demo User", email: "demo", role: "demo" };
                     localStorage.setItem("syntropix_user", JSON.stringify(currentUser));
                     updateUserUI(); closeAuthModal(); return;
                 }
@@ -843,10 +864,17 @@
                 openAuthModal(); 
                 return; 
             }
+            
+            // NEW LOGIC: Admin and Demo roles bypass the locked session rule allowing infinite retries
             if (sessionData && sessionData.locked) {
-                alert("You have already completed the assessment. Your report is locked.");
-                showReport();
-                return;
+                if (currentUser.role === 'master' || currentUser.role === 'demo') {
+                    sessionData = null; 
+                    localStorage.removeItem("syntropix_session");
+                } else {
+                    alert("You have already completed the assessment. Your report is locked.");
+                    showReport();
+                    return;
+                }
             }
 
             currentActiveAssessment = assessmentName || "CogniMorph Index";
@@ -907,9 +935,10 @@
             
             // Initialize or update the 3-hour session
             if (!sessionData) {
-                sessionData = { startTime: Date.now(), answers: {}, locked: false, profile: userProfile };
+                answers = {}; // Reset local answers array when starting fresh
+                sessionData = { startTime: Date.now(), answers: answers, locked: false, profile: userProfile };
             } else {
-                sessionData.profile = userProfile; // Update profile if session existed but wasn't locked
+                sessionData.profile = userProfile; // Update profile if session existed
             }
             localStorage.setItem("syntropix_session", JSON.stringify(sessionData));
 
@@ -994,6 +1023,18 @@
             sessionData.locked = true;
             localStorage.setItem("syntropix_session", JSON.stringify(sessionData));
 
+            // DEMO UI RESTRICTIONS
+            if (currentUser && currentUser.role === 'demo') {
+                document.getElementById('demo-watermark').classList.remove('hidden');
+                const printBtn = document.getElementById('print-pdf-btn');
+                if (printBtn) printBtn.classList.add('hidden');
+            } else {
+                const watermark = document.getElementById('demo-watermark');
+                if(watermark) watermark.classList.add('hidden');
+                const printBtn = document.getElementById('print-pdf-btn');
+                if (printBtn) printBtn.classList.remove('hidden');
+            }
+
             // CALCULATE MATH
             let dimRaw = { CPEF: 0, ESLFT: 0, PSAV: 0, DESG: 0 };
             let totalTransformed = 0;
@@ -1049,19 +1090,21 @@
             drawRadarChart(dimIndices);
             renderTopologyInference(gni);
 
-            // FIRE REPORT TO SECURE BACKEND FOR PDF EMAIL
-            const reportHtml = document.getElementById('report-view').innerHTML;
-            fetch(GOOGLE_SHEET_WEBHOOK_URL, {
-                method: 'POST',
-                body: JSON.stringify({ 
-                    action: "submit_report", 
-                    email: prof.email, 
-                    name: prof.name,
-                    globalScore: gni,
-                    archetype: archKey,
-                    reportHtml: reportHtml
-                })
-            }).catch(e => console.log(e));
+            // FIRE REPORT TO SECURE BACKEND FOR PDF EMAIL (Bypass if Demo)
+            if (currentUser && currentUser.role !== 'demo') {
+                const reportHtml = document.getElementById('report-view').innerHTML;
+                fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        action: "submit_report", 
+                        email: prof.email, 
+                        name: prof.name,
+                        globalScore: gni,
+                        archetype: archKey,
+                        reportHtml: reportHtml
+                    })
+                }).catch(e => console.log(e));
+            }
         }
 
         function showReport() {
