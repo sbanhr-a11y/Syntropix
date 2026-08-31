@@ -377,7 +377,10 @@
                     <img src="logo.png" alt="Logo" class="h-6 w-auto object-contain">
                     <div class="text-xs text-slate-400">Diagnostic Data Locked</div>
                 </div>
-                <button id="print-pdf-btn" onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition shadow-lg">Download PDF Report</button>
+                <div class="flex gap-2">
+                    <button id="admin-retake-btn" onclick="adminRetakeAssessment()" class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold transition shadow-lg">🔄 Retake (Admin/Demo)</button>
+                    <button id="print-pdf-btn" onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition shadow-lg">Download PDF Report</button>
+                </div>
             </div>
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 print-card shadow-2xl relative overflow-hidden">
@@ -579,7 +582,7 @@
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Ask a question or request a download (e.g., 'download tracking sheet')...." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-3 text-xs text-white focus:outline-none focus:border-purple-500 shadow-inner">
+                    <input type="text" id="chatInput" placeholder="Ask a question or request a download (e.g., 'download tracking sheet')..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-3 text-xs text-white focus:outline-none focus:border-purple-500 shadow-inner">
                     <button onclick="sendMessage()" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs rounded-lg transition shadow-lg">Submit Prompt</button>
                 </div>
             </div>
@@ -998,6 +1001,18 @@
         }
 
         // -------------------------------------------------------------
+        // ADMIN RETAKE OVERRIDE
+        // -------------------------------------------------------------
+        function adminRetakeAssessment() {
+            if (confirm("Admin/Demo Action: Are you sure you want to wipe this report and start a new assessment?")) {
+                sessionData = null;
+                localStorage.removeItem("syntropix_session");
+                showDashboard();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // -------------------------------------------------------------
         // ASSESSMENT FLOW & TIMERS
         // -------------------------------------------------------------
         function launchAssessment(assessmentName) {
@@ -1011,13 +1026,8 @@
             if (sessionData && sessionData.locked) {
                 const elapsed = Date.now() - sessionData.startTime;
                 
-                // Allow admin/demo infinite retries
-                if (currentUser.role === 'master' || currentUser.role === 'demo') {
-                    sessionData = null; 
-                    localStorage.removeItem("syntropix_session");
-                } 
-                // Allow active session to just be viewed
-                else if (elapsed < SESSION_LIMIT_MS) {
+                // RESUME active session window logic
+                if (elapsed < SESSION_LIMIT_MS) {
                     alert("Resuming active session. You can view your generated report for the remainder of your 3-hour window.");
                     currentActiveAssessment = assessmentName || "CogniMorph Index";
                     answers = sessionData.answers;
@@ -1028,10 +1038,16 @@
                     timerInterval = setInterval(checkSessionTimer, 1000);
                     return;
                 } else {
-                    alert("Your 3-hour session window has expired. You must start a new assessment.");
-                    sessionData = null;
-                    localStorage.removeItem("syntropix_session");
-                    return;
+                    if (currentUser.role === 'master' || currentUser.role === 'demo') {
+                        // Admin bypasses expired screen and wipes silently
+                        sessionData = null; 
+                        localStorage.removeItem("syntropix_session");
+                    } else {
+                        alert("Your 3-hour session window has expired. You must start a new assessment.");
+                        sessionData = null;
+                        localStorage.removeItem("syntropix_session");
+                        return;
+                    }
                 }
             }
 
@@ -1183,7 +1199,7 @@
             sessionData.locked = true;
             localStorage.setItem("syntropix_session", JSON.stringify(sessionData));
 
-            // DEMO UI RESTRICTIONS
+            // DEMO UI RESTRICTIONS & ADMIN RETAKE BTN
             if (currentUser && currentUser.role === 'demo') {
                 document.getElementById('demo-watermark').classList.remove('hidden');
                 const printBtn = document.getElementById('print-pdf-btn');
@@ -1193,6 +1209,13 @@
                 if(watermark) watermark.classList.add('hidden');
                 const printBtn = document.getElementById('print-pdf-btn');
                 if (printBtn) printBtn.classList.remove('hidden');
+            }
+            
+            if (currentUser && (currentUser.role === 'master' || currentUser.role === 'demo')) {
+                document.getElementById('admin-retake-btn').classList.remove('hidden');
+            } else {
+                const retakeBtn = document.getElementById('admin-retake-btn');
+                if(retakeBtn) retakeBtn.classList.add('hidden');
             }
 
             // CALCULATE MATH
@@ -1298,11 +1321,10 @@
                 const score = dimIndices[k];
                 const d = dimensionData[k];
                 const status = score >= 75 ? 'Strong' : score >= 60 ? 'Moderate' : 'Urgent Gap';
-                const isGap = score === minScore || score < 60; // Flag as gap if lowest OR below threshold
+                const isGap = score === minScore || score < 60; 
 
                 let examplesHtml = d.examples.map(ex => `<li class="flex items-start gap-2"><span class="text-${d.color}-500 mt-0.5">•</span><span>${ex}</span></li>`).join('');
                 
-                // Construct the dynamic urgent impact string if applicable
                 let urgentHtml = '';
                 if (isGap) {
                     urgentHtml = `
