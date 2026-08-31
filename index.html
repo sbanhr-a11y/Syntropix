@@ -8,45 +8,49 @@
     <script src="https://www.paypal.com/sdk/js?client-id=BAAoaGuJGS0__6_N0d5d14H4qVeNxTSp3Gsaicy_YTipOwRtM9M5XyLz8O_FmviWUkPJLtBUX84kK2HbbE&currency=USD"></script>
     <script>
         tailwind.config = {
-            theme: { extend: { colors: { slate: { 900: '#0f172a', 950: '#020617' } } } }
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0f172a', 950: '#020617' }
+                    }
+                }
+            }
         }
     </script>
     <style>
-        .logo-img { height: 60px; width: auto; object-fit: contain; }
-        .gradient-text { background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-img { height: 44px; width: auto; object-fit: contain; }
         @media print { 
             .no-print { display: none !important; } 
             body { background-color: #020617 !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; } 
-            .print-card { break-inside: avoid; border: 1px solid #1e293b !important; background: #0f172a !important; margin-bottom: 20px; }
+            .print-card { break-inside: avoid; border: 1px solid #1e293b !important; background: #0f172a !important; }
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex flex-col justify-between" id="app-body">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-600 selection:text-white flex flex-col justify-between" id="app-body">
 
     <script>
         const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; 
-        const SESSION_DURATION = 3 * 60 * 60 * 1000; // 3 Hours
     </script>
 
     <header class="no-print border-b border-slate-800/80 bg-slate-950/90 backdrop-blur sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard()">
                 <img src="logo.png" alt="Syntropix Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
-                <div id="logo-fallback" class="hidden w-12 h-12 rounded-lg bg-indigo-600 items-center justify-center font-black text-white text-xl">S</div>
+                <div id="logo-fallback" class="hidden w-11 h-11 rounded-lg bg-indigo-600 items-center justify-center font-black text-white text-lg">S</div>
             </div>
 
             <nav class="hidden md:flex items-center space-x-8 text-xs text-slate-300 font-medium">
                 <button onclick="showDashboard()" class="hover:text-white transition">Home</button>
                 <button onclick="scrollToSection('assessments-section')" class="hover:text-white transition">Assessments Suite</button>
-                <button onclick="scrollToSection('usp-section')" class="hover:text-white transition">Methodology</button>
+                <button onclick="scrollToSection('usp-section')" class="hover:text-white transition">Methodology & USP</button>
                 <button onclick="showCoachingPage()" class="hover:text-white transition">Executive Coaching</button>
             </nav>
 
             <div class="flex items-center gap-3">
                 <button id="admin-nav-btn" onclick="openAdminDashboard()" class="hidden px-3 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/40 text-purple-300 text-xs font-bold transition hover:bg-purple-600/40">
-                    🔬 Enterprise Portal
+                    🔬 Admin Research Portal
                 </button>
-                <button onclick="openAuthModal()" id="nav-login-btn" class="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition shadow-md">Sign In</button>
+                <button onclick="openAuthModal()" id="nav-login-btn" class="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition shadow-md shadow-indigo-600/20">Sign In</button>
                 <div id="nav-user-profile" class="hidden items-center gap-2 text-xs">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     <span id="user-display-name" class="font-medium text-slate-200"></span>
@@ -56,500 +60,50 @@
         </div>
     </header>
 
-    <main id="dashboard-view" class="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-24">
+    <main id="dashboard-view" class="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-20">
         
-        <section class="space-y-10 text-center max-w-4xl mx-auto pt-8">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 text-[11px] font-mono tracking-wider uppercase shadow-lg shadow-indigo-900/20">
+        <section class="space-y-8 text-center max-w-4xl mx-auto pt-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 text-[11px] font-mono tracking-wider uppercase">
                 <span>The Architecture of Human Potential</span>
             </div>
-            <h2 class="text-5xl sm:text-7xl font-black text-white tracking-tight leading-[1.1]">
-                Where Human Potential Becomes Measurable.<br>
-                <div class="mt-6"><span class="gradient-text">The Human Intelligence Suite.</span></div>
+            <h2 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.1]">
+                Where Human Potential Becomes Measurable.<br><br>
+                <span class="text-indigo-400">The Human Intelligence Suite.</span>
             </h2>
             <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl mx-auto">
-                Syntropix moves beyond static personality typing. We measure your <strong>daily mental habits and problem-solving patterns</strong>—providing validated tools that show how you handle pressure, navigate complex challenges, and synthesize feedback.
+                Syntropix moves beyond static personality typing. We measure your <strong>daily mental habits and problem-solving patterns</strong>—providing validated tools that show how you handle pressure, feedback, and complex challenges.
             </p>
-            <div class="pt-4 flex flex-wrap justify-center gap-4">
-                <button onclick="openQuickMatcherModal()" class="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm uppercase tracking-wider transition shadow-xl shadow-indigo-600/30">
-                    ⚡ Quick Assessment Matcher
+            <div class="pt-2 flex flex-wrap justify-center gap-4">
+                <button onclick="openQuickMatcherModal()" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
+                    ⚡ Take Quick Assessment Matcher
                 </button>
             </div>
         </section>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12">
             <div class="space-y-4">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Our Core Philosophy</span>
-                <h3 class="text-3xl font-black text-white tracking-tight">Built for the Infinite Journey of Self-Mastery</h3>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                    In physics, syntropy represents the internal evolution toward order and structural harmony. In human development, it is the deliberate refusal to stagnate. We founded Syntropix to equip ambitious professionals with empirical, gold-standard telemetry.
+                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Built for Those on the Infinite Journey of Self-Mastery</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    In physics, syntropy represents the internal evolution toward order, complexity, and structural harmony. In human development, it is the deliberate refusal to stagnate. We founded Syntropix to equip ambitious professionals, executives, and academics with gold-standard psychometric telemetry.
                 </p>
-                <blockquote class="border-l-2 border-indigo-500 pl-4 italic text-sm text-slate-400 mt-4">
-                    "Mindset is not a fixed trait. It is the active mental calibration through which you interpret friction, assimilate errors, and allocate energy under operational uncertainty."
+                <blockquote class="border-l-2 border-indigo-500 pl-4 italic text-xs text-slate-400">
+                    "Mindset is not a fixed trait or an immutable psychological profile; rather, it is the active cognitive calibration through which an individual interprets friction, assimilates error, and allocates mental energy under operational uncertainty."
                 </blockquote>
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
-                    <span class="text-3xl font-black text-indigo-400">7+</span>
+                    <span class="text-2xl font-black text-indigo-400">7+</span>
                     <h4 class="text-xs font-bold uppercase text-white">Proprietary Scales</h4>
-                    <p class="text-[11px] text-slate-400">Rigorously validated against psychometric benchmark standards.</p>
+                    <p class="text-[11px] text-slate-400">Rigorously validated against DeVellis and Hinkin psychometric standards.</p>
                 </div>
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
-                    <span class="text-3xl font-black text-emerald-400">0.92</span>
+                    <span class="text-2xl font-black text-emerald-400">0.92+</span>
                     <h4 class="text-xs font-bold uppercase text-white">Reliability Score</h4>
-                    <p class="text-[11px] text-slate-400">Top-tier consistency verified across thousands of executive cohorts.</p>
+                    <p class="text-[11px] text-slate-400">Top-tier internal consistency and error-free precision verified across cohorts.</p>
                 </div>
             </div>
         </section>
 
-        <section id="assessments-section" class="space-y-10">
-            <div class="text-center space-y-3 max-w-3xl mx-auto">
-                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Proprietary Suite</span>
-                <h3 class="text-3xl sm:text-5xl font-black text-white tracking-tight">Empirically Validated Portfolio</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">Discover your cognitive baseline. These instruments are designed to bypass self-deception and establish absolute psychological clarity.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">Ψ</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-indigo-950 text-indigo-300 border border-indigo-800">Flagship</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white group-hover:text-indigo-300 transition">CogniMorph Index™</h4>
-                        <p class="text-xs font-medium text-indigo-200 leading-relaxed italic">"Are your daily setbacks building mental muscle or capping your growth?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Measures how well you bounce back from failure, handle high-stakes pressure, and treat mistakes as data rather than threats.</p>
-                    </div>
-                    <button onclick="launchAssessment('CogniMorph Index')" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Launch Assessment</button>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 hover:border-purple-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">C</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white group-hover:text-purple-300 transition">Coachability Quotient™</h4>
-                        <p class="text-xs font-medium text-purple-200 leading-relaxed italic">"Does tough feedback feel like an attack, or your fastest fuel for promotion?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Evaluates your openness to mentoring, ability to drop defensiveness, and speed in turning advice into new habits.</p>
-                    </div>
-                    <button onclick="launchAssessment('Coachability Quotient')" class="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-purple-300 border border-slate-700 font-bold text-xs uppercase tracking-wider transition">Launch Assessment</button>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold">M</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white group-hover:text-emerald-300 transition">Metacognitive Executive Assessment™</h4>
-                        <p class="text-xs font-medium text-emerald-200 leading-relaxed italic">"How effectively do you monitor your own thinking when chaos strikes?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Audits how you allocate mental energy, debug problems in real time, and stay clear-headed during ambiguity.</p>
-                    </div>
-                    <button onclick="launchAssessment('Metacognitive Executive Assessment')" class="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 font-bold text-xs uppercase tracking-wider transition">Launch Assessment</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="usp-section" class="space-y-10 bg-slate-900/60 border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl">
-            <div class="text-center space-y-3 max-w-3xl mx-auto">
-                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Syntropix Advantage</span>
-                <h3 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Why We Outperform Legacy Frameworks</h3>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-bold">01</div>
-                    <h4 class="text-base font-bold text-white">Dynamic Architecture</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Unlike legacy tools that label you with rigid acronyms, we measure real-time cognitive reflexes under friction, offering a fluid map of your capabilities.</p>
-                </div>
-                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-bold">02</div>
-                    <h4 class="text-base font-bold text-white">Empirical Legitimacy</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">Our infrastructure is strictly <span class="font-bold text-indigo-300 italic">grounded in the latest validated researches in neuro-adaptive cognitive architecture</span>, yielding unparalleled accuracy.</p>
-                </div>
-                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-600/20 flex items-center justify-center text-emerald-400 font-bold">03</div>
-                    <h4 class="text-base font-bold text-white">Revolutionary AI Co-Pilot</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">A live, embedded AI Coach works alongside you post-assessment to interpret your data, answer custom queries, and build your evolutionary growth timeline.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <main id="coaching-view" class="hidden max-w-6xl mx-auto px-6 py-12 flex-1 w-full space-y-10">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-            <div>
-                <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Advisory Network</span>
-                <h2 class="text-4xl font-black text-white tracking-tight mt-1">Syntropix Executive Coaching</h2>
-            </div>
-            <button onclick="showDashboard()" class="px-5 py-2 bg-slate-800 text-white text-xs font-bold rounded-xl transition hover:bg-slate-700">Return to Hub</button>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 space-y-8">
-            <h3 class="text-2xl font-bold text-white">Transforming Elite Leadership</h3>
-            <p class="text-sm text-slate-300 leading-relaxed max-w-4xl">Self-awareness without external empirical telemetry creates invisible blind spots. Our empanelled coaches utilize Syntropix reports to bypass months of exploratory dialogue, zeroing in directly on mental bottlenecks.</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                <div class="p-6 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
-                    <span class="text-[10px] font-mono uppercase bg-indigo-950 text-indigo-300 px-3 py-1 rounded-full border border-indigo-800">Case Study 1: Global Operations VP</span>
-                    <h4 class="text-base font-bold text-white">Unlocking Feedback Receptivity</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed"><strong>Challenge:</strong> A senior VP resisted critical feedback regarding legacy structures.<br><strong>Intervention:</strong> Leveraging the Syntropix diagnostic, the coach dismantled defensive reflexes using structured 'error postmortems', accelerating regional integrations by 42%.</p>
-                </div>
-                <div class="p-6 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
-                    <span class="text-[10px] font-mono uppercase bg-purple-950 text-purple-300 px-3 py-1 rounded-full border border-purple-800">Case Study 2: Fintech Scale-Up CEO</span>
-                    <h4 class="text-base font-bold text-white">Curing Operational Micromanagement</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed"><strong>Challenge:</strong> Acute cognitive tunneling under investor pressure led to micromanagement.<br><strong>Intervention:</strong> The coach established systemic 3-second strategic pauses and decoupled self-worth from daily failures. Executive retention surged.</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <main id="assessment-view-container" class="hidden max-w-4xl mx-auto px-6 py-8 flex-1 w-full space-y-8">
-        <div class="no-print flex items-center justify-between pb-4 border-b border-slate-800">
-            <button onclick="showDashboard()" class="text-xs text-indigo-400 hover:text-indigo-300 font-bold uppercase tracking-wider">← Cancel Session</button>
-            <span id="active-assessment-title" class="text-xs font-mono text-slate-400">Active Assessment</span>
-        </div>
-
-        <section id="intro-view" class="space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 space-y-6 shadow-2xl">
-                <div>
-                    <h2 id="briefing-title" class="text-2xl font-black text-white tracking-tight">Assessment Checkout</h2>
-                    <p class="text-sm text-slate-400 mt-2">Enter your credentials below. Upon completion, a comprehensive PDF copy of your telemetry report will be dispatched instantly to your inbox.</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">Full Name</label>
-                        <input type="text" id="userName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-indigo-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-widest mb-1.5">Professional Email</label>
-                        <input type="email" id="userEmail" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-indigo-500 focus:outline-none">
-                    </div>
-                </div>
-
-                <div id="paypal-section" class="pt-6 border-t border-slate-800">
-                    <p class="text-xs text-slate-300 font-bold mb-3 uppercase tracking-wider">Secure Payment Gateway ($49.00 USD):</p>
-                    <div id="paypal-button-container" class="max-w-md"></div>
-                </div>
-
-                <div id="admin-bypass-section" class="hidden pt-6 border-t border-slate-800">
-                    <button onclick="startAssessmentAfterPayment()" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-sm uppercase tracking-widest transition shadow-xl">
-                        Start Assessment (Admin Bypass)
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="quiz-view" class="hidden space-y-8">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sticky top-20 z-30 backdrop-blur shadow-2xl flex flex-col space-y-3">
-                <div class="flex items-center justify-between">
-                    <span id="progress-text" class="text-sm font-black text-white">0 / 20 Answered</span>
-                    <span class="text-[10px] text-emerald-400 font-mono uppercase font-bold tracking-widest flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Auto-Save Active</span>
-                </div>
-                <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800">
-                    <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
-                </div>
-            </div>
-
-            <div class="bg-indigo-950/30 border border-indigo-500/30 rounded-2xl p-5 flex flex-col items-center gap-2">
-                <span class="font-bold text-indigo-300 uppercase tracking-widest text-[10px]">Rating Scale</span>
-                <div class="flex items-center gap-4 text-xs font-bold">
-                    <span class="text-slate-400">1 = Strongly Disagree</span>
-                    <span class="w-12 border-t border-slate-700 border-dashed"></span>
-                    <span class="text-emerald-400">6 = Strongly Agree</span>
-                </div>
-            </div>
-
-            <div id="questions-list" class="space-y-6"></div>
-            <button id="submit-btn" onclick="generateDiagnosticReport()" disabled class="w-full py-4 rounded-xl bg-indigo-600 disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm font-black uppercase tracking-widest transition shadow-xl">Generate Telemetry Report</button>
-        </section>
-
-        <section id="report-view" class="hidden space-y-12">
-            
-            <div class="no-print flex justify-between items-center bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xl">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">✓</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Report Generated Successfully</h4>
-                        <p class="text-[11px] text-slate-400">A PDF copy has been emailed to <span id="rep-dispatch-email" class="text-slate-200"></span></p>
-                    </div>
-                </div>
-                <button onclick="window.print()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition">Print / PDF</button>
-            </div>
-
-            <div class="bg-indigo-950/20 border border-indigo-500/30 rounded-3xl p-8 space-y-4 print-card">
-                <h3 class="text-lg font-black text-indigo-300 tracking-tight">How to Read This Report & Approach It Without Bias</h3>
-                <p class="text-sm text-slate-300 leading-relaxed">This report is an objective mirror. It does not measure intelligence; it measures your mental reflexes under friction. Leadership excellence requires recognizing your blind spots and rewiring your daily habits.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-xs">
-                    <div class="p-4 bg-slate-950/50 rounded-xl border border-slate-800/50">
-                        <strong class="text-white block mb-1">1. Objective Acceptance</strong>
-                        Treat these scores as neutral operational data, not personal grades.
-                    </div>
-                    <div class="p-4 bg-slate-950/50 rounded-xl border border-slate-800/50">
-                        <strong class="text-white block mb-1">2. Target Your Gaps</strong>
-                        Isolate your lowest subscale. This is your immediate growth lever.
-                    </div>
-                    <div class="p-4 bg-slate-950/50 rounded-xl border border-slate-800/50">
-                        <strong class="text-white block mb-1">3. Execute Daily Action</strong>
-                        Follow the 30-60-90 day protocol systematically to forge new neural pathways.
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 print-card">
-                <div class="flex flex-col md:flex-row gap-8">
-                    <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-slate-800 pb-6 md:pb-0 md:pr-8 flex flex-col justify-center">
-                        <span id="rep-assessment-title-label" class="text-xs font-bold uppercase tracking-widest text-slate-400">Syntropix Index</span>
-                        <div class="flex items-end gap-2 mt-2">
-                            <span id="global-score" class="text-6xl font-black text-white leading-none">0.0</span>
-                            <span class="text-slate-500 font-bold mb-1">/ 100</span>
-                        </div>
-                    </div>
-                    <div class="md:w-2/3 space-y-4">
-                        <div>
-                            <span class="text-[10px] font-mono uppercase tracking-widest text-indigo-400">Operating Profile</span>
-                            <h3 id="rep-archetype" class="text-2xl font-black text-white mt-1"></h3>
-                        </div>
-                        <p id="profile-explanation" class="text-sm text-slate-300 leading-relaxed"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-6 print-card">
-                <div class="border-b border-slate-800 pb-3">
-                    <h3 class="text-xl font-black text-white">Comparative Benchmark Standing & Legitimacy</h3>
-                    <p class="text-xs text-slate-400 mt-1">Why trust these benchmarks? Calibrated against certified global normative databases.</p>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-sm text-slate-300 leading-relaxed">
-                    <strong>Scientific Validity & Norming Source:</strong> Syntropix benchmarks are derived from cumulative empirical validation across executive cohorts ($N = 450$), following strict DeVellis and Hinkin scale criteria. A mean baseline of 68.4% is anchored in international psychometric norms.
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm font-bold text-white">Internal Database Cohort</span>
-                            <span id="rep-cohort-percentile" class="font-black text-indigo-400"></span>
-                        </div>
-                        <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
-                            <div id="rep-cohort-bar" class="bg-indigo-500 h-full w-0 transition-all duration-700"></div>
-                        </div>
-                        <p class="text-xs text-slate-400">Your <strong>Percentile</strong> indicates that you scored higher than <strong id="rep-cohort-pct-text" class="text-slate-200"></strong> of all professionals currently in our global database.</p>
-                    </div>
-                    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm font-bold text-white">Global Mindset Standard</span>
-                            <span id="rep-global-percentile" class="font-black text-emerald-400"></span>
-                        </div>
-                        <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
-                            <div id="rep-global-bar" class="bg-emerald-500 h-full w-0 transition-all duration-700"></div>
-                        </div>
-                        <p class="text-xs text-slate-400">Calibrated against broader industry averages to ensure objective, bias-free capability assessment.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-6 print-card">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-3 gap-2">
-                    <h3 class="text-xl font-black text-white">Cognitive Subscale Diagnostics & Gap Analysis</h3>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="detailed-subscales-grid"></div>
-
-                <div class="bg-indigo-950/20 border border-indigo-500/30 rounded-2xl p-6 mt-6">
-                    <h4 class="text-sm font-black text-indigo-300 uppercase tracking-widest mb-2">Synthesized Mindset Inference</h4>
-                    <p id="combined-inference-text" class="text-sm text-slate-300 leading-relaxed"></p>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 print-card">
-                <h3 class="text-xl font-black text-white mb-6">Dimensional Topology Map</h3>
-                <div class="flex flex-col md:flex-row items-center gap-10">
-                    <div class="flex flex-col items-center bg-slate-950 p-6 rounded-3xl border border-slate-800">
-                        <canvas id="radarChart" width="300" height="300" class="w-full max-w-[300px]"></canvas>
-                    </div>
-                    <div class="space-y-4 text-sm text-slate-300 leading-relaxed flex-1">
-                        <h5 class="font-black text-white text-base">How to Interpret Your Graph</h5>
-                        <p>The 4 primary axes reveal your cognitive symmetry. A wide, balanced shape indicates steady multi-dimensional agility. Inward constrictions pinpoint your specific mental bottlenecks.</p>
-                        <p id="topology-inference-details" class="p-4 bg-slate-950 rounded-xl border border-slate-800"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-6 print-card">
-                <h3 class="text-xl font-black text-white border-b border-slate-800 pb-3">30-60-90 Day Progressive Action Protocol</h3>
-                <div class="space-y-6">
-                    <div class="bg-slate-900 border-l-4 border-indigo-500 rounded-r-2xl p-6 space-y-4">
-                        <div class="flex items-center gap-3">
-                            <span class="px-3 py-1 bg-indigo-950 text-indigo-300 text-[10px] font-black uppercase tracking-widest rounded-md">Phase 1 (Days 1-30)</span>
-                            <h4 class="text-base font-bold text-white">Structural Decoupling</h4>
-                        </div>
-                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-300">
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">1. The 3-Second Pause:</strong> Wait 3 full seconds before replying to critical emails. Measure: Tally weekly reactive emails sent.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">2. Objective Error Log:</strong> Write down 2 errors weekly strictly as data points. Measure: Elimination of self-deprecating language.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">3. Emotion Naming:</strong> Label your feeling out loud during a crisis. Measure: Faster return to baseline calm.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">4. Boundary Disconnect:</strong> 10 min hard stop after deep work. Measure: Improved subsequent meeting focus.</li>
-                        </ul>
-                        <div class="text-xs text-indigo-300 bg-indigo-950/30 p-3 rounded-lg border border-indigo-900/50">
-                            <strong>Expected Outcome:</strong> A massive drop in defensive reactions. Example: Instead of arguing when a client rejects a pitch, you immediately ask, "What specific metric fell short?"
-                        </div>
-                    </div>
-                    <div class="bg-slate-900 border-l-4 border-emerald-500 rounded-r-2xl p-6 space-y-4">
-                        <div class="flex items-center gap-3">
-                            <span class="px-3 py-1 bg-emerald-950 text-emerald-300 text-[10px] font-black uppercase tracking-widest rounded-md">Phase 2 (Days 31-60)</span>
-                            <h4 class="text-base font-bold text-white">Peer Synergy Integration</h4>
-                        </div>
-                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-300">
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">1. Failure Interviews:</strong> Ask a mentor about their biggest career failure. Measure: Completed 2 interviews.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">2. Blind-Spot Audit:</strong> Request unvarnished feedback from 3 peers. Measure: Documented 3 new growth areas.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">3. Public Postmortem:</strong> Lead a blameless project review. Measure: Team engagement level.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">4. Cross-Training:</strong> Spend 2 hours learning a peer's discipline. Measure: Broader strategic understanding.</li>
-                        </ul>
-                        <div class="text-xs text-emerald-300 bg-emerald-950/30 p-3 rounded-lg border border-emerald-900/50">
-                            <strong>Expected Outcome:</strong> Elevated team psychological safety. Example: Junior staff begin openly sharing risks with you proactively.
-                        </div>
-                    </div>
-                    <div class="bg-slate-900 border-l-4 border-amber-500 rounded-r-2xl p-6 space-y-4">
-                        <div class="flex items-center gap-3">
-                            <span class="px-3 py-1 bg-amber-950 text-amber-300 text-[10px] font-black uppercase tracking-widest rounded-md">Phase 3 (Days 61-90)</span>
-                            <h4 class="text-base font-bold text-white">Metacognitive Mastery</h4>
-                        </div>
-                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-300">
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">1. Adversarial Red-Teaming:</strong> Have peers actively try to break your strategy before launch.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">2. Second-Order Forecasting:</strong> Write down the "consequence of the consequence" for big decisions.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">3. Autonomic Reset:</strong> Mandatory 15-minute complete tech blackout at midday.</li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800"><strong class="text-white block">4. Telemetry Re-Assessment:</strong> Retake this diagnostic to measure empirical growth.</li>
-                        </ul>
-                        <div class="text-xs text-amber-300 bg-amber-950/30 p-3 rounded-lg border border-amber-900/50">
-                            <strong>Expected Outcome:</strong> Executive capability under chaos. Example: When the market shifts unexpectedly, you immediately pivot resources without panicking.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="no-print bg-slate-950 border border-indigo-500/50 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-500"></div>
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h3 class="text-xl font-black text-white">Syntropix™ Live AI Executive Coach</h3>
-                        <p class="text-xs text-slate-400 mt-1">Powered by Gemini 3.6 Flash. <strong class="text-indigo-300">Instructions:</strong> Ask the AI to build custom tracking sheets, explain your score, or provide advice on a current workplace conflict.</p>
-                    </div>
-                    <span class="px-3 py-1 bg-emerald-950/50 border border-emerald-500/50 text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full animate-pulse">Online</span>
-                </div>
-                <div id="chat-messages" class="h-80 overflow-y-auto bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 text-sm leading-relaxed mb-4 custom-scrollbar">
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-[10px] text-white shrink-0 shadow-lg">AI</div>
-                        <div class="bg-slate-800 border border-slate-700 rounded-xl rounded-tl-none p-4 text-slate-200 max-w-[85%]">
-                            Hello! I am your embedded Syntropix Coach. I've analyzed your telemetry data. Ask me *anything*—from "How do I handle my micromanaging boss?" to "Draft a 360-feedback questionnaire for me."
-                        </div>
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <input type="text" id="chatInput" placeholder="Type your specific leadership challenge here..." onkeydown="if(event.key==='Enter') sendMessage()" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-indigo-500 shadow-inner">
-                    <button onclick="sendMessage()" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm uppercase tracking-widest rounded-xl transition shadow-xl">Ask Coach</button>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 print-card space-y-6">
-                <div class="border-b border-slate-800 pb-3">
-                    <h3 class="text-xl font-black text-white">Scientific Annexure & Comprehensive Dimensional Definitions</h3>
-                    <p class="text-xs text-slate-400 mt-1">Understanding the structural abbreviations behind your scores.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-300">
-                    <div class="space-y-2">
-                        <strong class="text-indigo-400 block text-base">CPEF: Cognitive Plasticity & Execution Flexibility</strong>
-                        <p><strong>What it is:</strong> Your core belief in whether your brain can master complex, alien tasks through deliberate practice, or if you believe talent is fixed.</p>
-                        <p><strong>Corporate Example:</strong> An executive smoothly transitioning their legacy marketing team onto completely new AI-driven platforms without resisting the steep learning curve.</p>
-                    </div>
-                    <div class="space-y-2">
-                        <strong class="text-indigo-400 block text-base">ESLFT: Error Synthesis & Learning Friction Tolerance</strong>
-                        <p><strong>What it is:</strong> How rapidly your emotions stabilize after a public failure, allowing you to extract lessons.</p>
-                        <p><strong>Corporate Example:</strong> Instead of hiding a botched product launch, a leader immediately calls a blameless team meeting to dissect the failure and build a stronger protocol.</p>
-                    </div>
-                    <div class="space-y-2">
-                        <strong class="text-indigo-400 block text-base">PSAV: Pressure Stimulus & Ambiguity Velocity</strong>
-                        <p><strong>What it is:</strong> How you psychologically frame stress hormones during tight deadlines—either as paralyzing panic or performance-enhancing fuel.</p>
-                        <p><strong>Corporate Example:</strong> Maintaining a calm, methodical tone and clear delegation during a sudden, catastrophic drop in quarterly revenue.</p>
-                    </div>
-                    <div class="space-y-2">
-                        <strong class="text-indigo-400 block text-base">DESG: Defensive Extinction & Synergy Growth</strong>
-                        <p><strong>What it is:</strong> The ability to separate your personal self-worth from critical feedback or peer outperformance.</p>
-                        <p><strong>Corporate Example:</strong> A CEO actively encouraging junior developers to point out flaws in their strategic roadmap, prioritizing truth over ego.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 print-card space-y-6">
-                <div class="border-b border-slate-800 pb-3">
-                    <h3 class="text-xl font-black text-white">Report Credibility & Recommended Reading</h3>
-                </div>
-                <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
-                    <p>
-                        Unlike legacy assessments that categorize individuals into static personality boxes, <strong class="text-indigo-400 italic">Syntropix is grounded in the latest validated researches in neuro-adaptive cognitive architecture.</strong> We measure real-time mental flexibility, not past reputation.
-                    </p>
-                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 mt-4">
-                        <strong class="text-white text-base block mb-3">📚 Recommended Reading for Your Profile:</strong>
-                        <ul class="space-y-3">
-                            <li><strong class="text-indigo-300">"Mindset: The New Psychology of Success"</strong> by Carol S. Dweck — Essential framework for rewiring fixed beliefs.</li>
-                            <li><strong class="text-indigo-300">"Thinking in Systems"</strong> by Donella Meadows — Crucial for avoiding second-order disasters in leadership.</li>
-                            <li><strong class="text-indigo-300">"Adaptive Leadership"</strong> by Ronald Heifetz — Practical strategies for navigating severe corporate ambiguity without burning out.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    <div id="quick-matcher-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-8 space-y-6 shadow-2xl relative">
-            <button onclick="closeQuickMatcherModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white font-bold text-xl">&times;</button>
-            <div class="space-y-2">
-                <h3 class="text-2xl font-black text-white">⚡ Quick Matcher</h3>
-                <p class="text-sm text-slate-400">Select your primary professional bottleneck to find your ideal assessment:</p>
-            </div>
-            <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-                <button onclick="selectMatcherOption('CogniMorph Index')" class="w-full p-4 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-sm text-slate-300 transition">1. Dealing with project failure and high-stakes deadline pressure.</button>
-                <button onclick="selectMatcherOption('Coachability Quotient')" class="w-full p-4 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-sm text-slate-300 transition">2. Receiving tough critical feedback without feeling defensive.</button>
-                <button onclick="selectMatcherOption('Metacognitive Executive Assessment')" class="w-full p-4 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-sm text-slate-300 transition">3. Managing cognitive bandwidth during leadership crises.</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 space-y-6 shadow-2xl relative">
-            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white font-bold text-xl">&times;</button>
-            <div class="space-y-2">
-                <h3 class="text-2xl font-black text-white">Sign In / Access</h3>
-                <p class="text-xs text-slate-400">Enter your credentials below to access the platform.</p>
-            </div>
-            <div class="space-y-4">
-                <input type="email" id="modal-email" placeholder="Professional Email (e.g. sban.hr@gmail.com)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-indigo-500 outline-none">
-                <input type="password" id="modal-passkey" placeholder="Passkey (Admin: MASTER2026)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-indigo-500 outline-none">
-                <button onclick="submitAuthModal()" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm uppercase tracking-widest transition shadow-lg">Verify & Sign In</button>
-            </div>
-        </div>
-    </div>
-
-    <footer class="no-print border-t border-slate-800 bg-slate-950 py-8 text-center text-xs text-slate-500">
-        <p>&copy; 2026 Syntropix&trade;. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Session Management
-        let currentUser = JSON.parse(localStorage.getItem("syntropix_user") || 'null');
-        let sessionData = JSON.parse(localStorage.getItem("syntropix_session") || 'null');
-        let currentActiveAssessment = "CogniMorph Index";
-        let answers = sessionData ? sessionData.answers : {};
-        let userProfile = {};
-
-        const assessmentBank = {
-            "CogniMorph Index": { title: "CogniMorph Index™ (Growth Mindset)", dims: ['CPEF', 'ESLFT', 'PSAV', 'DESG'] },
-            "Coachability Quotient": { title: "Coachability Quotient™", dims: ['RECP', 'DEFN', 'TRAN', 'ACTV'] },
-            "Metacognitive Executive Assessment": { title: "Metacognitive Executive Assessment™", dims: ['MTRC', 'ALLOC', 'DEBUG', 'MONI'] }
-        };
-
-        const questions = [
-            { id: 1, dim: 'CPEF', text: "I believe that anyone can master difficult new skills and complex topics with dedicated practice.", rev: false },
-            { id: 2, dim: 'CPEF', text: "When someone struggles to learn a new tool, it means they have reached their natural intellectual limit.", rev: true },
-            { id: 3, dim: 'CPEF', text: "Exceptional problem-solving abilities come from consistent practice rather than being born a genius.", rev: false },
-            { id: 4, dim: 'CPEF', text: "Core mental sharpness and thinking ability are mostly set in stone once adulthood is reached.", rev: true },
-            { id: 5, dim: 'ESLFT', text: "When a project fails, my first instinct is objective curiosity to understand what broke.", rev: false },
-            { id: 6, dim: 'ESLFT', text: "Making a visible mistake in front of peers makes me feel inadequate at my profession.", rev: true },
-            { id: 7, dim: 'ESLFT', text: "I enjoy taking on complex projects with steep learning curves where struggle is guaranteed.", rev: false },
-            { id: 8, dim: 'ESLFT', text: "I prefer sticking strictly to routine tasks where errors are easily avoided.", rev: true },
-            { id: 9, dim: 'PSAV', text: "When nervous before a big deadline, I treat that adrenaline as performance fuel.", rev: false },
-            { id: 10, dim: 'PSAV', text: "Heavy workplace pressure quickly clouds my thinking and lowers my work quality.", rev: true },
-            { id: 11, dim: 'PSAV', text: "Navigating chaotic disruptions helps me become a more resourceful professional.", rev: false },
-            { id: 12, dim: 'PSAV', text: "When work becomes unpredictable, I
+        <section id="assessments-section" class="space-y-8 pt-4">
+            <div class="text-center space-y-2 max-w-2xl mx-auto
