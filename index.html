@@ -86,6 +86,7 @@
                 <button onclick="scrollToSection('assessments-section')" class="hover:text-white transition">Assessments Suite</button>
                 <button onclick="scrollToSection('usp-section')" class="hover:text-white transition">Methodology & USP</button>
                 <button onclick="showCoachingPage()" class="hover:text-white transition">Executive Coaching</button>
+                <button onclick="showContactPage()" class="hover:text-white transition">Contact Us</button>
             </nav>
 
             <div class="flex items-center gap-3">
@@ -241,21 +242,21 @@
                     <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">01</div>
                     <h4 class="text-lg font-bold text-white">Dynamic Neuro-Architecture</h4>
                     <p class="text-xs text-slate-400 leading-relaxed flex-1">
-                        Legacy assessment frameworks like MBTI, DiSC, or Big Five fundamentally rely on static categorization—boxing complex human potential into rigid, four-letter acronyms or color-coded profiles. Syntropix pioneers a radically different, dynamic neuro-architecture approach. We do not evaluate who you are in a vacuum; we measure your real-time cognitive elasticity under operational friction. By quantifying how your strategic execution degrades, adapts, or accelerates when subjected to critical feedback, ambiguity, and extreme corporate stress, we provide a living, breathing blueprint of your true executive capacity. This method yields a highly predictive, 92%+ test-retest reliability that static traits simply cannot match.
+                        Traditional trait-based assessments fundamentally rely on static categorization—boxing complex human potential into rigid acronyms or color-coded profiles. Syntropix pioneers a radically different, dynamic approach. We measure your real-time cognitive elasticity under operational friction. By quantifying how your strategic execution degrades, adapts, or accelerates when subjected to critical feedback, ambiguity, and extreme corporate stress, we provide a living, breathing blueprint of your true executive capacity. This method yields a highly predictive, 92%+ test-retest reliability that static traits simply cannot match.
                     </p>
                 </div>
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
                     <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">02</div>
                     <h4 class="text-lg font-bold text-white">Uncompromising Empirical Rigor</h4>
                     <p class="text-xs text-slate-400 leading-relaxed flex-1">
-                        In an industry flooded with anecdotal management theories and pseudo-scientific questionnaires, Syntropix stands apart through uncompromising academic and empirical rigor. Our proprietary multi-dimensional scales were meticulously engineered in strict adherence to the classic DeVellis and Hinkin psychometric scale validation guidelines. Validated across a robust longitudinal sample of N=450 global executive and professional cohorts, our models continuously track real-time EFA/CFA model fit indices, maintaining an impeccable RMSEA of 0.051. This ensures every single data point is mathematically defensible, structurally reliable, and completely free of the implicit categorization biases that compromise traditional human resources assessment tools.
+                        In an industry flooded with anecdotal management theories and pseudo-scientific questionnaires, Syntropix stands apart through uncompromising academic and empirical rigor. Our proprietary multi-dimensional scales were meticulously engineered in strict adherence to the classic DeVellis and Hinkin psychometric scale validation guidelines. Validated across a robust longitudinal sample of N=450 global executive cohorts, our models continuously track real-time EFA/CFA model fit indices. This ensures every single data point is mathematically defensible, structurally reliable, and completely free of implicit categorization biases.
                     </p>
                 </div>
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
                     <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">03</div>
                     <h4 class="text-lg font-bold text-white">Embedded AI Executive Coach</h4>
                     <p class="text-xs text-slate-400 leading-relaxed flex-1">
-                        Generating deep self-awareness without providing a concrete, actionable execution plan is ultimately useless for high-performing professionals. Syntropix bridges the massive gap between diagnostic insight and behavioral transformation by deeply integrating a proprietary, generative AI executive co-pilot directly into your post-assessment ecosystem. This AI acts as your dedicated, 24/7 strategic advisory partner. It dynamically reads your unique psychometric topology to instantly generate highly personalized 30-60-90 day growth roadmaps, draft secure 360-degree peer feedback questionnaires, and answer complex contextual queries about your leadership blind spots, ensuring your development scales continuously.
+                        Generating deep self-awareness without providing a concrete, actionable execution plan is ultimately useless for high-performing professionals. Syntropix bridges the massive gap between diagnostic insight and behavioral transformation by deeply integrating a revolutionary, generative AI executive co-pilot directly into your post-assessment ecosystem. This AI acts as your dedicated, 24/7 strategic advisory partner. It dynamically reads your unique psychometric topology to instantly generate highly personalized 30-60-90 day growth roadmaps, draft secure peer feedback templates, and answer complex contextual queries.
                     </p>
                 </div>
             </div>
@@ -283,6 +284,52 @@
             <div class="pt-6 text-center">
                 <button onclick="alert('Coach consultation request submitted!')" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Request an Empanelled Coach</button>
             </div>
+        </div>
+    </main>
+
+    <main id="contact-view" class="hidden max-w-4xl mx-auto px-6 py-12 flex-1 w-full space-y-10">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+                <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Connect</span>
+                <h2 class="text-3xl font-black text-white tracking-tight mt-1">Contact Syntropix Support</h2>
+            </div>
+            <button onclick="showDashboard()" class="px-4 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg transition hover:bg-slate-700">Return to Hub</button>
+        </div>
+        
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 space-y-8 shadow-xl">
+            <div class="text-center max-w-2xl mx-auto">
+                <h3 class="text-xl font-bold text-white">We are here to elevate your human potential.</h3>
+                <p class="text-sm text-slate-400 mt-2">Whether you need enterprise deployment assistance, custom psychometric validation, or technical support, our team is ready to assist.</p>
+            </div>
+            
+            <form onsubmit="event.preventDefault(); submitContactForm();" class="space-y-6 max-w-2xl mx-auto bg-slate-950 p-8 rounded-2xl border border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase font-bold text-slate-500">Full Name</label>
+                        <input type="text" id="contactName" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase font-bold text-slate-500">Business Email</label>
+                        <input type="email" id="contactEmail" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase font-bold text-slate-500">Subject / Inquiry Type</label>
+                    <select id="contactSubject" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none appearance-none">
+                        <option>Enterprise Deployment & Licensing</option>
+                        <option>Technical Support</option>
+                        <option>Executive Coaching Inquiry</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase font-bold text-slate-500">Your Message</label>
+                    <textarea id="contactMessage" required rows="4" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg">
+                    Send Secure Message
+                </button>
+            </form>
         </div>
     </main>
 
@@ -889,6 +936,7 @@
             document.getElementById('assessment-view-container').classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -897,7 +945,17 @@
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('assessment-view-container').classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showContactPage() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -926,7 +984,30 @@
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('assessment-view-container').classList.add('hidden');
             document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
+        }
+
+        // -------------------------------------------------------------
+        // CONTACT FORM LOGIC
+        // -------------------------------------------------------------
+        function submitContactForm() {
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const body = document.getElementById('contactMessage').value;
+            
+            // Build the mailto link to open the user's native email client securely
+            const mailtoLink = `mailto:support@syntropix.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\nMessage:\n" + body)}`;
+            window.location.href = mailtoLink;
+            
+            // Show a pleasant UX feedback message
+            alert("Thank you! Your email client has been opened to complete the message.");
+            
+            // Reset the form
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactMessage').value = '';
         }
 
         // -------------------------------------------------------------
@@ -1054,6 +1135,7 @@
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('assessment-view-container').classList.remove('hidden');
             document.getElementById('intro-view').classList.remove('hidden');
             document.getElementById('quiz-view').classList.add('hidden');
@@ -1237,7 +1319,6 @@
 
                 computedResults = { gni, archKey, cohortPct, dimIndices, context: JSON.stringify(dimIndices) };
 
-                // SAFE FALLBACK FOR PROFILE DATA ON REFRESH
                 const prof = sessionData.profile || (currentUser ? { name: currentUser.name, email: currentUser.email, mobile: "N/A" } : { name: "Participant", email: "user@company.com", mobile: "N/A" });
 
                 if(document.getElementById('global-score')) document.getElementById('global-score').innerText = gni.toFixed(1);
@@ -1294,6 +1375,7 @@
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
             
             document.getElementById('assessment-view-container').classList.remove('hidden');
             document.getElementById('quiz-view').classList.add('hidden');
