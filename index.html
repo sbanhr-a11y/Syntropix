@@ -852,7 +852,52 @@
                 ]
             },
             "Metacognitive Executive Assessment": { title: "Metacognitive Executive Assessment™" },
-            "Strategic Inversion Diagnostics": { title: "Strategic Inversion Diagnostics™" },
+            "Strategic Inversion Diagnostics": { 
+                title: "Strategic Inversion Diagnostics™",
+                introHeader: "Introduction: Strategic Inversion & Systems Thinking",
+                introBody: `<p>Legacy leadership models focus on forward-thinking execution. The Strategic Inversion Diagnostics™ flips this model entirely. We evaluate your capacity for <strong>First Principles Thinking</strong> and <strong>Systems Thinking</strong>—measuring how effectively you forecast second-order consequences, deconstruct complex marketplace problems, and prevent hidden risks before they materialize.</p>
+                            <p>We isolate four critical variables: <strong>First-Principle Deconstruction</strong>, <strong>Second-Order Forecasting</strong>, <strong>Assumption Auditing</strong>, and <strong>Complexity Navigation</strong>. Elite organizational capability relies on leaders who do not just solve the immediate symptom, but architect solutions that address the fundamental systemic root cause.</p>`,
+                keys: ['FPRD', 'SOFC', 'ASAU', 'CXNV'],
+                labels: ['First Principles', '2nd-Order Logic', 'Assumption Audit', 'Complexity Nav'],
+                questions: [
+                    { id: 1, dim: 'FPRD', text: "When facing a new HR or business problem, I break it down to its most fundamental truths before looking at how other companies solve it.", rev: false },
+                    { id: 2, dim: 'FPRD', text: "I prefer to rely on established industry best practices rather than designing solutions from scratch.", rev: true },
+                    { id: 3, dim: 'FPRD', text: "I frequently ask 'Why?' until I reach a core physical or economic constraint.", rev: false },
+                    { id: 4, dim: 'FPRD', text: "Re-evaluating the foundational logic of a project usually feels like a waste of executive time.", rev: true },
+                    { id: 5, dim: 'SOFC', text: "Before launching a new policy, I actively map out how it will impact adjacent departments six months later.", rev: false },
+                    { id: 6, dim: 'SOFC', text: "I tend to focus on solving the immediate crisis and deal with the side effects later.", rev: true },
+                    { id: 7, dim: 'SOFC', text: "I deliberately try to forecast how our competitors or employees will try to game a new system.", rev: false },
+                    { id: 8, dim: 'SOFC', text: "I am often surprised by the unexpected negative consequences of my strategic decisions.", rev: true },
+                    { id: 9, dim: 'ASAU', text: "I routinely invite colleagues to aggressively critique the underlying assumptions of my business plans.", rev: false },
+                    { id: 10, dim: 'ASAU', text: "Once I form a strategic vision, I rarely go back to question the initial data I based it on.", rev: true },
+                    { id: 11, dim: 'ASAU', text: "I am comfortable discarding weeks of work if I discover a flaw in my foundational logic.", rev: false },
+                    { id: 12, dim: 'ASAU', text: "I feel frustrated when a junior employee questions the established 'way we do things'.", rev: true },
+                    { id: 13, dim: 'CXNV', text: "I view organizational bottlenecks as interconnected systems rather than isolated human errors.", rev: false },
+                    { id: 14, dim: 'CXNV', text: "When a project fails, I usually attribute it to a specific individual's lack of effort.", rev: true },
+                    { id: 15, dim: 'CXNV', text: "I enjoy mapping out complex variables and finding the single highest-leverage point for intervention.", rev: false },
+                    { id: 16, dim: 'CXNV', text: "Highly ambiguous marketplace disruptions cause me to freeze or delay decision-making.", rev: true },
+                    { id: 17, dim: 'FPRD', text: "I actively strip away corporate jargon to define problems in simple, objective terms.", rev: false },
+                    { id: 18, dim: 'SOFC', text: "I use mental models like 'Inversion' (thinking backward from failure) to stress-test my goals.", rev: false },
+                    { id: 19, dim: 'ASAU', text: "I consider an untested assumption to be a critical operational risk.", rev: false },
+                    { id: 20, dim: 'CXNV', text: "I understand that optimizing one part of a business often creates friction in another part.", rev: false }
+                ],
+                archetypes: {
+                    high: { title: "Systems Architect", desc: "You possess elite analytical clarity. You strip problems down to their fundamental truths, map complex second-order effects, and execute strategies that solve root causes rather than surface symptoms.", strengths: "Exceptional foresight, objective problem-solving, high tolerance for ambiguity.", gaps: "May over-analyze simple tactical tasks; risks frustrating action-oriented team members with deep interrogations." },
+                    mid: { title: "Pragmatic Executor", desc: "You balance strategic thought with standard execution. While you can identify systemic issues when prompted, you often default to analogical thinking and established best practices under pressure.", strengths: "Reliable operator, respects established frameworks, highly efficient in known environments.", gaps: "Occasionally misses second-order consequences; may apply old solutions to novel problems." },
+                    low: { title: "Symptom Reactor", desc: "You operate primarily in a reactive state. You focus on immediately extinguishing fires without auditing the systemic root cause, often creating cascading issues down the line.", strengths: "High urgency, decisive in a crisis, highly tactical.", gaps: "Fails to anticipate collateral damage, struggles to define problems fundamentally, high risk of strategic obsolescence." }
+                },
+                dimensionData: {
+                    FPRD: { title: "First-Principle Deconstruction", abbr: "FPRD", color: "indigo", meaning: "The ability to discard analogies and conventional wisdom, breaking a complex problem down to its most basic, undeniable truths before building a solution.", urgentImpact: "Low scores indicate a reliance on 'how it has always been done', making you highly vulnerable to market disruption.", examples: ["Refusing to accept 'industry standard' as a valid reason for a process.", "Simplifying complex HR tech jargon into basic operational needs.", "Identifying the physical or economic limits of a project before starting."] },
+                    SOFC: { title: "Second-Order Forecasting", abbr: "SOFC", color: "emerald", meaning: "The capacity to look past the immediate, intended outcome of a decision and accurately predict the subsequent ripple effects.", urgentImpact: "Failing to forecast second-order effects means your 'solutions' frequently become tomorrow's emergencies.", examples: ["Predicting how a new compensation structure will alter employee behavior.", "Using the 'Inversion' mental model to visualize project failure.", "Mapping out competitor responses to a new product launch."] },
+                    ASAU: { title: "Assumption Auditing", abbr: "ASAU", color: "purple", meaning: "The rigor with which you identify, test, and discard the hidden beliefs underlying your strategic plans.", urgentImpact: "Unchecked assumptions act as invisible landmines within a business model, leading to catastrophic capital allocation errors.", examples: ["Actively seeking out data that disproves your current strategy.", "Thanking colleagues who expose flaws in your logic.", "Separating verified facts from strongly held corporate beliefs."] },
+                    CXNV: { title: "Complexity Navigation", abbr: "CXNV", color: "amber", meaning: "The ability to view a company as an interconnected ecosystem, understanding how manipulating one variable impacts the whole.", urgentImpact: "Leaders who cannot navigate complexity will consistently blame individuals for systemic process failures.", examples: ["Identifying the single highest-leverage bottleneck in a workflow.", "Recognizing that a drop in sales might actually be a product onboarding issue.", "Refusing to view departments as isolated silos."] }
+                },
+                phases: [
+                    { title: "PHASE 1: DAYS 1 - 30 (Deconstruction)", exercises: [ { name: "The 5 Whys", action: "Apply the '5 Whys' framework to every operational failure this month.", outcome: "Forces the brain to bypass symptoms and locate the systemic root cause." }, { name: "Assumption Logging", action: "Before any meeting, write down three assumptions you are making about the outcome.", outcome: "Trains the mind to separate fact from unverified belief." } ] },
+                    { title: "PHASE 2: DAYS 31 - 60 (Forecasting)", exercises: [ { name: "Pre-Mortem Protocol", action: "Assume your next major project completely failed. Write a one-page brief explaining exactly why it happened.", outcome: "Uncovers hidden second-order risks and cognitive biases." }, { name: "Ripple Mapping", action: "Draw a visual map of how your next decision will impact three other departments.", outcome: "Builds literal neurological pathways for Systems Thinking." } ] },
+                    { title: "PHASE 3: DAYS 61 - 90 (Architecture)", exercises: [ { name: "Blank Slate Redesign", action: "Take one broken process and redesign it from scratch, ignoring budget and legacy rules.", outcome: "Exercises pure First Principles thinking without artificial constraints." }, { name: "Cross-Domain Synthesis", action: "Read a technical paper entirely outside your industry and apply its core logic to your job.", outcome: "Destroys analogical thinking and fosters elite executive innovation." } ] }
+                ]
+            },
             "Self-Limiting Belief Auditor": { title: "Self-Limiting Belief Auditor™" },
             "Cognitive Learning Profiler": { title: "Cognitive Learning Profiler™" }
         };
