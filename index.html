@@ -1868,8 +1868,15 @@
                     })
                 });
                 const data = await res.json();
-                
-                if (data.reply && data.reply.includes("try again in a moment")) {
+
+                // The backend can legitimately return status:"error" (e.g. no session,
+                // rate-limited, or provider not configured) — that is NOT a network
+                // failure, so it must be checked explicitly rather than assuming
+                // data.reply always exists.
+                if (data.status !== "success" || !data.reply) {
+                    throw new Error(data.message || "AI backend returned no reply.");
+                }
+                if (data.reply.includes("try again in a moment")) {
                     throw new Error("Backend API Key not configured.");
                 }
 
