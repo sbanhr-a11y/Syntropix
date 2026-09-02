@@ -387,7 +387,7 @@
                 </div>
 
                 <div id="admin-bypass-section" class="hidden pt-4 border-t border-slate-800">
-                    <button onclick="startAssessmentAfterPayment()" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg">
+                    <button onclick="requestAdminBypass()" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg">
                         🚀 Start Assessment (Admin Bypass)
                     </button>
                 </div>
@@ -733,7 +733,7 @@
                     <label class="text-[10px] uppercase font-bold text-slate-500 mb-1 block">Secure Passkey</label>
                     <input type="password" id="modal-passkey" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none">
                 </div>
-                <button onclick="submitAuthModal()" class="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg mt-2">Verify Credential</button>
+                <button id="auth-submit-btn" onclick="submitAuthModal()" class="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg mt-2">Verify Credential</button>
             </div>
         </div>
     </div>
@@ -988,7 +988,7 @@
                     { title: "PHASE 2: DAYS 31 - 60 (Behavioral Experiments)", exercises: [ { name: "The Calibrated Pitch", action: "Pitch a new initiative the moment your data crosses a predefined 75% readiness threshold, actively resisting the urge to over-prepare.", outcome: "Shatters threat-based avoidance and separates prudent diligence from fear-driven delay." }, { name: "Strategic Sponsorship", action: "Identify a high-performing peer and actively advocate for them in a room they are not in, requiring zero reciprocal benefit.", outcome: "Rewires the brain away from zero-sum, scarcity-based processing." } ] },
                     { title: "PHASE 3: DAYS 61 - 90 (Model Updating)", exercises: [ { name: "Evidence-Based Belief Review", action: "Take your biggest career fear, strip away all emotion, and write down only the physical, economic, or factual constraints that actually exist.", outcome: "Dismantles highly logical, articulate justifications used to defend a self-imposed operational ceiling." }, { name: "Mandate-to-Action Plan", action: "Draft a one-page operating memo outlining your exact decision rights, then execute one governed action that permanently changes a team workflow.", outcome: "Cements the transition from a functional manager to a transformational leader with full psychological empowerment." } ] }
                 ]
-            }
+            },
             "Cognitive Learning Profiler": { 
                 title: "Cognitive Learning Profiler™",
                 introHeader: "Introduction: The Cognitive Learning Profiler",
@@ -1116,9 +1116,18 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function openAdminDashboard() {
+        async function openAdminDashboard() {
             if(!currentUser || (currentUser.role !== 'master' && currentUser.role !== 'enterprise')) {
                 alert("Access Denied. Enterprise Portal requires Master or Enterprise credentials.");
+                return;
+            }
+            // Local role is only a UI hint. code.gs must confirm the session token is still
+            // valid, unexpired, and genuinely tied to a master/enterprise account before we render
+            // anything sensitive here.
+            const authorized = await verifyPrivilegedAction("open_admin_dashboard");
+            if (!authorized) {
+                alert("Your session could not be verified for the Enterprise Portal. Please sign in again.");
+                logoutUser();
                 return;
             }
             document.getElementById('dashboard-view').classList.add('hidden');
@@ -1157,36 +1166,58 @@
         async function submitAuthModal() {
             const email = document.getElementById('modal-email').value.trim();
             const pass = document.getElementById('modal-passkey').value.trim();
-            
+
             if(!email || !pass) { alert("Please enter credentials."); return; }
 
+            const submitBtn = document.getElementById('auth-submit-btn');
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = "Verifying..."; }
+
+            // SECURITY NOTE: There is NO local/offline credential fallback here on purpose.
+            // Every login must be verified server-side in code.gs. code.gs is responsible for:
+            //   1. Hashing + comparing the password (never plaintext-compare in a Sheet)
+            //   2. Issuing a random, single-use, expiring sessionToken (store it in a "Sessions" sheet
+            //      keyed by token -> {email, role, expiresAt}) — do NOT just echo the role back.
+            //   3. Never returning role:"master" unless the password hash genuinely matches an admin row.
             try {
                 const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                     method: 'POST',
                     body: JSON.stringify({ action: "authenticate", email: email, password: pass })
                 });
                 const data = await res.json();
-                
-                if (data.status === "success") {
+
+                if (data.status === "success" && data.user && data.sessionToken) {
                     currentUser = data.user;
                     localStorage.setItem("syntropix_user", JSON.stringify(currentUser));
+                    localStorage.setItem("syntropix_token", data.sessionToken);
                     updateUserUI();
                     closeAuthModal();
                 } else {
                     alert("Invalid credentials.");
                 }
             } catch (e) {
-                if (email === "admin" && pass === "MasterSyntropix2026!") {
-                    currentUser = { name: "Master Admin", email: "admin", role: "master" };
-                    localStorage.setItem("syntropix_user", JSON.stringify(currentUser));
-                    updateUserUI(); closeAuthModal(); return;
-                }
-                if (email === "demo" && pass === "DemoAccess26") {
-                    currentUser = { name: "Demo User", email: "demo", role: "demo" };
-                    localStorage.setItem("syntropix_user", JSON.stringify(currentUser));
-                    updateUserUI(); closeAuthModal(); return;
-                }
-                alert("Backend connection error. Please ensure Apps Script is deployed.");
+                console.error("Auth backend error:", e);
+                alert("We couldn't reach the authentication service. Please try again in a moment — no account will be logged in offline.");
+            } finally {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = "Verify Credential"; }
+            }
+        }
+
+        // Every privileged action (admin dashboard, payment-free unlock, etc.) must re-validate
+        // this token against code.gs's Sessions store before doing anything sensitive.
+        // A role string sitting in localStorage is NOT a security boundary — it's just a UI hint.
+        async function verifyPrivilegedAction(actionName) {
+            const token = localStorage.getItem("syntropix_token");
+            if (!token) return false;
+            try {
+                const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "verify_session", token: token, intendedAction: actionName })
+                });
+                const data = await res.json();
+                return data.status === "success" && data.authorized === true;
+            } catch (e) {
+                console.error("Session verification failed:", e);
+                return false;
             }
         }
 
@@ -1211,6 +1242,7 @@
         function logoutUser() {
             localStorage.removeItem("syntropix_user");
             localStorage.removeItem("syntropix_session");
+            localStorage.removeItem("syntropix_token");
             currentUser = null; sessionData = null;
             location.reload();
         }
@@ -1298,15 +1330,72 @@
                     }
                     return actions.order.create({ purchase_units: [{ amount: { value: '49.00' } }] });
                 },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        startAssessmentAfterPayment();
-                    });
+                onApprove: async function(data, actions) {
+                    const details = await actions.order.capture();
+                    // CRITICAL: do not trust the client-side capture alone. A user can call
+                    // JS functions directly from devtools, so unlocking must depend on code.gs
+                    // independently confirming this orderID with PayPal's Orders API before
+                    // granting access. code.gs should return a one-time "entitlementToken".
+                    const verifyBtnArea = document.getElementById('paypal-section');
+                    if (verifyBtnArea) verifyBtnArea.insertAdjacentHTML('beforeend', '<p id="verify-msg" class="text-[11px] text-indigo-300 mt-2">Confirming payment with server…</p>');
+                    try {
+                        const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                            method: 'POST',
+                            body: JSON.stringify({ action: "verify_payment", orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim() })
+                        });
+                        const verifyData = await res.json();
+                        if (verifyData.status === "success" && verifyData.entitlementToken) {
+                            startAssessmentAfterPayment(verifyData.entitlementToken);
+                        } else {
+                            alert("We captured your payment but could not verify it with our server. Please contact support@syntropix.com with your PayPal receipt — do not pay twice.");
+                        }
+                    } catch (e) {
+                        console.error("Payment verification failed:", e);
+                        alert("Payment succeeded with PayPal, but we couldn't confirm it with Syntropix. Please contact support before retrying.");
+                    } finally {
+                        const msg = document.getElementById('verify-msg');
+                        if (msg) msg.remove();
+                    }
                 }
             }).render('#paypal-button-container');
         }
 
-        function startAssessmentAfterPayment() {
+        // Admin/demo "skip payment" must still be proven server-side on every use — it is a
+        // privileged action, not a UI convenience. code.gs's "grant_bypass" handler should only
+        // issue a token when verify_session confirms an active master/enterprise/demo session.
+        async function requestAdminBypass() {
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            if (!name || !email) { alert("Please fill in your Name and Email."); return; }
+
+            const authorized = await verifyPrivilegedAction("admin_bypass_payment");
+            if (!authorized) {
+                alert("Your session could not be verified for a payment bypass. Please sign in again or use standard checkout.");
+                return;
+            }
+            try {
+                const token = localStorage.getItem("syntropix_token");
+                const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: "grant_bypass", token: token, email: email })
+                });
+                const data = await res.json();
+                if (data.status === "success" && data.entitlementToken) {
+                    startAssessmentAfterPayment(data.entitlementToken);
+                } else {
+                    alert("Bypass request denied by server.");
+                }
+            } catch (e) {
+                console.error("Bypass request failed:", e);
+                alert("Couldn't reach the server to authorize the bypass.");
+            }
+        }
+
+        // entitlementToken: for a paying participant this MUST come from a server-verified
+        // "verify_payment" response. For an admin/enterprise bypass it MUST come from
+        // verifyPrivilegedAction() confirming the session token server-side. Never call this
+        // function with a token you invented on the client.
+        async function startAssessmentAfterPayment(entitlementToken) {
             const name = document.getElementById('userName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
             const mobile = document.getElementById('userMobile').value.trim();
@@ -1315,15 +1404,20 @@
                 alert("Please fill in your Name and Email.");
                 return;
             }
+            if (!entitlementToken) {
+                alert("We couldn't verify access for this assessment. Please complete checkout or contact support.");
+                return;
+            }
 
             const userProfile = { name, email, mobile };
-            
+
             if (!sessionData) {
-                answers = {}; 
-                sessionData = { startTime: Date.now(), answers: answers, locked: false, profile: userProfile, assessmentName: currentActiveAssessment };
+                answers = {};
+                sessionData = { startTime: Date.now(), answers: answers, locked: false, profile: userProfile, assessmentName: currentActiveAssessment, entitlementToken: entitlementToken };
             } else {
-                sessionData.profile = userProfile; 
+                sessionData.profile = userProfile;
                 sessionData.assessmentName = currentActiveAssessment;
+                sessionData.entitlementToken = entitlementToken;
             }
             localStorage.setItem("syntropix_session", JSON.stringify(sessionData));
 
@@ -1496,10 +1590,14 @@
 
                 if (!isReload && currentUser && currentUser.role !== 'demo') {
                     const reportHtml = document.getElementById('report-view').innerHTML;
+                    // token proves this request came from a real logged-in session — code.gs
+                    // must reject submit_report calls without a valid, matching token, or anyone
+                    // can trigger emails to arbitrary addresses using this endpoint.
                     fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                         method: 'POST',
                         body: JSON.stringify({ 
                             action: "submit_report", 
+                            token: localStorage.getItem("syntropix_token"),
                             email: prof.email, 
                             name: prof.name,
                             globalScore: gni,
@@ -1758,10 +1856,13 @@
             }
 
             try {
+                // token required so code.gs can refuse to spend your Gemini quota on
+                // anonymous callers who found this webhook URL in the page source.
                 const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
                     method: 'POST',
                     body: JSON.stringify({ 
                         action: "ai_chat", 
+                        token: localStorage.getItem("syntropix_token"),
                         prompt: userText, 
                         context: computedResults.context 
                     })
@@ -1771,13 +1872,20 @@
                 if (data.reply && data.reply.includes("try again in a moment")) {
                     throw new Error("Backend API Key not configured.");
                 }
-                
+
+                // AI replies come from our own backend, not the user — safe to render as HTML.
                 document.getElementById(typingId).innerHTML = data.reply;
             } catch (e) {
+                console.error("AI coach backend error:", e);
+                // Honesty matters here: never claim a hardcoded string is a "live" or
+                // "real-time telemetry-based" AI response. Tell the user plainly that the
+                // service is unavailable so they can trust what "AI-generated" actually means
+                // elsewhere in the product.
                 setTimeout(() => {
-                    let fallbackText = `As your AI coach, I've analyzed your prompt regarding "${userText}". Based on your specific topology score of ${computedResults.gni}/100, my immediate advice is to focus entirely on your lowest performing subscale. I recommend executing the foundational rules of your protocol today to build immediate neuro-adaptive resistance. <br><br><span class="text-[10px] text-purple-300 italic">(Note: Live cloud processing is currently syncing. This is a highly accurate cached psychometric response based on your real-time telemetry.)</span>`;
+                    const safeQuery = escapeHtml(userText);
+                    let fallbackText = `I'm having trouble reaching the AI coaching service right now, so I can't generate a live response to "${safeQuery}". Your report and scores are safely saved — please try again in a minute, or reach out to support@syntropix.com if this keeps happening.`;
                     document.getElementById(typingId).innerHTML = fallbackText;
-                }, 1000);
+                }, 600);
             }
         }
 
@@ -1805,12 +1913,25 @@
             document.body.removeChild(link);
         }
 
+        // Escapes text pulled from user input before it ever touches innerHTML. Never remove this
+        // when wiring up new user-facing text — untrusted strings must never reach innerHTML raw.
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.innerText = str;
+            return div.innerHTML;
+        }
+
         function appendChatMessage(sender, text) {
             const container = document.getElementById('chat-messages');
             const msgId = "msg-" + Date.now();
             const wrapper = document.createElement('div');
             wrapper.className = `flex gap-2.5 items-start ${sender === 'user' ? 'justify-end' : ''}`;
-            wrapper.innerHTML = sender === 'user' ? `<div class="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg p-3 text-white max-w-xl shadow-md">${text}</div>` : `<div id="${msgId}" class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl shadow-md">${text}</div>`;
+            // User-authored text is escaped (XSS-safe). AI/system text is our own trusted content
+            // and may legitimately contain formatting HTML (e.g. <strong>), so it is not escaped here —
+            // but it must only ever come from our own backend/fallback strings, never be built from
+            // raw user input.
+            const safeUserText = escapeHtml(text);
+            wrapper.innerHTML = sender === 'user' ? `<div class="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg p-3 text-white max-w-xl shadow-md">${safeUserText}</div>` : `<div id="${msgId}" class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl shadow-md">${text}</div>`;
             container.appendChild(wrapper); container.scrollTop = container.scrollHeight;
             return msgId;
         }
