@@ -65,7 +65,8 @@
     <div id="demo-watermark" class="hidden demo-watermark">DEMO PREVIEW ONLY</div>
 
     <script>
-        const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; 
+        const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwLp8M8ggUMhrVgS-kzlO0JnozkREIId-pvPGQ4Er9Bi_UHbadNtUSShNkhUJX2K7g-tg/exec"; // kept only as a reference/rollback pointer — no longer called
+        const API_BASE_URL = "https://syntropix-backend.onrender.com/api"; // your new Render-hosted backend
     </script>
 
     <div id="session-warning" class="hidden no-print bg-rose-900 text-white text-center py-2 text-xs font-bold w-full sticky top-0 z-50 border-b border-rose-700 shadow-lg">
@@ -104,28 +105,32 @@
     <main id="dashboard-view" class="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-20">
         <section class="space-y-8 text-center max-w-4xl mx-auto pt-6">
             <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 text-[11px] font-mono tracking-wider uppercase">
-                <span>The Architecture of Human Potential</span>
+                <span>Human Elevation Architecture</span>
             </div>
             <h2 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.1]">
-                Where Human Potential Becomes Measurable.<br><br>
-                <span class="text-indigo-400">The Human Intelligence Suite.</span>
+                Better Managers Don't Happen by Promotion.<br><br>
+                <span class="text-indigo-400">They Are Built by Design.</span>
             </h2>
             <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl mx-auto">
-                Syntropix moves beyond static personality typing. We measure your <strong>daily mental habits and problem-solving patterns</strong>—providing validated tools that show how you handle pressure, feedback, and complex challenges.
+                Syntropix helps organisations <strong>assess, develop, and elevate managers</strong> into confident people leaders — through psychometric diagnostics, structured development programs, and workplace application, not one-off training sessions.
             </p>
+            <p class="text-xs uppercase tracking-widest text-slate-500 font-mono">Assessment. Development. Application. Measurable Growth.</p>
             <div class="pt-2 flex flex-wrap justify-center gap-4">
                 <button onclick="openQuickMatcherModal()" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
-                    ⚡ Take Quick Assessment Matcher
+                    ⚡ Explore Manager Development
                 </button>
+                <a href="#contact" onclick="document.getElementById('nav-contact')?.click()" class="px-8 py-3.5 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">
+                    Talk to Syntropix
+                </a>
             </div>
         </section>
 
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12">
             <div class="space-y-4">
-                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Our Core Philosophy</span>
-                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Built for Those on the Infinite Journey of Self-Mastery</h3>
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Management Gap</span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Most Organisations Promote Their Best — Then Leave Them Unprepared</h3>
                 <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    In physics, syntropy represents the internal evolution toward order, complexity, and structural harmony. In human development, it is the deliberate refusal to stagnate. We founded Syntropix to equip ambitious professionals, executives, and academics with gold-standard psychometric telemetry.
+                    Individual contributors get promoted into management roles, but managing people requires an entirely different set of capabilities. The result: micromanagement, poor feedback, conflict avoidance, weak accountability, and disengaged teams. The problem usually isn't talent — it's the absence of deliberate manager development.
                 </p>
             </div>
             <div class="grid grid-cols-2 gap-4">
@@ -379,6 +384,13 @@
                         <label class="block text-[11px] font-semibold text-slate-300 mb-1">Mobile Number *</label>
                         <input type="tel" id="userMobile" placeholder="+91 9876543210" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
                     </div>
+                </div>
+
+                <div class="pt-3">
+                    <label class="flex items-start gap-2 text-[11px] text-slate-400 leading-relaxed">
+                        <input type="checkbox" id="privacyConsent" class="mt-0.5">
+                        <span>I have read and agree to the <a href="privacy.html" target="_blank" class="text-indigo-300 underline">Privacy Policy</a>, and I consent to Syntropix processing my responses to generate my report and, if I use it, to send my messages to the AI coach.</span>
+                    </label>
                 </div>
 
                 <div id="paypal-section" class="pt-4 border-t border-slate-800">
@@ -739,7 +751,7 @@
     </div>
 
     <footer class="no-print border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500 space-y-2">
-        <p>© 2026 Syntropix™. All rights reserved.</p>
+        <p>© 2026 Syntropix™. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" class="text-indigo-300 underline">Privacy Policy</a></p>
     </footer>
 
     <script>
@@ -1179,9 +1191,10 @@
             //      keyed by token -> {email, role, expiresAt}) — do NOT just echo the role back.
             //   3. Never returning role:"master" unless the password hash genuinely matches an admin row.
             try {
-                const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                const res = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: 'POST',
-                    body: JSON.stringify({ action: "authenticate", email: email, password: pass })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, password: pass })
                 });
                 const data = await res.json();
 
@@ -1209,9 +1222,10 @@
             const token = localStorage.getItem("syntropix_token");
             if (!token) return false;
             try {
-                const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                const res = await fetch(`${API_BASE_URL}/auth/verify-session`, {
                     method: 'POST',
-                    body: JSON.stringify({ action: "verify_session", token: token, intendedAction: actionName })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, intendedAction: actionName })
                 });
                 const data = await res.json();
                 return data.status === "success" && data.authorized === true;
@@ -1328,6 +1342,10 @@
                         alert("Please fill in your Full Name and Email before checking out.");
                         return actions.reject();
                     }
+                    if (!document.getElementById('privacyConsent').checked) {
+                        alert("Please read and agree to the Privacy Policy before continuing — check the box above the payment button.");
+                        return actions.reject();
+                    }
                     return actions.order.create({ purchase_units: [{ amount: { value: '49.00' } }] });
                 },
                 onApprove: async function(data, actions) {
@@ -1339,9 +1357,10 @@
                     const verifyBtnArea = document.getElementById('paypal-section');
                     if (verifyBtnArea) verifyBtnArea.insertAdjacentHTML('beforeend', '<p id="verify-msg" class="text-[11px] text-indigo-300 mt-2">Confirming payment with server…</p>');
                     try {
-                        const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                        const res = await fetch(`${API_BASE_URL}/payments/verify`, {
                             method: 'POST',
-                            body: JSON.stringify({ action: "verify_payment", orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim() })
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim() })
                         });
                         const verifyData = await res.json();
                         if (verifyData.status === "success" && verifyData.entitlementToken) {
@@ -1367,6 +1386,10 @@
             const name = document.getElementById('userName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
             if (!name || !email) { alert("Please fill in your Name and Email."); return; }
+            if (!document.getElementById('privacyConsent').checked) {
+                alert("Please read and agree to the Privacy Policy before continuing.");
+                return;
+            }
 
             const authorized = await verifyPrivilegedAction("admin_bypass_payment");
             if (!authorized) {
@@ -1375,9 +1398,10 @@
             }
             try {
                 const token = localStorage.getItem("syntropix_token");
-                const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                const res = await fetch(`${API_BASE_URL}/payments/grant-bypass`, {
                     method: 'POST',
-                    body: JSON.stringify({ action: "grant_bypass", token: token, email: email })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token, email: email })
                 });
                 const data = await res.json();
                 if (data.status === "success" && data.entitlementToken) {
@@ -1593,12 +1617,11 @@
                     // token proves this request came from a real logged-in session — code.gs
                     // must reject submit_report calls without a valid, matching token, or anyone
                     // can trigger emails to arbitrary addresses using this endpoint.
-                    fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    fetch(`${API_BASE_URL}/reports/submit`, {
                         method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ 
-                            action: "submit_report", 
                             token: localStorage.getItem("syntropix_token"),
-                            email: prof.email, 
                             name: prof.name,
                             globalScore: gni,
                             archetype: arch.title,
@@ -1858,10 +1881,10 @@
             try {
                 // token required so code.gs can refuse to spend your Gemini quota on
                 // anonymous callers who found this webhook URL in the page source.
-                const res = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                const res = await fetch(`${API_BASE_URL}/ai-coach/chat`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
-                        action: "ai_chat", 
                         token: localStorage.getItem("syntropix_token"),
                         prompt: userText, 
                         context: computedResults.context 
