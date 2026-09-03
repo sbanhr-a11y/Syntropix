@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syntropix™ | The Architecture of Human Potential</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://www.paypal.com/sdk/js?client-id=BAAoaGuJGS0__6_N0d5d14H4qVeNxTSp3Gsaicy_YTipOwRtM9M5XyLz8O_FmviWUkPJLtBUX84kK2HbbE&currency=USD"></script>
     <script>
         tailwind.config = {
@@ -365,12 +366,42 @@
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
                 <h3 class="text-sm font-bold text-white">Assign a License to an Employee</h3>
                 <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="assign-license-name" placeholder="Employee name (optional)" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
                     <input type="email" id="assign-license-email" placeholder="employee@company.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
-                    <button onclick="submitAssignLicense()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Assign License</button>
+                    <button onclick="submitAssignLicense()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap">Assign License</button>
                 </div>
                 <p id="assign-license-msg" class="text-[11px]"></p>
-                <p class="text-[11px] text-slate-500">Once assigned, tell that employee to visit the site, choose any assessment, and enter this same email — their payment step will be skipped automatically.</p>
+                <p class="text-[11px] text-slate-500">The employee will receive an invite email automatically, and their payment step will be skipped when they enter this same email on the site.</p>
             </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h3 class="text-sm font-bold text-white">Bulk Upload (CSV or Excel-exported CSV)</h3>
+                <p class="text-[11px] text-slate-500">File must have a header row with columns named <code class="text-indigo-300">email</code> and (optionally) <code class="text-indigo-300">name</code>. One row per employee.</p>
+                <div class="flex flex-col sm:flex-row gap-3 items-center">
+                    <input type="file" id="bulk-upload-file" accept=".csv" class="flex-1 text-xs text-slate-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-700 file:text-white file:text-xs file:font-bold">
+                    <button onclick="submitBulkUpload()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap">Upload & Assign</button>
+                </div>
+                <p id="bulk-upload-msg" class="text-[11px]"></p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h3 class="text-sm font-bold text-white">Invite Email Template</h3>
+                <p class="text-[11px] text-slate-500">Customize the email employees receive when assigned a license, or leave as the Syntropix default. Use <code class="text-indigo-300">{{name}}</code>, <code class="text-indigo-300">{{org_name}}</code>, and <code class="text-indigo-300">{{link}}</code> as placeholders — they'll be filled in automatically.</p>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 mb-1 block">Subject</label>
+                    <input type="text" id="email-template-subject" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 mb-1 block">Body (HTML)</label>
+                    <textarea id="email-template-body" rows="6" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white font-mono"></textarea>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="submitEmailTemplate()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Save Template</button>
+                    <button onclick="resetEmailTemplate()" class="px-6 py-2.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs uppercase tracking-wider transition">Reset to Default</button>
+                </div>
+                <p id="email-template-msg" class="text-[11px]"></p>
+            </div>
+
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
                 <h3 class="text-sm font-bold text-white mb-3">Assigned Employees</h3>
                 <div id="org-assignments-list" class="space-y-2 text-xs text-slate-300"></div>
@@ -493,15 +524,28 @@
 
         <section id="report-view" class="hidden space-y-8">
             
-            <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800 mb-6">
+            <div class="no-print flex justify-between items-center bg-slate-900 p-4 rounded-xl border border-slate-800 mb-4">
                 <div class="flex items-center gap-3">
                     <img src="logo.png" alt="Logo" class="h-6 w-auto object-contain">
                     <div class="text-xs text-slate-400">Diagnostic Data Locked</div>
                 </div>
                 <div class="flex gap-2">
                     <button id="admin-retake-btn" onclick="adminRetakeAssessment()" class="hidden px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold transition shadow-lg">🔄 Retake (Admin/Demo)</button>
-                    <button id="print-pdf-btn" onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition shadow-lg">Download PDF Report</button>
+                    <button id="print-pdf-btn" onclick="window.print()" disabled class="px-4 py-2 bg-slate-700 text-slate-400 rounded-lg text-xs font-bold transition shadow-lg cursor-not-allowed" title="Rate your experience first to unlock your report">Download PDF Report</button>
                 </div>
+            </div>
+
+            <div id="rating-gate" class="no-print bg-indigo-950/40 border border-indigo-800/50 rounded-xl p-5 mb-6 text-center space-y-3">
+                <p class="text-sm text-white font-semibold">Before you download or receive your report — how was your assessment experience?</p>
+                <div id="star-rating-widget" class="flex justify-center gap-2 text-3xl">
+                    <span data-star="1" onclick="setRating(1)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="2" onclick="setRating(2)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="3" onclick="setRating(3)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="4" onclick="setRating(4)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="5" onclick="setRating(5)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                </div>
+                <p class="text-[11px] text-slate-400">A rating is required to unlock your PDF download and emailed report — it takes one click.</p>
+                <p id="rating-status-msg" class="text-[11px] text-emerald-400 hidden">Thank you — preparing your report now…</p>
             </div>
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 print-card shadow-2xl relative overflow-hidden">
@@ -859,6 +903,7 @@
         let currentUser = JSON.parse(localStorage.getItem("syntropix_user") || 'null');
         let sessionData = JSON.parse(localStorage.getItem("syntropix_session") || 'null');
         let currentActiveAssessment = "CogniMorph Index";
+        let pendingReportSubmission = null; // holds report data awaiting a star rating before it's sent
         let answers = sessionData && sessionData.answers ? sessionData.answers : {};
         let computedResults = {};
         
@@ -1262,6 +1307,7 @@
         }
 
         async function loadOrgDashboard() {
+            loadEmailTemplate();
             const token = localStorage.getItem("syntropix_token");
             try {
                 const res = await fetch(`${API_BASE_URL}/organizations/dashboard?token=${encodeURIComponent(token)}`);
@@ -1291,6 +1337,7 @@
         }
 
         async function submitAssignLicense() {
+            const name = document.getElementById('assign-license-name').value.trim();
             const email = document.getElementById('assign-license-email').value.trim();
             const msg = document.getElementById('assign-license-msg');
             if (!email) { msg.textContent = "Enter an employee email first."; msg.className = "text-[11px] text-rose-400"; return; }
@@ -1298,12 +1345,13 @@
                 const res = await fetch(`${API_BASE_URL}/organizations/assign-license`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employeeEmail: email })
+                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employeeEmail: email, employeeName: name })
                 });
                 const data = await res.json();
                 if (data.status === "success") {
-                    msg.textContent = "License assigned successfully.";
+                    msg.textContent = "License assigned — an invite email has been sent to " + email + ".";
                     msg.className = "text-[11px] text-emerald-400";
+                    document.getElementById('assign-license-name').value = "";
                     document.getElementById('assign-license-email').value = "";
                     loadOrgDashboard();
                 } else {
@@ -1314,6 +1362,103 @@
                 msg.textContent = "Couldn't reach the server.";
                 msg.className = "text-[11px] text-rose-400";
             }
+        }
+
+        function submitBulkUpload() {
+            const fileInput = document.getElementById('bulk-upload-file');
+            const msg = document.getElementById('bulk-upload-msg');
+            const file = fileInput.files[0];
+            if (!file) { msg.textContent = "Choose a CSV file first."; msg.className = "text-[11px] text-rose-400"; return; }
+
+            msg.textContent = "Reading file…";
+            msg.className = "text-[11px] text-slate-400";
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: async function(results) {
+                    const employees = results.data.map(row => ({
+                        email: (row.email || row.Email || "").trim(),
+                        name: (row.name || row.Name || "").trim()
+                    })).filter(r => r.email);
+
+                    if (!employees.length) {
+                        msg.textContent = "No valid rows found — make sure your file has an 'email' column.";
+                        msg.className = "text-[11px] text-rose-400";
+                        return;
+                    }
+
+                    msg.textContent = `Uploading ${employees.length} employee(s)…`;
+                    try {
+                        const res = await fetch(`${API_BASE_URL}/organizations/bulk-assign`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employees })
+                        });
+                        const data = await res.json();
+                        if (data.status === "success") {
+                            let summary = `✓ ${data.assigned} assigned and emailed.`;
+                            if (data.skipped) summary += ` ${data.skipped} already had a license (skipped).`;
+                            if (data.outOfLicenses) summary += ` ${data.outOfLicenses} could not be assigned — out of licenses.`;
+                            if (data.invalid) summary += ` ${data.invalid} row(s) had an invalid email.`;
+                            msg.textContent = summary;
+                            msg.className = "text-[11px] text-emerald-400";
+                            fileInput.value = "";
+                            loadOrgDashboard();
+                        } else {
+                            msg.textContent = data.message || "Bulk upload failed.";
+                            msg.className = "text-[11px] text-rose-400";
+                        }
+                    } catch (e) {
+                        msg.textContent = "Couldn't reach the server.";
+                        msg.className = "text-[11px] text-rose-400";
+                    }
+                },
+                error: function() {
+                    msg.textContent = "Couldn't read that file — make sure it's a valid CSV.";
+                    msg.className = "text-[11px] text-rose-400";
+                }
+            });
+        }
+
+        async function loadEmailTemplate() {
+            const token = localStorage.getItem("syntropix_token");
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/email-template?token=${encodeURIComponent(token)}`);
+                const data = await res.json();
+                if (data.status === "success") {
+                    document.getElementById('email-template-subject').value = data.subject;
+                    document.getElementById('email-template-body').value = data.body;
+                }
+            } catch (e) {
+                console.error("Failed to load email template:", e);
+            }
+        }
+
+        async function submitEmailTemplate() {
+            const subject = document.getElementById('email-template-subject').value.trim();
+            const body = document.getElementById('email-template-body').value.trim();
+            const msg = document.getElementById('email-template-msg');
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/set-email-template`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), subject, body })
+                });
+                const data = await res.json();
+                msg.textContent = data.status === "success" ? "Template saved." : (data.message || "Could not save template.");
+                msg.className = data.status === "success" ? "text-[11px] text-emerald-400" : "text-[11px] text-rose-400";
+            } catch (e) {
+                msg.textContent = "Couldn't reach the server.";
+                msg.className = "text-[11px] text-rose-400";
+            }
+        }
+
+        async function resetEmailTemplate() {
+            document.getElementById('email-template-subject').value = "";
+            document.getElementById('email-template-body').value = "";
+            await submitEmailTemplate();
+            loadEmailTemplate(); // reload so the fields show the Syntropix default text, not blank
         }
 
         async function submitCreateOrg() {
@@ -1385,6 +1530,55 @@
             document.getElementById('change-password-modal').classList.remove('hidden');
         }
         function closeChangePasswordModal() { document.getElementById('change-password-modal').classList.add('hidden'); }
+
+        function unlockReportDownload() {
+            const btn = document.getElementById('print-pdf-btn');
+            btn.disabled = false;
+            btn.classList.remove('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
+            btn.classList.add('bg-indigo-600', 'hover:bg-indigo-500', 'text-white');
+            btn.title = "";
+        }
+
+        function setRating(stars) {
+            document.querySelectorAll('#star-rating-widget span').forEach(el => {
+                const val = Number(el.dataset.star);
+                el.classList.toggle('text-amber-400', val <= stars);
+                el.classList.toggle('text-slate-600', val > stars);
+            });
+            submitRatingAndReport(stars);
+        }
+
+        async function submitRatingAndReport(rating) {
+            const statusMsg = document.getElementById('rating-status-msg');
+            statusMsg.classList.remove('hidden');
+            statusMsg.textContent = "Thank you — preparing your report now…";
+
+            if (!pendingReportSubmission) { unlockReportDownload(); return; }
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/reports/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        token: localStorage.getItem("syntropix_token"),
+                        rating: rating,
+                        ...pendingReportSubmission
+                    })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    if (sessionData) { sessionData.rated = true; localStorage.setItem("syntropix_session", JSON.stringify(sessionData)); }
+                    statusMsg.textContent = "Thank you! Your report has been emailed to you, and the PDF download is now unlocked.";
+                    unlockReportDownload();
+                } else {
+                    statusMsg.textContent = data.message || "Something went wrong saving your report — please try again.";
+                    statusMsg.classList.replace('text-emerald-400', 'text-rose-400');
+                }
+            } catch (e) {
+                statusMsg.textContent = "Couldn't reach the server. Please try rating again in a moment.";
+                statusMsg.classList.replace('text-emerald-400', 'text-rose-400');
+            }
+        }
 
         async function submitChangePassword() {
             const current = document.getElementById('cp-current').value;
@@ -1946,22 +2140,22 @@
                 drawRadarChart(dimIndices, config.keys, config.labels);
                 renderTopologyInference(gni);
 
+                // Rating gate: we no longer auto-send the report/email here.
+                // The report only gets submitted (and the PDF download unlocked)
+                // once the participant selects a star rating — see setRating().
                 if (!isReload && currentUser && currentUser.role !== 'demo') {
                     const reportHtml = document.getElementById('report-view').innerHTML;
-                    // token proves this request came from a real logged-in session — code.gs
-                    // must reject submit_report calls without a valid, matching token, or anyone
-                    // can trigger emails to arbitrary addresses using this endpoint.
-                    fetch(`${API_BASE_URL}/reports/submit`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            token: localStorage.getItem("syntropix_token"),
-                            name: prof.name,
-                            globalScore: gni,
-                            archetype: arch.title,
-                            reportHtml: reportHtml
-                        })
-                    }).catch(e => console.log(e));
+                    pendingReportSubmission = { name: prof.name, globalScore: gni, archetype: arch.title, reportHtml: reportHtml };
+                    if (sessionData && sessionData.rated) {
+                        // Already rated earlier (e.g., page reload) — unlock immediately, no need to ask again.
+                        unlockReportDownload();
+                    } else {
+                        document.getElementById('rating-gate').classList.remove('hidden');
+                    }
+                } else {
+                    // Demo accounts and reloads of an already-rated report don't need the gate.
+                    unlockReportDownload();
+                    document.getElementById('rating-gate').classList.add('hidden');
                 }
             } catch (err) {
                 console.error("Critical error generating report:", err);
