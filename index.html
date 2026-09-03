@@ -120,9 +120,9 @@
                 <button onclick="openQuickMatcherModal()" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
                     ⚡ Explore Manager Development
                 </button>
-                <a href="#contact" onclick="document.getElementById('nav-contact')?.click()" class="px-8 py-3.5 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">
+                <button onclick="openTalkToSyntropix()" class="px-8 py-3.5 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">
                     Talk to Syntropix
-                </a>
+                </button>
             </div>
         </section>
 
@@ -340,23 +340,71 @@
     <main id="admin-dashboard-view" class="hidden max-w-5xl mx-auto px-6 py-10 flex-1 w-full space-y-8">
         <div class="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
-                <h2 class="text-2xl font-black text-white">Enterprise Research Portal</h2>
-                <p class="text-xs text-slate-400 mt-1">Scale Validation & Automated Manuscript Generator</p>
+                <h2 id="admin-dashboard-title" class="text-2xl font-black text-white">Enterprise Portal</h2>
+                <p id="admin-dashboard-subtitle" class="text-xs text-slate-400 mt-1">Manage your organization's assessment licenses</p>
             </div>
             <button onclick="showDashboard()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-lg transition">Return to Hub</button>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="p-5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-                <span class="text-[10px] uppercase font-mono text-indigo-400 font-bold">Total Sample Size (N)</span>
-                <div id="admin-stat-n" class="text-3xl font-black text-white">450</div>
+
+        <!-- ENTERPRISE ADMIN VIEW: license pool + assign to employees -->
+        <div id="org-admin-panel" class="hidden space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="p-5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
+                    <span class="text-[10px] uppercase font-mono text-indigo-400 font-bold">Total Licenses</span>
+                    <div id="org-stat-total" class="text-3xl font-black text-white">—</div>
+                </div>
+                <div class="p-5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
+                    <span class="text-[10px] uppercase font-mono text-amber-400 font-bold">Used</span>
+                    <div id="org-stat-used" class="text-3xl font-black text-amber-400">—</div>
+                </div>
+                <div class="p-5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
+                    <span class="text-[10px] uppercase font-mono text-emerald-400 font-bold">Remaining</span>
+                    <div id="org-stat-remaining" class="text-3xl font-black text-emerald-400">—</div>
+                </div>
             </div>
-            <div class="p-5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-                <span class="text-[10px] uppercase font-mono text-emerald-400 font-bold">Internal Consistency (&alpha;)</span>
-                <div class="text-3xl font-black text-emerald-400">0.92 (High)</div>
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h3 class="text-sm font-bold text-white">Assign a License to an Employee</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="email" id="assign-license-email" placeholder="employee@company.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                    <button onclick="submitAssignLicense()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Assign License</button>
+                </div>
+                <p id="assign-license-msg" class="text-[11px]"></p>
+                <p class="text-[11px] text-slate-500">Once assigned, tell that employee to visit the site, choose any assessment, and enter this same email — their payment step will be skipped automatically.</p>
             </div>
-            <div class="p-5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
-                <span class="text-[10px] uppercase font-mono text-purple-400 font-bold">CFA Model Fit (RMSEA)</span>
-                <div class="text-3xl font-black text-purple-400">0.051 (Good)</div>
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                <h3 class="text-sm font-bold text-white mb-3">Assigned Employees</h3>
+                <div id="org-assignments-list" class="space-y-2 text-xs text-slate-300"></div>
+            </div>
+        </div>
+
+        <!-- MASTER ADMIN VIEW: create a new client organization -->
+        <div id="master-org-tools" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h3 class="text-sm font-bold text-white">Create a New Client Organization</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input type="text" id="create-org-name" placeholder="Organization name" class="bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                    <input type="email" id="create-org-admin-email" placeholder="Client admin email" class="bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                    <input type="number" id="create-org-licenses" placeholder="Number of licenses" min="1" class="bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                </div>
+                <button onclick="submitCreateOrg()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Create Organization</button>
+                <p id="create-org-msg" class="text-[11px]"></p>
+            </div>
+        </div>
+
+        <!-- RESEARCH & VALIDATION — internal, master-only. Deliberately shows honest
+             status, not fabricated numbers. Real psychometric validation (EFA/CFA,
+             reliability, norms) can only be reported here once it has actually been
+             conducted on a properly designed, consented research sample — this
+             section will never auto-generate statistics that weren't really computed. -->
+        <div id="research-console-panel" class="hidden space-y-6">
+            <div class="bg-amber-950/30 border border-amber-800/50 rounded-xl p-5">
+                <p class="text-xs text-amber-300 font-semibold">⚠ Validation Status: Not yet conducted</p>
+                <p class="text-[11px] text-slate-400 mt-1">No formal EFA/CFA, reliability, or norming study has been run on this assessment yet. Any validation claims shown publicly on the site should reflect this until real data exists.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h3 class="text-sm font-bold text-white">Statistical Analysis Plan (Reference)</h3>
+                <p class="text-[11px] text-slate-400">A downloadable methodology template for when you're ready to run a real validation study — sampling requirements, EFA/CFA procedure, and reliability testing plan, following AERA/APA/NCME standards. This is a plan to follow, not generated results.</p>
+                <a href="Syntropix_Statistical_Analysis_Plan.docx" download class="inline-block px-6 py-2.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs uppercase tracking-wider transition">Download Analysis Plan</a>
             </div>
         </div>
     </main>
@@ -379,7 +427,7 @@
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-300 mb-1">Email (For PDF Delivery) *</label>
-                        <input type="email" id="userEmail" placeholder="name@company.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="email" id="userEmail" placeholder="name@company.com" onblur="checkOrgLicense()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-300 mb-1">Mobile Number *</label>
@@ -392,6 +440,15 @@
                         <input type="checkbox" id="privacyConsent" class="mt-0.5">
                         <span>I have read and agree to the <a href="privacy.html" target="_blank" class="text-indigo-300 underline">Privacy Policy</a>, and I consent to Syntropix processing my responses to generate my report and, if I use it, to send my messages to the AI coach.</span>
                     </label>
+                </div>
+
+                <div id="org-license-section" class="hidden pt-4 border-t border-slate-800">
+                    <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 space-y-2">
+                        <p class="text-xs text-emerald-300 font-semibold">✓ Free access via your organization's license</p>
+                        <button onclick="claimOrgLicense()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg">
+                            Start Assessment (Organization License)
+                        </button>
+                    </div>
                 </div>
 
                 <div id="paypal-section" class="pt-4 border-t border-slate-800">
@@ -726,6 +783,17 @@
                 <button onclick="selectMatcherOption('Self-Limiting Belief Auditor')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">5. Overcoming imposter triggers and internal performance ceilings.</button>
                 <button onclick="selectMatcherOption('Cognitive Learning Profiler')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">6. Rapidly assimilating AI-native tools and complex information architectures.</button>
             </div>
+        </div>
+    </div>
+
+    <div id="whatsapp-qr-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-8 space-y-5 shadow-2xl relative text-center">
+            <button onclick="document.getElementById('whatsapp-qr-modal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-xl">&times;</button>
+            <div class="w-12 h-12 bg-emerald-600 rounded-xl mx-auto flex items-center justify-center font-black text-white text-xl mb-1">☎</div>
+            <h3 class="text-lg font-bold text-white">Talk to Syntropix</h3>
+            <p class="text-xs text-slate-400">Scan this with your phone's camera to start a WhatsApp call with us directly.</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fcall.whatsapp.com%2Fvoice%2FKUopE3L5cl0RAj3iMYsjpC" alt="WhatsApp call QR code" class="mx-auto rounded-lg border border-slate-700">
+            <a href="https://call.whatsapp.com/voice/KUopE3L5cl0RAj3iMYsjpC" target="_blank" class="block text-[11px] text-indigo-300 underline">Or click here if you're on this device</a>
         </div>
     </div>
 
@@ -1175,6 +1243,107 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
+
+            if (currentUser.role === 'enterprise') {
+                document.getElementById('org-admin-panel').classList.remove('hidden');
+                document.getElementById('master-org-tools').classList.add('hidden');
+                document.getElementById('research-console-panel').classList.add('hidden');
+                document.getElementById('admin-dashboard-subtitle').textContent = "Manage your organization's assessment licenses";
+                loadOrgDashboard();
+            } else {
+                document.getElementById('admin-dashboard-title').textContent = "Syntropix Console";
+                document.getElementById('admin-dashboard-subtitle').textContent = "Client organizations & research/validation status — internal use only";
+                document.getElementById('org-admin-panel').classList.add('hidden');
+                document.getElementById('research-console-panel').classList.remove('hidden');
+                document.getElementById('master-org-tools').classList.remove('hidden');
+            }
+        }
+
+        async function loadOrgDashboard() {
+            const token = localStorage.getItem("syntropix_token");
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/dashboard?token=${encodeURIComponent(token)}`);
+                const data = await res.json();
+                if (data.status !== "success") {
+                    document.getElementById('admin-dashboard-subtitle').textContent = data.message || "Could not load organization data.";
+                    return;
+                }
+                document.getElementById('admin-dashboard-title').textContent = data.org.name || "Enterprise Portal";
+                document.getElementById('org-stat-total').textContent = data.licenses.total;
+                document.getElementById('org-stat-used').textContent = data.licenses.used;
+                document.getElementById('org-stat-remaining').textContent = data.licenses.remaining;
+
+                const list = document.getElementById('org-assignments-list');
+                if (!data.assignments.length) {
+                    list.innerHTML = '<p class="text-slate-500">No employees assigned yet.</p>';
+                } else {
+                    list.innerHTML = data.assignments.map(a => `
+                        <div class="flex items-center justify-between border-b border-slate-800 py-2">
+                            <span>${escapeHtml(a.employee_email)}</span>
+                            <span class="text-[10px] uppercase font-mono ${a.status === 'used' ? 'text-emerald-400' : 'text-amber-400'}">${escapeHtml(a.status)}</span>
+                        </div>`).join('');
+                }
+            } catch (e) {
+                console.error("Failed to load org dashboard:", e);
+            }
+        }
+
+        async function submitAssignLicense() {
+            const email = document.getElementById('assign-license-email').value.trim();
+            const msg = document.getElementById('assign-license-msg');
+            if (!email) { msg.textContent = "Enter an employee email first."; msg.className = "text-[11px] text-rose-400"; return; }
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/assign-license`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employeeEmail: email })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    msg.textContent = "License assigned successfully.";
+                    msg.className = "text-[11px] text-emerald-400";
+                    document.getElementById('assign-license-email').value = "";
+                    loadOrgDashboard();
+                } else {
+                    msg.textContent = data.message || "Could not assign license.";
+                    msg.className = "text-[11px] text-rose-400";
+                }
+            } catch (e) {
+                msg.textContent = "Couldn't reach the server.";
+                msg.className = "text-[11px] text-rose-400";
+            }
+        }
+
+        async function submitCreateOrg() {
+            const orgName = document.getElementById('create-org-name').value.trim();
+            const adminEmail = document.getElementById('create-org-admin-email').value.trim();
+            const totalLicenses = document.getElementById('create-org-licenses').value.trim();
+            const msg = document.getElementById('create-org-msg');
+            if (!orgName || !adminEmail || !totalLicenses) {
+                msg.textContent = "Fill in all three fields.";
+                msg.className = "text-[11px] text-rose-400";
+                return;
+            }
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/create`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), orgName, adminEmail, totalLicenses })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    msg.textContent = data.adminTempPassword
+                        ? `Organization created. New admin's temporary password: ${data.adminTempPassword} — share this with them securely.`
+                        : "Organization created and linked to the existing account.";
+                    msg.className = "text-[11px] text-emerald-400";
+                } else {
+                    msg.textContent = data.message || "Could not create organization.";
+                    msg.className = "text-[11px] text-rose-400";
+                }
+            } catch (e) {
+                msg.textContent = "Couldn't reach the server.";
+                msg.className = "text-[11px] text-rose-400";
+            }
         }
 
         function submitContactForm() {
@@ -1191,6 +1360,16 @@
             document.getElementById('contactName').value = '';
             document.getElementById('contactEmail').value = '';
             document.getElementById('contactMessage').value = '';
+        }
+
+        const WHATSAPP_CALL_LINK = "https://call.whatsapp.com/voice/KUopE3L5cl0RAj3iMYsjpC";
+        function openTalkToSyntropix() {
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            if (isMobile) {
+                window.location.href = WHATSAPP_CALL_LINK;
+            } else {
+                document.getElementById('whatsapp-qr-modal').classList.remove('hidden');
+            }
         }
 
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
@@ -1329,8 +1508,12 @@
                 document.getElementById('nav-user-profile').classList.remove('hidden');
                 document.getElementById('user-display-name').innerText = currentUser.name;
                 
-                if (currentUser.role === 'master' || currentUser.role === 'enterprise') {
+                if (currentUser.role === 'master') {
                     document.getElementById('admin-nav-btn').classList.remove('hidden');
+                    document.getElementById('admin-nav-btn').innerHTML = "🔬 Syntropix Console";
+                } else if (currentUser.role === 'enterprise') {
+                    document.getElementById('admin-nav-btn').classList.remove('hidden');
+                    document.getElementById('admin-nav-btn').innerHTML = "🏢 Client Portal";
                 } else {
                     document.getElementById('admin-nav-btn').classList.add('hidden');
                 }
@@ -1357,12 +1540,12 @@
         }
 
         function launchAssessment(assessmentName) {
-            if (!currentUser) { 
-                alert("Please log in with your assigned credentials to access the secure assessment.");
-                openAuthModal(); 
-                return; 
-            }
-            
+            // No login required here on purpose — a first-time participant pays their
+            // way in via the intake form below, and gets a working session automatically
+            // once payment (or an admin/org-issued license) is verified. Requiring a
+            // password-based account before someone can even SEE the checkout form was
+            // a leftover from an earlier design and blocked every real guest.
+
             // Check if assessment is fully built in the DB yet
             if (!assessmentBank[assessmentName].questions) {
                 alert(`The ${assessmentName} is currently undergoing final empirical validation by our research team. It will be unlocked shortly. Please proceed with the CogniMorph Index or Coachability Quotient.`);
@@ -1383,7 +1566,7 @@
                     timerInterval = setInterval(checkSessionTimer, 1000);
                     return;
                 } else {
-                    if (currentUser.role === 'master' || currentUser.role === 'demo') {
+                    if (currentUser && (currentUser.role === 'master' || currentUser.role === 'demo')) {
                         sessionData = null; 
                         localStorage.removeItem("syntropix_session");
                     } else {
@@ -1408,7 +1591,7 @@
             document.getElementById('active-assessment-title').innerText = assessmentBank[currentActiveAssessment].title;
             document.getElementById('briefing-title').innerText = assessmentBank[currentActiveAssessment].title + " Briefing";
 
-            if (currentUser.role === 'master' || currentUser.role === 'demo' || currentUser.role === 'enterprise') {
+            if (currentUser && (currentUser.role === 'master' || currentUser.role === 'demo' || currentUser.role === 'enterprise')) {
                 document.getElementById('userName').value = currentUser.name;
                 document.getElementById('userEmail').value = currentUser.email;
                 document.getElementById('paypal-section').classList.add('hidden');
@@ -1506,6 +1689,61 @@
             } catch (e) {
                 console.error("Bypass request failed:", e);
                 alert("Couldn't reach the server to authorize the bypass.");
+            }
+        }
+
+        let pendingOrgLicenseToken = null;
+        async function checkOrgLicense() {
+            const email = document.getElementById('userEmail').value.trim();
+            if (!email) return;
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/check-entitlement`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await res.json();
+                if (data.status === "success" && data.hasLicense) {
+                    pendingOrgLicenseToken = data.entitlementToken;
+                    document.getElementById('org-license-section').classList.remove('hidden');
+                    document.getElementById('paypal-section').classList.add('hidden');
+                } else {
+                    pendingOrgLicenseToken = null;
+                    document.getElementById('org-license-section').classList.add('hidden');
+                    // Only re-show PayPal if this isn't an admin/enterprise account using the bypass button instead
+                    if (!currentUser || (currentUser.role !== 'master' && currentUser.role !== 'demo' && currentUser.role !== 'enterprise')) {
+                        document.getElementById('paypal-section').classList.remove('hidden');
+                    }
+                }
+            } catch (e) {
+                console.error("Org license check failed:", e);
+            }
+        }
+
+        async function claimOrgLicense() {
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            if (!name || !email) { alert("Please fill in your Name and Email."); return; }
+            if (!document.getElementById('privacyConsent').checked) {
+                alert("Please read and agree to the Privacy Policy before continuing.");
+                return;
+            }
+            if (!pendingOrgLicenseToken) { alert("No license found for this email — please refresh and try again."); return; }
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/claim-license`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ entitlementToken: pendingOrgLicenseToken, email })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    if (data.sessionToken) localStorage.setItem("syntropix_token", data.sessionToken);
+                    startAssessmentAfterPayment(data.entitlementToken);
+                } else {
+                    alert(data.message || "Could not redeem this license.");
+                }
+            } catch (e) {
+                alert("Couldn't reach the server. Please try again.");
             }
         }
 
