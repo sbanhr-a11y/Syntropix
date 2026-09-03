@@ -1452,6 +1452,12 @@
                         });
                         const verifyData = await res.json();
                         if (verifyData.status === "success" && verifyData.entitlementToken) {
+                            // A guest paying for the first time has no prior session — this
+                            // grants them one automatically so the AI coach and report-email
+                            // features work without ever requiring them to create a password.
+                            if (verifyData.sessionToken) {
+                                localStorage.setItem("syntropix_token", verifyData.sessionToken);
+                            }
                             startAssessmentAfterPayment(verifyData.entitlementToken);
                         } else {
                             alert("We captured your payment but could not verify it with our server. Please contact support@syntropix.com with your PayPal receipt — do not pay twice.");
