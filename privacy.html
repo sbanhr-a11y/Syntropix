@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Syntropix™</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { background:#0f172a; color:#e2e8f0; font-family: ui-sans-serif, system-ui, sans-serif; }
+  h1,h2 { color:#fff; }
+  a { color:#a5b4fc; }
+</style>
+</head>
+<body class="min-h-screen">
+<div class="max-w-3xl mx-auto px-6 py-16 space-y-8">
+  <div>
+    <a href="index.html" class="text-sm text-indigo-300">&larr; Back to Syntropix</a>
+    <h1 class="text-3xl font-bold mt-4">Privacy Policy</h1>
+    <p class="text-slate-400 text-sm mt-1">Last updated: <span id="update-date"></span></p>
+  </div>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">1. Who we are</h2>
+    <p>Syntropix ("we," "us," "our") provides manager assessment and development tools, including psychometric diagnostics, 360° feedback, and AI-assisted coaching, at syntropix.in. This policy explains what personal data we collect, why, and what rights you have over it.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">2. What we collect</h2>
+    <ul class="list-disc pl-6 space-y-1">
+      <li><strong>Identity data:</strong> name, email address, and mobile number you provide when creating an account or starting an assessment.</li>
+      <li><strong>Assessment data:</strong> your responses to psychometric and manager-effectiveness questions, and the scores/archetypes generated from them.</li>
+      <li><strong>AI coaching interactions:</strong> messages you send to the AI coach and the profile context used to generate responses. These are sent to our AI provider (currently Groq, and optionally Google Gemini) solely to generate your reply.</li>
+      <li><strong>Payment confirmation:</strong> we receive confirmation of payment from PayPal, but Syntropix does not store your card or PayPal account details directly — that is handled entirely by PayPal.</li>
+      <li><strong>Technical data:</strong> basic session information (a login token) used to keep you signed in.</li>
+    </ul>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">3. Why we collect it</h2>
+    <ul class="list-disc pl-6 space-y-1">
+      <li>To generate your assessment report and score.</li>
+      <li>To email you a copy of your diagnostic report as a PDF.</li>
+      <li>To power the AI coaching conversation you initiate.</li>
+      <li>To verify payment before granting access to a paid assessment.</li>
+      <li>To maintain your login session securely.</li>
+    </ul>
+    <p>We do not sell your personal data. We do not use your assessment responses for advertising.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">4. Where your data is stored</h2>
+    <p>Your data is currently stored in a private, access-controlled Google Sheets database operated by Syntropix, and is being migrated to a dedicated database (Supabase/PostgreSQL) as part of an ongoing infrastructure upgrade. Passwords are never stored in plain text — they are cryptographically hashed with a unique salt per user.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">5. Third parties we share data with</h2>
+    <ul class="list-disc pl-6 space-y-1">
+      <li><strong>PayPal</strong> — to process payment. See PayPal's own privacy policy for how they handle your payment details.</li>
+      <li><strong>Groq / Google Gemini</strong> — to generate AI coaching responses. Only your prompt and assessment context are sent, not your name, email, or payment information.</li>
+      <li><strong>Google Workspace (Gmail/Sheets)</strong> — used as our current email delivery and data storage infrastructure.</li>
+    </ul>
+    <p>We do not sell or rent your data to any third party for marketing purposes.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">6. Your rights</h2>
+    <p>You can request to:</p>
+    <ul class="list-disc pl-6 space-y-1">
+      <li>Access the personal data we hold about you.</li>
+      <li>Correct inaccurate data.</li>
+      <li>Request deletion of your account and associated data.</li>
+      <li>Withdraw consent for AI coaching processing at any time (this will simply stop the AI coach from functioning for your account; your report data is unaffected).</li>
+    </ul>
+    <p>To exercise any of these rights, email <a href="mailto:support@syntropix.com">support@syntropix.com</a>. We will respond within 30 days.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">7. Data retention</h2>
+    <p>We retain your assessment data for as long as your account is active, or as needed to provide the service. You may request deletion at any time as described above.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">8. Children's data</h2>
+    <p>Syntropix is intended for working professionals and is not directed at, and does not knowingly collect data from, anyone under 18.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">9. Changes to this policy</h2>
+    <p>We may update this policy as our infrastructure and practices evolve (for example, as we complete our migration to a dedicated database). Material changes will be reflected by updating the "Last updated" date above.</p>
+  </section>
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">10. Contact</h2>
+    <p>Questions about this policy or your data: <a href="mailto:support@syntropix.com">support@syntropix.com</a></p>
+  </section>
+</div>
+<script>
+  document.getElementById('update-date').textContent = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+</script>
+</body>
+</html>
