@@ -167,6 +167,7 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Are your daily setbacks building mental muscle or quietly capping your career growth?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Measures how well you bounce back from failure, handle high-stakes pressure, and treat mistakes as data rather than threats.</p>
                     </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="CogniMorph Index">No ratings yet</div>
                     <button id="launch-btn-cognimorph-index" data-assessment="CogniMorph Index" onclick="launchAssessment('CogniMorph Index')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Launch Assessment ($49)</button>
                 </div>
 
@@ -180,6 +181,7 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Does tough feedback feel like an attack, or is it your fastest fuel for promotion?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Evaluates your openness to mentoring, ability to drop defensiveness, and speed in turning advice into new habits.</p>
                     </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Coachability Quotient">No ratings yet</div>
                     <button id="launch-btn-coachability-quotient" data-assessment="Coachability Quotient" onclick="launchAssessment('Coachability Quotient')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
@@ -193,6 +195,7 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"How effectively do you monitor your own thinking when chaos strikes your team?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Audits how you allocate mental energy, debug problems in real time, and stay clear-headed during ambiguity.</p>
                     </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Metacognitive Executive Assessment">No ratings yet</div>
                     <button id="launch-btn-metacognitive-executive-assessment" data-assessment="Metacognitive Executive Assessment" onclick="launchAssessment('Metacognitive Executive Assessment')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
@@ -206,6 +209,7 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Are you solving today's symptoms while accidentally creating tomorrow's disasters?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Measures your ability to think from first principles, forecast second-order consequences, and sidestep hidden project risks.</p>
                     </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Strategic Inversion Diagnostics">No ratings yet</div>
                     <button id="launch-btn-strategic-inversion-diagnostics" data-assessment="Strategic Inversion Diagnostics" onclick="launchAssessment('Strategic Inversion Diagnostics')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
@@ -219,6 +223,7 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"What unspoken mental rules are holding you back from stepping into top leadership?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Uncovers hidden mental ceilings, imposter syndrome triggers, and self-sabotaging professional habits.</p>
                     </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Self-Limiting Belief Auditor">No ratings yet</div>
                     <button id="launch-btn-self-limiting-belief-auditor" data-assessment="Self-Limiting Belief Auditor" onclick="launchAssessment('Self-Limiting Belief Auditor')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
@@ -232,6 +237,7 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"How fast can you digest complex industry disruptions and master AI tools?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Maps your information absorption speed, sensory preferences, and conceptual synthesis efficiency.</p>
                     </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Cognitive Learning Profiler">No ratings yet</div>
                     <button id="launch-btn-cognitive-learning-profiler" data-assessment="Cognitive Learning Profiler" onclick="launchAssessment('Cognitive Learning Profiler')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
             </div>
@@ -557,9 +563,17 @@
                 </div>
             </div>
 
-            <div id="rating-reminder-banner" class="hidden no-print bg-indigo-950/40 border border-indigo-800/50 rounded-xl p-4 mb-6 flex items-center justify-between gap-3">
-                <p class="text-xs text-slate-300">Your PDF download and emailed report unlock once you rate your experience.</p>
-                <button onclick="openRatingModal()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold uppercase tracking-wider transition whitespace-nowrap">Rate Now</button>
+            <div id="rating-gate" class="no-print bg-indigo-950/40 border border-indigo-800/50 rounded-xl p-5 mb-6 text-center space-y-3">
+                <p class="text-sm text-white font-semibold">Before you download or receive your report — how was your assessment experience?</p>
+                <div id="star-rating-widget" class="flex justify-center gap-2 text-3xl">
+                    <span data-star="1" onclick="setRating(1)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="2" onclick="setRating(2)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="3" onclick="setRating(3)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="4" onclick="setRating(4)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                    <span data-star="5" onclick="setRating(5)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                </div>
+                <p class="text-[11px] text-slate-400">A rating is required to unlock your PDF download and emailed report — it takes one click.</p>
+                <p id="rating-status-msg" class="text-[11px] text-emerald-400 hidden">Thank you — preparing your report now…</p>
             </div>
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 print-card shadow-2xl relative overflow-hidden">
@@ -854,19 +868,18 @@
         </div>
     </div>
 
-    <div id="rating-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div id="feedback-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-indigo-800/50 rounded-2xl max-w-md w-full p-8 space-y-4 shadow-2xl relative text-center">
-            <button onclick="dismissRatingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-xl">&times;</button>
-            <p class="text-sm text-white font-semibold">Before you download or receive your report — how was your assessment experience?</p>
-            <div id="star-rating-widget" class="flex justify-center gap-2 text-4xl">
-                <span data-star="1" onclick="setRating(1)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                <span data-star="2" onclick="setRating(2)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                <span data-star="3" onclick="setRating(3)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                <span data-star="4" onclick="setRating(4)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                <span data-star="5" onclick="setRating(5)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+            <button onclick="closeFeedbackModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-xl">&times;</button>
+            <div class="w-12 h-12 bg-emerald-600 rounded-xl mx-auto flex items-center justify-center font-black text-white text-xl mb-1">✓</div>
+            <p class="text-sm text-white font-semibold">Your report is on its way to your inbox.</p>
+            <p class="text-xs text-slate-400">Anything specific you'd like to tell us about your experience? This is completely optional.</p>
+            <textarea id="feedback-text" rows="4" placeholder="What worked well, what didn't, anything you'd change…" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-xs text-white"></textarea>
+            <div class="flex gap-3">
+                <button onclick="closeFeedbackModal()" class="flex-1 py-2.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs uppercase tracking-wider transition">Skip</button>
+                <button onclick="submitDescriptiveFeedback()" class="flex-1 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Send Feedback</button>
             </div>
-            <p class="text-[11px] text-slate-400">A rating is required to unlock your PDF download and emailed report — it takes one click.</p>
-            <p id="rating-status-msg" class="text-[11px] text-emerald-400 hidden">Thank you — preparing your report now…</p>
+            <p id="feedback-status-msg" class="text-[11px]"></p>
         </div>
     </div>
 
@@ -1237,6 +1250,7 @@
                 updateUserUI(); 
                 initPayPalButton();
                 applyUrlBasedAssignment();
+                loadHubRatings();
                 if (sessionData) {
                     checkSessionTimer();
                     if (!sessionData.locked) {
@@ -1567,6 +1581,27 @@
             }
         }
 
+        // Public, no login required — shows real average ratings under each
+        // assessment card. Runs on every page load so guests see it too.
+        async function loadHubRatings() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/reports/ratings-summary`);
+                const data = await res.json();
+                if (data.status !== "success") return;
+                document.querySelectorAll('.hub-rating-display').forEach(el => {
+                    const name = el.dataset.assessmentRating;
+                    const info = data.ratings[name];
+                    if (info && info.count > 0) {
+                        const fullStars = Math.round(info.average);
+                        const starsHtml = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+                        el.innerHTML = `<span class="text-amber-400">${starsHtml}</span> <span class="text-white font-semibold">${info.average}</span> <span class="text-slate-500">(${info.count} rating${info.count === 1 ? '' : 's'})</span>`;
+                    }
+                });
+            } catch (e) {
+                console.error("Failed to load hub ratings:", e);
+            }
+        }
+
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
@@ -1585,30 +1620,34 @@
             btn.classList.remove('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
             btn.classList.add('bg-indigo-600', 'hover:bg-indigo-500', 'text-white');
             btn.title = "";
-            const banner = document.getElementById('rating-reminder-banner');
-            if (banner) banner.classList.add('hidden');
         }
 
-        function openRatingModal() { document.getElementById('rating-modal').classList.remove('hidden'); }
-        function dismissRatingModal() { document.getElementById('rating-modal').classList.add('hidden'); }
+        function openFeedbackModal() { document.getElementById('feedback-modal').classList.remove('hidden'); }
+        function closeFeedbackModal() { document.getElementById('feedback-modal').classList.add('hidden'); }
 
-        // Watches the AI coach section and pops the rating modal open the
-        // first time it scrolls into view — not immediately on page load,
-        // and not blocking the person from reading their report first.
-        let ratingScrollObserver = null;
-        function setupRatingScrollTrigger() {
-            const target = document.getElementById('ai-coach-section');
-            if (!target || ratingScrollObserver) return;
-            ratingScrollObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !(sessionData && sessionData.rated)) {
-                        openRatingModal();
-                        ratingScrollObserver.disconnect();
-                        ratingScrollObserver = null;
-                    }
+        async function submitDescriptiveFeedback() {
+            const text = document.getElementById('feedback-text').value.trim();
+            const statusMsg = document.getElementById('feedback-status-msg');
+            if (!text) { closeFeedbackModal(); return; }
+            try {
+                const res = await fetch(`${API_BASE_URL}/reports/feedback`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), feedbackText: text })
                 });
-            }, { threshold: 0.3 });
-            ratingScrollObserver.observe(target);
+                const data = await res.json();
+                if (data.status === "success") {
+                    statusMsg.textContent = "Thank you for the feedback.";
+                    statusMsg.className = "text-[11px] text-emerald-400";
+                    setTimeout(closeFeedbackModal, 1200);
+                } else {
+                    statusMsg.textContent = data.message || "Couldn't save your feedback — please try again.";
+                    statusMsg.className = "text-[11px] text-rose-400";
+                }
+            } catch (e) {
+                statusMsg.textContent = "Couldn't reach the server.";
+                statusMsg.className = "text-[11px] text-rose-400";
+            }
         }
 
         function setRating(stars) {
@@ -1636,6 +1675,7 @@
                     body: JSON.stringify({
                         token: localStorage.getItem("syntropix_token"),
                         rating: rating,
+                        assessmentName: currentActiveAssessment,
                         ...pendingReportSubmission
                     })
                 });
@@ -1644,7 +1684,9 @@
                     if (sessionData) { sessionData.rated = true; localStorage.setItem("syntropix_session", JSON.stringify(sessionData)); }
                     statusMsg.textContent = "Thank you! Your report has been emailed to you, and the PDF download is now unlocked.";
                     unlockReportDownload();
-                    setTimeout(dismissRatingModal, 1800);
+                    document.getElementById('feedback-text').value = "";
+                    document.getElementById('feedback-status-msg').textContent = "";
+                    setTimeout(openFeedbackModal, 900);
                 } else {
                     statusMsg.textContent = data.message || "Something went wrong saving your report — please try again.";
                     statusMsg.classList.replace('text-emerald-400', 'text-rose-400');
@@ -2272,9 +2314,6 @@
                 // Rating gate: we no longer auto-send the report/email here.
                 // The report only gets submitted (and the PDF download unlocked)
                 // once the participant selects a star rating — see setRating().
-                // The rating prompt itself now pops up as a modal the moment the
-                // AI coach section scrolls into view, rather than sitting inline
-                // at the top of the report.
                 if (!isReload && currentUser && currentUser.role !== 'demo') {
                     const reportHtml = document.getElementById('report-view').innerHTML;
                     pendingReportSubmission = { name: prof.name, globalScore: gni, archetype: arch.title, reportHtml: reportHtml };
@@ -2282,13 +2321,12 @@
                         // Already rated earlier (e.g., page reload) — unlock immediately, no need to ask again.
                         unlockReportDownload();
                     } else {
-                        document.getElementById('rating-reminder-banner').classList.remove('hidden');
-                        setupRatingScrollTrigger();
+                        document.getElementById('rating-gate').classList.remove('hidden');
                     }
                 } else {
                     // Demo accounts and reloads of an already-rated report don't need the gate.
                     unlockReportDownload();
-                    document.getElementById('rating-reminder-banner').classList.add('hidden');
+                    document.getElementById('rating-gate').classList.add('hidden');
                 }
             } catch (err) {
                 console.error("Critical error generating report:", err);
