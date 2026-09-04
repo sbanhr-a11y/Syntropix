@@ -157,7 +157,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                <div data-assessment-card="CogniMorph Index" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">Ψ</span>
@@ -167,10 +167,10 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Are your daily setbacks building mental muscle or quietly capping your career growth?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Measures how well you bounce back from failure, handle high-stakes pressure, and treat mistakes as data rather than threats.</p>
                     </div>
-                    <button onclick="launchAssessment('CogniMorph Index')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Launch Assessment ($49)</button>
+                    <button id="launch-btn-cognimorph-index" data-assessment="CogniMorph Index" onclick="launchAssessment('CogniMorph Index')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Launch Assessment ($49)</button>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                <div data-assessment-card="Coachability Quotient" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">C</span>
@@ -180,10 +180,10 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Does tough feedback feel like an attack, or is it your fastest fuel for promotion?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Evaluates your openness to mentoring, ability to drop defensiveness, and speed in turning advice into new habits.</p>
                     </div>
-                    <button onclick="launchAssessment('Coachability Quotient')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                    <button id="launch-btn-coachability-quotient" data-assessment="Coachability Quotient" onclick="launchAssessment('Coachability Quotient')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                <div data-assessment-card="Metacognitive Executive Assessment" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold">M</span>
@@ -193,10 +193,10 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"How effectively do you monitor your own thinking when chaos strikes your team?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Audits how you allocate mental energy, debug problems in real time, and stay clear-headed during ambiguity.</p>
                     </div>
-                    <button onclick="launchAssessment('Metacognitive Executive Assessment')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                    <button id="launch-btn-metacognitive-executive-assessment" data-assessment="Metacognitive Executive Assessment" onclick="launchAssessment('Metacognitive Executive Assessment')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                <div data-assessment-card="Strategic Inversion Diagnostics" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="w-10 h-10 rounded-xl bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">S</span>
@@ -206,10 +206,10 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Are you solving today's symptoms while accidentally creating tomorrow's disasters?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Measures your ability to think from first principles, forecast second-order consequences, and sidestep hidden project risks.</p>
                     </div>
-                    <button onclick="launchAssessment('Strategic Inversion Diagnostics')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                    <button id="launch-btn-strategic-inversion-diagnostics" data-assessment="Strategic Inversion Diagnostics" onclick="launchAssessment('Strategic Inversion Diagnostics')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                <div data-assessment-card="Self-Limiting Belief Auditor" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="w-10 h-10 rounded-xl bg-rose-600/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold">S</span>
@@ -219,10 +219,10 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"What unspoken mental rules are holding you back from stepping into top leadership?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Uncovers hidden mental ceilings, imposter syndrome triggers, and self-sabotaging professional habits.</p>
                     </div>
-                    <button onclick="launchAssessment('Self-Limiting Belief Auditor')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                    <button id="launch-btn-self-limiting-belief-auditor" data-assessment="Self-Limiting Belief Auditor" onclick="launchAssessment('Self-Limiting Belief Auditor')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
 
-                <div class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                <div data-assessment-card="Cognitive Learning Profiler" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="w-10 h-10 rounded-xl bg-teal-600/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-bold">L</span>
@@ -232,7 +232,7 @@
                         <p class="text-xs text-slate-300 leading-relaxed italic">"How fast can you digest complex industry disruptions and master AI tools?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Maps your information absorption speed, sensory preferences, and conceptual synthesis efficiency.</p>
                     </div>
-                    <button onclick="launchAssessment('Cognitive Learning Profiler')" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                    <button id="launch-btn-cognitive-learning-profiler" data-assessment="Cognitive Learning Profiler" onclick="launchAssessment('Cognitive Learning Profiler')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
                 </div>
             </div>
         </section>
@@ -370,13 +370,35 @@
                     <input type="email" id="assign-license-email" placeholder="employee@company.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
                     <button onclick="submitAssignLicense()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap">Assign License</button>
                 </div>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 mb-1.5 block">Bundle (select one or more — leave all unchecked for open access to any assessment)</label>
+                    <div id="assign-license-assessment-checks" class="flex flex-wrap gap-2">
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="CogniMorph Index" class="assign-assessment-cb">CogniMorph Index</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Coachability Quotient" class="assign-assessment-cb">Coachability Quotient</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Metacognitive Executive Assessment" class="assign-assessment-cb">Metacognitive Executive</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Strategic Inversion Diagnostics" class="assign-assessment-cb">Strategic Inversion Diagnostics</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Self-Limiting Belief Auditor" class="assign-assessment-cb">Self-Limiting Belief Auditor</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Cognitive Learning Profiler" class="assign-assessment-cb">Cognitive Learning Profiler</label>
+                    </div>
+                </div>
                 <p id="assign-license-msg" class="text-[11px]"></p>
-                <p class="text-[11px] text-slate-500">The employee will receive an invite email automatically, and their payment step will be skipped when they enter this same email on the site.</p>
+                <p class="text-[11px] text-slate-500">Check one to restrict the employee to a single assessment, check several to give them a bundle, or leave all unchecked for open self-serve access to anything.</p>
             </div>
 
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
                 <h3 class="text-sm font-bold text-white">Bulk Upload (CSV or Excel-exported CSV)</h3>
-                <p class="text-[11px] text-slate-500">File must have a header row with columns named <code class="text-indigo-300">email</code> and (optionally) <code class="text-indigo-300">name</code>. One row per employee.</p>
+                <p class="text-[11px] text-slate-500">File must have a header row with columns named <code class="text-indigo-300">email</code> and (optionally) <code class="text-indigo-300">name</code>. To bundle specific assessments per person, add an optional <code class="text-indigo-300">assessments</code> column with names separated by a pipe character, e.g. <code class="text-indigo-300">CogniMorph Index|Coachability Quotient</code>. Rows without that column use the batch default below.</p>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 mb-1.5 block">Batch default bundle (used for any row without its own "assessments" column)</label>
+                    <div id="bulk-upload-assessment-checks" class="flex flex-wrap gap-2">
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="CogniMorph Index" class="bulk-assessment-cb">CogniMorph Index</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Coachability Quotient" class="bulk-assessment-cb">Coachability Quotient</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Metacognitive Executive Assessment" class="bulk-assessment-cb">Metacognitive Executive</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Strategic Inversion Diagnostics" class="bulk-assessment-cb">Strategic Inversion Diagnostics</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Self-Limiting Belief Auditor" class="bulk-assessment-cb">Self-Limiting Belief Auditor</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Cognitive Learning Profiler" class="bulk-assessment-cb">Cognitive Learning Profiler</label>
+                    </div>
+                </div>
                 <div class="flex flex-col sm:flex-row gap-3 items-center">
                     <input type="file" id="bulk-upload-file" accept=".csv" class="flex-1 text-xs text-slate-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-slate-700 file:text-white file:text-xs file:font-bold">
                     <button onclick="submitBulkUpload()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap">Upload & Assign</button>
@@ -535,17 +557,9 @@
                 </div>
             </div>
 
-            <div id="rating-gate" class="no-print bg-indigo-950/40 border border-indigo-800/50 rounded-xl p-5 mb-6 text-center space-y-3">
-                <p class="text-sm text-white font-semibold">Before you download or receive your report — how was your assessment experience?</p>
-                <div id="star-rating-widget" class="flex justify-center gap-2 text-3xl">
-                    <span data-star="1" onclick="setRating(1)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                    <span data-star="2" onclick="setRating(2)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                    <span data-star="3" onclick="setRating(3)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                    <span data-star="4" onclick="setRating(4)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                    <span data-star="5" onclick="setRating(5)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
-                </div>
-                <p class="text-[11px] text-slate-400">A rating is required to unlock your PDF download and emailed report — it takes one click.</p>
-                <p id="rating-status-msg" class="text-[11px] text-emerald-400 hidden">Thank you — preparing your report now…</p>
+            <div id="rating-reminder-banner" class="hidden no-print bg-indigo-950/40 border border-indigo-800/50 rounded-xl p-4 mb-6 flex items-center justify-between gap-3">
+                <p class="text-xs text-slate-300">Your PDF download and emailed report unlock once you rate your experience.</p>
+                <button onclick="openRatingModal()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold uppercase tracking-wider transition whitespace-nowrap">Rate Now</button>
             </div>
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 print-card shadow-2xl relative overflow-hidden">
@@ -827,6 +841,22 @@
                 <button onclick="selectMatcherOption('Self-Limiting Belief Auditor')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">5. Overcoming imposter triggers and internal performance ceilings.</button>
                 <button onclick="selectMatcherOption('Cognitive Learning Profiler')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">6. Rapidly assimilating AI-native tools and complex information architectures.</button>
             </div>
+        </div>
+    </div>
+
+    <div id="rating-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-indigo-800/50 rounded-2xl max-w-md w-full p-8 space-y-4 shadow-2xl relative text-center">
+            <button onclick="dismissRatingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-xl">&times;</button>
+            <p class="text-sm text-white font-semibold">Before you download or receive your report — how was your assessment experience?</p>
+            <div id="star-rating-widget" class="flex justify-center gap-2 text-4xl">
+                <span data-star="1" onclick="setRating(1)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                <span data-star="2" onclick="setRating(2)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                <span data-star="3" onclick="setRating(3)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                <span data-star="4" onclick="setRating(4)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+                <span data-star="5" onclick="setRating(5)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
+            </div>
+            <p class="text-[11px] text-slate-400">A rating is required to unlock your PDF download and emailed report — it takes one click.</p>
+            <p id="rating-status-msg" class="text-[11px] text-emerald-400 hidden">Thank you — preparing your report now…</p>
         </div>
     </div>
 
@@ -1196,6 +1226,7 @@
             try {
                 updateUserUI(); 
                 initPayPalButton();
+                applyUrlBasedAssignment();
                 if (sessionData) {
                     checkSessionTimer();
                     if (!sessionData.locked) {
@@ -1339,13 +1370,14 @@
         async function submitAssignLicense() {
             const name = document.getElementById('assign-license-name').value.trim();
             const email = document.getElementById('assign-license-email').value.trim();
+            const assessmentNames = Array.from(document.querySelectorAll('#assign-license-assessment-checks .assign-assessment-cb:checked')).map(cb => cb.value);
             const msg = document.getElementById('assign-license-msg');
             if (!email) { msg.textContent = "Enter an employee email first."; msg.className = "text-[11px] text-rose-400"; return; }
             try {
                 const res = await fetch(`${API_BASE_URL}/organizations/assign-license`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employeeEmail: email, employeeName: name })
+                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employeeEmail: email, employeeName: name, assessmentNames })
                 });
                 const data = await res.json();
                 if (data.status === "success") {
@@ -1353,6 +1385,7 @@
                     msg.className = "text-[11px] text-emerald-400";
                     document.getElementById('assign-license-name').value = "";
                     document.getElementById('assign-license-email').value = "";
+                    document.querySelectorAll('#assign-license-assessment-checks .assign-assessment-cb').forEach(cb => cb.checked = false);
                     loadOrgDashboard();
                 } else {
                     msg.textContent = data.message || "Could not assign license.";
@@ -1377,10 +1410,14 @@
                 header: true,
                 skipEmptyLines: true,
                 complete: async function(results) {
-                    const employees = results.data.map(row => ({
-                        email: (row.email || row.Email || "").trim(),
-                        name: (row.name || row.Name || "").trim()
-                    })).filter(r => r.email);
+                    const employees = results.data.map(row => {
+                        const rawAssessments = (row.assessments || row.Assessments || "").trim();
+                        return {
+                            email: (row.email || row.Email || "").trim(),
+                            name: (row.name || row.Name || "").trim(),
+                            assessmentNames: rawAssessments ? rawAssessments.split("|").map(s => s.trim()).filter(Boolean) : []
+                        };
+                    }).filter(r => r.email);
 
                     if (!employees.length) {
                         msg.textContent = "No valid rows found — make sure your file has an 'email' column.";
@@ -1389,11 +1426,12 @@
                     }
 
                     msg.textContent = `Uploading ${employees.length} employee(s)…`;
+                    const defaultAssessmentNames = Array.from(document.querySelectorAll('#bulk-upload-assessment-checks .bulk-assessment-cb:checked')).map(cb => cb.value);
                     try {
                         const res = await fetch(`${API_BASE_URL}/organizations/bulk-assign`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employees })
+                            body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), employees, defaultAssessmentNames })
                         });
                         const data = await res.json();
                         if (data.status === "success") {
@@ -1537,6 +1575,30 @@
             btn.classList.remove('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
             btn.classList.add('bg-indigo-600', 'hover:bg-indigo-500', 'text-white');
             btn.title = "";
+            const banner = document.getElementById('rating-reminder-banner');
+            if (banner) banner.classList.add('hidden');
+        }
+
+        function openRatingModal() { document.getElementById('rating-modal').classList.remove('hidden'); }
+        function dismissRatingModal() { document.getElementById('rating-modal').classList.add('hidden'); }
+
+        // Watches the AI coach section and pops the rating modal open the
+        // first time it scrolls into view — not immediately on page load,
+        // and not blocking the person from reading their report first.
+        let ratingScrollObserver = null;
+        function setupRatingScrollTrigger() {
+            const target = document.getElementById('ai-coach-section');
+            if (!target || ratingScrollObserver) return;
+            ratingScrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !(sessionData && sessionData.rated)) {
+                        openRatingModal();
+                        ratingScrollObserver.disconnect();
+                        ratingScrollObserver = null;
+                    }
+                });
+            }, { threshold: 0.3 });
+            ratingScrollObserver.observe(target);
         }
 
         function setRating(stars) {
@@ -1551,6 +1613,8 @@
         async function submitRatingAndReport(rating) {
             const statusMsg = document.getElementById('rating-status-msg');
             statusMsg.classList.remove('hidden');
+            statusMsg.classList.remove('text-rose-400');
+            statusMsg.classList.add('text-emerald-400');
             statusMsg.textContent = "Thank you — preparing your report now…";
 
             if (!pendingReportSubmission) { unlockReportDownload(); return; }
@@ -1570,6 +1634,7 @@
                     if (sessionData) { sessionData.rated = true; localStorage.setItem("syntropix_session", JSON.stringify(sessionData)); }
                     statusMsg.textContent = "Thank you! Your report has been emailed to you, and the PDF download is now unlocked.";
                     unlockReportDownload();
+                    setTimeout(dismissRatingModal, 1800);
                 } else {
                     statusMsg.textContent = data.message || "Something went wrong saving your report — please try again.";
                     statusMsg.classList.replace('text-emerald-400', 'text-rose-400');
@@ -1903,9 +1968,15 @@
                     pendingOrgLicenseToken = data.entitlementToken;
                     document.getElementById('org-license-section').classList.remove('hidden');
                     document.getElementById('paypal-section').classList.add('hidden');
+                    if (data.assessmentNames && data.assessmentNames.length) {
+                        restrictToAssessments(data.assessmentNames);
+                    } else {
+                        clearAssessmentRestriction();
+                    }
                 } else {
                     pendingOrgLicenseToken = null;
                     document.getElementById('org-license-section').classList.add('hidden');
+                    clearAssessmentRestriction();
                     // Only re-show PayPal if this isn't an admin/enterprise account using the bypass button instead
                     if (!currentUser || (currentUser.role !== 'master' && currentUser.role !== 'demo' && currentUser.role !== 'enterprise')) {
                         document.getElementById('paypal-section').classList.remove('hidden');
@@ -1914,6 +1985,54 @@
             } catch (e) {
                 console.error("Org license check failed:", e);
             }
+        }
+
+        // Greys out every assessment card except the one this employee was
+        // specifically assigned, and disables its launch button so it can't
+        // be clicked even via devtools re-enabling the visual state alone
+        // (the real enforcement is server-side in claim-license, which only
+        // knows about the one assigned assessment's entitlement anyway —
+        // this UI restriction is about clarity for the employee, not security).
+        function restrictToAssessments(assessmentNames) {
+            if (!assessmentNames || !assessmentNames.length) return;
+            document.querySelectorAll('[data-assessment-card]').forEach(card => {
+                const btn = card.querySelector('button');
+                if (assessmentNames.includes(card.dataset.assessmentCard)) {
+                    card.classList.remove('opacity-40', 'pointer-events-none');
+                } else {
+                    card.classList.add('opacity-40', 'pointer-events-none');
+                    if (btn) { btn.disabled = true; btn.textContent = 'Not Assigned to You'; }
+                }
+            });
+            const firstTarget = document.querySelector(`[data-assessment-card="${assessmentNames[0]}"]`);
+            if (firstTarget) firstTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function clearAssessmentRestriction() {
+            document.querySelectorAll('[data-assessment-card]').forEach(card => {
+                card.classList.remove('opacity-40', 'pointer-events-none');
+                const btn = card.querySelector('button');
+                if (btn) { btn.disabled = false; btn.textContent = 'Launch Assessment ($49)'; }
+            });
+        }
+
+        // Reads ?email=...&assessment=... from an invite email link, pre-fills
+        // the intake email, and restricts the UI immediately so the employee
+        // sees only their assigned assessment from the moment the page loads.
+        function applyUrlBasedAssignment() {
+            const params = new URLSearchParams(window.location.search);
+            const assignedEmail = params.get('email');
+            const assignedAssessmentParam = params.get('assessment');
+            if (assignedEmail) {
+                const emailInput = document.getElementById('userEmail');
+                if (emailInput) emailInput.value = assignedEmail;
+            }
+            if (assignedAssessmentParam) {
+                restrictToAssessments(assignedAssessmentParam.split('|').filter(Boolean));
+            }
+            // Also run the real license check so the org-license checkout
+            // path (skipping PayPal) activates, not just the visual restriction.
+            if (assignedEmail) checkOrgLicense();
         }
 
         async function claimOrgLicense() {
@@ -1929,7 +2048,7 @@
                 const res = await fetch(`${API_BASE_URL}/organizations/claim-license`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ entitlementToken: pendingOrgLicenseToken, email })
+                    body: JSON.stringify({ entitlementToken: pendingOrgLicenseToken, email, assessmentName: currentActiveAssessment })
                 });
                 const data = await res.json();
                 if (data.status === "success") {
@@ -2143,6 +2262,9 @@
                 // Rating gate: we no longer auto-send the report/email here.
                 // The report only gets submitted (and the PDF download unlocked)
                 // once the participant selects a star rating — see setRating().
+                // The rating prompt itself now pops up as a modal the moment the
+                // AI coach section scrolls into view, rather than sitting inline
+                // at the top of the report.
                 if (!isReload && currentUser && currentUser.role !== 'demo') {
                     const reportHtml = document.getElementById('report-view').innerHTML;
                     pendingReportSubmission = { name: prof.name, globalScore: gni, archetype: arch.title, reportHtml: reportHtml };
@@ -2150,12 +2272,13 @@
                         // Already rated earlier (e.g., page reload) — unlock immediately, no need to ask again.
                         unlockReportDownload();
                     } else {
-                        document.getElementById('rating-gate').classList.remove('hidden');
+                        document.getElementById('rating-reminder-banner').classList.remove('hidden');
+                        setupRatingScrollTrigger();
                     }
                 } else {
                     // Demo accounts and reloads of an already-rated report don't need the gate.
                     unlockReportDownload();
-                    document.getElementById('rating-gate').classList.add('hidden');
+                    document.getElementById('rating-reminder-banner').classList.add('hidden');
                 }
             } catch (err) {
                 console.error("Critical error generating report:", err);
