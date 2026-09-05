@@ -162,11 +162,26 @@
             </div>
 
             <nav class="hidden md:flex items-center space-x-8 text-xs text-slate-300 font-medium">
-                <button onclick="showDashboard(true)" class="hover:text-white transition">Home</button>
-                <button onclick="scrollToSection('assessments-section')" class="hover:text-white transition">Assessments Suite</button>
-                <button onclick="scrollToSection('usp-section')" class="hover:text-white transition">Methodology & USP</button>
-                <button onclick="showCoachingPage()" class="hover:text-white transition">Executive Coaching</button>
-                <button onclick="showComplianceSuitePage()" class="hover:text-white transition">Compliance Suite</button>
+                <div class="relative group">
+                    <button class="hover:text-white transition flex items-center gap-1">Home <span class="text-[9px]">▾</span></button>
+                    <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl w-52 py-2">
+                            <button onclick="showDashboard(true)" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Home</button>
+                            <button onclick="showFounderPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Meet the Founder</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <button class="hover:text-white transition flex items-center gap-1">Services <span class="text-[9px]">▾</span></button>
+                    <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl w-64 py-2">
+                            <button onclick="showServicesPage('diagnostics')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Diagnostics Suite</button>
+                            <button onclick="showServicesPage('development')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Manager Development Suite</button>
+                            <button onclick="showComplianceSuitePage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Compliance Suite</button>
+                            <button onclick="showServicesPage('coaching')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Coaching</button>
+                        </div>
+                    </div>
+                </div>
                 <button onclick="showContactPage()" class="hover:text-white transition">Contact Us</button>
             </nav>
 
@@ -188,16 +203,15 @@
     <main id="dashboard-view" class="max-w-7xl mx-auto px-6 py-12 flex-1 w-full space-y-20">
         <section class="space-y-8 text-center max-w-4xl mx-auto pt-6">
             <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-950/80 border border-indigo-800/60 text-indigo-300 text-[11px] font-mono tracking-wider uppercase">
-                <span>Human Elevation Architecture</span>
+                <span>Don't just adapt to the future — program it.</span>
             </div>
             <h2 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.1]">
-                Better Managers Don't Happen by Promotion.<br><br>
-                <span class="text-indigo-400">They Are Built by Design.</span>
+                Most Companies Are Reacting to Change.<br><br>
+                <span class="text-indigo-400">Yours Could Be Built to Create It.</span>
             </h2>
             <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl mx-auto">
-                Syntropix helps organisations <strong>assess, develop, and elevate managers</strong> into confident people leaders — through psychometric diagnostics, structured development programs, and workplace application, not one-off training sessions.
+                Syntropix designs the assessment, development, and coaching systems that turn managers into people who shape what happens next — not just cope with it once it arrives.
             </p>
-            <p class="text-xs uppercase tracking-widest text-slate-500 font-mono">Assessment. Development. Application. Measurable Growth.</p>
             <div class="pt-2 flex flex-wrap justify-center gap-4">
                 <button onclick="openQuickMatcherModal()" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
                     ⚡ Explore Manager Development
@@ -205,6 +219,53 @@
                 <button onclick="openTalkToSyntropix()" class="px-8 py-3.5 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">
                     Talk to Syntropix
                 </button>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12">
+            <div class="space-y-4">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Who We Are</span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">What Syntropix Actually Does</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Syntropix helps organisations <strong>assess, develop, and elevate managers</strong> into confident people leaders — through psychometric diagnostics, structured development programs, and real workplace application. Not a one-off training session that everyone forgets by Friday.
+                </p>
+            </div>
+            <div class="text-center bg-slate-950 border border-slate-800 rounded-2xl p-8">
+                <p class="text-sm sm:text-base font-black text-white uppercase tracking-wide leading-relaxed">Assessment.<br>Development.<br>Application.<br><span class="text-indigo-400">Measurable Growth.</span></p>
+            </div>
+        </section>
+
+        <section class="space-y-8">
+            <div class="text-center space-y-2 max-w-2xl mx-auto">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Our Approach</span>
+                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">The Syntropix Advantage</h3>
+                <p class="text-xs sm:text-sm text-slate-400">Why we build things differently than most training providers you've worked with.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <span class="text-[10px] font-mono uppercase text-rose-400">Legacy Approach</span>
+                    <p class="text-xs text-slate-400">A one-time personality quiz gives you a label, then everyone moves on.</p>
+                    <span class="text-[10px] font-mono uppercase text-emerald-400 block pt-2">Syntropix</span>
+                    <p class="text-xs text-slate-300">An ongoing behavioural diagnostic that tracks how someone actually performs under real pressure — not just how they describe themselves on a good day.</p>
+                </div>
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <span class="text-[10px] font-mono uppercase text-rose-400">Legacy Approach</span>
+                    <p class="text-xs text-slate-400">The same generic leadership workshop, delivered to everyone regardless of what they actually need.</p>
+                    <span class="text-[10px] font-mono uppercase text-emerald-400 block pt-2">Syntropix</span>
+                    <p class="text-xs text-slate-300">Development targeted at each person's measured gaps — so time gets spent fixing what's actually missing, not repeating what someone already knows.</p>
+                </div>
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <span class="text-[10px] font-mono uppercase text-rose-400">Legacy Approach</span>
+                    <p class="text-xs text-slate-400">Training ends the moment the workshop does. Nothing tracks what happens after.</p>
+                    <span class="text-[10px] font-mono uppercase text-emerald-400 block pt-2">Syntropix</span>
+                    <p class="text-xs text-slate-300">A tracked, 90-day action protocol with a built-in way to self-monitor progress — so the learning has somewhere real to go.</p>
+                </div>
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <span class="text-[10px] font-mono uppercase text-rose-400">Legacy Approach</span>
+                    <p class="text-xs text-slate-400">No way to prove anything actually changed — just a certificate and a feedback form.</p>
+                    <span class="text-[10px] font-mono uppercase text-emerald-400 block pt-2">Syntropix</span>
+                    <p class="text-xs text-slate-300">A before-and-after re-assessment, so improvement is something you can actually point to — not just something you hope happened.</p>
+                </div>
             </div>
         </section>
 
@@ -521,6 +582,150 @@
             <h3 class="text-sm font-bold text-white">Want to be first in line?</h3>
             <p class="text-xs text-slate-400 max-w-lg mx-auto">Tell us which programs your organization needs most, and we'll notify you the moment they're ready — with priority access for early registrants.</p>
             <button onclick="showContactPage()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Notify Me When Ready</button>
+        </div>
+    </main>
+
+    <main id="services-view" class="hidden max-w-6xl mx-auto px-6 py-12 flex-1 w-full space-y-16">
+        <div class="text-center space-y-3 max-w-3xl mx-auto">
+            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">Better Managers Don't Happen by Promotion.<br><span class="text-indigo-400">They Are Built by Design.</span></h2>
+            <p class="text-sm text-slate-400 uppercase tracking-widest font-mono pt-2">Assess the Manager. Develop the Human. Elevate the Organisation.</p>
+        </div>
+
+        <div class="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12 space-y-4">
+            <span class="text-xs font-mono font-bold uppercase tracking-widest text-rose-400">The Management Gap</span>
+            <h3 class="text-2xl font-black text-white tracking-tight">Why We Built This</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
+                Most organisations promote their best individual performer into a management role, then hand them zero actual training on how to manage people. The result is predictable: micromanagement, avoided feedback conversations, and teams that quietly disengage. This isn't a talent problem — it's a design problem. Evidence-based development starts with understanding the actual capability gap and aligning the intervention to it, not delivering the same generic workshop to everyone and hoping something sticks.
+            </p>
+        </div>
+
+        <section id="services-diagnostics" class="space-y-6 pt-4">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🧭</span>
+                <div>
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Suite 1</span>
+                    <h3 class="text-2xl font-black text-white tracking-tight">Syntropix Diagnostics Suite</h3>
+                </div>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
+                A structured assessment portfolio — multi-dimensional instruments built specifically to measure how a manager actually thinks, decides, and behaves under real pressure, not just how they'd like to describe themselves on a good day. Six proprietary scales, each targeting a specific, practical capability rather than a vague personality label.
+            </p>
+            <div class="flex flex-wrap gap-3 pt-2">
+                <button onclick="showDashboard(); scrollToSection('assessments-section')" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition">Explore the Assessments →</button>
+                <button onclick="showDashboard(); scrollToSection('usp-section')" class="px-6 py-2.5 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-bold uppercase tracking-wider transition">Our Methodology & USP →</button>
+            </div>
+        </section>
+
+        <section id="services-development" class="space-y-6 pt-4 border-t border-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">📈</span>
+                <div>
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Suite 2</span>
+                    <h3 class="text-2xl font-black text-white tracking-tight">Syntropix Manager Development Suite</h3>
+                </div>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
+                How we actually develop managers: <strong>Assessment → Diagnosis → Development → Application → Behavioural Evidence</strong> — not "Training → Feedback Form → Certificate." Evidence-based learning practice increasingly emphasises needs analysis, alignment with real business objectives, and measuring actual impact, not just delivering a session and moving on.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <h4 class="text-sm font-bold text-white">Manager Development Program</h4>
+                    <p class="text-xs text-slate-400">From first-time managers to experienced people leaders. A structured, multi-month journey — not a single workshop — covering delegation, feedback, difficult conversations, and accountability, with real workplace application built into every stage.</p>
+                    <button onclick="showContactPage()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Programs →</button>
+                </div>
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <h4 class="text-sm font-bold text-white">Manager Effectiveness Program</h4>
+                    <p class="text-xs text-slate-400">A focused diagnostic on how a specific manager or team of managers thinks, behaves, and leads today — the fastest way to find out exactly where a development budget should actually go.</p>
+                    <button onclick="showContactPage()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Diagnostics →</button>
+                </div>
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <h4 class="text-sm font-bold text-white">Custom Manager Academies</h4>
+                    <p class="text-xs text-slate-400">An organisation-specific manager capability framework, built around your actual competency model and business context — not a generic off-the-shelf curriculum with your logo pasted on top.</p>
+                    <button onclick="showContactPage()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Manager Academies →</button>
+                </div>
+                <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+                    <h4 class="text-sm font-bold text-white">Assessment & Development Centres</h4>
+                    <p class="text-xs text-slate-400">A structured, multi-exercise centre (simulations, role-plays, business cases) to identify leadership strengths, real development gaps, and genuine promotion readiness — positioned as a development tool first, not a high-stakes selection gate.</p>
+                    <button onclick="showContactPage()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Assessment Centres →</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6 pt-4 border-t border-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">📋</span>
+                <div>
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Suite 3</span>
+                    <h3 class="text-2xl font-black text-white tracking-tight">Syntropix Compliance Suite</h3>
+                </div>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
+                Ten straightforward, license-based training programs covering the rules every workplace needs everyone to know — from POSH and data privacy to anti-bribery and corporate governance. Built to be genuinely completed, not just clicked through.
+            </p>
+            <button onclick="showComplianceSuitePage()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition">View the Full Compliance Suite →</button>
+        </section>
+
+        <section id="services-coaching" class="space-y-6 pt-4 border-t border-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🎯</span>
+                <div>
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Suite 4</span>
+                    <h3 class="text-2xl font-black text-white tracking-tight">Syntropix Coaching</h3>
+                </div>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
+                Self-awareness without support rarely turns into real change on its own — most people need a second perspective to actually close the gap a diagnostic reveals. We offer both <strong>individual coaching</strong> (one-on-one, working directly from your Syntropix assessment results) and <strong>group coaching</strong> (for intact teams or manager cohorts working through the same development themes together). Our empanelled coaches use your actual diagnostic data from day one, instead of spending the first several sessions just figuring out where to start.
+            </p>
+            <button onclick="showCoachingPage()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition">Explore Executive Coaching →</button>
+        </section>
+    </main>
+
+    <main id="founder-view" class="hidden max-w-4xl mx-auto px-6 py-12 flex-1 w-full space-y-12">
+        <div class="text-center space-y-4">
+            <div class="w-24 h-24 rounded-full bg-indigo-600 mx-auto flex items-center justify-center font-black text-white text-4xl border-4 border-indigo-400/30">SB</div>
+            <div>
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Meet the Founder</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">Shubhashish Banerjee</h2>
+                <p class="text-sm text-slate-400 mt-1">Founder, Syntropix™</p>
+                <p class="text-xs text-slate-500 mt-1">HR & Talent Management Leader · Manager Development Specialist · Assessment & Talent Practitioner</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-900/60 border border-indigo-800/40 rounded-3xl p-8 sm:p-12 text-center">
+            <p class="text-xl sm:text-2xl font-black text-white leading-snug">"How do we build managers who bring out the best in people?"</p>
+            <p class="text-xs text-slate-500 mt-3 uppercase tracking-widest font-mono">The question Syntropix exists to answer</p>
+        </div>
+
+        <div class="space-y-5 text-sm text-slate-300 leading-relaxed max-w-3xl mx-auto">
+            <p>
+                With over 14 years across Talent Management, Organisation Development, HR Business Partnering, and Leadership Development, Shubhashish has spent his career inside high-growth and genuinely complicated business environments — the kind where "just send everyone to a workshop" was never going to be a real answer.
+            </p>
+            <p>
+                His work has focused on one throughline: helping organisations build stronger managers, develop the leaders they'll actually need next, strengthen how they think about talent systems, and create development experiences people remember instead of endure.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-2">
+                <span class="text-3xl">🧠</span>
+                <h4 class="text-sm font-bold text-white">Human Behaviour</h4>
+                <p class="text-[11px] text-slate-400">Understanding why people actually do what they do — not just what a framework says they should.</p>
+            </div>
+            <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-2">
+                <span class="text-3xl">📊</span>
+                <h4 class="text-sm font-bold text-white">Assessment</h4>
+                <p class="text-[11px] text-slate-400">Turning "I think this manager struggles with X" into something you can actually measure and track.</p>
+            </div>
+            <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-2">
+                <span class="text-3xl">🛠️</span>
+                <h4 class="text-sm font-bold text-white">Manager Development</h4>
+                <p class="text-[11px] text-slate-400">Closing the gap between "we assessed it" and "the behaviour actually changed."</p>
+            </div>
+        </div>
+
+        <div class="text-center pt-4">
+            <p class="text-xs text-slate-500 max-w-lg mx-auto">Syntropix exists because that question above deserves a better answer than a personality quiz and a certificate. If you're wrestling with the same question inside your own organisation, that's exactly the conversation worth having.</p>
+            <button onclick="showContactPage()" class="mt-5 px-8 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Start That Conversation →</button>
         </div>
     </main>
 
@@ -1666,6 +1871,8 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1676,6 +1883,8 @@
             document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1686,7 +1895,39 @@
             document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showServicesPage(section) {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view').classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('services-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (section) {
+                setTimeout(() => {
+                    const target = document.getElementById(`services-${section}`);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+
+        function showFounderPage() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view').classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1735,6 +1976,8 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
 
             if (currentUser.role === 'enterprise') {
@@ -2323,6 +2566,8 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('assessment-view-container').classList.remove('hidden');
             document.getElementById('intro-view').classList.remove('hidden');
             document.getElementById('quiz-view').classList.add('hidden');
@@ -2782,6 +3027,8 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('contact-view').classList.add('hidden');
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
             
             document.getElementById('assessment-view-container').classList.remove('hidden');
             document.getElementById('quiz-view').classList.add('hidden');
