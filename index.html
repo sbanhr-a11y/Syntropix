@@ -1342,17 +1342,52 @@
     <div id="quick-matcher-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-xl w-full p-6 space-y-5 shadow-2xl relative">
             <button onclick="closeQuickMatcherModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-lg">&times;</button>
+
             <div class="space-y-1">
-                <h3 class="text-lg font-bold text-white">⚡ Quick Assessment Matcher</h3>
-                <p class="text-xs text-slate-400">Select your primary modern leadership or managerial bottleneck to find your ideal assessment:</p>
+                <h3 class="text-lg font-bold text-white">Find My Assessment</h3>
+                <p class="text-xs text-slate-400">Three quick questions — then we'll tell you which one fits, and why.</p>
+                <div class="flex gap-1.5 pt-2" id="matcher-progress">
+                    <span class="h-1 flex-1 rounded-full bg-indigo-500"></span>
+                    <span class="h-1 flex-1 rounded-full bg-slate-700"></span>
+                    <span class="h-1 flex-1 rounded-full bg-slate-700"></span>
+                </div>
             </div>
-            <div class="space-y-2 pt-2 max-h-[60vh] overflow-y-auto pr-1">
-                <button onclick="selectMatcherOption('CogniMorph Index')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">1. Dealing with project failure and high-stakes deadline pressure.</button>
-                <button onclick="selectMatcherOption('Coachability Quotient')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">2. Receiving tough critical feedback without feeling defensive.</button>
-                <button onclick="selectMatcherOption('Strategic Inversion Diagnostics')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">3. Navigating strategic ambiguity and second-order business risks.</button>
-                <button onclick="selectMatcherOption('Metacognitive Executive Assessment')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">4. Managing cognitive bandwidth and mental debugging during leadership crises.</button>
-                <button onclick="selectMatcherOption('Self-Limiting Belief Auditor')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">5. Overcoming imposter triggers and internal performance ceilings.</button>
-                <button onclick="selectMatcherOption('Cognitive Learning Profiler')" class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">6. Rapidly assimilating AI-native tools and complex information architectures.</button>
+
+            <div id="matcher-step-1" class="space-y-2 pt-2">
+                <p class="text-xs font-semibold text-slate-300 mb-1">1. When something goes wrong at work, what's your first instinct?</p>
+                <button onclick='answerMatcherQ(1, {"Coachability Quotient":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I get defensive before I even realize it.</button>
+                <button onclick='answerMatcherQ(1, {"CogniMorph Index":2,"Metacognitive Executive Assessment":1})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I freeze up or overthink under the pressure.</button>
+                <button onclick='answerMatcherQ(1, {"Self-Limiting Belief Auditor":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I quietly wonder if I even deserve to be here.</button>
+                <button onclick='answerMatcherQ(1, {"Cognitive Learning Profiler":1,"Strategic Inversion Diagnostics":1})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I move on fast — sometimes too fast to actually learn from it.</button>
+            </div>
+
+            <div id="matcher-step-2" class="hidden space-y-2 pt-2">
+                <p class="text-xs font-semibold text-slate-300 mb-1">2. What's more true about your role right now?</p>
+                <button onclick='answerMatcherQ(2, {"Metacognitive Executive Assessment":2,"Strategic Inversion Diagnostics":1})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I'm managing more complexity and ambiguity than I used to.</button>
+                <button onclick='answerMatcherQ(2, {"Cognitive Learning Profiler":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I'm being asked to learn new tools faster than feels comfortable.</button>
+                <button onclick='answerMatcherQ(2, {"Coachability Quotient":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I get feedback I don't always take well.</button>
+                <button onclick='answerMatcherQ(2, {"Self-Limiting Belief Auditor":1,"CogniMorph Index":1})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">I second-guess decisions that later turn out fine.</button>
+            </div>
+
+            <div id="matcher-step-3" class="hidden space-y-2 pt-2">
+                <p class="text-xs font-semibold text-slate-300 mb-1">3. If you're honest, what would help you most right now?</p>
+                <button onclick='answerMatcherQ(3, {"CogniMorph Index":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">Bouncing back faster from setbacks.</button>
+                <button onclick='answerMatcherQ(3, {"Coachability Quotient":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">Actually hearing critical feedback without shutting down.</button>
+                <button onclick='answerMatcherQ(3, {"Metacognitive Executive Assessment":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">Thinking clearly under pressure and uncertainty.</button>
+                <button onclick='answerMatcherQ(3, {"Strategic Inversion Diagnostics":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">Questioning my own assumptions and strategy.</button>
+                <button onclick='answerMatcherQ(3, {"Self-Limiting Belief Auditor":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">Believing I've actually earned what I have.</button>
+                <button onclick='answerMatcherQ(3, {"Cognitive Learning Profiler":2})' class="w-full p-3 text-left rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-xs text-slate-300 transition">Keeping up with new tools and ways of working.</button>
+            </div>
+
+            <div id="matcher-result" class="hidden space-y-4 pt-2 text-center">
+                <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">Based on your answers</span>
+                <h4 id="matcher-result-name" class="text-xl font-black text-white"></h4>
+                <p id="matcher-result-why" class="text-xs text-slate-300 leading-relaxed text-left bg-slate-950 border border-slate-800 rounded-xl p-4"></p>
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="startMatchedAssessment()" class="flex-1 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Start This Assessment</button>
+                    <button onclick="restartMatcher()" class="flex-1 py-3 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-300 font-bold text-xs uppercase tracking-wider transition">Retake the 3 Questions</button>
+                </div>
+                <button onclick="closeQuickMatcherModal()" class="text-[11px] text-slate-500 hover:text-slate-300 underline">Or just browse all assessments myself</button>
             </div>
         </div>
     </div>
@@ -2465,12 +2500,81 @@
                 btn.disabled = false; btn.innerText = "Update Password";
             }
         }
-        function openQuickMatcherModal() { document.getElementById('quick-matcher-modal').classList.remove('hidden'); }
+        let matcherScores = {};
+        let matcherResultAssessment = null;
+
+        function openQuickMatcherModal() {
+            // Reset to a clean first question every time it's opened.
+            matcherScores = {};
+            matcherResultAssessment = null;
+            document.getElementById('matcher-step-1').classList.remove('hidden');
+            document.getElementById('matcher-step-2').classList.add('hidden');
+            document.getElementById('matcher-step-3').classList.add('hidden');
+            document.getElementById('matcher-result').classList.add('hidden');
+            updateMatcherProgress(1);
+            document.getElementById('quick-matcher-modal').classList.remove('hidden');
+        }
         function closeQuickMatcherModal() { document.getElementById('quick-matcher-modal').classList.add('hidden'); }
 
-        function selectMatcherOption(assessmentName) {
+        function updateMatcherProgress(step) {
+            document.querySelectorAll('#matcher-progress span').forEach((bar, i) => {
+                bar.classList.toggle('bg-indigo-500', i < step);
+                bar.classList.toggle('bg-slate-700', i >= step);
+            });
+        }
+
+        // Why each assessment gets recommended — shown on the result screen so
+        // the person understands the match instead of just being redirected.
+        const MATCHER_WHY = {
+            "CogniMorph Index": "Your answers point to how you handle setbacks and pressure specifically — the CogniMorph Index measures exactly that: how you learn from failure, recover from mistakes, and stay sharp when things get tense.",
+            "Coachability Quotient": "Your answers point to how you take in feedback and criticism — the Coachability Quotient measures exactly that: whether feedback actually lands, or whether defensiveness gets in the way first.",
+            "Metacognitive Executive Assessment": "Your answers point to how you think under complexity and pressure — the Metacognitive Executive Assessment measures exactly that: your judgment, focus, and decision quality when things get genuinely uncertain.",
+            "Strategic Inversion Diagnostics": "Your answers point to how you question your own strategy and assumptions — the Strategic Inversion Diagnostics measures exactly that: whether you catch flawed thinking before it becomes an expensive decision.",
+            "Self-Limiting Belief Auditor": "Your answers point to some quiet self-doubt sitting underneath your day-to-day confidence — the Self-Limiting Belief Auditor measures exactly that: the invisible ceilings that aren't really about ability at all.",
+            "Cognitive Learning Profiler": "Your answers point to how fast you pick up new tools and ways of working — the Cognitive Learning Profiler measures exactly that: your real learning speed, especially with AI and new technology."
+        };
+
+        function answerMatcherQ(step, scores) {
+            Object.keys(scores).forEach(name => {
+                matcherScores[name] = (matcherScores[name] || 0) + scores[name];
+            });
+            if (step < 3) {
+                document.getElementById(`matcher-step-${step}`).classList.add('hidden');
+                document.getElementById(`matcher-step-${step + 1}`).classList.remove('hidden');
+                updateMatcherProgress(step + 1);
+            } else {
+                showMatcherResult();
+            }
+        }
+
+        function showMatcherResult() {
+            // Highest cumulative score wins; ties resolve to whichever
+            // assessment was scored first, which is a reasonable, stable default.
+            let best = null, bestScore = -1;
+            Object.keys(matcherScores).forEach(name => {
+                if (matcherScores[name] > bestScore) { best = name; bestScore = matcherScores[name]; }
+            });
+            matcherResultAssessment = best || "CogniMorph Index";
+
+            document.getElementById('matcher-step-3').classList.add('hidden');
+            document.getElementById('matcher-result-name').textContent = assessmentBank[matcherResultAssessment]?.title || matcherResultAssessment;
+            document.getElementById('matcher-result-why').textContent = MATCHER_WHY[matcherResultAssessment] || "";
+            document.getElementById('matcher-result').classList.remove('hidden');
+        }
+
+        function startMatchedAssessment() {
+            const assessmentName = matcherResultAssessment;
             closeQuickMatcherModal();
-            launchAssessment(assessmentName);
+            if (assessmentName) launchAssessment(assessmentName);
+        }
+
+        function restartMatcher() {
+            matcherScores = {};
+            matcherResultAssessment = null;
+            document.getElementById('matcher-result').classList.add('hidden');
+            document.getElementById('matcher-step-2').classList.add('hidden');
+            document.getElementById('matcher-step-1').classList.remove('hidden');
+            updateMatcherProgress(1);
         }
 
         async function submitAuthModal() {
