@@ -2280,6 +2280,7 @@
                             let summary = `✓ ${data.assigned} assigned and emailed.`;
                             if (data.skipped) summary += ` ${data.skipped} already had a license (skipped).`;
                             if (data.outOfLicenses) summary += ` ${data.outOfLicenses} could not be assigned — out of licenses.`;
+                            if (data.failed) summary += ` ${data.failed} row(s) failed unexpectedly — check with support if this keeps happening.`;
                             if (data.invalid) summary += ` ${data.invalid} row(s) had an invalid email.`;
                             msg.textContent = summary;
                             msg.className = "text-[11px] text-emerald-400";
