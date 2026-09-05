@@ -984,6 +984,28 @@
                 <button onclick="submitCreateOrg()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Create Organization</button>
                 <p id="create-org-msg" class="text-[11px]"></p>
             </div>
+
+            <div class="bg-slate-900 border border-indigo-800/40 rounded-xl p-6 space-y-3">
+                <h3 class="text-sm font-bold text-white">Grant Free Assessment Access</h3>
+                <p class="text-[11px] text-slate-500">Give any individual — no organization required — free access to one or more assessments. They'll receive an email link that skips checkout entirely.</p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="direct-grant-name" placeholder="Recipient name (optional)" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                    <input type="email" id="direct-grant-email" placeholder="recipient@email.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                    <button onclick="submitDirectGrant()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap">Grant Access</button>
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 mb-1.5 block">Assessments to grant (select one or more — leave all unchecked for open access to any assessment)</label>
+                    <div id="direct-grant-assessment-checks" class="flex flex-wrap gap-2">
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="CogniMorph Index" class="direct-grant-assessment-cb">CogniMorph Index</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Coachability Quotient" class="direct-grant-assessment-cb">Coachability Quotient</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Metacognitive Executive Assessment" class="direct-grant-assessment-cb">Metacognitive Executive</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Strategic Inversion Diagnostics" class="direct-grant-assessment-cb">Strategic Inversion Diagnostics</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Self-Limiting Belief Auditor" class="direct-grant-assessment-cb">Self-Limiting Belief Auditor</label>
+                        <label class="flex items-center gap-1.5 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" value="Cognitive Learning Profiler" class="direct-grant-assessment-cb">Cognitive Learning Profiler</label>
+                    </div>
+                </div>
+                <p id="direct-grant-msg" class="text-[11px]"></p>
+            </div>
         </div>
 
         <!-- RESEARCH & VALIDATION — internal, master-only. Deliberately shows honest
@@ -2340,6 +2362,35 @@
                     msg.className = "text-[11px] text-emerald-400";
                 } else {
                     msg.textContent = data.message || "Could not create organization.";
+                    msg.className = "text-[11px] text-rose-400";
+                }
+            } catch (e) {
+                msg.textContent = "Couldn't reach the server.";
+                msg.className = "text-[11px] text-rose-400";
+            }
+        }
+
+        async function submitDirectGrant() {
+            const name = document.getElementById('direct-grant-name').value.trim();
+            const email = document.getElementById('direct-grant-email').value.trim();
+            const assessmentNames = Array.from(document.querySelectorAll('#direct-grant-assessment-checks .direct-grant-assessment-cb:checked')).map(cb => cb.value);
+            const msg = document.getElementById('direct-grant-msg');
+            if (!email) { msg.textContent = "Enter a recipient email first."; msg.className = "text-[11px] text-rose-400"; return; }
+            try {
+                const res = await fetch(`${API_BASE_URL}/organizations/grant-direct-assessment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: localStorage.getItem("syntropix_token"), email, name, assessmentNames })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    msg.textContent = "Access granted — an invite email with a direct, no-payment link has been sent to " + email + ".";
+                    msg.className = "text-[11px] text-emerald-400";
+                    document.getElementById('direct-grant-name').value = "";
+                    document.getElementById('direct-grant-email').value = "";
+                    document.querySelectorAll('#direct-grant-assessment-checks .direct-grant-assessment-cb').forEach(cb => cb.checked = false);
+                } else {
+                    msg.textContent = data.message || "Could not grant access.";
                     msg.className = "text-[11px] text-rose-400";
                 }
             } catch (e) {
