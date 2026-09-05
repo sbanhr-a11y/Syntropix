@@ -128,13 +128,13 @@
             .border-rose-500\/50 { border-color: #fecdd3 !important; }
 
             /* ---- Gradients: Tailwind's bg-gradient-to-* + from-*/via-*/to-*
-               combo was rendering as a dark gradient panel on print — this is
-               what caused the "odd dark first page." Kill the gradient image
-               entirely and force plain white for anything printed. ---- */
-            .bg-gradient-to-r, .bg-gradient-to-br, .bg-gradient-to-tr,
-            .from-purple-500, .from-purple-600, .from-slate-900, .from-slate-950,
-            .via-indigo-950\/20, .via-indigo-950\/30, .via-indigo-950\/50,
-            .to-indigo-500, .to-indigo-600, .to-slate-900, .to-slate-950 {
+               combo was rendering as a dark gradient panel on print. Using an
+               attribute-selector substring match here instead of an exact
+               class list — this catches every gradient variant regardless of
+               direction or color, which is more reliable than enumerating
+               every exact class name one by one. ---- */
+            [class*="bg-gradient-to"], [class*="from-slate"], [class*="from-purple"],
+            [class*="via-indigo"], [class*="to-slate"], [class*="to-indigo"] {
                 background-image: none !important;
                 background-color: #ffffff !important;
             }
@@ -1607,6 +1607,18 @@
                 applyUrlBasedAssignment();
                 loadHubRatings();
 
+                // If the report-submit network call was slow (Render free-tier
+                // waking up) and the browser throttled this tab in the
+                // background, the success callback can get delayed until the
+                // tab is refocused, leaving the download button looking stuck.
+                // This re-checks and unlocks automatically on refocus, instead
+                // of requiring a manual page refresh.
+                window.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible' && sessionData && sessionData.rated) {
+                        unlockReportDownload();
+                    }
+                });
+
                 // Radar chart is drawn on canvas with colors tuned for the dark
                 // on-screen theme — redraw it print-appropriate right before the
                 // browser's print dialog opens, then restore the screen version
@@ -2064,7 +2076,11 @@
             statusMsg.classList.add('text-emerald-400');
             statusMsg.textContent = "Thank you — preparing your report now…";
 
-            if (!pendingReportSubmission) { unlockReportDownload(); return; }
+            if (!pendingReportSubmission) {
+                statusMsg.textContent = "Something went wrong preparing your report data — please refresh the page and try rating again.";
+                statusMsg.classList.replace('text-emerald-400', 'text-rose-400');
+                return;
+            }
 
             // If the backend has been idle (Render's free tier sleeps after
             // inactivity), the very next request can take 30-50 seconds to
@@ -2725,19 +2741,23 @@
                 // Rating gate: we no longer auto-send the report/email here.
                 // The report only gets submitted (and the PDF download unlocked)
                 // once the participant selects a star rating — see setRating().
-                if (!isReload && currentUser && currentUser.role !== 'demo') {
-                    const reportHtml = document.getElementById('report-view').innerHTML;
-                    pendingReportSubmission = { name: prof.name, globalScore: gni, archetype: arch.title, reportHtml: reportHtml };
-                    if (sessionData && sessionData.rated) {
-                        // Already rated earlier (e.g., page reload) — unlock immediately, no need to ask again.
-                        unlockReportDownload();
-                    } else {
-                        document.getElementById('rating-gate').classList.remove('hidden');
-                    }
-                } else {
-                    // Demo accounts and reloads of an already-rated report don't need the gate.
+                if (currentUser && currentUser.role === 'demo') {
+                    // Demo accounts never need the gate — nothing to save either.
                     unlockReportDownload();
                     document.getElementById('rating-gate').classList.add('hidden');
+                } else if (sessionData && sessionData.rated) {
+                    // Genuinely already rated — whether this is the first render or a
+                    // reload, we can trust this because it's checked against the
+                    // actual saved flag, not just "was this a reload."
+                    unlockReportDownload();
+                    document.getElementById('rating-gate').classList.add('hidden');
+                } else {
+                    // Not yet rated — show the gate every time, including on a
+                    // reload/refresh, and (re)prepare the submission payload so
+                    // rating still works correctly even after a refresh.
+                    const reportHtml = document.getElementById('report-view').innerHTML;
+                    pendingReportSubmission = { name: prof.name, globalScore: gni, archetype: arch.title, reportHtml: reportHtml };
+                    document.getElementById('rating-gate').classList.remove('hidden');
                 }
                 // Only mark the session "locked" here, at the very end, once every
                 // rendering step above has genuinely succeeded — this is what
@@ -2903,9 +2923,9 @@
                 const d = dimensionDataConfig[k];
                 container.innerHTML += `
                     <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
-                        <strong class="text-${d.color}-300 text-sm block">(${k}) - ${d.abbr}</strong>
-                        <p><strong>Scientific Definition:</strong> ${d.meaning}</p>
-                        <p><strong>Why it is necessary to measure:</strong> Without empirically quantifying the ${k} variable, we cannot accurately predict how an executive will process the specific psychological friction associated with this domain. It effectively isolates this unique neurological reaction from general, static intelligence.</p>
+                        <strong class="text-${d.color}-300 text-sm block">${d.abbr}</strong>
+                        <p><strong>What This Measures:</strong> ${d.meaning}</p>
+                        <p><strong>Worth Noticing:</strong> ${d.strength}</p>
                     </div>
                 `;
             });
