@@ -974,6 +974,9 @@
 
         <!-- MASTER ADMIN VIEW: create a new client organization -->
         <div id="master-org-tools" class="hidden space-y-6">
+            <div class="flex justify-end">
+                <button onclick="downloadOrgStatusReport()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold uppercase tracking-wider transition whitespace-nowrap">⬇ Download Full Report (CSV) — All Orgs & Direct Grants</button>
+            </div>
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
                 <h3 class="text-sm font-bold text-white">Create a New Client Organization</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -3246,8 +3249,10 @@
                 // Rating gate: we no longer auto-send the report/email here.
                 // The report only gets submitted (and the PDF download unlocked)
                 // once the participant selects a star rating — see setRating().
-                if (currentUser && currentUser.role === 'demo') {
-                    // Demo accounts never need the gate — nothing to save either.
+                if (currentUser && (currentUser.role === 'demo' || currentUser.role === 'master')) {
+                    // Demo and master (admin's own testing) never need the gate,
+                    // and nothing gets saved either — this is what keeps admin
+                    // test-runs out of real ratings and the CSV export entirely.
                     unlockReportDownload();
                     document.getElementById('rating-gate').classList.add('hidden');
                 } else if (sessionData && sessionData.rated) {
