@@ -156,7 +156,7 @@
 
     <header class="no-print border-b border-slate-800/80 bg-slate-950/90 backdrop-blur sticky top-0 z-40" id="main-header">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard(true)">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard(true); closeMobileMenu();">
                 <img src="logo.png" alt="Syntropix Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
                 <div id="logo-fallback" class="hidden w-11 h-11 rounded-lg bg-indigo-600 items-center justify-center font-black text-white text-lg">S</div>
             </div>
@@ -196,7 +196,20 @@
                     <button onclick="openChangePasswordModal()" class="text-[10px] text-indigo-400 hover:text-indigo-300 underline ml-2">Change Password</button>
                     <button onclick="logoutUser()" class="text-[10px] text-slate-500 hover:text-rose-400 underline ml-2">Log out</button>
                 </div>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-300 hover:text-white transition" aria-label="Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="w-6 h-6"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
+                </button>
             </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-slate-950 px-6 py-3 space-y-1 text-sm text-slate-300">
+            <button onclick="showDashboard(true); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Home</button>
+            <button onclick="showFounderPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60 pl-4 text-xs text-slate-400">Meet the Founder</button>
+            <button onclick="showServicesPage('diagnostics'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Diagnostics Suite</button>
+            <button onclick="showServicesPage('development'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Manager Development Suite</button>
+            <button onclick="showComplianceSuitePage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Compliance Suite</button>
+            <button onclick="showServicesPage('coaching'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Coaching</button>
+            <button onclick="showContactPage(); closeMobileMenu();" class="w-full text-left py-2.5">Contact Us</button>
         </div>
     </header>
 
@@ -1988,6 +2001,9 @@
                 console.error("Initialization error preventing UI load:", err);
             }
         });
+
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        function closeMobileMenu() { document.getElementById('mobile-menu').classList.add('hidden'); }
 
         function showDashboard(skipScroll = false) {
             document.getElementById('assessment-view-container').classList.add('hidden');
