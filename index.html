@@ -213,8 +213,8 @@
                 Syntropix designs the assessment, development, and coaching systems that turn managers into people who shape what happens next — not just cope with it once it arrives.
             </p>
             <div class="pt-2 flex flex-wrap justify-center gap-4">
-                <button onclick="openQuickMatcherModal()" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
-                    ⚡ Explore Manager Development
+                <button onclick="showDashboard(true); scrollToSection('assessments-section')" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
+                    ⚡ Explore the Assessments
                 </button>
                 <button onclick="openTalkToSyntropix()" class="px-8 py-3.5 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">
                     Talk to Syntropix
@@ -356,10 +356,16 @@
         </section>
 
         <section id="assessments-section" class="space-y-8 pt-4">
-            <div class="text-center space-y-2 max-w-2xl mx-auto">
+            <div class="text-center space-y-3 max-w-2xl mx-auto">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Proprietary Suite</span>
                 <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">A Structured Assessment Portfolio</h3>
                 <p class="text-xs text-slate-400">Multi-dimensional instruments designed to establish absolute professional clarity.</p>
+                <div class="pt-2">
+                    <button onclick="openQuickMatcherModal()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
+                        🎯 Not Sure Which One? Find My Assessment
+                    </button>
+                    <p class="text-[11px] text-slate-500 mt-2">A 10-second question to point you at the right one below — instead of guessing.</p>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
