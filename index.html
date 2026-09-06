@@ -1171,6 +1171,61 @@
              reliability, norms) can only be reported here once it has actually been
              conducted on a properly designed, consented research sample — this
              section will never auto-generate statistics that weren't really computed. -->
+        <!-- PRISM360 ADMIN PANEL — visible to both enterprise and master admins.
+             Kept as its own self-contained block so it doesn't interfere with the
+             license-management panels above/below it. -->
+        <div id="prism360-admin-panel" class="hidden space-y-6 pt-2 border-t border-slate-800">
+            <div class="flex items-center gap-2 pt-4">
+                <span class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-bold">P</span>
+                <h3 class="text-lg font-bold text-white">Prism360 — 360° Feedback Cycles</h3>
+            </div>
+
+            <details class="bg-indigo-950/30 border border-indigo-800/40 rounded-xl p-5 group">
+                <summary class="cursor-pointer text-sm font-bold text-indigo-300 list-none flex items-center justify-between">
+                    How to run a Prism360 survey
+                    <span class="text-indigo-400 text-xs group-open:rotate-180 transition">▼</span>
+                </summary>
+                <ol class="mt-4 space-y-3 text-xs text-slate-300 leading-relaxed list-decimal list-inside">
+                    <li><strong class="text-white">Plan.</strong> Decide who's being reviewed (the "subject") and pick a deadline — 10 business days is the default and works well for most cycles.</li>
+                    <li><strong class="text-white">Add raters.</strong> Below, add the subject's manager, direct reports, peers, and stakeholders. Direct Reports, Peers, and Stakeholders each need <strong class="text-amber-300">at least 3 people</strong> or their category won't be shown separately in the report — it'll be folded into a combined "Other Raters" group instead, to protect anonymity.</li>
+                    <li><strong class="text-white">Create the cycle.</strong> Click "Create Cycle" below. Nothing is emailed yet at this point.</li>
+                    <li><strong class="text-white">Open it.</strong> Click "Open & Send Invites" on the cycle once you're ready — this is the point of no return for that cycle: every rater gets their email with their personal survey link.</li>
+                    <li><strong class="text-white">Let it run.</strong> Reminders go out automatically at the halfway point and 24 hours before the deadline. You don't need to do anything unless you want to nudge everyone manually with "Send Reminder Now."</li>
+                    <li><strong class="text-white">It closes itself.</strong> Once the deadline passes, the system automatically checks if enough people responded, scores everything, generates the report, and emails it — usually within 15–30 minutes of the deadline. You'll also see its status update here.</li>
+                    <li><strong class="text-white">Testing?</strong> Tick "This is a test cycle," use your own email for every rater category (add "+self", "+manager", "+peer1" etc. before the @ in a Gmail address — they all land in your one inbox as separate addresses), then use "Run Now" to close the cycle immediately instead of waiting for the deadline. When you're done, click "Delete Test Data" — nothing from a deleted test cycle is kept anywhere.</li>
+                </ol>
+            </details>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+                <h4 class="text-sm font-bold text-white">Create a New Cycle</h4>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="p360-subject-name" placeholder="Subject's name (the person being reviewed)" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                    <input type="email" id="p360-subject-email" placeholder="subject@email.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                    <input type="date" id="p360-deadline" class="bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                </div>
+                <label class="flex items-center gap-2 text-xs text-amber-300 bg-amber-950/20 border border-amber-800/40 rounded-lg px-3 py-2 w-fit">
+                    <input type="checkbox" id="p360-is-test"> This is a test cycle (I'll delete this myself when done)
+                </label>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase font-bold text-slate-500 block">Raters</label>
+                    <div id="p360-participant-rows" class="space-y-2"></div>
+                    <button onclick="addPrism360ParticipantRow()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300">+ Add a rater</button>
+                </div>
+
+                <button onclick="createPrism360Cycle()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Create Cycle</button>
+                <p id="p360-create-msg" class="text-[11px]"></p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-sm font-bold text-white">Your Cycles</h4>
+                    <button onclick="loadPrism360Cycles()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300">↻ Refresh</button>
+                </div>
+                <div id="p360-cycles-list" class="space-y-3 text-xs text-slate-400">Loading…</div>
+            </div>
+        </div>
+
         <div id="research-console-panel" class="hidden space-y-6">
             <div class="bg-amber-950/30 border border-amber-800/50 rounded-xl p-5">
                 <p class="text-xs text-amber-300 font-semibold">⚠ Validation Status: Not yet conducted</p>
@@ -2321,6 +2376,9 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
+            document.getElementById('prism360-admin-panel')?.classList.remove('hidden');
+            resetPrism360Form();
+            loadPrism360Cycles();
 
             if (currentUser.role === 'enterprise') {
                 document.getElementById('org-admin-panel').classList.remove('hidden');
@@ -2335,6 +2393,144 @@
                 document.getElementById('research-console-panel').classList.remove('hidden');
                 document.getElementById('master-org-tools').classList.remove('hidden');
             }
+        }
+
+        // ---------------------------------------------------------------
+        // PRISM360 — admin cycle setup, list, and test-cycle cleanup
+        // ---------------------------------------------------------------
+        const PRISM360_CATEGORIES = ["Self", "Manager", "SkipLevel", "DirectReport", "Peer", "Stakeholder"];
+        const PRISM360_CATEGORY_LABELS = { Self: "Self", Manager: "Manager", SkipLevel: "Skip-Level Manager", DirectReport: "Direct Report", Peer: "Peer", Stakeholder: "Stakeholder" };
+
+        function resetPrism360Form() {
+            document.getElementById('p360-subject-name').value = '';
+            document.getElementById('p360-subject-email').value = '';
+            document.getElementById('p360-deadline').value = '';
+            document.getElementById('p360-is-test').checked = false;
+            document.getElementById('p360-participant-rows').innerHTML = '';
+            document.getElementById('p360-create-msg').textContent = '';
+            // Start with one blank rater row so the form doesn't look empty.
+            addPrism360ParticipantRow();
+        }
+
+        function addPrism360ParticipantRow() {
+            const wrap = document.getElementById('p360-participant-rows');
+            const row = document.createElement('div');
+            row.className = 'flex flex-col sm:flex-row gap-2 items-stretch';
+            row.innerHTML = `
+                <select class="p360-cat bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                    ${PRISM360_CATEGORIES.map(c => `<option value="${c}">${PRISM360_CATEGORY_LABELS[c]}</option>`).join('')}
+                </select>
+                <input type="text" placeholder="Name (optional)" class="p360-name flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                <input type="email" placeholder="email@company.com" class="p360-email flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                <button onclick="this.parentElement.remove()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-rose-900 text-slate-400 hover:text-rose-300 text-xs">✕</button>`;
+            wrap.appendChild(row);
+        }
+
+        function collectPrism360Participants() {
+            return Array.from(document.querySelectorAll('#p360-participant-rows > div')).map(row => ({
+                category: row.querySelector('.p360-cat').value,
+                name: row.querySelector('.p360-name').value.trim(),
+                email: row.querySelector('.p360-email').value.trim(),
+            })).filter(p => p.email);
+        }
+
+        async function createPrism360Cycle() {
+            const token = localStorage.getItem("syntropix_token");
+            const msg = document.getElementById('p360-create-msg');
+            const subjectName = document.getElementById('p360-subject-name').value.trim();
+            const subjectEmail = document.getElementById('p360-subject-email').value.trim();
+            const deadline = document.getElementById('p360-deadline').value;
+            const isTest = document.getElementById('p360-is-test').checked;
+            const participants = collectPrism360Participants();
+
+            if (!subjectName || !subjectEmail || !deadline) { msg.textContent = "Please fill in the subject's name, email, and a deadline."; msg.className = "text-[11px] text-rose-400"; return; }
+            if (participants.length === 0) { msg.textContent = "Add at least one rater."; msg.className = "text-[11px] text-rose-400"; return; }
+
+            msg.textContent = "Creating…"; msg.className = "text-[11px] text-slate-400";
+            try {
+                const res = await fetch(`${API_BASE_URL}/prism360/cycles`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, subjectName, subjectEmail, deadline: new Date(deadline).toISOString(), isTest, participants })
+                }).then(r => r.json());
+
+                if (res.status !== 'success') { msg.textContent = res.message || "Something went wrong."; msg.className = "text-[11px] text-rose-400"; return; }
+                msg.textContent = "Cycle created. It won't email anyone until you click \"Open & Send Invites\" below.";
+                msg.className = "text-[11px] text-emerald-400";
+                resetPrism360Form();
+                loadPrism360Cycles();
+            } catch (err) {
+                msg.textContent = "Network error — please try again."; msg.className = "text-[11px] text-rose-400";
+            }
+        }
+
+        async function loadPrism360Cycles() {
+            const token = localStorage.getItem("syntropix_token");
+            const list = document.getElementById('p360-cycles-list');
+            try {
+                const res = await fetch(`${API_BASE_URL}/prism360/cycles?token=${encodeURIComponent(token)}`).then(r => r.json());
+                if (res.status !== 'success') { list.innerHTML = `<p class="text-rose-400">${res.message || 'Could not load cycles.'}</p>`; return; }
+                if (!res.cycles.length) { list.innerHTML = `<p>No cycles yet — create one above.</p>`; return; }
+
+                list.innerHTML = res.cycles.map(c => {
+                    const pct = c.invited ? Math.round((c.submitted / c.invited) * 100) : 0;
+                    const statusColor = { setup: 'text-slate-400', open: 'text-indigo-400', closed_reported: 'text-emerald-400', insufficient_participation: 'text-amber-400', cancelled: 'text-slate-500' }[c.status] || 'text-slate-400';
+                    return `
+                    <div class="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-2">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-white font-semibold">${c.subject_name}</span>
+                                ${c.is_test ? '<span class="ml-2 px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-950 text-amber-300 border border-amber-800">TEST</span>' : ''}
+                                <span class="ml-2 text-[10px] font-mono uppercase ${statusColor}">${c.status.replace(/_/g,' ')}</span>
+                            </div>
+                            <span class="text-[10px] text-slate-500">Deadline: ${new Date(c.deadline).toLocaleDateString()}</span>
+                        </div>
+                        <div class="text-[11px]">Responses: ${c.submitted} / ${c.invited} (${pct}%)</div>
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            ${c.status === 'setup' ? `<button onclick="openPrism360Cycle('${c.id}')" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold uppercase">Open & Send Invites</button>` : ''}
+                            ${c.status === 'open' ? `<button onclick="remindPrism360Cycle('${c.id}')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-bold uppercase">Send Reminder Now</button>` : ''}
+                            ${c.status === 'open' ? `<button onclick="forceClosePrism360Cycle('${c.id}')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-[10px] font-bold uppercase">Run Now (Close Early)</button>` : ''}
+                            ${c.is_test ? `<button onclick="deletePrism360Cycle('${c.id}', '${c.subject_name.replace(/'/g,"")}')" class="px-3 py-1.5 rounded-lg bg-rose-950 hover:bg-rose-900 text-rose-300 text-[10px] font-bold uppercase">Delete Test Data</button>` : ''}
+                        </div>
+                    </div>`;
+                }).join('');
+            } catch (err) {
+                list.innerHTML = `<p class="text-rose-400">Network error loading cycles.</p>`;
+            }
+        }
+
+        async function openPrism360Cycle(cycleId) {
+            const token = localStorage.getItem("syntropix_token");
+            const res = await fetch(`${API_BASE_URL}/prism360/cycles/${cycleId}/open`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token })
+            }).then(r => r.json());
+            alert(res.status === 'success' ? `Invites sent to ${res.invited} rater(s).` : (res.message || 'Something went wrong.'));
+            loadPrism360Cycles();
+        }
+
+        async function remindPrism360Cycle(cycleId) {
+            const token = localStorage.getItem("syntropix_token");
+            const res = await fetch(`${API_BASE_URL}/prism360/cycles/${cycleId}/remind`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token })
+            }).then(r => r.json());
+            alert(res.status === 'success' ? `Reminded ${res.reminded} pending rater(s).` : (res.message || 'Something went wrong.'));
+        }
+
+        async function forceClosePrism360Cycle(cycleId) {
+            if (!confirm("This closes the cycle right now, as if the deadline had passed. Continue?")) return;
+            const token = localStorage.getItem("syntropix_token");
+            const res = await fetch(`${API_BASE_URL}/prism360/cycles/${cycleId}/force-close`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token })
+            }).then(r => r.json());
+            alert(res.status === 'success' ? "Cycle closed and processed." : (res.message || 'Something went wrong.'));
+            loadPrism360Cycles();
+        }
+
+        async function deletePrism360Cycle(cycleId, subjectName) {
+            if (!confirm(`Permanently delete all data for the test cycle "${subjectName}"? This cannot be undone.`)) return;
+            const token = localStorage.getItem("syntropix_token");
+            const res = await fetch(`${API_BASE_URL}/prism360/cycles/${cycleId}?token=${encodeURIComponent(token)}`, { method: 'DELETE' }).then(r => r.json());
+            alert(res.status === 'success' ? "Test data deleted." : (res.message || 'Something went wrong.'));
+            loadPrism360Cycles();
         }
 
         async function downloadOrgStatusReport() {
