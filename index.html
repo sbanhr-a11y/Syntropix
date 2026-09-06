@@ -179,6 +179,7 @@
                             <button onclick="showServicesPage('development')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Manager Development Suite</button>
                             <button onclick="showComplianceSuitePage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Compliance Suite</button>
                             <button onclick="showServicesPage('coaching')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Coaching</button>
+                            <button onclick="showPrism360Page()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Prism360 — 360° Feedback</button>
                         </div>
                     </div>
                 </div>
@@ -209,6 +210,7 @@
             <button onclick="showServicesPage('development'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Manager Development Suite</button>
             <button onclick="showComplianceSuitePage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Compliance Suite</button>
             <button onclick="showServicesPage('coaching'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Coaching</button>
+            <button onclick="showPrism360Page(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Prism360 — 360° Feedback</button>
             <button onclick="showContactPage(); closeMobileMenu();" class="w-full text-left py-2.5">Contact Us</button>
         </div>
     </header>
@@ -285,8 +287,8 @@
         <section class="space-y-8">
             <div class="text-center space-y-2 max-w-2xl mx-auto">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">What We Offer</span>
-                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Four Suites, One System</h3>
-                <p class="text-xs sm:text-sm text-slate-400">Each one solves a different part of the same underlying problem — you can use one, or all four together.</p>
+                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Five Suites, One System</h3>
+                <p class="text-xs sm:text-sm text-slate-400">Each one solves a different part of the same underlying problem — you can use one, or all five together.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="p-7 bg-slate-900 border border-slate-800 rounded-2xl space-y-3">
@@ -320,6 +322,14 @@
                         Self-awareness rarely turns into changed behaviour without another person in the room. Our empanelled coaches work one-on-one or with intact teams, starting directly from your Syntropix diagnostic data — not from scratch. For your business, that means coaching engagements that get to the real issue in week one, instead of spending the first three sessions figuring out what to even work on.
                     </p>
                     <button onclick="showServicesPage('coaching')" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Learn More →</button>
+                </div>
+                <div class="p-7 bg-slate-900 border border-slate-800 rounded-2xl space-y-3">
+                    <div class="w-11 h-11 rounded-xl bg-indigo-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-400"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></div>
+                    <h4 class="text-base font-bold text-white">Prism360</h4>
+                    <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                        A manager's own view of themselves is only half the picture. Prism360 gathers structured, anonymous feedback from their manager, team, peers, and stakeholders, then turns it into a single report with a clear 30-60-90 day plan. For your business, that means development budgets go where the real gaps are — not just where a manager thinks they are.
+                    </p>
+                    <button onclick="showPrism360Page()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Learn More →</button>
                 </div>
             </div>
         </section>
@@ -372,7 +382,7 @@
             <div class="text-center space-y-3 max-w-2xl mx-auto">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Proprietary Suite</span>
                 <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">A Structured Assessment Portfolio</h3>
-                <p class="text-xs text-slate-400">Multi-dimensional instruments designed to establish absolute professional clarity.</p>
+                <p class="text-xs text-slate-400">Multi-dimensional instruments designed to establish absolute professional clarity — plus Prism360, our multi-rater 360° feedback system.</p>
                 <div class="pt-2">
                     <button onclick="openQuickMatcherModal()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 shrink-0"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
@@ -465,6 +475,20 @@
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Cognitive Learning Profiler">No ratings yet</div>
                     <button id="launch-btn-cognitive-learning-profiler" data-assessment="Cognitive Learning Profiler" onclick="launchAssessment('Cognitive Learning Profiler')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                </div>
+                <div class="bg-slate-900 border border-indigo-800/50 hover:border-indigo-500 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group relative">
+                    <span class="absolute top-4 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">New</span>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-indigo-950 text-indigo-300 border border-indigo-800">360° Multi-Rater</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Prism360™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"You've heard your own view. What does everyone around you actually see?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Structured, anonymous feedback from a manager's own manager, team, peers, and stakeholders — delivered as one report with a dated 30-60-90 day action plan.</p>
+                    </div>
+                    <div class="text-[11px] text-slate-500 mb-2">Unlike the assessments above, this isn't self-paced — a Syntropix admin sets up each cycle.</div>
+                    <button onclick="showPrism360Page()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Explore Prism360 →</button>
                 </div>
             </div>
         </section>
@@ -561,6 +585,132 @@
             <div class="pt-6 text-center">
                 <button onclick="alert('Coach consultation request submitted!')" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Request an Empanelled Coach</button>
             </div>
+        </div>
+    </main>
+
+    <main id="prism360-view" class="hidden max-w-6xl mx-auto px-6 py-12 flex-1 w-full space-y-14">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+                <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Prism360 by Syntropix</span>
+                <h2 class="text-3xl font-black text-white tracking-tight mt-1">Every Angle. One True Picture.</h2>
+            </div>
+            <button onclick="showDashboard()" class="px-4 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg transition hover:bg-slate-700">Return to Hub</button>
+        </div>
+
+        <div class="text-center space-y-4 max-w-3xl mx-auto">
+            <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">A 360° Feedback Report Your Managers Will Actually Trust</h3>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                A manager's own view of themselves is only half the picture. Prism360 gathers structured, anonymous input from their manager, their team, their peers, and the stakeholders they work with — then turns it into one clear report with a dated 30-60-90 day action plan, not just a scorecard.
+            </p>
+            <div class="flex flex-wrap gap-3 justify-center pt-2">
+                <button onclick="showContactPage()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition">Request a Prism360 Cycle →</button>
+                <button onclick="document.getElementById('prism360-lenses').scrollIntoView({behavior:'smooth'})" class="px-6 py-2.5 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-bold uppercase tracking-wider transition">See the Questionnaire →</button>
+            </div>
+        </div>
+
+        <section class="space-y-6">
+            <div class="text-center space-y-2 max-w-2xl mx-auto">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Our Framework</span>
+                <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">The PRISM Method</h3>
+            </div>
+            <div class="flex flex-col md:flex-row items-stretch gap-2">
+                <div class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-black text-sm flex items-center justify-center mx-auto">P</div>
+                    <h4 class="text-sm font-bold text-white">Plan</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Who's being reviewed, who's eligible to rate them, and the deadline — scoped before a single email goes out.</p>
+                </div>
+                <div class="hidden md:flex items-center justify-center text-slate-600 px-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polyline points="9,6 15,12 9,18"></polyline></svg></div>
+                <div class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-black text-sm flex items-center justify-center mx-auto">R</div>
+                    <h4 class="text-sm font-bold text-white">Rate</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Every rater answers the same 20 questions on the same scale, anonymously, within the open window.</p>
+                </div>
+                <div class="hidden md:flex items-center justify-center text-slate-600 px-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polyline points="9,6 15,12 9,18"></polyline></svg></div>
+                <div class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-black text-sm flex items-center justify-center mx-auto">I</div>
+                    <h4 class="text-sm font-bold text-white">Integrate</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Responses are pooled by category — a score is never shown unless enough people answered to protect anonymity.</p>
+                </div>
+                <div class="hidden md:flex items-center justify-center text-slate-600 px-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polyline points="9,6 15,12 9,18"></polyline></svg></div>
+                <div class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-black text-sm flex items-center justify-center mx-auto">S</div>
+                    <h4 class="text-sm font-bold text-white">Synthesize</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Self vs. others, category vs. category, this cycle vs. the last one — compared clearly, side by side.</p>
+                </div>
+                <div class="hidden md:flex items-center justify-center text-slate-600 px-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polyline points="9,6 15,12 9,18"></polyline></svg></div>
+                <div class="flex-1 bg-slate-900 border border-indigo-800/50 rounded-2xl p-5 text-center space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-black text-sm flex items-center justify-center mx-auto">M</div>
+                    <h4 class="text-sm font-bold text-white">Mobilize</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">The biggest gaps become a dated 30-60-90 day plan — a plan of action, not a verdict.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="prism360-lenses" class="space-y-6 pt-4">
+            <div class="text-center space-y-2 max-w-2xl mx-auto">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">20 Questions, Six Lenses</span>
+                <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">What Prism360 Actually Measures</h3>
+                <p class="text-xs text-slate-400">Every item is an observable behaviour, not a personality label — which is what makes it ratable by anyone who works with this person, and what keeps the feedback actionable.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                    <h4 class="text-sm font-bold text-white">Direction & Decision-Making</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Setting priorities, deciding under uncertainty, and explaining the "why" behind decisions.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                    <h4 class="text-sm font-bold text-white">Communication & Influence</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Clarity, active listening, and gaining buy-in without relying on authority alone.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                    <h4 class="text-sm font-bold text-white">People Development & Coaching</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Feedback, recognition, developing others, and delegating meaningful work.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                    <h4 class="text-sm font-bold text-white">Execution & Accountability</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Following through, removing obstacles, and addressing performance issues fairly.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                    <h4 class="text-sm font-bold text-white">Collaboration & Stakeholder Management</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Trust across teams, constructive conflict management, and balancing stakeholder needs.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                    <h4 class="text-sm font-bold text-white">Self-Awareness & Adaptability</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Responding to feedback, staying composed under pressure, and adapting style to the person and situation.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12">
+            <div class="space-y-4">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Built In, Not Bolted On</span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Confidentiality Enforced by Logic</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    A category score is never shown unless enough people answered to protect anyone's identity. Direct reports, peers, and stakeholders each need at least three respondents before their category appears on its own — fewer than that, and those answers are folded into a combined "Other Raters" group instead. Nothing is fabricated: where Syntropix doesn't yet have enough real client data for an external benchmark, the report says so plainly rather than inventing a percentile.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-center space-y-1">
+                    <p class="text-2xl font-black text-emerald-400">Shared<br>Strength</p>
+                    <p class="text-[10px] text-slate-500">Self & others agree — a confirmed strength</p>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-center space-y-1">
+                    <p class="text-2xl font-black text-indigo-400">Hidden<br>Strength</p>
+                    <p class="text-[10px] text-slate-500">Others rate it higher than you rate yourself</p>
+                </div>
+                <div class="bg-slate-950 border border-amber-800/50 rounded-2xl p-4 text-center space-y-1">
+                    <p class="text-2xl font-black text-amber-400">Blind<br>Spot</p>
+                    <p class="text-[10px] text-slate-500">You rate it higher than others do — priority #1</p>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-center space-y-1">
+                    <p class="text-2xl font-black text-slate-300">Shared Dev.<br>Area</p>
+                    <p class="text-[10px] text-slate-500">Self & others agree — clear room to grow</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center space-y-4 pt-2">
+            <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Ready to see the full picture?</h3>
+            <button onclick="showContactPage()" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Request a Prism360 Cycle</button>
         </div>
     </main>
 
@@ -739,6 +889,11 @@
                     <h4 class="text-sm font-bold text-white">Manager Effectiveness Program</h4>
                     <p class="text-xs text-slate-400">A focused diagnostic on how a specific manager or team of managers thinks, behaves, and leads today — the fastest way to find out exactly where a development budget should actually go.</p>
                     <button onclick="showContactPage()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Diagnostics →</button>
+                </div>
+                <div class="p-6 bg-slate-900 border border-indigo-800/50 rounded-2xl space-y-2">
+                    <h4 class="text-sm font-bold text-white">Prism360 — 360° Feedback</h4>
+                    <p class="text-xs text-slate-400">The evidence step that usually sits between diagnosis and development: structured, anonymous input from a manager's own manager, team, peers, and stakeholders, delivered as one report with a dated 30-60-90 day action plan.</p>
+                    <button onclick="showPrism360Page()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Prism360 →</button>
                 </div>
                 <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
                     <h4 class="text-sm font-bold text-white">Custom Manager Academies</h4>
@@ -2038,6 +2193,7 @@
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo(0, 0);
         }
@@ -2050,6 +2206,7 @@
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2062,6 +2219,7 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2074,6 +2232,7 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('services-view').classList.remove('hidden');
             window.scrollTo(0, 0);
             if (section) {
@@ -2092,6 +2251,7 @@
             document.getElementById('coaching-view').classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.add('hidden');
             document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('founder-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2101,7 +2261,24 @@
             document.getElementById('assessment-view-container').classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.add('hidden');
             document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('contact-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showPrism360Page() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
