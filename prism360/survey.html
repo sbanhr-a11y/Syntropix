@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prism360 Feedback — Syntropix</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { background:#0f172a; color:#e2e8f0; font-family: ui-sans-serif, system-ui, sans-serif; }
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+<div id="app" class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-5">
+  <div class="text-center">
+    <span class="text-xs font-mono uppercase tracking-widest text-indigo-400">Prism360 by Syntropix</span>
+    <h1 id="title" class="text-lg font-bold text-white mt-1">Loading your survey…</h1>
+  </div>
+  <div id="content"></div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const token = params.get('token');
+const API = 'https://syntropix-backend.onrender.com/api/prism360';
+
+const LENSES = {
+  "Direction & Decision-Making": [1,2,3],
+  "Communication & Influence": [4,5,6],
+  "People Development & Coaching": [7,8,9,10],
+  "Execution & Accountability": [11,12,13],
+  "Collaboration & Stakeholder Management": [14,15,16],
+  "Self-Awareness & Adaptability": [17,18,19],
+};
+const QUESTIONS = [
+  "Sets clear priorities that help the team understand what matters most right now.",
+  "Makes timely decisions, even when information is incomplete.",
+  "Explains the reasoning behind decisions so others understand the \u2018why,\u2019 not just the \u2018what.\u2019",
+  "Communicates expectations clearly, leaving little room for confusion.",
+  "Listens actively and genuinely considers other viewpoints before responding.",
+  "Gains buy-in and influences outcomes without relying on formal authority alone.",
+  "Gives specific, actionable feedback that actually helps others improve.",
+  "Recognises and appreciates good work in a genuine and timely way.",
+  "Invests real time in developing team members' skills and careers.",
+  "Delegates meaningful work and trusts others to own the outcome.",
+  "Follows through on commitments, and holds others to the same standard.",
+  "Removes obstacles that are slowing the team's progress.",
+  "Addresses performance issues directly and fairly when they arise.",
+  "Builds trust and strong working relationships across teams.",
+  "Manages conflict constructively, rather than avoiding or escalating it.",
+  "Balances the needs of different stakeholders fairly.",
+  "Responds well to feedback and visibly adjusts behaviour as a result.",
+  "Stays composed and solutions-focused under pressure.",
+  "Adapts their style to suit different people and situations.",
+  "Overall, this person is an effective leader / manager.",
+];
+const RATINGS = [
+  { v:1, label:"Rarely / Never" }, { v:2, label:"Occasionally" }, { v:3, label:"Often" },
+  { v:4, label:"Very Often" }, { v:5, label:"Almost Always" }, { v:"", label:"Not Observed / N/A" },
+];
+
+let subjectName = "", category = "";
+let answers = {}; // itemNum -> score ("" allowed)
+let step = -1; // -1 = consent, 0..19 = questions, 20 = comments, 21 = done
+
+async function init() {
+  if (!token) return renderError("This link is missing its access token.");
+  const res = await fetch(`${API}/survey?token=${encodeURIComponent(token)}`).then(r=>r.json());
+  if (res.status !== 'success') return renderError(res.message || "This link is not valid.");
+  subjectName = res.subjectName; category = res.category;
+  document.getElementById('title').textContent = `Feedback for ${subjectName}`;
+  step = -1; render();
+}
+
+function renderError(msg) {
+  document.getElementById('title').textContent = "Can't open this survey";
+  document.getElementById('content').innerHTML = `<p class="text-sm text-slate-400 text-center">${msg}</p>`;
+}
+
+function categoryNote() {
+  const notes = {
+    Self: "This is your own self-view — only you will see it labelled as yours.",
+    Manager: "As the only reporting manager, your response is shown individually, not blended.",
+    SkipLevel: "As the only skip-level manager, your response is shown individually, not blended.",
+    DirectReport: "Your individual answers are never shown alone — combined with at least 2 other direct reports first.",
+    Peer: "Your individual answers are never shown alone — pooled with at least 2 other peers first.",
+    Stakeholder: "Your individual answers are never shown alone — pooled with at least 2 other stakeholders first.",
+  };
+  return notes[category] || notes.Peer;
+}
+
+function render() {
+  const content = document.getElementById('content');
+  if (step === -1) {
+    content.innerHTML = `
+      <p class="text-xs text-slate-400 leading-relaxed">You've been asked to give feedback on <strong class="text-white">${subjectName}</strong>. This takes about 8 minutes, across 20 short questions.</p>
+      <p class="text-xs text-indigo-300 bg-indigo-950/40 border border-indigo-800/40 rounded-xl p-3">${categoryNote()}</p>
+      <label class="flex items-start gap-2 text-xs text-slate-300"><input type="checkbox" id="consent" class="mt-0.5"> I understand how my response will be used and agree to participate.</label>
+      <button onclick="startSurvey()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-bold uppercase tracking-wider">Begin →</button>`;
+  } else if (step >= 0 && step < 20) {
+    const q = QUESTIONS[step];
+    content.innerHTML = `
+      <p class="text-[11px] text-slate-500">Question ${step+1} of 20</p>
+      <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden"><div class="h-full bg-indigo-500" style="width:${((step)/20)*100}%"></div></div>
+      <p class="text-sm text-white leading-relaxed py-2">${q}</p>
+      <div class="space-y-2">
+        ${RATINGS.map(r => `<button onclick="answer(${step+1}, ${r.v === "" ? "''" : r.v})" class="w-full text-left px-4 py-2.5 rounded-lg border border-slate-700 hover:border-indigo-500 hover:bg-slate-800 text-xs text-slate-200 transition">${r.label}</button>`).join('')}
+      </div>`;
+  } else if (step === 20) {
+    content.innerHTML = `
+      <p class="text-xs text-slate-400">Two optional questions — skip either if you'd rather not answer.</p>
+      <label class="text-xs text-slate-300 block">What should they keep doing, because it genuinely works?</label>
+      <textarea id="keep_doing" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white"></textarea>
+      <label class="text-xs text-slate-300 block">What's the one thing that would make the biggest difference if it changed?</label>
+      <textarea id="change" rows="2" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white"></textarea>
+      <button onclick="submitSurvey()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-bold uppercase tracking-wider">Submit Feedback →</button>`;
+  } else {
+    content.innerHTML = `<p class="text-sm text-emerald-400 text-center py-6">Thank you — your feedback has been recorded. Nothing further is needed from you.</p>`;
+  }
+}
+
+function startSurvey() {
+  if (!document.getElementById('consent').checked) { alert('Please check the consent box to continue.'); return; }
+  step = 0; render();
+}
+function answer(itemNum, score) {
+  answers[itemNum] = score;
+  step++; render();
+}
+async function submitSurvey() {
+  const keep_doing = document.getElementById('keep_doing').value.trim();
+  const change = document.getElementById('change').value.trim();
+  const answerArr = Object.keys(answers).map(k => ({ itemNum: Number(k), score: answers[k] }));
+  const res = await fetch(`${API}/survey/submit`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, consent: true, answers: answerArr, comments: { keep_doing, change } })
+  }).then(r=>r.json());
+  if (res.status !== 'success') { alert(res.message || 'Something went wrong submitting your feedback.'); return; }
+  step = 21; render();
+}
+
+init();
+</script>
+</body>
+</html>
