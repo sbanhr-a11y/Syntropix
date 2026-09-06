@@ -1215,59 +1215,17 @@
              reliability, norms) can only be reported here once it has actually been
              conducted on a properly designed, consented research sample — this
              section will never auto-generate statistics that weren't really computed. -->
-        <!-- PRISM360 ADMIN PANEL — visible to both enterprise and master admins.
-             Kept as its own self-contained block so it doesn't interfere with the
-             license-management panels above/below it. -->
-        <div id="prism360-admin-panel" class="hidden space-y-6 pt-2 border-t border-slate-800">
-            <div class="flex items-center gap-2 pt-4">
-                <span class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-bold">P</span>
-                <h3 class="text-lg font-bold text-white">Prism360 — 360° Feedback Cycles</h3>
-            </div>
-
-            <details class="bg-indigo-950/30 border border-indigo-800/40 rounded-xl p-5 group">
-                <summary class="cursor-pointer text-sm font-bold text-indigo-300 list-none flex items-center justify-between">
-                    How to run a Prism360 survey
-                    <span class="text-indigo-400 text-xs group-open:rotate-180 transition">▼</span>
-                </summary>
-                <ol class="mt-4 space-y-3 text-xs text-slate-300 leading-relaxed list-decimal list-inside">
-                    <li><strong class="text-white">Plan.</strong> Decide who's being reviewed (the "subject") and pick a deadline — 10 business days is the default and works well for most cycles.</li>
-                    <li><strong class="text-white">Add raters.</strong> Below, add the subject's manager, direct reports, peers, and stakeholders. Direct Reports, Peers, and Stakeholders each need <strong class="text-amber-300">at least 3 people</strong> or their category won't be shown separately in the report — it'll be folded into a combined "Other Raters" group instead, to protect anonymity.</li>
-                    <li><strong class="text-white">Create the cycle.</strong> Click "Create Cycle" below. Nothing is emailed yet at this point.</li>
-                    <li><strong class="text-white">Open it.</strong> Click "Open & Send Invites" on the cycle once you're ready — this is the point of no return for that cycle: every rater gets their email with their personal survey link.</li>
-                    <li><strong class="text-white">Let it run.</strong> Reminders go out automatically at the halfway point and 24 hours before the deadline. You don't need to do anything unless you want to nudge everyone manually with "Send Reminder Now."</li>
-                    <li><strong class="text-white">It closes itself.</strong> Once the deadline passes, the system automatically checks if enough people responded, scores everything, generates the report, and emails it — usually within 15–30 minutes of the deadline. You'll also see its status update here.</li>
-                    <li><strong class="text-white">Testing?</strong> Tick "This is a test cycle," use your own email for every rater category (add "+self", "+manager", "+peer1" etc. before the @ in a Gmail address — they all land in your one inbox as separate addresses), then use "Run Now" to close the cycle immediately instead of waiting for the deadline. When you're done, click "Delete Test Data" — nothing from a deleted test cycle is kept anywhere.</li>
-                </ol>
-            </details>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
-                <h4 class="text-sm font-bold text-white">Create a New Cycle</h4>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <input type="text" id="p360-subject-name" placeholder="Subject's name (the person being reviewed)" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
-                    <input type="email" id="p360-subject-email" placeholder="subject@email.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
-                    <input type="date" id="p360-deadline" class="bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+        <!-- Prism360 now lives on its own dedicated admin page (prism360-admin-view),
+             not nested inside the Console — this is just a quick link over to it. -->
+        <div class="bg-slate-900 border border-indigo-800/50 rounded-xl p-6 flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xs font-bold">P</span>
+                <div>
+                    <h4 class="text-sm font-bold text-white">Prism360 — 360° Feedback Cycles</h4>
+                    <p class="text-[11px] text-slate-400">Create cycles, send invites, monitor completion, and manage reports — on its own page.</p>
                 </div>
-                <label class="flex items-center gap-2 text-xs text-amber-300 bg-amber-950/20 border border-amber-800/40 rounded-lg px-3 py-2 w-fit">
-                    <input type="checkbox" id="p360-is-test"> This is a test cycle (I'll delete this myself when done)
-                </label>
-
-                <div class="space-y-2">
-                    <label class="text-[10px] uppercase font-bold text-slate-500 block">Raters</label>
-                    <div id="p360-participant-rows" class="space-y-2"></div>
-                    <button onclick="addPrism360ParticipantRow()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300">+ Add a rater</button>
-                </div>
-
-                <button onclick="createPrism360Cycle()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Create Cycle</button>
-                <p id="p360-create-msg" class="text-[11px]"></p>
             </div>
-
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
-                <div class="flex items-center justify-between">
-                    <h4 class="text-sm font-bold text-white">Your Cycles</h4>
-                    <button onclick="loadPrism360Cycles()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300">↻ Refresh</button>
-                </div>
-                <div id="p360-cycles-list" class="space-y-3 text-xs text-slate-400">Loading…</div>
-            </div>
+            <button onclick="showPrism360AdminPage()" class="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition whitespace-nowrap">Open Prism360 Console →</button>
         </div>
 
         <div id="research-console-panel" class="hidden space-y-6">
@@ -1280,6 +1238,67 @@
                 <p class="text-[11px] text-slate-400">A downloadable methodology template for when you're ready to run a real validation study — sampling requirements, EFA/CFA procedure, and reliability testing plan, following AERA/APA/NCME standards. This is a plan to follow, not generated results.</p>
                 <a href="Syntropix_Statistical_Analysis_Plan.docx" download class="inline-block px-6 py-2.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs uppercase tracking-wider transition">Download Analysis Plan</a>
             </div>
+        </div>
+    </main>
+
+    <!-- PRISM360 ADMIN — its own dedicated page, separate from the Syntropix
+         Console (admin-dashboard-view) and separate from the public Prism360
+         marketing page (prism360-view). Reached only via "Open Prism360 Console →". -->
+    <main id="prism360-admin-view" class="hidden max-w-5xl mx-auto px-6 py-10 flex-1 w-full space-y-8">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-sm font-bold">P</span>
+                <div>
+                    <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Prism360 Console</span>
+                    <h2 class="text-2xl font-black text-white tracking-tight">360° Feedback Cycles</h2>
+                </div>
+            </div>
+            <button onclick="openAdminDashboard()" class="px-4 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg transition hover:bg-slate-700">← Back to Syntropix Console</button>
+        </div>
+
+        <details class="bg-indigo-950/30 border border-indigo-800/40 rounded-xl p-5 group">
+            <summary class="cursor-pointer text-sm font-bold text-indigo-300 list-none flex items-center justify-between">
+                How to run a Prism360 survey
+                <span class="text-indigo-400 text-xs group-open:rotate-180 transition">▼</span>
+            </summary>
+            <ol class="mt-4 space-y-3 text-xs text-slate-300 leading-relaxed list-decimal list-inside">
+                <li><strong class="text-white">Plan.</strong> Decide who's being reviewed (the "subject") and pick a deadline — 10 business days is the default and works well for most cycles.</li>
+                <li><strong class="text-white">Add raters.</strong> Below, add the subject's manager, direct reports, peers, and stakeholders. Direct Reports, Peers, and Stakeholders each need <strong class="text-amber-300">at least 3 people</strong> or their category won't be shown separately in the report — it'll be folded into a combined "Other Raters" group instead, to protect anonymity.</li>
+                <li><strong class="text-white">Create the cycle.</strong> Click "Create Cycle" below. Nothing is emailed yet at this point.</li>
+                <li><strong class="text-white">Open it.</strong> Click "Open & Send Invites" on the cycle once you're ready — this is the point of no return for that cycle: every rater gets their email with their personal survey link.</li>
+                <li><strong class="text-white">Let it run.</strong> Reminders go out automatically at the halfway point and 24 hours before the deadline. You don't need to do anything unless you want to nudge everyone manually with "Send Reminder Now."</li>
+                <li><strong class="text-white">It closes itself.</strong> Once the deadline passes, the system automatically checks if enough people responded, scores everything, generates the report, and emails it — usually within 15–30 minutes of the deadline. You'll also see its status update here.</li>
+                <li><strong class="text-white">Testing?</strong> Tick "This is a test cycle," use your own email for every rater category (add "+self", "+manager", "+peer1" etc. before the @ in a Gmail address — they all land in your one inbox as separate addresses), then use "Run Now" to close the cycle immediately instead of waiting for the deadline. When you're done, click "Delete Test Data" — nothing from a deleted test cycle is kept anywhere.</li>
+            </ol>
+        </details>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+            <h4 class="text-sm font-bold text-white">Create a New Cycle</h4>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input type="text" id="p360-subject-name" placeholder="Subject's name (the person being reviewed)" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                <input type="email" id="p360-subject-email" placeholder="subject@email.com" class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+                <input type="date" id="p360-deadline" class="bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-xs text-white">
+            </div>
+            <label class="flex items-center gap-2 text-xs text-amber-300 bg-amber-950/20 border border-amber-800/40 rounded-lg px-3 py-2 w-fit">
+                <input type="checkbox" id="p360-is-test"> This is a test cycle (I'll delete this myself when done)
+            </label>
+
+            <div class="space-y-2">
+                <label class="text-[10px] uppercase font-bold text-slate-500 block">Raters</label>
+                <div id="p360-participant-rows" class="space-y-2"></div>
+                <button onclick="addPrism360ParticipantRow()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300">+ Add a rater</button>
+            </div>
+
+            <button onclick="createPrism360Cycle()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Create Cycle</button>
+            <p id="p360-create-msg" class="text-[11px]"></p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+            <div class="flex items-center justify-between">
+                <h4 class="text-sm font-bold text-white">Your Cycles</h4>
+                <button onclick="loadPrism360Cycles()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300">↻ Refresh</button>
+            </div>
+            <div id="p360-cycles-list" class="space-y-3 text-xs text-slate-400">Loading…</div>
         </div>
     </main>
 
@@ -2293,6 +2312,7 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo(0, 0);
         }
@@ -2306,6 +2326,7 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2319,6 +2340,7 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2332,6 +2354,7 @@
             document.getElementById('compliance-suite-view').classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('services-view').classList.remove('hidden');
             window.scrollTo(0, 0);
             if (section) {
@@ -2351,6 +2374,7 @@
             document.getElementById('compliance-suite-view').classList.add('hidden');
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('founder-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2364,6 +2388,7 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('contact-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2377,7 +2402,26 @@
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('prism360-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Prism360 Console — a separate admin page, distinct from both the public
+        // Prism360 marketing page and the general Syntropix Console.
+        function showPrism360AdminPage() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view').classList.remove('hidden');
+            resetPrism360Form();
+            loadPrism360Cycles();
             window.scrollTo(0, 0);
         }
 
@@ -2419,10 +2463,9 @@
             document.getElementById('compliance-suite-view')?.classList.add('hidden');
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
-            document.getElementById('prism360-admin-panel')?.classList.remove('hidden');
-            resetPrism360Form();
-            loadPrism360Cycles();
 
             if (currentUser.role === 'enterprise') {
                 document.getElementById('org-admin-panel').classList.remove('hidden');
