@@ -2869,7 +2869,7 @@
             const subject = document.getElementById('contactSubject').value;
             const body = document.getElementById('contactMessage').value;
             
-            const mailtoLink = `mailto:support@syntropix.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\nMessage:\n" + body)}`;
+            const mailtoLink = `mailto:support@syntropix.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\nMessage:\n" + body)}`;
             window.location.href = mailtoLink;
             
             alert("Thank you! Your email client has been opened to complete the message.");
@@ -3354,7 +3354,7 @@
                             }
                             startAssessmentAfterPayment(verifyData.entitlementToken);
                         } else {
-                            alert("We captured your payment but could not verify it with our server. Please contact support@syntropix.com with your PayPal receipt — do not pay twice.");
+                            alert("We captured your payment but could not verify it with our server. Please contact support@syntropix.in with your PayPal receipt — do not pay twice.");
                         }
                     } catch (e) {
                         console.error("Payment verification failed:", e);
@@ -3742,7 +3742,7 @@
                 // tell the person plainly and let them retry, rather than leaving them
                 // stuck with no visible explanation. The actual error text is included
                 // so a screenshot of this alert is enough to pinpoint the real cause.
-                alert("Something went wrong while building your report.\n\nTechnical detail (please screenshot this for support): " + (err && err.message ? err.message : err) + "\n\nYour answers are safe — click the assessment again to retry, or contact support@syntropix.com with this message.");
+                alert("Something went wrong while building your report.\n\nTechnical detail (please screenshot this for support): " + (err && err.message ? err.message : err) + "\n\nYour answers are safe — click the assessment again to retry, or contact support@syntropix.in with this message.");
                 showDashboard();
             }
         }
@@ -4049,7 +4049,7 @@
                 // elsewhere in the product.
                 setTimeout(() => {
                     const safeQuery = escapeHtml(userText);
-                    let fallbackText = `I'm having trouble reaching the AI coaching service right now, so I can't generate a live response to "${safeQuery}". Your report and scores are safely saved — please try again in a minute, or reach out to support@syntropix.com if this keeps happening.`;
+                    let fallbackText = `I'm having trouble reaching the AI coaching service right now, so I can't generate a live response to "${safeQuery}". Your report and scores are safely saved — please try again in a minute, or reach out to support@syntropix.in if this keeps happening.`;
                     document.getElementById(typingId).innerHTML = fallbackText;
                 }, 600);
             }
