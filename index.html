@@ -228,7 +228,7 @@
                 Syntropix designs the assessment, development, and coaching systems that turn managers into people who shape what happens next — not just cope with it once it arrives.
             </p>
             <div class="pt-2 flex flex-wrap justify-center gap-4">
-                <button onclick="showDashboard(true); scrollToSection('assessments-section')" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
+                <button onclick="showServicesPage('diagnostics')" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
                     Explore the Assessments
                 </button>
                 <button onclick="openTalkToSyntropix()" class="px-8 py-3.5 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">
@@ -247,6 +247,28 @@
             </div>
             <div class="text-center bg-slate-950 border border-slate-800 rounded-2xl p-8">
                 <p class="text-sm sm:text-base font-black text-white uppercase tracking-wide leading-relaxed">Assessment.<br>Development.<br>Application.<br><span class="text-indigo-400">Measurable Growth.</span></p>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12">
+            <div class="space-y-4">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Management Gap</span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Most Organisations Promote Their Best — Then Leave Them Unprepared</h3>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Individual contributors get promoted into management roles, but managing people requires an entirely different set of capabilities. The result: micromanagement, poor feedback, conflict avoidance, weak accountability, and disengaged teams. The problem usually isn't talent — it's the absence of deliberate manager development.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
+                    <span class="text-2xl font-black text-indigo-400">7+</span>
+                    <h4 class="text-xs font-bold uppercase text-white">Proprietary Scales</h4>
+                    <p class="text-[11px] text-slate-400">Purpose-built for manager and leadership assessment, developed using established scale-construction methodology.</p>
+                </div>
+                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
+                    <span class="text-2xl font-black text-emerald-400">M.A.P.</span>
+                    <h4 class="text-xs font-bold uppercase text-white">Assessment Framework</h4>
+                    <p class="text-[11px] text-slate-400">Structured around Mindset, Action, and Performance — see our Methodology page for how this connects to development.</p>
+                </div>
             </div>
         </section>
 
@@ -334,27 +356,6 @@
             </div>
         </section>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12">
-            <div class="space-y-4">
-                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Management Gap</span>
-                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Most Organisations Promote Their Best — Then Leave Them Unprepared</h3>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Individual contributors get promoted into management roles, but managing people requires an entirely different set of capabilities. The result: micromanagement, poor feedback, conflict avoidance, weak accountability, and disengaged teams. The problem usually isn't talent — it's the absence of deliberate manager development.
-                </p>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
-                    <span class="text-2xl font-black text-indigo-400">7+</span>
-                    <h4 class="text-xs font-bold uppercase text-white">Proprietary Scales</h4>
-                    <p class="text-[11px] text-slate-400">Purpose-built for manager and leadership assessment, developed using established scale-construction methodology.</p>
-                </div>
-                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-2">
-                    <span class="text-2xl font-black text-emerald-400">M.A.P.</span>
-                    <h4 class="text-xs font-bold uppercase text-white">Assessment Framework</h4>
-                    <p class="text-[11px] text-slate-400">Structured around Mindset, Action, and Performance — see our Methodology page for how this connects to development.</p>
-                </div>
-            </div>
-        </section>
 
         <section class="space-y-4 pt-2">
             <p class="text-center text-[11px] uppercase tracking-widest text-slate-500 font-mono">Training experience delivered at organizations including</p>
@@ -378,124 +379,10 @@
             <p class="text-center text-[10px] text-slate-600 italic">Reflects programs personally delivered by our founder prior to Syntropix — not a Syntropix client list.</p>
         </section>
 
-        <section id="assessments-section" class="space-y-8 pt-4">
-            <div class="text-center space-y-3 max-w-2xl mx-auto">
-                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Proprietary Suite</span>
-                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">A Structured Assessment Portfolio</h3>
-                <p class="text-xs text-slate-400">Multi-dimensional instruments designed to establish absolute professional clarity — plus Prism360, our multi-rater 360° feedback system.</p>
-                <div class="pt-2">
-                    <button onclick="openQuickMatcherModal()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 shrink-0"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
-                        Not Sure Which One? Find My Assessment
-                    </button>
-                    <p class="text-[11px] text-slate-500 mt-2">A 10-second question to point you at the right one below — instead of guessing.</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div data-assessment-card="CogniMorph Index" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">Ψ</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-indigo-950 text-indigo-300 border border-indigo-800">Flagship</span>
-                        </div>
-                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">CogniMorph Index™</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed italic">"Are your daily setbacks building mental muscle or quietly capping your career growth?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Measures how well you bounce back from failure, handle high-stakes pressure, and treat mistakes as data rather than threats.</p>
-                    </div>
-                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="CogniMorph Index">No ratings yet</div>
-                    <button id="launch-btn-cognimorph-index" data-assessment="CogniMorph Index" onclick="launchAssessment('CogniMorph Index')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Launch Assessment ($49)</button>
-                </div>
-
-                <div data-assessment-card="Coachability Quotient" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">C</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-purple-950 text-purple-300 border border-purple-800">Behavioral</span>
-                        </div>
-                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Coachability Quotient™</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed italic">"Does tough feedback feel like an attack, or is it your fastest fuel for promotion?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Evaluates your openness to mentoring, ability to drop defensiveness, and speed in turning advice into new habits.</p>
-                    </div>
-                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Coachability Quotient">No ratings yet</div>
-                    <button id="launch-btn-coachability-quotient" data-assessment="Coachability Quotient" onclick="launchAssessment('Coachability Quotient')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
-                </div>
-
-                <div data-assessment-card="Metacognitive Executive Assessment" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold">M</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">Executive</span>
-                        </div>
-                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Metacognitive Executive™</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed italic">"How effectively do you monitor your own thinking when chaos strikes your team?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Audits how you allocate mental energy, debug problems in real time, and stay clear-headed during ambiguity.</p>
-                    </div>
-                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Metacognitive Executive Assessment">No ratings yet</div>
-                    <button id="launch-btn-metacognitive-executive-assessment" data-assessment="Metacognitive Executive Assessment" onclick="launchAssessment('Metacognitive Executive Assessment')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
-                </div>
-
-                <div data-assessment-card="Strategic Inversion Diagnostics" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">S</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-amber-950 text-amber-300 border border-amber-800">Strategy</span>
-                        </div>
-                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Strategic Inversion Diagnostics™</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed italic">"Are you solving today's symptoms while accidentally creating tomorrow's disasters?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Measures your ability to think from first principles, forecast second-order consequences, and sidestep hidden project risks.</p>
-                    </div>
-                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Strategic Inversion Diagnostics">No ratings yet</div>
-                    <button id="launch-btn-strategic-inversion-diagnostics" data-assessment="Strategic Inversion Diagnostics" onclick="launchAssessment('Strategic Inversion Diagnostics')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
-                </div>
-
-                <div data-assessment-card="Self-Limiting Belief Auditor" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-rose-600/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold">S</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-rose-950 text-rose-300 border border-rose-800">Cognitive</span>
-                        </div>
-                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Self-Limiting Belief Auditor™</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed italic">"What unspoken mental rules are holding you back from stepping into top leadership?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Uncovers hidden mental ceilings, imposter syndrome triggers, and self-sabotaging professional habits.</p>
-                    </div>
-                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Self-Limiting Belief Auditor">No ratings yet</div>
-                    <button id="launch-btn-self-limiting-belief-auditor" data-assessment="Self-Limiting Belief Auditor" onclick="launchAssessment('Self-Limiting Belief Auditor')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
-                </div>
-
-                <div data-assessment-card="Cognitive Learning Profiler" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-teal-600/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-bold">L</span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-teal-950 text-teal-300 border border-teal-800">Multimodal</span>
-                        </div>
-                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Cognitive Learning Profiler™</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed italic">"How fast can you digest complex industry disruptions and master AI tools?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Maps your information absorption speed, sensory preferences, and conceptual synthesis efficiency.</p>
-                    </div>
-                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Cognitive Learning Profiler">No ratings yet</div>
-                    <button id="launch-btn-cognitive-learning-profiler" data-assessment="Cognitive Learning Profiler" onclick="launchAssessment('Cognitive Learning Profiler')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
-                </div>
-                <div class="bg-slate-900 border border-indigo-800/50 hover:border-indigo-500 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group relative">
-                    <span class="absolute top-4 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">New</span>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></span>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-indigo-950 text-indigo-300 border border-indigo-800">360° Multi-Rater</span>
-                        </div>
-                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Prism360™</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed italic">"You've heard your own view. What does everyone around you actually see?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Structured, anonymous feedback from a manager's own manager, team, peers, and stakeholders — delivered as one report with a dated 30-60-90 day action plan.</p>
-                    </div>
-                    <div class="text-[11px] text-slate-500 mb-2">Unlike the assessments above, this isn't self-paced — a Syntropix admin sets up each cycle.</div>
-                    <button onclick="showPrism360Page()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Explore Prism360 →</button>
-                </div>
-            </div>
-        </section>
 
         <section id="usp-section" class="space-y-8 bg-slate-900/60 border border-slate-800 rounded-3xl p-8 sm:p-12">
             <div class="text-center space-y-2 max-w-2xl mx-auto">
-                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Syntropix Advantage</span>
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Under the Hood</span>
                 <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Why We Outperform Legacy Frameworks</h3>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -823,8 +710,123 @@
                 A structured assessment portfolio — multi-dimensional instruments built specifically to measure how a manager actually thinks, decides, and behaves under real pressure, not just how they'd like to describe themselves on a good day. Six proprietary scales, each targeting a specific, practical capability rather than a vague personality label.
             </p>
             <div class="flex flex-wrap gap-3 pt-2">
-                <button onclick="showDashboard(); scrollToSection('assessments-section')" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition">Explore the Assessments →</button>
+                <button onclick="document.getElementById('assessments-section').scrollIntoView({behavior:'smooth'})" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider transition">Jump to the Assessments ↓</button>
                 <button onclick="showDashboard(); scrollToSection('usp-section')" class="px-6 py-2.5 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-bold uppercase tracking-wider transition">Our Methodology & USP →</button>
+            </div>
+        </section>
+
+        <section id="assessments-section" class="space-y-8 pt-4">
+            <div class="text-center space-y-3 max-w-2xl mx-auto">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Instruments</span>
+                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Six Scales. One Clear Picture.</h3>
+                <p class="text-xs text-slate-400">Each instrument below targets a specific, practical capability — plus Prism360, our multi-rater 360° feedback system.</p>
+                <div class="pt-2">
+                    <button onclick="openQuickMatcherModal()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 shrink-0"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
+                        Not Sure Which One? Find My Assessment
+                    </button>
+                    <p class="text-[11px] text-slate-500 mt-2">A 10-second question to point you at the right one below — instead of guessing.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div data-assessment-card="CogniMorph Index" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">Ψ</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-indigo-950 text-indigo-300 border border-indigo-800">Flagship</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">CogniMorph Index™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"Are your daily setbacks building mental muscle or quietly capping your career growth?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Measures how well you bounce back from failure, handle high-stakes pressure, and treat mistakes as data rather than threats.</p>
+                    </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="CogniMorph Index">No ratings yet</div>
+                    <button id="launch-btn-cognimorph-index" data-assessment="CogniMorph Index" onclick="launchAssessment('CogniMorph Index')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Launch Assessment ($49)</button>
+                </div>
+
+                <div data-assessment-card="Coachability Quotient" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">C</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-purple-950 text-purple-300 border border-purple-800">Behavioral</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Coachability Quotient™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"Does tough feedback feel like an attack, or is it your fastest fuel for promotion?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Evaluates your openness to mentoring, ability to drop defensiveness, and speed in turning advice into new habits.</p>
+                    </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Coachability Quotient">No ratings yet</div>
+                    <button id="launch-btn-coachability-quotient" data-assessment="Coachability Quotient" onclick="launchAssessment('Coachability Quotient')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                </div>
+
+                <div data-assessment-card="Metacognitive Executive Assessment" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold">M</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">Executive</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Metacognitive Executive™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"How effectively do you monitor your own thinking when chaos strikes your team?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Audits how you allocate mental energy, debug problems in real time, and stay clear-headed during ambiguity.</p>
+                    </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Metacognitive Executive Assessment">No ratings yet</div>
+                    <button id="launch-btn-metacognitive-executive-assessment" data-assessment="Metacognitive Executive Assessment" onclick="launchAssessment('Metacognitive Executive Assessment')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                </div>
+
+                <div data-assessment-card="Strategic Inversion Diagnostics" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold">S</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-amber-950 text-amber-300 border border-amber-800">Strategy</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Strategic Inversion Diagnostics™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"Are you solving today's symptoms while accidentally creating tomorrow's disasters?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Measures your ability to think from first principles, forecast second-order consequences, and sidestep hidden project risks.</p>
+                    </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Strategic Inversion Diagnostics">No ratings yet</div>
+                    <button id="launch-btn-strategic-inversion-diagnostics" data-assessment="Strategic Inversion Diagnostics" onclick="launchAssessment('Strategic Inversion Diagnostics')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                </div>
+
+                <div data-assessment-card="Self-Limiting Belief Auditor" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-rose-600/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold">S</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-rose-950 text-rose-300 border border-rose-800">Cognitive</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Self-Limiting Belief Auditor™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"What unspoken mental rules are holding you back from stepping into top leadership?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Uncovers hidden mental ceilings, imposter syndrome triggers, and self-sabotaging professional habits.</p>
+                    </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Self-Limiting Belief Auditor">No ratings yet</div>
+                    <button id="launch-btn-self-limiting-belief-auditor" data-assessment="Self-Limiting Belief Auditor" onclick="launchAssessment('Self-Limiting Belief Auditor')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                </div>
+
+                <div data-assessment-card="Cognitive Learning Profiler" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-teal-600/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-bold">L</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-teal-950 text-teal-300 border border-teal-800">Multimodal</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Cognitive Learning Profiler™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"How fast can you digest complex industry disruptions and master AI tools?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Maps your information absorption speed, sensory preferences, and conceptual synthesis efficiency.</p>
+                    </div>
+                    <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Cognitive Learning Profiler">No ratings yet</div>
+                    <button id="launch-btn-cognitive-learning-profiler" data-assessment="Cognitive Learning Profiler" onclick="launchAssessment('Cognitive Learning Profiler')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
+                </div>
+                <div class="bg-slate-900 border border-indigo-800/50 hover:border-indigo-500 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group relative">
+                    <span class="absolute top-4 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">New</span>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono bg-indigo-950 text-indigo-300 border border-indigo-800">360° Multi-Rater</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Prism360™</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">"You've heard your own view. What does everyone around you actually see?"</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Structured, anonymous feedback from a manager's own manager, team, peers, and stakeholders — delivered as one report with a dated 30-60-90 day action plan.</p>
+                    </div>
+                    <div class="text-[11px] text-slate-500 mb-2">Unlike the assessments above, this isn't self-paced — a Syntropix admin sets up each cycle.</div>
+                    <button onclick="showPrism360Page()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Explore Prism360 →</button>
+                </div>
             </div>
         </section>
 
@@ -1820,9 +1822,65 @@
         </div>
     </div>
 
+    <!-- FLOATING "TALK TO SYNTROPIX" BUTTON — global, fixed position, visible on every
+         page regardless of scroll. Reuses the existing WhatsApp QR modal. Positioned
+         bottom-left so it never collides with the chat/FAQ widget at bottom-right. -->
+    <button onclick="openTalkToSyntropix()" class="no-print fixed bottom-6 left-6 z-40 flex items-center gap-2 pl-3 pr-4 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-2xl shadow-indigo-900/50 transition hover:scale-105">
+        <span class="w-6 h-6 bg-[#25D366] rounded-full flex items-center justify-center shrink-0"><svg viewBox="0 0 32 32" class="w-3.5 h-3.5" fill="white"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.694 4.612 1.899 6.48L4 29l7.72-1.865A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm6.965 16.845c-.297.834-1.47 1.53-2.404 1.727-.639.135-1.474.243-4.284-.92-3.593-1.487-5.906-5.13-6.086-5.366-.173-.236-1.454-1.936-1.454-3.693 0-1.757.919-2.62 1.246-2.98.297-.325.646-.406.862-.406.216 0 .432.002.62.011.216.01.481-.083.752.573.297.716 1.008 2.473 1.096 2.653.088.18.146.393.03.63-.117.235-.176.382-.348.588-.176.207-.362.462-.517.62-.176.18-.36.375-.155.735.207.36.917 1.512 1.968 2.449 1.352 1.205 2.492 1.578 2.852 1.756.36.18.57.15.78-.09.216-.245.918-1.07 1.163-1.436.245-.367.49-.305.826-.183.335.123 2.125 1.002 2.49 1.184.363.18.605.271.694.42.088.153.088.879-.208 1.713z"/></svg></span>
+        Talk to Syntropix
+    </button>
+
+    <!-- CHAT / FAQ WIDGET — global, bottom-right corner. Collapsed bubble by default;
+         expands into a small panel with FAQs and a direct-chat option. -->
+    <div id="chat-widget-panel" class="no-print hidden fixed bottom-24 right-6 z-40 w-[320px] max-w-[calc(100vw-2rem)] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="bg-indigo-600 px-5 py-4 flex items-center justify-between">
+            <div>
+                <p class="text-sm font-bold text-white">Chat with Syntropix</p>
+                <p class="text-[10px] text-indigo-200">We typically respond within 3 hours</p>
+            </div>
+            <button onclick="toggleChatWidget()" class="text-indigo-200 hover:text-white text-xl leading-none">&times;</button>
+        </div>
+        <div class="p-4 space-y-3 max-h-[60vh] overflow-y-auto">
+            <button onclick="openTalkToSyntropix()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#25D366]/15 border border-[#25D366]/40 text-emerald-300 text-xs font-bold hover:bg-[#25D366]/25 transition">
+                <svg viewBox="0 0 32 32" class="w-4 h-4" fill="currentColor"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.694 4.612 1.899 6.48L4 29l7.72-1.865A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm6.965 16.845c-.297.834-1.47 1.53-2.404 1.727-.639.135-1.474.243-4.284-.92-3.593-1.487-5.906-5.13-6.086-5.366-.173-.236-1.454-1.936-1.454-3.693 0-1.757.919-2.62 1.246-2.98.297-.325.646-.406.862-.406.216 0 .432.002.62.011.216.01.481-.083.752.573.297.716 1.008 2.473 1.096 2.653.088.18.146.393.03.63-.117.235-.176.382-.348.588-.176.207-.362.462-.517.62-.176.18-.36.375-.155.735.207.36.917 1.512 1.968 2.449 1.352 1.205 2.492 1.578 2.852 1.756.36.18.57.15.78-.09.216-.245.918-1.07 1.163-1.436.245-.367.49-.305.826-.183.335.123 2.125 1.002 2.49 1.184.363.18.605.271.694.42.088.153.088.879-.208 1.713z"/></svg>
+                Start a Direct Chat
+            </button>
+            <a href="mailto:support@syntropix.in" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg border border-slate-700 text-slate-200 text-xs font-bold hover:border-indigo-500 transition">
+                Email support@syntropix.in
+            </a>
+
+            <p class="text-[10px] uppercase font-bold text-slate-500 pt-2">Frequently Asked</p>
+            <details class="bg-slate-950 border border-slate-800 rounded-lg p-3 group">
+                <summary class="cursor-pointer text-xs font-semibold text-slate-200 list-none flex items-center justify-between">What does Syntropix actually do?<span class="text-slate-500 text-[10px] group-open:rotate-180 transition">▼</span></summary>
+                <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">We help organisations assess, develop, and elevate managers — through psychometric diagnostics, structured development programs, Prism360 360° feedback, and AI-assisted coaching.</p>
+            </details>
+            <details class="bg-slate-950 border border-slate-800 rounded-lg p-3 group">
+                <summary class="cursor-pointer text-xs font-semibold text-slate-200 list-none flex items-center justify-between">How long does an assessment take?<span class="text-slate-500 text-[10px] group-open:rotate-180 transition">▼</span></summary>
+                <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Most of our individual assessments take 15–25 minutes. Prism360 cycles run over roughly 10 business days since they involve multiple raters.</p>
+            </details>
+            <details class="bg-slate-950 border border-slate-800 rounded-lg p-3 group">
+                <summary class="cursor-pointer text-xs font-semibold text-slate-200 list-none flex items-center justify-between">Is my data kept confidential?<span class="text-slate-500 text-[10px] group-open:rotate-180 transition">▼</span></summary>
+                <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Yes. Individual responses are never shared without your consent, and Prism360 specifically enforces minimum-response thresholds so no single rater can ever be identified. See our <a href="privacy.html" class="text-indigo-300 underline">Privacy Policy</a> for details.</p>
+            </details>
+            <details class="bg-slate-950 border border-slate-800 rounded-lg p-3 group">
+                <summary class="cursor-pointer text-xs font-semibold text-slate-200 list-none flex items-center justify-between">Can my organisation get a bulk license?<span class="text-slate-500 text-[10px] group-open:rotate-180 transition">▼</span></summary>
+                <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Yes — reach out via chat or email and we'll set up an Enterprise Portal for your organisation to manage licenses across your team.</p>
+            </details>
+            <details class="bg-slate-950 border border-slate-800 rounded-lg p-3 group">
+                <summary class="cursor-pointer text-xs font-semibold text-slate-200 list-none flex items-center justify-between">How fast will someone get back to me?<span class="text-slate-500 text-[10px] group-open:rotate-180 transition">▼</span></summary>
+                <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Within 3 hours for messages sent here or by email, during business hours. For anything urgent, the direct chat button above is fastest.</p>
+            </details>
+        </div>
+    </div>
+
+    <button id="chat-widget-bubble" onclick="toggleChatWidget()" class="no-print fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-2xl shadow-indigo-900/50 flex items-center justify-center transition hover:scale-105">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+    </button>
+
     <footer class="no-print border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500 space-y-2">
         <p>© 2026 Syntropix™. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" class="text-indigo-300 underline">Privacy Policy</a></p>
     </footer>
+
 
     <script>
         // -------------------------------------------------------------
@@ -2881,12 +2939,19 @@
 
         const WHATSAPP_CALL_LINK = "https://call.whatsapp.com/voice/KUopE3L5cl0RAj3iMYsjpC";
         function openTalkToSyntropix() {
+            document.getElementById('chat-widget-panel')?.classList.add('hidden'); // close the chat panel if it was open, so both don't overlap
             const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             if (isMobile) {
                 window.location.href = WHATSAPP_CALL_LINK;
             } else {
                 document.getElementById('whatsapp-qr-modal').classList.remove('hidden');
             }
+        }
+
+        // Bottom-right chat/FAQ widget — a lightweight panel, not a modal, so it
+        // doesn't block the rest of the page while open.
+        function toggleChatWidget() {
+            document.getElementById('chat-widget-panel').classList.toggle('hidden');
         }
 
         // Public, no login required — shows real average ratings under each
