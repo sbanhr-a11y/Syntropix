@@ -1924,15 +1924,18 @@
     </div>
 
     <!-- FLOATING "TALK TO SYNTROPIX" BUTTON — global, fixed position, visible on every
-         page regardless of scroll. Opens WhatsApp for an instant live conversation.
-         Positioned bottom-left so it never collides with the chat/FAQ widget. -->
-    <button onclick="openTalkToSyntropix()" class="no-print fixed bottom-6 left-6 z-40 flex items-center gap-2 pl-3 pr-4 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-2xl shadow-indigo-900/50 transition hover:scale-105">
+         page regardless of scroll. Opens a WhatsApp VOICE CALL via QR scan (desktop)
+         or direct dial (mobile). Positioned bottom-left so it never collides with the
+         chat/FAQ widget. This is deliberately a call, not a chat — see the widget
+         below for the text-chat option. -->
+    <button onclick="openTalkToSyntropixCall()" class="no-print fixed bottom-6 left-6 z-40 flex items-center gap-2 pl-3 pr-4 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-2xl shadow-indigo-900/50 transition hover:scale-105">
         <span class="w-6 h-6 bg-[#25D366] rounded-full flex items-center justify-center shrink-0"><svg viewBox="0 0 32 32" class="w-3.5 h-3.5" fill="white"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.694 4.612 1.899 6.48L4 29l7.72-1.865A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm6.965 16.845c-.297.834-1.47 1.53-2.404 1.727-.639.135-1.474.243-4.284-.92-3.593-1.487-5.906-5.13-6.086-5.366-.173-.236-1.454-1.936-1.454-3.693 0-1.757.919-2.62 1.246-2.98.297-.325.646-.406.862-.406.216 0 .432.002.62.011.216.01.481-.083.752.573.297.716 1.008 2.473 1.096 2.653.088.18.146.393.03.63-.117.235-.176.382-.348.588-.176.207-.362.462-.517.62-.176.18-.36.375-.155.735.207.36.917 1.512 1.968 2.449 1.352 1.205 2.492 1.578 2.852 1.756.36.18.57.15.78-.09.216-.245.918-1.07 1.163-1.436.245-.367.49-.305.826-.183.335.123 2.125 1.002 2.49 1.184.363.18.605.271.694.42.088.153.088.879-.208 1.713z"/></svg></span>
         Talk to Syntropix
     </button>
 
     <!-- CHAT / FAQ WIDGET — global, bottom-right corner. Collapsed bubble by default;
-         expands into a small panel with FAQs, a live WhatsApp option, and a "leave a
+         expands into a small panel with FAQs, a direct WhatsApp TEXT chat option
+         (no phone number ever shown — see openWhatsAppTextChat()), and a "leave a
          message" form that's logged to Supabase + notifies the team + acknowledges
          the sender instantly (see submitChatMessage() and /api/contact/message). -->
     <div id="chat-widget-panel" class="no-print hidden fixed bottom-24 right-6 z-40 w-[320px] max-w-[calc(100vw-2rem)] bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
@@ -1943,7 +1946,7 @@
             <button onclick="toggleChatWidget()" class="text-indigo-200 hover:text-white text-xl leading-none">&times;</button>
         </div>
         <div class="p-4 space-y-3 max-h-[60vh] overflow-y-auto">
-            <button onclick="openTalkToSyntropix()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#25D366]/15 border border-[#25D366]/40 text-emerald-300 text-xs font-bold hover:bg-[#25D366]/25 transition">
+            <button onclick="openWhatsAppTextChat()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#25D366]/15 border border-[#25D366]/40 text-emerald-300 text-xs font-bold hover:bg-[#25D366]/25 transition">
                 <svg viewBox="0 0 32 32" class="w-4 h-4" fill="currentColor"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.694 4.612 1.899 6.48L4 29l7.72-1.865A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm6.965 16.845c-.297.834-1.47 1.53-2.404 1.727-.639.135-1.474.243-4.284-.92-3.593-1.487-5.906-5.13-6.086-5.366-.173-.236-1.454-1.936-1.454-3.693 0-1.757.919-2.62 1.246-2.98.297-.325.646-.406.862-.406.216 0 .432.002.62.011.216.01.481-.083.752.573.297.716 1.008 2.473 1.096 2.653.088.18.146.393.03.63-.117.235-.176.382-.348.588-.176.207-.362.462-.517.62-.176.18-.36.375-.155.735.207.36.917 1.512 1.968 2.449 1.352 1.205 2.492 1.578 2.852 1.756.36.18.57.15.78-.09.216-.245.918-1.07 1.163-1.436.245-.367.49-.305.826-.183.335.123 2.125 1.002 2.49 1.184.363.18.605.271.694.42.088.153.088.879-.208 1.713z"/></svg>
                 Start a Direct Chat (WhatsApp)
             </button>
@@ -3053,8 +3056,11 @@
             document.getElementById('contactMessage').value = '';
         }
 
+        // "Talk to Syntropix" (the floating button) — a voice call, via QR scan,
+        // exactly as it worked before. Kept entirely separate from the text-chat
+        // function below so the two buttons do genuinely different things.
         const WHATSAPP_CALL_LINK = "https://call.whatsapp.com/voice/KUopE3L5cl0RAj3iMYsjpC";
-        function openTalkToSyntropix() {
+        function openTalkToSyntropixCall() {
             document.getElementById('chat-widget-panel')?.classList.add('hidden'); // close the chat panel if it was open, so both don't overlap
             const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             if (isMobile) {
@@ -3062,6 +3068,16 @@
             } else {
                 document.getElementById('whatsapp-qr-modal').classList.remove('hidden');
             }
+        }
+
+        // "Start a Direct Chat" (inside the Chat with Syntropix widget) — opens a real
+        // WhatsApp TEXT chat via a backend redirect (server/routes/chat.js). The actual
+        // phone number lives only on the server as an environment variable, never in
+        // this public repo. Works identically on mobile (opens the WhatsApp app) and
+        // desktop (opens WhatsApp Web), straight into a chat — no QR, no voice call.
+        function openWhatsAppTextChat() {
+            document.getElementById('chat-widget-panel')?.classList.add('hidden');
+            window.open(`${API_BASE_URL}/chat/whatsapp`, '_blank');
         }
 
         // Bottom-right chat/FAQ widget — a lightweight panel, not a modal, so it
