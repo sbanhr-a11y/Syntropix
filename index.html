@@ -229,16 +229,91 @@
             </p>
         </section>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-12">
-            <div class="space-y-4">
+        <section class="relative space-y-10 bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-14 overflow-hidden">
+            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative text-center space-y-3 max-w-2xl mx-auto">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Who We Are</span>
-                <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">What Syntropix Actually Does</h3>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Syntropix helps organisations <strong>assess, develop, and elevate managers</strong> into confident people leaders — through psychometric diagnostics, structured development programs, and real workplace application. Not a one-off training session that everyone forgets by Friday.
-                </p>
+                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Not a Toolkit. A Designed Path.</h3>
+                <p class="text-xs sm:text-sm text-slate-400">Five connected systems, each one handing off to the next — so nothing you invest in gets wasted on a manager who was never going to use it.</p>
             </div>
-            <div class="text-center bg-slate-950 border border-slate-800 rounded-2xl p-8">
-                <p class="text-sm sm:text-base font-black text-white uppercase tracking-wide leading-relaxed">Assessment.<br>Development.<br>Application.<br><span class="text-indigo-400">Measurable Growth.</span></p>
+
+            <!-- Desktop / tablet: horizontal pipeline -->
+            <div class="relative hidden md:flex items-start justify-between gap-2">
+                <div class="absolute top-[26px] left-[5%] right-[5%] h-0.5 opacity-60" style="background: linear-gradient(to right, #6366f1, #8b5cf6, #f59e0b, #0ea5e9, #10b981);"></div>
+
+                <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-indigo-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-400"><circle cx="10" cy="10" r="6"></circle><line x1="19" y1="19" x2="14.5" y2="14.5"></line></svg></div>
+                    <span class="text-[9px] font-mono text-indigo-400">01</span>
+                    <h4 class="text-xs font-bold text-white leading-tight">Diagnostics</h4>
+                    <p class="text-[10px] text-slate-500 leading-snug">See what's really going on — not a guess.</p>
+                </div>
+                <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-violet-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-violet-400"><polyline points="4,17 10,11 14,15 20,7"></polyline><polyline points="14,7 20,7 20,13"></polyline></svg></div>
+                    <span class="text-[9px] font-mono text-violet-400">02</span>
+                    <h4 class="text-xs font-bold text-white leading-tight">Development</h4>
+                    <p class="text-[10px] text-slate-500 leading-snug">Close the specific gap that showed up.</p>
+                </div>
+                <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-amber-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-amber-400"><circle cx="12" cy="12" r="9"></circle><polyline points="8,12 11,15 16,9"></polyline></svg></div>
+                    <span class="text-[9px] font-mono text-amber-400">03</span>
+                    <h4 class="text-xs font-bold text-white leading-tight">Compliance <span class="text-amber-400 font-normal">(Soon)</span></h4>
+                    <p class="text-[10px] text-slate-500 leading-snug">Protect the culture you're building.</p>
+                </div>
+                <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-sky-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-sky-400"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg></div>
+                    <span class="text-[9px] font-mono text-sky-400">04</span>
+                    <h4 class="text-xs font-bold text-white leading-tight">Coaching</h4>
+                    <p class="text-[10px] text-slate-500 leading-snug">Support that starts from real data.</p>
+                </div>
+                <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></div>
+                    <span class="text-[9px] font-mono text-emerald-400">05</span>
+                    <h4 class="text-xs font-bold text-white leading-tight">Prism360</h4>
+                    <p class="text-[10px] text-slate-500 leading-snug">Prove behaviour actually changed.</p>
+                </div>
+
+                <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
+                    <div class="w-[58px] h-[58px] rounded-full bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/40"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M5 13l4 4L19 7"></path></svg></div>
+                    <h4 class="text-xs font-bold text-emerald-400 leading-tight">The Outcome</h4>
+                    <p class="text-[10px] text-slate-400 leading-snug">Managers people actually want to work for.</p>
+                </div>
+            </div>
+
+            <!-- Mobile: vertical timeline -->
+            <div class="relative md:hidden flex flex-col gap-6 pl-2">
+                <div class="absolute left-[25px] top-2 bottom-2 w-0.5 opacity-60" style="background: linear-gradient(to bottom, #6366f1, #8b5cf6, #f59e0b, #0ea5e9, #10b981);"></div>
+
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-indigo-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-400"><circle cx="10" cy="10" r="6"></circle><line x1="19" y1="19" x2="14.5" y2="14.5"></line></svg></div>
+                    <div><span class="text-[9px] font-mono text-indigo-400">01</span><h4 class="text-sm font-bold text-white leading-tight">Diagnostics</h4><p class="text-[11px] text-slate-500">See what's really going on — not a guess.</p></div>
+                </div>
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-violet-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-violet-400"><polyline points="4,17 10,11 14,15 20,7"></polyline><polyline points="14,7 20,7 20,13"></polyline></svg></div>
+                    <div><span class="text-[9px] font-mono text-violet-400">02</span><h4 class="text-sm font-bold text-white leading-tight">Development</h4><p class="text-[11px] text-slate-500">Close the specific gap that showed up.</p></div>
+                </div>
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-amber-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-amber-400"><circle cx="12" cy="12" r="9"></circle><polyline points="8,12 11,15 16,9"></polyline></svg></div>
+                    <div><span class="text-[9px] font-mono text-amber-400">03</span><h4 class="text-sm font-bold text-white leading-tight">Compliance <span class="text-amber-400 font-normal">(Soon)</span></h4><p class="text-[11px] text-slate-500">Protect the culture you're building.</p></div>
+                </div>
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-sky-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-sky-400"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg></div>
+                    <div><span class="text-[9px] font-mono text-sky-400">04</span><h4 class="text-sm font-bold text-white leading-tight">Coaching</h4><p class="text-[11px] text-slate-500">Support that starts from real data.</p></div>
+                </div>
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></div>
+                    <div><span class="text-[9px] font-mono text-emerald-400">05</span><h4 class="text-sm font-bold text-white leading-tight">Prism360</h4><p class="text-[11px] text-slate-500">Prove behaviour actually changed.</p></div>
+                </div>
+                <div class="relative z-10 flex items-center gap-4">
+                    <div class="w-[52px] h-[52px] rounded-full bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/40"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M5 13l4 4L19 7"></path></svg></div>
+                    <div><h4 class="text-sm font-bold text-emerald-400 leading-tight">The Outcome</h4><p class="text-[11px] text-slate-400">Managers people actually want to work for.</p></div>
+                </div>
+            </div>
+
+            <div class="relative text-center pt-2">
+                <button onclick="openQuickMatcherModal()" class="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
+                    See Where You'd Start →
+                </button>
             </div>
         </section>
 
