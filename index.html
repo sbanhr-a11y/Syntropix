@@ -180,6 +180,7 @@
                             <button onclick="showComplianceSuitePage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Compliance Suite</button>
                             <button onclick="showServicesPage('coaching')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Coaching</button>
                             <button onclick="showPrism360Page()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Prism360 — 360° Feedback</button>
+                            <button onclick="showSecurityPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition border-t border-slate-800 mt-1 pt-2.5">Security & Data Privacy</button>
                         </div>
                     </div>
                 </div>
@@ -211,6 +212,7 @@
             <button onclick="showComplianceSuitePage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Compliance Suite</button>
             <button onclick="showServicesPage('coaching'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Coaching</button>
             <button onclick="showPrism360Page(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Prism360 — 360° Feedback</button>
+            <button onclick="showSecurityPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Security & Data Privacy</button>
             <button onclick="showContactPage(); closeMobileMenu();" class="w-full text-left py-2.5">Contact Us</button>
         </div>
     </header>
@@ -552,6 +554,17 @@
                 </div>
             </div>
         </section>
+
+        <section class="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 sm:p-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs text-slate-400">
+                    <span class="flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-indigo-400"><rect x="3" y="11" width="18" height="10" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> SOC 2 Type II & ISO/IEC 27001:2022-certified infrastructure</span>
+                    <span class="flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-emerald-400"><path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"></path><path d="M9 12l2 2 4-4"></path></svg> GDPR & DPDP-aligned data practices</span>
+                    <span class="flex items-center gap-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-amber-400"><path d="M3 12s3-7 9-7 9 7 9 7-3 7-9 7-9-7-9-7z"></path><circle cx="12" cy="12" r="2.5"></circle><line x1="4" y1="4" x2="20" y2="20"></line></svg> No tracking or analytics on this site — verified</span>
+                </div>
+                <button onclick="showSecurityPage()" class="shrink-0 px-5 py-2.5 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-bold uppercase tracking-wider transition whitespace-nowrap">See Our Security Practices →</button>
+            </div>
+        </section>
     </main>
 
     <main id="coaching-view" class="hidden max-w-5xl mx-auto px-6 py-12 flex-1 w-full space-y-10">
@@ -701,6 +714,69 @@
         <div class="text-center space-y-4 pt-2">
             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Ready to see the full picture?</h3>
             <button onclick="showContactPage()" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Request a Prism360 Cycle</button>
+        </div>
+    </main>
+
+    <!-- SECURITY & DATA PRIVACY — a dedicated Trust Center page. Every claim on this
+         page is drawn directly from verified facts (vendor DPAs, direct code checks
+         for tracking scripts, confirmed statelessness of the AI coach) — nothing
+         here is aspirational copy. Keep it that way when editing. -->
+    <main id="security-view" class="hidden max-w-4xl mx-auto px-6 py-12 flex-1 w-full space-y-12">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+                <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Trust Center</span>
+                <h2 class="text-3xl font-black text-white tracking-tight mt-1">Security & Data Privacy</h2>
+            </div>
+            <button onclick="showDashboard()" class="px-4 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg transition hover:bg-slate-700">Return to Hub</button>
+        </div>
+
+        <div class="text-center space-y-3 max-w-2xl mx-auto">
+            <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">We'd Rather Tell You Exactly What's True Than Sound Impressive</h3>
+            <p class="text-sm text-slate-400">Every claim on this page is specific and verifiable — not a badge, not a vague promise. Where something isn't fully in place yet, we say so.</p>
+        </div>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-400"><rect x="3" y="11" width="18" height="10" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
+                <h4 class="text-sm font-bold text-white">Enterprise-Grade Infrastructure</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">Our database provider (Supabase) and our application hosting provider (Render) are each independently <strong class="text-white">SOC 2 Type II attested</strong> and <strong class="text-white">ISO/IEC 27001:2022 certified</strong> for their own infrastructure and security controls. These certifications belong to our infrastructure providers, not to Syntropix directly — we're precise about that distinction because it's the accurate one.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+                <h4 class="text-sm font-bold text-white">Data Processing Agreements, In Place</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">We maintain Data Processing Agreements with every vendor that touches personal data on our behalf — our database, hosting, email, and AI providers. Each one is dated and on file internally.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-amber-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-amber-400"><path d="M3 12s3-7 9-7 9 7 9 7-3 7-9 7-9-7-9-7z"></path><circle cx="12" cy="12" r="2.5"></circle><line x1="4" y1="4" x2="20" y2="20"></line></svg></div>
+                <h4 class="text-sm font-bold text-white">No Tracking. No Analytics. Verified.</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">We checked our own site's code directly against the twenty most common tracking and analytics tools — Google Analytics, Meta Pixel, Hotjar, Mixpanel, and others. None are present. We don't use cookies for tracking; sessions run on a simple login token, nothing more.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-sky-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-sky-400"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></div>
+                <h4 class="text-sm font-bold text-white">Your AI Coach Conversations Aren't Stored</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">We checked our own AI coaching code directly: it forwards your message to our AI provider for that one response, and nothing about the conversation is ever written to our database. There's no retention period to worry about, because there's nothing sitting in storage to retain.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-violet-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-violet-400"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path><circle cx="19" cy="7" r="2"></circle></svg></div>
+                <h4 class="text-sm font-bold text-white">Prism360's Anonymity Is Enforced by Code</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">A rater category is never shown on its own unless at least three people responded — below that, responses are automatically pooled into a combined group instead. Raw responses are deleted 7 days after a report is generated; the report itself is deleted 30 days later. This isn't a policy promise — it's what the software actually does.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-rose-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-rose-400"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M8 12h8M12 8v8"></path></svg></div>
+                <h4 class="text-sm font-bold text-white">A Documented Process for Your Data Rights</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">We maintain an internal record of what data we process and why (a Records of Processing Activities document), and a written, step-by-step process for handling access, correction, and deletion requests — so a request from you gets a real, repeatable process, not an improvised one. We respond within 30 days.</p>
+            </div>
+        </section>
+
+        <section class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 space-y-4">
+            <h3 class="text-lg font-bold text-white">Where We're Being Precise About Regulation, Not Vague</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Syntropix is based in India and our practices are built around both the <strong class="text-white">EU's GDPR</strong> and India's own <strong class="text-white">Digital Personal Data Protection (DPDP) Act, 2023</strong> — consent-based collection, purpose limitation, honoring access and deletion requests, and Data Processing Agreements with every vendor in our chain. We describe our practices as <strong class="text-white">GDPR-aligned and DPDP-aligned</strong> deliberately, rather than claiming a certification — neither regulation issues a certification badge to display, and we'd rather be accurate than sound more official than we are.</p>
+        </section>
+
+        <div class="text-center space-y-3 pt-2">
+            <p class="text-xs text-slate-500">Full detail on what we collect, why, and your rights over it:</p>
+            <a href="privacy.html" target="_blank" class="inline-block px-6 py-2.5 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-bold uppercase tracking-wider transition">Read the Full Privacy Policy</a>
+            <p class="text-xs text-slate-500 pt-4">Security questions for a procurement or vendor review? <button onclick="showContactPage()" class="text-indigo-300 underline">Talk to us directly</button>.</p>
         </div>
     </main>
 
@@ -1146,6 +1222,7 @@
             <div class="text-center max-w-2xl mx-auto">
                 <h3 class="text-xl font-bold text-white">We are here to elevate your human potential.</h3>
                 <p class="text-sm text-slate-400 mt-2">Whether you need enterprise deployment assistance, custom psychometric validation, or technical support, our team is ready to assist.</p>
+                <p class="text-xs text-slate-500 mt-3">Evaluating us for a security or vendor review? <button onclick="showSecurityPage()" class="text-indigo-300 underline">See our Security & Data Privacy practices →</button></p>
             </div>
             
             <form onsubmit="event.preventDefault(); submitContactForm();" class="space-y-6 max-w-2xl mx-auto bg-slate-950 p-8 rounded-2xl border border-slate-800">
@@ -1998,7 +2075,8 @@
     </button>
 
     <footer class="no-print border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500 space-y-2">
-        <p>© 2026 Syntropix™. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" class="text-indigo-300 underline">Privacy Policy</a></p>
+        <p>© 2026 Syntropix™. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" class="text-indigo-300 underline">Privacy Policy</a> &nbsp;·&nbsp; <button onclick="showSecurityPage()" class="text-indigo-300 underline">Security & Data Privacy</button></p>
+        <p class="text-slate-600">Built on SOC 2 Type II & ISO/IEC 27001:2022-certified infrastructure &nbsp;·&nbsp; GDPR & DPDP-aligned practices</p>
     </footer>
 
 
@@ -2491,6 +2569,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo(0, 0);
         }
@@ -2505,6 +2584,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2519,6 +2599,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2533,6 +2614,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('services-view').classList.remove('hidden');
             window.scrollTo(0, 0);
             if (section) {
@@ -2553,6 +2635,7 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('founder-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2567,6 +2650,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('contact-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2581,6 +2665,7 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('prism360-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -2597,9 +2682,26 @@
             document.getElementById('services-view')?.classList.add('hidden');
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view').classList.remove('hidden');
             resetPrism360Form();
             loadPrism360Cycles();
+            window.scrollTo(0, 0);
+        }
+
+        // Trust Center — Security & Data Privacy page.
+        function showSecurityPage() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
@@ -2643,6 +2745,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
 
             if (currentUser.role === 'enterprise') {
