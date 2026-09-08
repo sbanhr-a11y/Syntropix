@@ -1501,6 +1501,7 @@
             </div>
 
             <div id="rating-gate" class="no-print bg-indigo-950/40 border border-indigo-800/50 rounded-xl p-5 mb-6 text-center space-y-3">
+                <span id="rating-preview-badge" class="hidden inline-block px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-950/60 text-amber-300 border border-amber-800/50">Preview Mode — Not Saved</span>
                 <p class="text-sm text-white font-semibold">Before you download or receive your report — how was your assessment experience?</p>
                 <div id="star-rating-widget" class="flex justify-center gap-2 text-3xl">
                     <span data-star="1" onclick="setRating(1)" class="cursor-pointer text-slate-600 hover:text-amber-400 transition">★</span>
@@ -3211,6 +3212,19 @@
         async function submitRatingAndReport(rating) {
             const statusMsg = document.getElementById('rating-status-msg');
             statusMsg.classList.remove('hidden');
+
+            // Real enforcement point: even if the gate's visibility logic above
+            // ever changes, this independent check is what actually stops an
+            // admin/demo click from reaching the backend and polluting real
+            // ratings or the CSV export. This function refuses regardless of
+            // how setRating() got called.
+            if (currentUser && (currentUser.role === 'demo' || currentUser.role === 'master')) {
+                statusMsg.classList.remove('text-rose-400');
+                statusMsg.classList.add('text-amber-400');
+                statusMsg.textContent = "Preview mode — this rating was not saved and won't appear in real ratings or exports.";
+                return;
+            }
+
             statusMsg.classList.remove('text-rose-400');
             statusMsg.classList.add('text-emerald-400');
             statusMsg.textContent = "Thank you — preparing your report now…";
@@ -3952,11 +3966,16 @@
                 // The report only gets submitted (and the PDF download unlocked)
                 // once the participant selects a star rating — see setRating().
                 if (currentUser && (currentUser.role === 'demo' || currentUser.role === 'master')) {
-                    // Demo and master (admin's own testing) never need the gate,
-                    // and nothing gets saved either — this is what keeps admin
-                    // test-runs out of real ratings and the CSV export entirely.
+                    // Preview mode: the real rating UI shows for visual QA, but
+                    // nothing clicked here is ever sent to the backend or counted
+                    // in real ratings/CSV exports — see submitRatingAndReport()'s
+                    // own independent check below, which is the actual enforcement.
+                    // The report stays unlocked regardless, so testing isn't blocked.
                     unlockReportDownload();
-                    document.getElementById('rating-gate').classList.add('hidden');
+                    document.getElementById('rating-gate').classList.remove('hidden');
+                    document.getElementById('rating-preview-badge').classList.remove('hidden');
+                    const reportHtml = document.getElementById('report-view').innerHTML;
+                    pendingReportSubmission = { name: prof.name, globalScore: gni, archetype: arch.title, reportHtml: reportHtml };
                 } else if (sessionData && sessionData.rated) {
                     // Genuinely already rated — whether this is the first render or a
                     // reload, we can trust this because it's checked against the
@@ -4135,11 +4154,17 @@
             container.innerHTML = '';
             Object.keys(dimensionDataConfig).forEach(k => {
                 const d = dimensionDataConfig[k];
+                const examplesHtml = (d.examples || []).map(ex => `<li class="flex items-start gap-2"><span class="text-${d.color}-500 mt-0.5">•</span><span>${ex}</span></li>`).join('');
                 container.innerHTML += `
-                    <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
-                        <strong class="text-${d.color}-300 text-sm block">${d.abbr}</strong>
+                    <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
+                        <div class="flex items-baseline gap-2 flex-wrap">
+                            <strong class="text-${d.color}-300 text-sm">${d.title}</strong>
+                            <span class="text-[10px] font-mono text-slate-500 uppercase tracking-wider">${d.abbr}</span>
+                        </div>
                         <p><strong>What This Measures:</strong> ${d.meaning}</p>
                         <p><strong>Worth Noticing:</strong> ${d.strength}</p>
+                        <p><strong>Why It's Measured At All:</strong> ${d.urgentImpact}</p>
+                        ${examplesHtml ? `<div><strong>What This Looks Like in Practice:</strong><ul class="mt-1.5 space-y-1">${examplesHtml}</ul></div>` : ''}
                     </div>
                 `;
             });
