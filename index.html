@@ -216,6 +216,7 @@
                             <button onclick="showServicesPage('coaching')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Coaching</button>
                             <button onclick="showPrism360Page()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Prism360 — 360° Feedback</button>
                             <button onclick="showSecurityPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition border-t border-slate-800 mt-1 pt-2.5">Security & Data Privacy</button>
+                            <button onclick="showPaymentsRefundPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Payments & Refunds</button>
                         </div>
                     </div>
                 </div>
@@ -248,6 +249,7 @@
             <button onclick="showServicesPage('coaching'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Coaching</button>
             <button onclick="showPrism360Page(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Prism360 — 360° Feedback</button>
             <button onclick="showSecurityPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Security & Data Privacy</button>
+            <button onclick="showPaymentsRefundPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Payments & Refunds</button>
             <button onclick="showContactPage(); closeMobileMenu();" class="w-full text-left py-2.5">Contact Us</button>
         </div>
     </header>
@@ -353,7 +355,7 @@
                     <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-3 flex flex-col">
                         <span class="w-fit px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-slate-900 text-slate-300 border border-slate-700">Built Around You</span>
                         <h4 class="text-base font-bold text-white">A Custom Mix</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed flex-1">Already have your own training function, or only need help with part of the picture? Combine exactly the suites you need, in whatever order makes sense for where you are right now.</p>
+                        <p class="text-xs text-slate-400 leading-relaxed flex-1">Already have your own talent & learning management function, or only need help with part of the picture? Combine exactly the suites you need, in whatever order makes sense for where you are right now.</p>
                     </div>
                     <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 space-y-3 flex flex-col">
                         <span class="w-fit px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-slate-900 text-slate-300 border border-slate-700">No Bundle Required</span>
@@ -372,7 +374,7 @@
                         Start with an Independent Assessment →
                     </button>
                 </div>
-                <p class="text-[11px] text-slate-500">No pressure to buy the bundle — tell us where you are, and we'll tell you honestly what you actually need.</p>
+                <p class="text-[11px] text-slate-500">No pressure to buy the bundle — tell us where you are, and we'll work with you to carve out exactly the solution you need.</p>
             </div>
         </section>
 
@@ -556,27 +558,49 @@
             <div class="text-center space-y-2 max-w-2xl mx-auto">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Under the Hood</span>
                 <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Why We Outperform Legacy Frameworks</h3>
+                <p class="text-xs text-slate-500 max-w-xl mx-auto pt-1">This isn't just about how we build an assessment anymore — it's the whole system: the science underneath it, what happens after you take one, and how it fits into the tools you already run.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
                     <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">01</div>
-                    <h4 class="text-lg font-bold text-white">Dynamic Neuro-Architecture</h4>
+                    <h4 class="text-lg font-bold text-white">Behavior Under Real Pressure, Not a Fixed Label</h4>
                     <p class="text-xs text-slate-400 leading-relaxed flex-1">
-                        Legacy assessment frameworks fundamentally rely on static categorization—boxing complex human potential into rigid acronyms or color-coded profiles. Syntropix pioneers a different, dynamic approach: we measure how your strategic execution responds under operational friction — how it adapts or holds up when subjected to critical feedback, ambiguity, and workplace pressure — rather than assigning a fixed personality label. We believe this behavioral, situational lens gives a more actionable picture than static trait labels alone.
+                        Legacy frameworks rely on static categorization — boxing complex human potential into rigid acronyms or color-coded profiles that don't change no matter the situation. Syntropix measures how someone actually responds under real operational friction — critical feedback, ambiguity, workplace pressure — rather than assigning a fixed personality label. This behavioral, situational lens gives a genuinely more actionable picture than a static trait label ever could.
                     </p>
                 </div>
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
                     <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">02</div>
-                    <h4 class="text-lg font-bold text-white">Our Commitment to Empirical Rigor</h4>
+                    <h4 class="text-lg font-bold text-white">Real, Named, Cited Science — Not Borrowed Credibility</h4>
                     <p class="text-xs text-slate-400 leading-relaxed flex-1">
-                        In an industry with plenty of anecdotal management theories and lightweight questionnaires, we're building Syntropix around a genuine commitment to empirical rigor — not just claiming it. Our scales are being developed following established psychometric scale-construction methodology (per DeVellis and Hinkin's guidelines), and we are actively conducting the exploratory and confirmatory factor analysis, reliability testing, and normative sampling needed to formally validate them. We publish our validation status transparently as it progresses, rather than presenting projected results as if they were already established.
+                        Every instrument in our suite is built on real, published, peer-reviewed research, cited by name: the HEXACO personality model, the Communication Styles Inventory, Yukl's hierarchical taxonomy of leadership behavior, meta-analytic research on emotional intelligence, and neuroscience research on stress and decision quality from Yale and Rockefeller University. Every question is written from scratch for Syntropix — none are adapted from any published test. We publish our validation status transparently as it progresses, rather than presenting projected results as if they were already established.
                     </p>
                 </div>
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
                     <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">03</div>
-                    <h4 class="text-lg font-bold text-white">Embedded AI Executive Coach</h4>
+                    <h4 class="text-lg font-bold text-white">A Genuine AI Coach, Not a Static PDF</h4>
                     <p class="text-xs text-slate-400 leading-relaxed flex-1">
-                        Generating deep self-awareness without providing a concrete, actionable execution plan is ultimately useless for high-performing professionals. Syntropix bridges the massive gap between diagnostic insight and behavioral transformation by deeply integrating a revolutionary, generative AI executive co-pilot directly into your post-assessment ecosystem. This AI acts as your dedicated, 24/7 strategic advisory partner. It dynamically reads your unique psychometric topology to instantly generate highly personalized 30-60-90 day growth roadmaps, draft secure 360-degree peer feedback questionnaires, and answer complex contextual queries about your leadership blind spots, ensuring your development scales continuously.
+                        A report that generates insight without a concrete way to act on it doesn't actually change anything. Syntropix bridges that gap with an AI coach built directly into your post-assessment experience — a dedicated advisory partner that reads your specific results to generate a personalized 30-60-90 day plan and answer real questions about your specific gaps, so development keeps going long after the report is downloaded.
+                    </p>
+                </div>
+                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">04</div>
+                    <h4 class="text-lg font-bold text-white">One Flagship, Plus Focused Point-Solutions</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed flex-1">
+                        Most vendors sell you one thing. We built both: eight focused, fast instruments for a specific known question, and one comprehensive flagship — the Executive Leadership Index — built for the decisions where depth genuinely matters, like succession planning and executive promotion. Same rigor underneath either way; you choose the depth that matches the stakes.
+                    </p>
+                </div>
+                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">05</div>
+                    <h4 class="text-lg font-bold text-white">Built to Connect, Not Sit in Isolation</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed flex-1">
+                        Assessment results that live nowhere except a downloaded PDF don't actually drive decisions. Syntropix is built on a real, working API and webhook layer — your HRIS or ATS can provision someone directly and receive results the moment a report completes, signed so your system can verify it genuinely came from us. It's part of how we're built, not a future promise.
+                    </p>
+                </div>
+                <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">06</div>
+                    <h4 class="text-lg font-bold text-white">The Full Lifecycle, Not Just a Diagnostic</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed flex-1">
+                        Diagnostics are the entry point, not the whole story. Prism360 layers in real, structured multi-rater feedback from a manager's actual team; the Compliance Suite runs statutory and ethics training on its own independent calendar; coaching turns a report into ongoing development. One system covering assessment, feedback, compliance, and growth — not four disconnected vendors.
                     </p>
                 </div>
             </div>
@@ -847,6 +871,57 @@
         </div>
     </main>
 
+    <main id="payments-refund-view" class="hidden max-w-3xl mx-auto px-6 py-12 flex-1 w-full space-y-10">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+                <span class="text-xs font-mono text-indigo-400 uppercase tracking-widest">Trust Center</span>
+                <h2 class="text-3xl font-black text-white tracking-tight mt-1">Payments & Refunds</h2>
+            </div>
+            <button onclick="showDashboard()" class="px-4 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg transition hover:bg-slate-700">Return to Hub</button>
+        </div>
+
+        <section class="space-y-3">
+            <h3 class="text-lg font-bold text-white">Payment Gateway</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                We may provide paid products and services within our platform. Where we do, payment processing is handled entirely by third-party payment processors — currently PayPal.
+            </p>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                We do not store or collect your payment card details anywhere on our systems. That information is provided directly to our payment processor, whose handling of it is governed by their own Privacy Policy. Our payment processor adheres to the PCI-DSS standards set by the PCI Security Standards Council — a joint effort of Visa, Mastercard, American Express, and Discover — which govern the secure handling of payment information industry-wide.
+            </p>
+        </section>
+
+        <section class="space-y-3">
+            <h3 class="text-lg font-bold text-white">Payment Failure</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                If a payment fails after your card or account has been charged, the amount is refunded automatically within 7 to 14 working days by our payment processor. If you don't see the refund after that window, please try the payment again — sometimes using a different browser resolves a one-off gateway issue — or write to us at <a href="mailto:support@syntropix.in" class="text-indigo-300 underline">support@syntropix.in</a> with your payment reference and we'll look into it directly.
+            </p>
+        </section>
+
+        <section class="space-y-4">
+            <h3 class="text-lg font-bold text-white">Common Questions</h3>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <h4 class="text-sm font-bold text-white">Can I get an invoice to claim reimbursement?</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">Yes. As soon as your payment is confirmed, you'll receive a confirmation email with the invoice attached — ready to submit for expense reimbursement.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <h4 class="text-sm font-bold text-white">Can I get a refund if I want to discontinue partway through?</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">Sorry, refunds aren't possible once an assessment has been started or a report has been generated. We'd rather be upfront about this than promise something we don't actually do.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <h4 class="text-sm font-bold text-white">What modes of payment can I use?</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">PayPal, or any major debit or credit card (Visa, Mastercard, American Express, Discover) through PayPal's checkout — you don't need a PayPal account to pay by card.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-2">
+                <h4 class="text-sm font-bold text-white">Is it safe to enter my card details on Syntropix?</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">Your card details are never entered on syntropix.in at all — the checkout happens directly through PayPal's own secure, PCI-DSS-compliant interface, and we never see or store your card number.</p>
+            </div>
+        </section>
+
+        <div class="text-center pt-2">
+            <p class="text-xs text-slate-500">Questions about a specific payment or refund? <button onclick="showContactPage()" class="text-indigo-300 underline">Talk to us directly</button>.</p>
+        </div>
+    </main>
+
     <main id="compliance-suite-view" class="hidden max-w-6xl mx-auto px-6 py-12 flex-1 w-full space-y-12">
         <div class="text-center space-y-3 max-w-2xl mx-auto">
             <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Coming Soon</span>
@@ -967,7 +1042,7 @@
             <div class="text-center space-y-3 max-w-2xl mx-auto">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Instruments</span>
                 <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Eight Scales. One Clear Picture.</h3>
-                <p class="text-xs text-slate-400">Each instrument below targets a specific, practical capability — plus Prism360, our multi-rater 360° feedback system.</p>
+                <p class="text-xs text-slate-400 max-w-xl mx-auto">Each instrument below targets one specific, practical capability — from sales personality to communication style to systems thinking. Combined with Prism360's multi-rater feedback and the comprehensive Executive Leadership Index above, this is the full toolkit: one precise gap at a time, or the complete picture at once.</p>
                 <div class="flex justify-center pt-2">
                     <button onclick="openQuickMatcherModal()" class="w-full sm:w-auto flex items-center gap-3 px-6 py-3 rounded-lg border border-indigo-600/60 hover:border-indigo-400 text-left transition">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-300 shrink-0"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
@@ -3167,6 +3242,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo(0, 0);
         }
@@ -3184,6 +3260,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -3201,6 +3278,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -3218,6 +3296,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('services-view').classList.remove('hidden');
             window.scrollTo(0, 0);
             if (section) {
@@ -3241,6 +3320,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('founder-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -3258,6 +3338,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('contact-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -3275,6 +3356,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('prism360-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -3294,6 +3376,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view').classList.remove('hidden');
             resetPrism360Form();
             loadPrism360Cycles();
@@ -3314,7 +3397,27 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('security-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showPaymentsRefundPage() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('talk-to-syntropix-btn')?.classList.remove('hidden');
+            document.getElementById('chat-widget-bubble')?.classList.remove('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
@@ -3366,18 +3469,25 @@
                 prism360: showPrism360Page,
                 prism360admin: showPrism360AdminPage,
                 security: showSecurityPage,
+                paymentsRefund: showPaymentsRefundPage,
                 admin: openAdminDashboard,
             };
             let currentSection = 'dashboard';
-            const scrollPositions = {};
             let isPopping = false;
 
+            // FIX: this used to also track and restore a per-section scroll
+            // position on browser back/forward — but that competed directly
+            // with each page function's own scroll-to-top (and sometimes a
+            // delayed scroll to a specific sub-section), creating a real
+            // race condition: whichever one happened to run last "won,"
+            // landing the page at an unpredictable, in-between position.
+            // Since every page should consistently open from the start, the
+            // fix is to remove the competing restoration entirely and let
+            // each page's own scroll logic be the single source of truth —
+            // for a normal click AND for browser back/forward alike.
             Object.keys(sectionFns).forEach((key) => {
                 const original = sectionFns[key];
                 const wrapped = function (...args) {
-                    if (!isPopping) {
-                        scrollPositions[currentSection] = window.scrollY;
-                    }
                     const result = original.apply(this, args);
                     currentSection = key;
                     if (!isPopping) {
@@ -3403,14 +3513,20 @@
             window.showPrism360Page = sectionFns.prism360;
             window.showPrism360AdminPage = sectionFns.prism360admin;
             window.showSecurityPage = sectionFns.security;
+            window.showPaymentsRefundPage = sectionFns.paymentsRefund;
             window.openAdminDashboard = sectionFns.admin;
+
+            // Also disable the browser's OWN native scroll restoration on
+            // history navigation — a separate mechanism from the custom one
+            // just removed above, but capable of causing the exact same
+            // symptom on its own if left on its default "auto" setting.
+            try { history.scrollRestoration = 'manual'; } catch (e) {}
 
             window.addEventListener('popstate', (e) => {
                 isPopping = true;
                 const state = e.state || { section: 'dashboard' };
                 const fn = sectionFns[state.section] || sectionFns.dashboard;
                 fn(state.arg);
-                window.scrollTo(0, scrollPositions[state.section] || 0);
                 isPopping = false;
             });
         })();
@@ -3458,6 +3574,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
 
             if (currentUser.role === 'enterprise') {
