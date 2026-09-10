@@ -4504,6 +4504,17 @@
                 const status = score >= 75 ? 'Strong' : score >= 60 ? 'Moderate' : 'Urgent Gap';
                 const isGap = score === minScore || score < 60; 
 
+                // The score color must mean the same thing everywhere in the
+                // report — driven by performance status, never by a
+                // dimension's own decorative branding color (d.color, used
+                // below only for the bullet-point accents, which don't claim
+                // to represent performance and so carry no risk of this same
+                // confusion). Without this, two dimensions with an identical
+                // score could render in different colors purely because they
+                // happen to have different decorative colors assigned —
+                // exactly the inconsistency this fixes.
+                const statusColor = status === 'Strong' ? 'emerald' : status === 'Moderate' ? 'amber' : 'rose';
+
                 let examplesHtml = d.examples.map(ex => `<li class="flex items-start gap-2"><span class="text-${d.color}-500 mt-0.5">•</span><span>${ex}</span></li>`).join('');
                 
                 let urgentHtml = '';
@@ -4522,11 +4533,11 @@
                         
                         <div class="mb-4">
                             <div class="text-sm font-bold text-slate-200 uppercase tracking-wide mb-1">${d.title}</div>
-                            <div class="text-3xl font-black text-${d.color}-400 mb-1">${score}%</div>
+                            <div class="text-3xl font-black text-${statusColor}-400 mb-1">${score}%</div>
                             <div class="text-[11px] font-mono px-2 py-0.5 inline-block bg-slate-950 border border-slate-700 text-slate-400 rounded">Status: ${status}</div>
                         </div>
 
-                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-4"><div class="h-full bg-${d.color}-500" style="width: ${score}%"></div></div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-4"><div class="h-full bg-${statusColor}-500" style="width: ${score}%"></div></div>
 
                         <div class="mb-3 p-3 bg-emerald-950/20 border border-emerald-900/40 rounded-lg">
                             <p class="text-[11px] text-emerald-200 leading-relaxed"><strong class="text-emerald-400">Worth Noticing:</strong> ${d.strength || "Simply completing this assessment thoughtfully already shows the self-awareness this dimension is built to measure — that's not nothing."}</p>
