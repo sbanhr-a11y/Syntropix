@@ -123,6 +123,12 @@
             .grid > div, .keep-together { break-inside: avoid; page-break-inside: avoid; }
             canvas { max-width: 100% !important; height: auto !important; }
 
+            /* Report cover & back-cover pages — each forced onto its own
+               dedicated printed page, giving the PDF a genuine, premium,
+               bookend structure instead of starting mid-content. */
+            .report-cover-page { page-break-after: always; break-after: page; }
+            .report-back-page { page-break-before: always; break-before: page; }
+
             /* ---- Typography: the compact on-screen sizes read as too small on
                a printed page — bump body copy up slightly for print only. ---- */
             .text-xs, .text-\[11px\] { font-size: 10.5pt !important; line-height: 1.6 !important; }
@@ -1114,7 +1120,7 @@
                         <button onclick="launchAssessment('Executive Leadership Index')" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition">Start the Full Executive Index</button>
                     </div>
                 </div>
-                <p class="text-center text-[11px] text-slate-500">Already taken the Core assessment? Contact us to upgrade to the full Executive Leadership Index for just the difference in price.</p>
+                <p class="text-center text-[11px] text-slate-500">Already taken the Core assessment? Just enter the same email at checkout — your upgrade price adjusts automatically, no need to contact us.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1830,6 +1836,29 @@
                 <p id="rating-status-msg" class="text-[11px] text-emerald-400 hidden">Thank you — preparing your report now…</p>
             </div>
 
+            <!-- REPORT COVER PAGE — forced onto its own printed page via
+                 .report-cover-page. Gives the PDF a genuine, branded
+                 opening instead of starting mid-content, and states the
+                 confidentiality notice clearly before anyone reads a
+                 single result. -->
+            <div class="report-cover-page keep-together bg-gradient-to-br from-slate-950 via-indigo-950/30 to-slate-950 border border-indigo-800/40 rounded-2xl p-10 sm:p-14 print-card flex flex-col items-center justify-center text-center space-y-8 min-h-[600px]">
+                <img src="logo.png" alt="Syntropix" class="h-10 w-auto object-contain">
+                <div class="space-y-2">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Syntropix™ Diagnostic Report</span>
+                    <h1 id="cover-assessment-name" class="text-3xl sm:text-4xl font-black text-white tracking-tight"></h1>
+                </div>
+                <div class="w-16 h-px bg-indigo-700/50"></div>
+                <div class="space-y-1">
+                    <p id="cover-participant-name" class="text-lg font-bold text-white"></p>
+                    <p id="cover-generated-date" class="text-xs text-slate-400"></p>
+                </div>
+                <div class="pt-6 px-6 py-3 rounded-lg border border-amber-700/40 bg-amber-950/20">
+                    <p class="text-xs font-bold uppercase tracking-widest text-amber-300">Strictly Confidential</p>
+                    <p class="text-[11px] text-slate-400 mt-1 max-w-sm">Prepared exclusively for the individual named above. Not for redistribution without their consent.</p>
+                </div>
+                <p class="text-[10px] text-slate-500 pt-8">© Syntropix Technologies (OPC) Private Limited. All rights reserved.</p>
+            </div>
+
             <div class="keep-together bg-slate-900 border border-slate-800 rounded-2xl p-8 print-card shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -2066,41 +2095,34 @@
                 </div>
             </div>
 
+            <!-- On-screen cross-sell — no-print, since the printable back
+                 cover below serves this purpose in the actual PDF. Content
+                 is populated dynamically by renderBackCoverCrossSell() so
+                 it always reflects the current full catalog, and always
+                 excludes whichever assessment is actually being viewed. -->
             <div class="bg-gradient-to-br from-slate-950 via-indigo-950/20 to-slate-950 border-t-4 border-indigo-500 rounded-2xl p-8 space-y-6 no-print mt-12 shadow-2xl">
                 <div class="text-center max-w-2xl mx-auto space-y-3">
-                    <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Continue Your Evolution</span>
-                    <h3 class="text-2xl font-black text-white tracking-tight">The Journey Does Not End Here.</h3>
+                    <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Continue Your Development</span>
+                    <h3 class="text-2xl font-black text-white tracking-tight">This Assessment Was One Piece of the Picture.</h3>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        This assessment was just the beginning. True executive supremacy requires 360-degree cognitive clarity. Unlock the rest of the <strong>Human Intelligence Suite</strong> to audit your self-limiting beliefs, map your precise learning agility, and stress-test your strategic foresight.
+                        Syntropix measures different capabilities with different instruments, on purpose — no single assessment tells the whole story. Here's the rest of what's available.
                     </p>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4">
-                    <div class="p-4 bg-slate-900 border border-slate-800 hover:border-purple-500/50 rounded-xl transition cursor-pointer text-center space-y-2 group" onclick="scrollToTop()">
-                        <div class="w-8 h-8 mx-auto rounded-full bg-purple-600/20 flex items-center justify-center text-purple-400 font-bold group-hover:bg-purple-600 group-hover:text-white transition">C</div>
-                        <h4 class="text-xs font-bold text-white">Coachability Quotient™</h4>
-                        <p class="text-[10px] text-slate-400">Map your mentorship readiness.</p>
-                    </div>
-                    <div class="p-4 bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-xl transition cursor-pointer text-center space-y-2 group" onclick="scrollToTop()">
-                        <div class="w-8 h-8 mx-auto rounded-full bg-emerald-600/20 flex items-center justify-center text-emerald-400 font-bold group-hover:bg-emerald-600 group-hover:text-white transition">M</div>
-                        <h4 class="text-xs font-bold text-white">Metacognitive Executive</h4>
-                        <p class="text-[10px] text-slate-400">Audit your cognitive bandwidth.</p>
-                    </div>
-                    <div class="p-4 bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-xl transition cursor-pointer text-center space-y-2 group" onclick="scrollToTop()">
-                        <div class="w-8 h-8 mx-auto rounded-full bg-amber-600/20 flex items-center justify-center text-amber-400 font-bold group-hover:bg-amber-600 group-hover:text-white transition">S</div>
-                        <h4 class="text-xs font-bold text-white">Strategic Inversion</h4>
-                        <p class="text-[10px] text-slate-400">Forecast 2nd-order business risks.</p>
-                    </div>
-                    <div class="p-4 bg-slate-900 border border-slate-800 hover:border-rose-500/50 rounded-xl transition cursor-pointer text-center space-y-2 group" onclick="scrollToTop()">
-                        <div class="w-8 h-8 mx-auto rounded-full bg-rose-600/20 flex items-center justify-center text-rose-400 font-bold group-hover:bg-rose-600 group-hover:text-white transition">S</div>
-                        <h4 class="text-xs font-bold text-white">Self-Limiting Belief</h4>
-                        <p class="text-[10px] text-slate-400">Shatter internal performance ceilings.</p>
-                    </div>
-                    <div class="p-4 bg-slate-900 border border-slate-800 hover:border-teal-500/50 rounded-xl transition cursor-pointer text-center space-y-2 group md:col-span-2" onclick="scrollToTop()">
-                        <div class="w-8 h-8 mx-auto rounded-full bg-teal-600/20 flex items-center justify-center text-teal-400 font-bold group-hover:bg-teal-600 group-hover:text-white transition">L</div>
-                        <h4 class="text-xs font-bold text-white">Cognitive Learning Profiler™</h4>
-                        <p class="text-[10px] text-slate-400">Optimize how fast you digest complex AI disruptions.</p>
-                    </div>
+                <div id="cross-sell-grid-screen" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-4"></div>
+            </div>
+
+            <!-- REPORT BACK COVER — the actual printable version of the
+                 cross-sell above, forced onto its own page via
+                 .report-back-page. This is what appears in the real PDF;
+                 the block above never prints at all. -->
+            <div class="report-back-page keep-together bg-white border border-slate-200 rounded-2xl p-10 print-card min-h-[600px] flex flex-col">
+                <div class="text-center space-y-2 mb-8">
+                    <img src="logo.png" alt="Syntropix" class="h-8 w-auto object-contain mx-auto">
+                    <h3 class="text-xl font-black text-slate-900 tracking-tight pt-2">The Full Syntropix Diagnostics Suite</h3>
+                    <p class="text-xs text-slate-500 max-w-md mx-auto">This report covered one specific capability. Here's everything else available to build the complete picture.</p>
                 </div>
+                <div id="cross-sell-grid-print" class="grid grid-cols-2 gap-4 flex-1"></div>
+                <p class="text-[10px] text-slate-400 text-center pt-6">syntropix.in — © Syntropix Technologies (OPC) Private Limited</p>
             </div>
 
         </section>
@@ -4589,8 +4611,38 @@
             const priceLabel = document.getElementById('payment-price-label');
             if (priceLabel) priceLabel.textContent = `Secure Payment Gateway ($${priceForThisAssessment} USD):`;
 
+            // Automatic upgrade pricing: as soon as someone typing their
+            // email for the Executive Leadership Index has entered one, ask
+            // the server whether they've already bought the Core assessment
+            // and show the real, correct price honestly before they even
+            // click — rather than the sticker price followed by a surprise
+            // discount at checkout. The actual charge amount is still
+            // independently re-verified server-side at /verify regardless,
+            // so this is purely an honest-display step, not the security
+            // boundary itself.
+            async function refreshUpgradePricing() {
+                if (currentActiveAssessment !== "Executive Leadership Index") return;
+                const email = document.getElementById('userEmail')?.value.trim();
+                if (!email) return;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/payments/check-upgrade-eligibility?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}`);
+                    const data = await res.json();
+                    if (data.status === "success" && priceLabel) {
+                        const displayPrice = data.price.toFixed(2);
+                        priceLabel.textContent = data.eligible
+                            ? `Secure Payment Gateway ($${displayPrice} USD — upgrade price applied):`
+                            : `Secure Payment Gateway ($${displayPrice} USD):`;
+                    }
+                } catch (e) {
+                    console.error("Upgrade eligibility check failed (non-fatal, falls back to standard price):", e);
+                }
+            }
+            const emailField = document.getElementById('userEmail');
+            if (emailField) emailField.addEventListener('blur', refreshUpgradePricing);
+            refreshUpgradePricing(); // in case email was already filled in (e.g. session-resume auto-fill)
+
             paypal.Buttons({
-                createOrder: function(data, actions) {
+                createOrder: async function(data, actions) {
                     const name = document.getElementById('userName').value.trim();
                     const email = document.getElementById('userEmail').value.trim();
                     if (!name || !email) {
@@ -4601,7 +4653,22 @@
                         alert("Please read and agree to the Privacy Policy before continuing — check the box above the payment button.");
                         return actions.reject();
                     }
-                    return actions.order.create({ purchase_units: [{ amount: { value: priceForThisAssessment } }] });
+
+                    // Final, fresh price check right at the moment of actual
+                    // checkout — this is what the actual charge amount is
+                    // based on, regardless of what the label happened to
+                    // show a moment earlier.
+                    let finalPrice = priceForThisAssessment;
+                    if (currentActiveAssessment === "Executive Leadership Index") {
+                        try {
+                            const res = await fetch(`${API_BASE_URL}/payments/check-upgrade-eligibility?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}`);
+                            const elig = await res.json();
+                            if (elig.status === "success") finalPrice = elig.price.toFixed(2);
+                        } catch (e) {
+                            console.error("Final upgrade check failed, using standard price:", e);
+                        }
+                    }
+                    return actions.order.create({ purchase_units: [{ amount: { value: finalPrice } }] });
                 },
                 onApprove: async function(data, actions) {
                     const details = await actions.order.capture();
@@ -4970,6 +5037,10 @@
                 if(document.getElementById('top-rep-email')) document.getElementById('top-rep-email').innerText = prof.email;
                 if(document.getElementById('top-rep-date')) document.getElementById('top-rep-date').innerText = new Date(sessionData.startTime).toLocaleString();
                 if(document.getElementById('top-rep-assessment-name')) document.getElementById('top-rep-assessment-name').innerText = config.title;
+                if(document.getElementById('cover-assessment-name')) document.getElementById('cover-assessment-name').innerText = config.title;
+                if(document.getElementById('cover-participant-name')) document.getElementById('cover-participant-name').innerText = prof.name;
+                if(document.getElementById('cover-generated-date')) document.getElementById('cover-generated-date').innerText = "Generated " + new Date(sessionData.startTime).toLocaleDateString();
+                renderBackCoverCrossSell(currentActiveAssessment);
 
                 renderSubscales(dimIndices, config.dimensionData);
                 renderMindsetInference(gni, currentActiveAssessment);
@@ -5221,6 +5292,49 @@
             container.innerHTML = list.map(b =>
                 `<li><strong class="text-white">"${b.title}"</strong> by ${b.author}.</li>`
             ).join("");
+        }
+
+        // Single source of truth for "everything Syntropix currently
+        // offers" — used to populate both the on-screen cross-sell and the
+        // printable back cover, so neither one can silently drift out of
+        // date the way the old hardcoded 6-item list did.
+        const FULL_CATALOG = [
+            { name: "CogniMorph Index", short: "CogniMorph Index™", tagline: "Adapts to pressure and setbacks, not just describes them.", initial: "C", color: "indigo" },
+            { name: "Coachability Quotient", short: "Coachability Quotient™", tagline: "How well you actually absorb and use feedback.", initial: "Q", color: "purple" },
+            { name: "Metacognitive Executive Assessment", short: "Metacognitive Executive", tagline: "Decision quality and clarity under real cognitive load.", initial: "M", color: "emerald" },
+            { name: "Strategic Inversion Diagnostics", short: "Strategic Inversion", tagline: "Second-order thinking and systems-level foresight.", initial: "S", color: "amber" },
+            { name: "Self-Limiting Belief Auditor", short: "Self-Limiting Belief", tagline: "The internal patterns quietly capping your own ceiling.", initial: "S", color: "rose" },
+            { name: "Cognitive Learning Profiler", short: "Cognitive Learning Profiler™", tagline: "How fast you genuinely absorb and apply something new.", initial: "L", color: "teal" },
+            { name: "Commercial Instinct Index", short: "Commercial Instinct Index™", tagline: "The personality patterns behind real sales performance.", initial: "$", color: "indigo" },
+            { name: "Communication Signature", short: "Communication Signature™", tagline: "How you actually communicate under real workplace pressure.", initial: "C", color: "sky" },
+            { name: "Managerial Effectiveness Index", short: "Managerial Effectiveness Index™", tagline: "A focused, 50-question read on core managerial capability.", initial: "M", color: "slate" },
+            { name: "Executive Leadership Index", short: "Executive Leadership Index™", tagline: "The comprehensive, 10-dimension flagship — built for high-stakes decisions.", initial: "E", color: "amber" },
+            { name: "Prism360", short: "Prism360", tagline: "Structured, anonymous multi-rater 360° feedback from a real team.", initial: "P", color: "violet" },
+        ];
+
+        function renderBackCoverCrossSell(currentAssessmentName) {
+            const others = FULL_CATALOG.filter(item => item.name !== currentAssessmentName);
+
+            const screenContainer = document.getElementById('cross-sell-grid-screen');
+            if (screenContainer) {
+                screenContainer.innerHTML = others.map(item => `
+                    <div class="p-4 bg-slate-900 border border-slate-800 hover:border-${item.color}-500/50 rounded-xl transition cursor-pointer text-center space-y-2 group" onclick="scrollToTop()">
+                        <div class="w-8 h-8 mx-auto rounded-full bg-${item.color}-600/20 flex items-center justify-center text-${item.color}-400 font-bold group-hover:bg-${item.color}-600 group-hover:text-white transition">${item.initial}</div>
+                        <h4 class="text-xs font-bold text-white">${item.short}</h4>
+                        <p class="text-[10px] text-slate-400">${item.tagline}</p>
+                    </div>
+                `).join("");
+            }
+
+            const printContainer = document.getElementById('cross-sell-grid-print');
+            if (printContainer) {
+                printContainer.innerHTML = others.map(item => `
+                    <div class="p-3 border border-slate-200 rounded-lg">
+                        <h4 class="text-xs font-bold text-slate-900">${item.short}</h4>
+                        <p class="text-[10px] text-slate-500 mt-1">${item.tagline}</p>
+                    </div>
+                `).join("");
+            }
         }
 
         function renderTopologyInference(gni) {
