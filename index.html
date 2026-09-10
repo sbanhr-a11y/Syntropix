@@ -3959,7 +3959,7 @@
             }
         }
 
-        function launchAssessment(assessmentName) {
+        async function launchAssessment(assessmentName) {
             // No login required here on purpose — a first-time participant pays their
             // way in via the intake form below, and gets a working session automatically
             // once payment (or an admin/org-issued license) is verified. Requiring a
@@ -4032,6 +4032,28 @@
             } else {
                 document.getElementById('paypal-section').classList.remove('hidden');
                 document.getElementById('admin-bypass-section').classList.add('hidden');
+
+                // If this browser already has a valid, unexpired session from
+                // an earlier assessment in this same visit, silently fill in
+                // the name/email rather than making the person retype it —
+                // this is the actual fix for "why do I have to re-enter my
+                // details for every single assigned assessment." It only
+                // ever pre-fills fields; it never skips consent or auto-
+                // submits anything on the person's behalf.
+                const existingToken = localStorage.getItem("syntropix_token");
+                if (existingToken) {
+                    try {
+                        const res = await fetch(`${API_BASE_URL}/auth/whoami?token=${encodeURIComponent(existingToken)}`);
+                        const data = await res.json();
+                        if (data.status === "success" && data.email) {
+                            document.getElementById('userName').value = data.name || "";
+                            document.getElementById('userEmail').value = data.email;
+                            checkOrgLicense(); // reuses the existing entitlement-check flow with the now-filled email
+                        }
+                    } catch (e) {
+                        console.error("Session resume check failed (non-fatal, falls back to manual entry):", e);
+                    }
+                }
             }
             window.scrollTo(0, 0);
         }
