@@ -1689,7 +1689,7 @@
                 </div>
 
                 <div id="paypal-section" class="pt-4 border-t border-slate-800">
-                    <p class="text-[11px] text-indigo-300 font-medium mb-2">Secure Payment Gateway ($49.00 USD):</p>
+                    <p id="payment-price-label" class="text-[11px] text-indigo-300 font-medium mb-2">Secure Payment Gateway ($49.00 USD):</p>
                     <div id="paypal-button-container"></div>
                 </div>
 
@@ -4438,6 +4438,25 @@
 
         function initPayPalButton() {
             if (typeof paypal === 'undefined') return;
+            // Pricing varies by assessment — the standard $49 individual line,
+            // plus the two Managerial/Executive flagship tiers. The $799
+            // enterprise succession-program rate isn't sold through this
+            // self-serve button at all — that's a negotiated, invoiced deal,
+            // same as any other enterprise arrangement, not a checkout flow.
+            const ASSESSMENT_PRICES = {
+                "Managerial Effectiveness Index": "99.00",
+                "Executive Leadership Index": "499.00",
+            };
+            const priceForThisAssessment = ASSESSMENT_PRICES[currentActiveAssessment] || "49.00";
+
+            // The label text and the actual charged amount must always be
+            // driven by the same single value — this is precisely the split
+            // that caused the label to keep showing $49 after the real price
+            // logic was already fixed. Updating both from priceForThisAssessment
+            // here, in one place, is what prevents that from recurring.
+            const priceLabel = document.getElementById('payment-price-label');
+            if (priceLabel) priceLabel.textContent = `Secure Payment Gateway ($${priceForThisAssessment} USD):`;
+
             paypal.Buttons({
                 createOrder: function(data, actions) {
                     const name = document.getElementById('userName').value.trim();
@@ -4450,7 +4469,7 @@
                         alert("Please read and agree to the Privacy Policy before continuing — check the box above the payment button.");
                         return actions.reject();
                     }
-                    return actions.order.create({ purchase_units: [{ amount: { value: '49.00' } }] });
+                    return actions.order.create({ purchase_units: [{ amount: { value: priceForThisAssessment } }] });
                 },
                 onApprove: async function(data, actions) {
                     const details = await actions.order.capture();
@@ -4464,7 +4483,7 @@
                         const res = await fetch(`${API_BASE_URL}/payments/verify`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim() })
+                            body: JSON.stringify({ orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim(), assessmentName: currentActiveAssessment })
                         });
                         const verifyData = await res.json();
                         if (verifyData.status === "success" && verifyData.entitlementToken) {
