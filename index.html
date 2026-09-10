@@ -3095,7 +3095,6 @@
         window.addEventListener('DOMContentLoaded', () => { 
             try {
                 updateUserUI(); 
-                initPayPalButton();
                 applyUrlBasedAssignment();
                 loadHubRatings();
 
@@ -4410,6 +4409,15 @@
             } else {
                 document.getElementById('paypal-section').classList.remove('hidden');
                 document.getElementById('admin-bypass-section').classList.add('hidden');
+                // FIX: previously initPayPalButton() only ran once, at page
+                // load, before any assessment was chosen — so its price
+                // logic got permanently locked in using whatever (empty)
+                // currentActiveAssessment existed at that moment, and never
+                // recalculated for whichever assessment someone actually
+                // launched afterward. Calling it fresh here, now that
+                // currentActiveAssessment is genuinely set to the real
+                // assessment being launched, is the actual fix.
+                initPayPalButton();
 
                 // If this browser already has a valid, unexpired session from
                 // an earlier assessment in this same visit, silently fill in
@@ -4438,6 +4446,13 @@
 
         function initPayPalButton() {
             if (typeof paypal === 'undefined') return;
+            // This can now legitimately be called more than once per page
+            // visit (once per assessment someone actually launches, not
+            // just once at page load). Clearing the container first
+            // prevents the PayPal SDK from stacking a second button
+            // underneath the first one every time this runs again.
+            const container = document.getElementById('paypal-button-container');
+            if (container) container.innerHTML = '';
             // Pricing varies by assessment — the standard $49 individual line,
             // plus the two Managerial/Executive flagship tiers. The $799
             // enterprise succession-program rate isn't sold through this
@@ -4571,6 +4586,7 @@
                     // Only re-show PayPal if this isn't an admin/enterprise account using the bypass button instead
                     if (!currentUser || (currentUser.role !== 'master' && currentUser.role !== 'demo' && currentUser.role !== 'enterprise')) {
                         document.getElementById('paypal-section').classList.remove('hidden');
+                        initPayPalButton();
                     }
                 }
             } catch (e) {
