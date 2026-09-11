@@ -1788,8 +1788,8 @@
                      their own report. Unchecked by default. -->
                 <div class="pt-2 p-3 rounded-lg border border-emerald-800/40 bg-emerald-950/10">
                     <label class="flex items-start gap-2 text-[11px] text-slate-300 leading-relaxed">
-                        <input type="checkbox" id="researchConsent" onchange="refreshCheckoutPricing()" class="mt-0.5">
-                        <span>Optional: I'm willing to have my anonymized answers (never my name or email) included in Syntropix's ongoing scientific validation research. This has no effect on my own report either way. <strong class="text-emerald-300">Opt in and get 15% off this assessment, instantly.</strong></span>
+                        <input type="checkbox" id="researchConsent" onchange="refreshResearchDiscountEligibility()" class="mt-0.5">
+                        <span>Optional: I'm willing to have my anonymized answers (never my name or email) included in Syntropix's ongoing scientific validation research. This has no effect on my own report either way. <strong class="text-emerald-300 text-sm block mt-1">Opt in and get 15% off this assessment, instantly.</strong></span>
                     </label>
                 </div>
 
@@ -4787,6 +4787,25 @@
         }
 
         const RESEARCH_CONSENT_DISCOUNT = 0.15; // 15% off, uniform across every assessment and every region — a flat dollar amount would wipe out cheaper regional prices, a flat percentage doesn't.
+        let researchDiscountEligible = true; // optimistic default; refined below once an email is known — never shown as a false promise for long
+
+        // Checks whether THIS email has already used the research discount
+        // on THIS specific assessment before (one-time only, per person,
+        // per assessment — see the matching backend check). Called on
+        // email blur and whenever the checkbox is toggled, so the display
+        // never shows a discount that /verify would actually reject.
+        async function refreshResearchDiscountEligibility() {
+            const email = document.getElementById('userEmail')?.value?.trim();
+            if (!email) { researchDiscountEligible = true; refreshCheckoutPricing(); return; }
+            try {
+                const res = await fetch(`${API_BASE_URL}/payments/check-research-discount-eligibility?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}`);
+                const data = await res.json();
+                if (data.status === "success") researchDiscountEligible = data.eligible;
+            } catch (e) {
+                console.error("Research discount eligibility check failed (non-fatal, defaults to eligible; /verify still independently checks this):", e);
+            }
+            refreshCheckoutPricing();
+        }
 
         // Single source of truth for "what does this checkout actually cost
         // right now" — used both for the live display (as the checkbox is
@@ -4795,7 +4814,7 @@
         function computeCurrentCheckoutPrice() {
             const regionCfg = REGION_PRICING[currentRegion] || REGION_PRICING.US;
             const basePrice = getPriceForAssessment(currentActiveAssessment, currentRegion);
-            const consented = document.getElementById('researchConsent')?.checked;
+            const consented = document.getElementById('researchConsent')?.checked && researchDiscountEligible;
             const discountedPrice = consented ? Number((basePrice * (1 - RESEARCH_CONSENT_DISCOUNT)).toFixed(2)) : basePrice;
             return {
                 regionCfg,
@@ -4823,6 +4842,10 @@
                 originalEl.classList.remove('hidden');
                 currentEl.textContent = format(discountedPrice) + " (15% research discount applied)";
                 currentEl.className = "text-emerald-400 font-bold";
+            } else if (document.getElementById('researchConsent')?.checked && !researchDiscountEligible) {
+                originalEl.classList.add('hidden');
+                currentEl.textContent = format(basePrice) + " (discount already used for this assessment)";
+                currentEl.className = "text-slate-400";
             } else {
                 originalEl.classList.add('hidden');
                 currentEl.textContent = format(basePrice);
@@ -4876,7 +4899,10 @@
                 }
             }
             const emailField = document.getElementById('userEmail');
-            if (emailField) emailField.addEventListener('blur', refreshUpgradePricing);
+            if (emailField) {
+                emailField.addEventListener('blur', refreshUpgradePricing);
+                emailField.addEventListener('blur', refreshResearchDiscountEligibility);
+            }
             refreshUpgradePricing(); // in case email was already filled in (e.g. session-resume auto-fill)
 
             paypal.Buttons({
