@@ -1786,10 +1786,10 @@
                      should be a real, voluntary choice, not something
                      someone accidentally agrees to while trying to get
                      their own report. Unchecked by default. -->
-                <div class="pt-2">
-                    <label class="flex items-start gap-2 text-[11px] text-slate-400 leading-relaxed">
-                        <input type="checkbox" id="researchConsent" class="mt-0.5">
-                        <span>Optional: I'm willing to have my anonymized answers (never my name or email) included in Syntropix's ongoing scientific validation research. This has no effect on my own report either way.</span>
+                <div class="pt-2 p-3 rounded-lg border border-emerald-800/40 bg-emerald-950/10">
+                    <label class="flex items-start gap-2 text-[11px] text-slate-300 leading-relaxed">
+                        <input type="checkbox" id="researchConsent" onchange="refreshCheckoutPricing()" class="mt-0.5">
+                        <span>Optional: I'm willing to have my anonymized answers (never my name or email) included in Syntropix's ongoing scientific validation research. This has no effect on my own report either way. <strong class="text-emerald-300">Opt in and get 15% off this assessment, instantly.</strong></span>
                     </label>
                 </div>
 
@@ -1803,12 +1803,11 @@
                 </div>
 
                 <div id="paypal-section" class="pt-4 border-t border-slate-800">
-                    <div id="discount-code-row" class="flex gap-2 mb-3">
-                        <input id="discount-code-input" type="text" placeholder="Discount code (optional)" class="flex-1 px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
-                        <button onclick="applyDiscountCode()" class="px-4 py-2 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-semibold transition">Apply</button>
-                    </div>
-                    <p id="discount-code-status" class="text-[11px] mb-2"></p>
-                    <p id="payment-price-label" class="text-[11px] text-indigo-300 font-medium mb-2">Secure Payment Gateway ($49.00 USD):</p>
+                    <p id="payment-price-label" class="text-[11px] text-indigo-300 font-medium mb-2 flex items-center gap-2 flex-wrap">
+                        <span>Secure Payment Gateway:</span>
+                        <span id="price-original" class="hidden line-through text-slate-500"></span>
+                        <span id="price-current">$49.00 USD</span>
+                    </p>
                     <div id="paypal-button-container"></div>
                 </div>
 
@@ -2500,6 +2499,8 @@
 
             const regionLabel = document.getElementById('region-selector-label');
             if (regionLabel) regionLabel.textContent = `${cfg.currency} (${cfg.name})`;
+
+            if (typeof refreshCheckoutPricing === 'function') refreshCheckoutPricing();
         }
 
         function setRegion(regionCode) {
@@ -4785,29 +4786,47 @@
             window.scrollTo(0, 0);
         }
 
-        // "Apply" button next to the discount code input — purely a
-        // convenience preview so someone can see the code is real and
-        // what it's worth before clicking through to PayPal. The actual
-        // price used for checkout is always recalculated fresh inside
-        // createOrder above, regardless of what this shows.
-        async function applyDiscountCode() {
-            const code = document.getElementById('discount-code-input')?.value.trim();
-            const statusEl = document.getElementById('discount-code-status');
-            if (!code) return;
-            try {
-                const res = await fetch(`${API_BASE_URL}/payments/check-discount-code?code=${encodeURIComponent(code)}`);
-                const data = await res.json();
-                if (data.status === "success" && data.valid) {
-                    statusEl.textContent = `Code applied — $${data.discountAmount.toFixed(2)} off at checkout.`;
-                    statusEl.className = "text-[11px] mb-2 text-emerald-400";
-                } else {
-                    statusEl.textContent = "That code isn't valid or has already been used.";
-                    statusEl.className = "text-[11px] mb-2 text-rose-400";
-                }
-            } catch (e) {
-                console.error("Discount code preview check failed:", e);
-                statusEl.textContent = "Couldn't check that code right now — it will still be checked at checkout.";
-                statusEl.className = "text-[11px] mb-2 text-slate-500";
+        const RESEARCH_CONSENT_DISCOUNT = 0.15; // 15% off, uniform across every assessment and every region — a flat dollar amount would wipe out cheaper regional prices, a flat percentage doesn't.
+
+        // Single source of truth for "what does this checkout actually cost
+        // right now" — used both for the live display (as the checkbox is
+        // toggled) and for the actual PayPal charge at click-time, so the
+        // two can never drift apart.
+        function computeCurrentCheckoutPrice() {
+            const regionCfg = REGION_PRICING[currentRegion] || REGION_PRICING.US;
+            const basePrice = getPriceForAssessment(currentActiveAssessment, currentRegion);
+            const consented = document.getElementById('researchConsent')?.checked;
+            const discountedPrice = consented ? Number((basePrice * (1 - RESEARCH_CONSENT_DISCOUNT)).toFixed(2)) : basePrice;
+            return {
+                regionCfg,
+                basePrice,
+                discountedPrice,
+                consented,
+                usdChargeAmount: (discountedPrice * regionCfg.usdRate).toFixed(2),
+            };
+        }
+
+        // Called on page load, on region change, and on every toggle of the
+        // research consent checkbox — updates the strikethrough/current
+        // price display live, so someone sees the real effect of opting in
+        // immediately, not just a promised future benefit.
+        function refreshCheckoutPricing() {
+            const { regionCfg, basePrice, discountedPrice, consented } = computeCurrentCheckoutPrice();
+            const originalEl = document.getElementById('price-original');
+            const currentEl = document.getElementById('price-current');
+            if (!originalEl || !currentEl) return;
+
+            const format = (amount) => currentRegion === "US" ? `$${amount} USD` : `${regionCfg.symbol}${amount} ${regionCfg.currency}`;
+
+            if (consented) {
+                originalEl.textContent = format(basePrice);
+                originalEl.classList.remove('hidden');
+                currentEl.textContent = format(discountedPrice) + " (15% research discount applied)";
+                currentEl.className = "text-emerald-400 font-bold";
+            } else {
+                originalEl.classList.add('hidden');
+                currentEl.textContent = format(basePrice);
+                currentEl.className = "";
             }
         }
 
@@ -4821,42 +4840,16 @@
             const container = document.getElementById('paypal-button-container');
             if (container) container.innerHTML = '';
 
-            const regionCfg = REGION_PRICING[currentRegion] || REGION_PRICING.US;
-            const localPrice = getPriceForAssessment(currentActiveAssessment, currentRegion);
-            // PayPal cannot settle directly in INR (RBI-restricted), and
-            // very likely can't in AED/SAR either — this is what actually
-            // gets charged via PayPal, converted from the honest local
-            // price shown to the person. Once Razorpay is integrated
-            // (confirmed plan), this is the one line that changes to
-            // charge natively in the local currency — everything else
-            // here stays exactly as-is.
-            const usdChargeAmount = (localPrice * regionCfg.usdRate).toFixed(2);
-
-            const priceLabel = document.getElementById('payment-price-label');
-            function renderPriceLabel(displayLocalPrice) {
-                if (!priceLabel) return;
-                if (currentRegion === "US") {
-                    priceLabel.textContent = `Secure Payment Gateway ($${displayLocalPrice} USD):`;
-                } else {
-                    priceLabel.textContent = `Secure Payment Gateway (${regionCfg.symbol}${displayLocalPrice} ${regionCfg.currency} ≈ $${(displayLocalPrice * regionCfg.usdRate).toFixed(2)} USD charged):`;
-                }
-            }
-            renderPriceLabel(localPrice);
-
-            // Discount codes are USD-only for now (matched on the backend) —
-            // hide the input entirely outside the US region so it doesn't
-            // look like a working option that will silently fail.
-            const discountRow = document.getElementById('discount-code-row');
-            if (discountRow) discountRow.classList.toggle('hidden', currentRegion !== 'US');
+            refreshCheckoutPricing();
 
             // Automatic upgrade pricing: as soon as someone typing their
             // email for the Executive Leadership Index has entered one, ask
             // the server whether they've already bought the Core assessment
             // and show the real, correct price honestly before they even
             // click. Scoped to the default USD region only for now — the
-            // backend's upgrade/discount logic is USD-based, and a flat
-            // discount against a tiny regional USD-equivalent price would
-            // floor it to $0, a real exploit rather than a rounding quirk.
+            // backend's upgrade logic is USD-based, and a flat discount
+            // against a tiny regional USD-equivalent price would floor it
+            // to $0, a real exploit rather than a rounding quirk.
             async function refreshUpgradePricing() {
                 if (currentRegion !== "US" || currentActiveAssessment !== "Executive Leadership Index") return;
                 const email = document.getElementById('userEmail')?.value.trim();
@@ -4864,11 +4857,19 @@
                 try {
                     const res = await fetch(`${API_BASE_URL}/payments/check-upgrade-eligibility?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}`);
                     const data = await res.json();
-                    if (data.status === "success" && priceLabel) {
+                    const currentEl = document.getElementById('price-current');
+                    const originalEl = document.getElementById('price-original');
+                    if (data.status === "success" && data.eligible && currentEl && originalEl) {
+                        // Upgrade eligibility takes priority over the
+                        // research-consent display — a genuine prior
+                        // purchase is a stronger, verified discount than
+                        // the flat research incentive, so it wins the
+                        // display rather than the two stacking confusingly.
+                        originalEl.textContent = `$${getPriceForAssessment(currentActiveAssessment, "US")} USD`;
+                        originalEl.classList.remove('hidden');
                         const displayPrice = data.price.toFixed(2);
-                        priceLabel.textContent = data.eligible
-                            ? `Secure Payment Gateway ($${displayPrice} USD — upgrade price applied):`
-                            : `Secure Payment Gateway ($${displayPrice} USD):`;
+                        currentEl.textContent = `$${displayPrice} USD (upgrade price applied)`;
+                        currentEl.className = "text-emerald-400 font-bold";
                     }
                 } catch (e) {
                     console.error("Upgrade eligibility check failed (non-fatal, falls back to standard price):", e);
@@ -4892,31 +4893,23 @@
                     }
 
                     // Final, fresh price check right at the moment of actual
-                    // checkout. Upgrade pricing only applies in the default
-                    // USD region (see scope note above); otherwise the
-                    // region's own USD-equivalent charge holds.
-                    let finalPrice = usdChargeAmount;
+                    // checkout — recomputed from the same single source of
+                    // truth used for the live display, so what's shown and
+                    // what's charged can never drift apart.
+                    let finalPrice = computeCurrentCheckoutPrice().usdChargeAmount;
+
+                    // Upgrade pricing only applies in the default USD
+                    // region and takes priority over the research-consent
+                    // discount if both somehow applied — a deliberate,
+                    // simple rule rather than stacking two different kinds
+                    // of discount on the flagship product.
                     if (currentRegion === "US" && currentActiveAssessment === "Executive Leadership Index") {
                         try {
                             const res = await fetch(`${API_BASE_URL}/payments/check-upgrade-eligibility?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}`);
                             const elig = await res.json();
-                            if (elig.status === "success") finalPrice = elig.price.toFixed(2);
+                            if (elig.status === "success" && elig.eligible) finalPrice = elig.price.toFixed(2);
                         } catch (e) {
                             console.error("Final upgrade check failed, using standard price:", e);
-                        }
-                    }
-
-                    // Discount code — same USD-only scoping as above.
-                    const discountCode = currentRegion === "US" ? document.getElementById('discount-code-input')?.value.trim() : null;
-                    if (discountCode) {
-                        try {
-                            const res = await fetch(`${API_BASE_URL}/payments/check-discount-code?code=${encodeURIComponent(discountCode)}`);
-                            const discData = await res.json();
-                            if (discData.status === "success" && discData.valid) {
-                                finalPrice = Math.max(Number(finalPrice) - discData.discountAmount, 0).toFixed(2);
-                            }
-                        } catch (e) {
-                            console.error("Discount code check failed, proceeding without it:", e);
                         }
                     }
 
@@ -4934,7 +4927,7 @@
                         const res = await fetch(`${API_BASE_URL}/payments/verify`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim(), assessmentName: currentActiveAssessment, discountCode: currentRegion === 'US' ? (document.getElementById('discount-code-input')?.value.trim() || null) : null, region: currentRegion })
+                            body: JSON.stringify({ orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim(), assessmentName: currentActiveAssessment, region: currentRegion, researchConsent: !!document.getElementById('researchConsent')?.checked })
                         });
                         const verifyData = await res.json();
                         if (verifyData.status === "success" && verifyData.entitlementToken) {
@@ -5237,10 +5230,12 @@
                     rawScore: answers[q.id] || 3,
                     reverseScored: !!q.rev,
                 }));
-                // Email is used ONLY to deliver the incentive code below — it
-                // is never stored alongside completionId or the item data
+                // Email is used ONLY to send the thank-you acknowledgment —
+                // it is never stored alongside completionId or the item data
                 // itself (see the backend), so this doesn't compromise the
-                // anonymity of the actual research responses.
+                // anonymity of the actual research responses. The actual
+                // reward (15% off) was already applied at checkout, before
+                // the assessment even started — nothing further to grant here.
                 const email = document.getElementById('userEmail')?.value?.trim() || null;
                 // Exactly the piece needed for the fairness/DIF analysis and
                 // regional normative samples committed to in the Validation
@@ -5248,7 +5243,7 @@
                 const regionNameMap = { US: "Other", IN: "India", AE: "UAE", SA: "Saudi Arabia", SG: "Singapore" };
                 const selfReportedRegion = regionNameMap[currentRegion] || "Other";
 
-                const res = await fetch(`${API_BASE_URL}/validation/submit`, {
+                await fetch(`${API_BASE_URL}/validation/submit`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -5259,13 +5254,6 @@
                         selfReportedRegion,
                     })
                 });
-                const data = await res.json();
-                // Shown immediately, not just emailed — given past real-world
-                // email delivery gaps, this guarantees the person actually
-                // sees their reward regardless of whether the email arrives.
-                if (data.status === "success" && data.incentiveCode) {
-                    alert(`Thank you for contributing to our research! Here's a $${data.discountAmount.toFixed(2)} credit toward your next Syntropix assessment:\n\n${data.incentiveCode}\n\nWe've also emailed this to you — it's valid for 90 days.`);
-                }
             } catch (e) {
                 // Deliberately silent to the user and non-blocking — this is
                 // research infrastructure, not part of their own report, and
