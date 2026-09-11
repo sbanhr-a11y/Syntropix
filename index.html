@@ -1081,6 +1081,17 @@
                 </div>
             </div>
 
+            <!-- EXPLORE MORE, SAVE MORE — the automatic multi-assessment
+                 discount, marketed clearly where people are actually
+                 browsing individual assessments. No cart, no bundle to
+                 pre-select — the discount applies automatically from the
+                 3rd distinct assessment someone buys. -->
+            <div class="bg-gradient-to-r from-amber-950/20 via-slate-900 to-amber-950/20 border border-amber-800/40 rounded-2xl p-6 text-center space-y-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-950 text-amber-300 border border-amber-700">Explore More, Save More</span>
+                <h4 class="text-base sm:text-lg font-bold text-white">Your 3rd Assessment (and Every One After) Is Automatically 20% Off</h4>
+                <p class="text-xs text-slate-400 max-w-xl mx-auto leading-relaxed">No bundle to pick in advance, nothing to plan out upfront — buy any two assessments, and every different one after that is automatically discounted at checkout. The more of the picture you build, the less each additional piece costs.</p>
+            </div>
+
             <!-- FLAGSHIP SECTION — Managerial Effectiveness Index / Executive
                  Leadership Index. Deliberately placed above the regular
                  8-assessment grid, visually distinct, with explicit copy
@@ -1804,7 +1815,7 @@
                      their own report. Unchecked by default. -->
                 <div class="pt-2 p-3 rounded-lg border border-emerald-800/40 bg-emerald-950/10">
                     <label class="flex items-start gap-2 text-[11px] text-slate-300 leading-relaxed">
-                        <input type="checkbox" id="researchConsent" onchange="refreshResearchDiscountEligibility()" class="mt-0.5">
+                        <input type="checkbox" id="researchConsent" onchange="refreshDiscountStatus()" class="mt-0.5">
                         <span>Optional: I'm willing to have my anonymized answers (never my name or email) included in Syntropix's ongoing scientific validation research. This has no effect on my own report either way. <strong class="text-emerald-300 text-sm block mt-1">Opt in and get 15% off this assessment, instantly.</strong></span>
                     </label>
                 </div>
@@ -1824,6 +1835,7 @@
                         <span id="price-original" class="hidden line-through text-slate-500"></span>
                         <span id="price-current">$49.00 USD</span>
                     </p>
+                    <p id="multi-assessment-nudge" class="hidden text-[11px] text-amber-300 font-semibold mb-2"></p>
                     <div id="paypal-button-container"></div>
                 </div>
 
@@ -4802,63 +4814,72 @@
             window.scrollTo(0, 0);
         }
 
-        const RESEARCH_CONSENT_DISCOUNT = 0.15; // 15% off, uniform across every assessment and every region — a flat dollar amount would wipe out cheaper regional prices, a flat percentage doesn't.
-        let researchDiscountEligible = true; // optimistic default; refined below once an email is known — never shown as a false promise for long
+        const RESEARCH_CONSENT_DISCOUNT = 0.15;
+        const MULTI_ASSESSMENT_DISCOUNT = 0.20;
+        let discountStatus = { researchEligible: true, multiAssessmentEligible: false, assessmentsUntilNextDiscount: 2, distinctPriorCount: 0 }; // optimistic default until email is known
 
-        // Checks whether THIS email has already used the research discount
-        // on THIS specific assessment before (one-time only, per person,
-        // per assessment — see the matching backend check). Called on
-        // email blur and whenever the checkbox is toggled, so the display
-        // never shows a discount that /verify would actually reject.
-        async function refreshResearchDiscountEligibility() {
+        // Checks both discount types at once — research consent (one-time
+        // per assessment) and multi-assessment savings (automatic from the
+        // 3rd distinct assessment onward) — so the display always reflects
+        // exactly what /verify would actually honor.
+        async function refreshDiscountStatus() {
             const email = document.getElementById('userEmail')?.value?.trim();
-            if (!email) { researchDiscountEligible = true; refreshCheckoutPricing(); return; }
+            if (!email) { refreshCheckoutPricing(); return; }
+            const consented = !!document.getElementById('researchConsent')?.checked;
             try {
-                const res = await fetch(`${API_BASE_URL}/payments/check-research-discount-eligibility?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}`);
+                const res = await fetch(`${API_BASE_URL}/payments/check-discount-status?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}&region=${encodeURIComponent(currentRegion)}&researchConsent=${consented}`);
                 const data = await res.json();
-                if (data.status === "success") researchDiscountEligible = data.eligible;
+                if (data.status === "success") discountStatus = data;
             } catch (e) {
-                console.error("Research discount eligibility check failed (non-fatal, defaults to eligible; /verify still independently checks this):", e);
+                console.error("Discount status check failed (non-fatal, /verify still independently checks this):", e);
             }
             refreshCheckoutPricing();
         }
 
         // Single source of truth for "what does this checkout actually cost
-        // right now" — used both for the live display (as the checkbox is
-        // toggled) and for the actual PayPal charge at click-time, so the
-        // two can never drift apart.
+        // right now" — used both for the live display and for the actual
+        // PayPal charge at click-time, so the two can never drift apart.
         function computeCurrentCheckoutPrice() {
             const regionCfg = REGION_PRICING[currentRegion] || REGION_PRICING.US;
             const basePrice = getPriceForAssessment(currentActiveAssessment, currentRegion);
-            const consented = document.getElementById('researchConsent')?.checked && researchDiscountEligible;
-            const discountedPrice = consented ? Number((basePrice * (1 - RESEARCH_CONSENT_DISCOUNT)).toFixed(2)) : basePrice;
+
+            let appliedDiscount = null;
+            if (discountStatus.multiAssessmentEligible) appliedDiscount = "multi";
+            else if (document.getElementById('researchConsent')?.checked && discountStatus.researchEligible) appliedDiscount = "research";
+
+            const rate = appliedDiscount === "multi" ? MULTI_ASSESSMENT_DISCOUNT : appliedDiscount === "research" ? RESEARCH_CONSENT_DISCOUNT : 0;
+            const discountedPrice = rate > 0 ? Number((basePrice * (1 - rate)).toFixed(2)) : basePrice;
+
             return {
                 regionCfg,
                 basePrice,
                 discountedPrice,
-                consented,
+                appliedDiscount,
                 usdChargeAmount: (discountedPrice * regionCfg.usdRate).toFixed(2),
             };
         }
 
-        // Called on page load, on region change, and on every toggle of the
-        // research consent checkbox — updates the strikethrough/current
-        // price display live, so someone sees the real effect of opting in
-        // immediately, not just a promised future benefit.
+        // Called on page load, on region change, on email blur, and on
+        // every toggle of the research consent checkbox.
         function refreshCheckoutPricing() {
-            const { regionCfg, basePrice, discountedPrice, consented } = computeCurrentCheckoutPrice();
+            const { regionCfg, basePrice, discountedPrice, appliedDiscount } = computeCurrentCheckoutPrice();
             const originalEl = document.getElementById('price-original');
             const currentEl = document.getElementById('price-current');
             if (!originalEl || !currentEl) return;
 
             const format = (amount) => currentRegion === "US" ? `$${amount} USD` : `${regionCfg.symbol}${amount} ${regionCfg.currency}`;
 
-            if (consented) {
+            if (appliedDiscount === "multi") {
+                originalEl.textContent = format(basePrice);
+                originalEl.classList.remove('hidden');
+                currentEl.textContent = format(discountedPrice) + " (20% multi-assessment savings applied)";
+                currentEl.className = "text-amber-400 font-bold";
+            } else if (appliedDiscount === "research") {
                 originalEl.textContent = format(basePrice);
                 originalEl.classList.remove('hidden');
                 currentEl.textContent = format(discountedPrice) + " (15% research discount applied)";
                 currentEl.className = "text-emerald-400 font-bold";
-            } else if (document.getElementById('researchConsent')?.checked && !researchDiscountEligible) {
+            } else if (document.getElementById('researchConsent')?.checked && !discountStatus.researchEligible) {
                 originalEl.classList.add('hidden');
                 currentEl.textContent = format(basePrice) + " (discount already used for this assessment)";
                 currentEl.className = "text-slate-400";
@@ -4866,6 +4887,18 @@
                 originalEl.classList.add('hidden');
                 currentEl.textContent = format(basePrice);
                 currentEl.className = "";
+            }
+
+            // Show a "one more assessment away" nudge when it's genuinely
+            // relevant — real marketing value, and only ever true.
+            const nudgeEl = document.getElementById('multi-assessment-nudge');
+            if (nudgeEl) {
+                if (!appliedDiscount && discountStatus.assessmentsUntilNextDiscount === 1) {
+                    nudgeEl.textContent = "One more assessment and your next one is automatically 20% off.";
+                    nudgeEl.classList.remove('hidden');
+                } else {
+                    nudgeEl.classList.add('hidden');
+                }
             }
         }
 
@@ -4880,6 +4913,7 @@
             if (container) container.innerHTML = '';
 
             refreshCheckoutPricing();
+            refreshDiscountStatus(); // in case email was already filled in (e.g. session-resume auto-fill)
 
             // Automatic upgrade pricing: as soon as someone typing their
             // email for the Executive Leadership Index has entered one, ask
@@ -4917,7 +4951,7 @@
             const emailField = document.getElementById('userEmail');
             if (emailField) {
                 emailField.addEventListener('blur', refreshUpgradePricing);
-                emailField.addEventListener('blur', refreshResearchDiscountEligibility);
+                emailField.addEventListener('blur', refreshDiscountStatus);
             }
             refreshUpgradePricing(); // in case email was already filled in (e.g. session-resume auto-fill)
 
