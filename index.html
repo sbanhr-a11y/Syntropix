@@ -230,6 +230,20 @@
             </nav>
 
             <div class="flex items-center gap-3">
+                <div class="relative group hidden sm:block">
+                    <button class="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 text-xs font-semibold hover:border-indigo-500 transition flex items-center gap-1">
+                        <span id="region-selector-label">USD (Rest of World)</span> <span class="text-[9px]">▾</span>
+                    </button>
+                    <div class="absolute right-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl w-48 py-2">
+                            <button onclick="setRegion('US')" class="w-full text-left px-4 py-2 hover:bg-slate-800 transition text-xs text-slate-300">USD (Rest of World)</button>
+                            <button onclick="setRegion('IN')" class="w-full text-left px-4 py-2 hover:bg-slate-800 transition text-xs text-slate-300">INR (India)</button>
+                            <button onclick="setRegion('AE')" class="w-full text-left px-4 py-2 hover:bg-slate-800 transition text-xs text-slate-300">AED (UAE)</button>
+                            <button onclick="setRegion('SA')" class="w-full text-left px-4 py-2 hover:bg-slate-800 transition text-xs text-slate-300">SAR (Saudi Arabia)</button>
+                            <button onclick="setRegion('SG')" class="w-full text-left px-4 py-2 hover:bg-slate-800 transition text-xs text-slate-300">SGD (Singapore)</button>
+                        </div>
+                    </div>
+                </div>
                 <button id="admin-nav-btn" onclick="openAdminDashboard()" class="hidden px-3 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/40 text-purple-300 text-xs font-bold transition hover:bg-purple-600/40">
                     Enterprise Portal
                 </button>
@@ -1112,7 +1126,7 @@
                         </div>
                         <p class="text-xs text-slate-400 leading-relaxed">The same 10-dimension architecture, at focused depth — 50 questions, ~25 minutes. A genuine, accurate first read on your managerial capability.</p>
                         <p class="text-[11px] text-slate-500">For: any working manager, self-serve.</p>
-                        <div class="text-2xl font-black text-white">$99</div>
+                        <div class="text-2xl font-black text-white"><span id="flagship-mei-price">$99</span></div>
                         <button onclick="launchAssessment('Managerial Effectiveness Index')" class="w-full py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-semibold text-xs uppercase tracking-wider transition">Start the Core Assessment</button>
                     </div>
                     <div class="bg-gradient-to-br from-indigo-900/60 to-slate-900 border-2 border-amber-500/50 rounded-2xl p-6 space-y-4 relative">
@@ -1123,7 +1137,7 @@
                         </div>
                         <p class="text-xs text-slate-300 leading-relaxed">The complete, comprehensive instrument — 200 questions, ~90 minutes. Built for high-stakes decisions: succession planning, executive promotion, senior hiring.</p>
                         <p class="text-[11px] text-slate-400">For: organizations making a big leadership decision.</p>
-                        <div class="text-2xl font-black text-white">$499 <span class="text-xs text-slate-400 font-normal">— $799 for enterprise succession programs</span></div>
+                        <div class="text-2xl font-black text-white"><span id="flagship-eli-price">$499</span> <span class="text-xs text-slate-400 font-normal">— $799 for enterprise succession programs</span></div>
                         <button onclick="launchAssessment('Executive Leadership Index')" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition">Start the Full Executive Index</button>
                     </div>
                 </div>
@@ -1767,6 +1781,18 @@
                     </label>
                 </div>
 
+                <!-- Genuinely separate and optional — never bundled into the
+                     required consent above, since research participation
+                     should be a real, voluntary choice, not something
+                     someone accidentally agrees to while trying to get
+                     their own report. Unchecked by default. -->
+                <div class="pt-2">
+                    <label class="flex items-start gap-2 text-[11px] text-slate-400 leading-relaxed">
+                        <input type="checkbox" id="researchConsent" class="mt-0.5">
+                        <span>Optional: I'm willing to have my anonymized answers (never my name or email) included in Syntropix's ongoing scientific validation research. This has no effect on my own report either way.</span>
+                    </label>
+                </div>
+
                 <div id="org-license-section" class="hidden pt-4 border-t border-slate-800">
                     <div class="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 space-y-2">
                         <p class="text-xs text-emerald-300 font-semibold">✓ Free access via your organization's license</p>
@@ -1777,6 +1803,11 @@
                 </div>
 
                 <div id="paypal-section" class="pt-4 border-t border-slate-800">
+                    <div id="discount-code-row" class="flex gap-2 mb-3">
+                        <input id="discount-code-input" type="text" placeholder="Discount code (optional)" class="flex-1 px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
+                        <button onclick="applyDiscountCode()" class="px-4 py-2 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-semibold transition">Apply</button>
+                    </div>
+                    <p id="discount-code-status" class="text-[11px] mb-2"></p>
                     <p id="payment-price-label" class="text-[11px] text-indigo-300 font-medium mb-2">Secure Payment Gateway ($49.00 USD):</p>
                     <div id="paypal-button-container"></div>
                 </div>
@@ -2401,6 +2432,98 @@
                         { name: "Next-Cycle Priority Selection", action: "Based on everything above, choose the two dimensions to focus on for the next 90 days.", track: "A short, explicit written commitment to what's next." }
                     ]}
                 ]
+
+        // ---------------------------------------------------------------
+        // REGIONAL PRICING — single source of truth for display across the
+        // whole site. The backend keeps its own mirrored copy for actual
+        // payment verification (never trust this client-side table for the
+        // real charge amount, same principle as everywhere else in this
+        // build). Built to be gateway-agnostic: today, PayPal can't settle
+        // directly in INR/AED/SAR, so the backend converts to a USD
+        // equivalent for the actual charge while this table still displays
+        // the real, honest local price. When the gateway moves to Razorpay
+        // (confirmed plan), only that one conversion step needs to
+        // change — this table and everything built on top of it stays
+        // exactly as-is.
+        const REGION_PRICING = {
+            US: { name: "Rest of World", currency: "USD", symbol: "$", usdRate: 1.0, prices: {
+                "CogniMorph Index": 49, "Coachability Quotient": 49, "Metacognitive Executive Assessment": 49,
+                "Strategic Inversion Diagnostics": 49, "Self-Limiting Belief Auditor": 49, "Cognitive Learning Profiler": 49,
+                "Commercial Instinct Index": 49, "Communication Signature": 49,
+                "Managerial Effectiveness Index": 99, "Executive Leadership Index": 499,
+            }},
+            IN: { name: "India", currency: "INR", symbol: "₹", usdRate: 0.012, prices: {
+                "CogniMorph Index": 799, "Coachability Quotient": 799, "Metacognitive Executive Assessment": 799,
+                "Strategic Inversion Diagnostics": 799, "Self-Limiting Belief Auditor": 799, "Cognitive Learning Profiler": 799,
+                "Commercial Instinct Index": 1499, "Communication Signature": 1499,
+                "Managerial Effectiveness Index": 1999, "Executive Leadership Index": 6999,
+            }},
+            AE: { name: "UAE", currency: "AED", symbol: "AED ", usdRate: 0.272, prices: {
+                "CogniMorph Index": 149, "Coachability Quotient": 149, "Metacognitive Executive Assessment": 149,
+                "Strategic Inversion Diagnostics": 149, "Self-Limiting Belief Auditor": 149, "Cognitive Learning Profiler": 149,
+                "Commercial Instinct Index": 279, "Communication Signature": 279,
+                "Managerial Effectiveness Index": 279, "Executive Leadership Index": 1299,
+            }},
+            SA: { name: "Saudi Arabia", currency: "SAR", symbol: "SAR ", usdRate: 0.267, prices: {
+                "CogniMorph Index": 149, "Coachability Quotient": 149, "Metacognitive Executive Assessment": 149,
+                "Strategic Inversion Diagnostics": 149, "Self-Limiting Belief Auditor": 149, "Cognitive Learning Profiler": 149,
+                "Commercial Instinct Index": 249, "Communication Signature": 249,
+                "Managerial Effectiveness Index": 349, "Executive Leadership Index": 1499,
+            }},
+            SG: { name: "Singapore", currency: "SGD", symbol: "S$", usdRate: 0.74, prices: {
+                "CogniMorph Index": 65, "Coachability Quotient": 65, "Metacognitive Executive Assessment": 65,
+                "Strategic Inversion Diagnostics": 65, "Self-Limiting Belief Auditor": 65, "Cognitive Learning Profiler": 65,
+                "Commercial Instinct Index": 129, "Communication Signature": 129,
+                "Managerial Effectiveness Index": 129, "Executive Leadership Index": 649,
+            }},
+        };
+        let currentRegion = localStorage.getItem("syntropix_region") || "US";
+
+        function getPriceForAssessment(assessmentName, region) {
+            const cfg = REGION_PRICING[region] || REGION_PRICING.US;
+            return cfg.prices[assessmentName] ?? cfg.prices["CogniMorph Index"];
+        }
+
+        function applyRegionalPricing() {
+            const cfg = REGION_PRICING[currentRegion] || REGION_PRICING.US;
+
+            document.querySelectorAll('.assessment-launch-btn[data-assessment]').forEach(btn => {
+                const name = btn.getAttribute('data-assessment');
+                const price = getPriceForAssessment(name, currentRegion);
+                btn.textContent = `Launch Assessment (${cfg.symbol}${price})`;
+            });
+
+            const meiBtn = document.getElementById('flagship-mei-price');
+            if (meiBtn) meiBtn.textContent = `${cfg.symbol}${getPriceForAssessment("Managerial Effectiveness Index", currentRegion)}`;
+            const eliBtn = document.getElementById('flagship-eli-price');
+            if (eliBtn) eliBtn.textContent = `${cfg.symbol}${getPriceForAssessment("Executive Leadership Index", currentRegion)}`;
+
+            const regionLabel = document.getElementById('region-selector-label');
+            if (regionLabel) regionLabel.textContent = `${cfg.currency} (${cfg.name})`;
+        }
+
+        function setRegion(regionCode) {
+            if (!REGION_PRICING[regionCode]) return;
+            currentRegion = regionCode;
+            localStorage.setItem("syntropix_region", regionCode);
+            applyRegionalPricing();
+        }
+
+        async function detectRegionOnce() {
+            if (localStorage.getItem("syntropix_region")) return;
+            try {
+                const res = await fetch("https://ipapi.co/json/");
+                const data = await res.json();
+                const countryToRegion = { IN: "IN", AE: "AE", SA: "SA", SG: "SG" };
+                const detected = countryToRegion[data.country_code];
+                if (detected) {
+                    currentRegion = detected;
+                    applyRegionalPricing();
+                }
+            } catch (e) {
+                console.error("Region auto-detection failed (non-fatal, defaulting to Rest of World pricing):", e);
+            }
+        }
 
         const assessmentBank = {
             "Managerial Effectiveness Index": {
@@ -3201,6 +3324,8 @@
                 updateUserUI(); 
                 applyUrlBasedAssignment();
                 loadHubRatings();
+                applyRegionalPricing();
+                detectRegionOnce();
 
                 // If the report-submit network call was slow (Render free-tier
                 // waking up) and the browser throttled this tab in the
@@ -4660,6 +4785,32 @@
             window.scrollTo(0, 0);
         }
 
+        // "Apply" button next to the discount code input — purely a
+        // convenience preview so someone can see the code is real and
+        // what it's worth before clicking through to PayPal. The actual
+        // price used for checkout is always recalculated fresh inside
+        // createOrder above, regardless of what this shows.
+        async function applyDiscountCode() {
+            const code = document.getElementById('discount-code-input')?.value.trim();
+            const statusEl = document.getElementById('discount-code-status');
+            if (!code) return;
+            try {
+                const res = await fetch(`${API_BASE_URL}/payments/check-discount-code?code=${encodeURIComponent(code)}`);
+                const data = await res.json();
+                if (data.status === "success" && data.valid) {
+                    statusEl.textContent = `Code applied — $${data.discountAmount.toFixed(2)} off at checkout.`;
+                    statusEl.className = "text-[11px] mb-2 text-emerald-400";
+                } else {
+                    statusEl.textContent = "That code isn't valid or has already been used.";
+                    statusEl.className = "text-[11px] mb-2 text-rose-400";
+                }
+            } catch (e) {
+                console.error("Discount code preview check failed:", e);
+                statusEl.textContent = "Couldn't check that code right now — it will still be checked at checkout.";
+                statusEl.className = "text-[11px] mb-2 text-slate-500";
+            }
+        }
+
         function initPayPalButton() {
             if (typeof paypal === 'undefined') return;
             // This can now legitimately be called more than once per page
@@ -4669,36 +4820,45 @@
             // underneath the first one every time this runs again.
             const container = document.getElementById('paypal-button-container');
             if (container) container.innerHTML = '';
-            // Pricing varies by assessment — the standard $49 individual line,
-            // plus the two Managerial/Executive flagship tiers. The $799
-            // enterprise succession-program rate isn't sold through this
-            // self-serve button at all — that's a negotiated, invoiced deal,
-            // same as any other enterprise arrangement, not a checkout flow.
-            const ASSESSMENT_PRICES = {
-                "Managerial Effectiveness Index": "99.00",
-                "Executive Leadership Index": "499.00",
-            };
-            const priceForThisAssessment = ASSESSMENT_PRICES[currentActiveAssessment] || "49.00";
 
-            // The label text and the actual charged amount must always be
-            // driven by the same single value — this is precisely the split
-            // that caused the label to keep showing $49 after the real price
-            // logic was already fixed. Updating both from priceForThisAssessment
-            // here, in one place, is what prevents that from recurring.
+            const regionCfg = REGION_PRICING[currentRegion] || REGION_PRICING.US;
+            const localPrice = getPriceForAssessment(currentActiveAssessment, currentRegion);
+            // PayPal cannot settle directly in INR (RBI-restricted), and
+            // very likely can't in AED/SAR either — this is what actually
+            // gets charged via PayPal, converted from the honest local
+            // price shown to the person. Once Razorpay is integrated
+            // (confirmed plan), this is the one line that changes to
+            // charge natively in the local currency — everything else
+            // here stays exactly as-is.
+            const usdChargeAmount = (localPrice * regionCfg.usdRate).toFixed(2);
+
             const priceLabel = document.getElementById('payment-price-label');
-            if (priceLabel) priceLabel.textContent = `Secure Payment Gateway ($${priceForThisAssessment} USD):`;
+            function renderPriceLabel(displayLocalPrice) {
+                if (!priceLabel) return;
+                if (currentRegion === "US") {
+                    priceLabel.textContent = `Secure Payment Gateway ($${displayLocalPrice} USD):`;
+                } else {
+                    priceLabel.textContent = `Secure Payment Gateway (${regionCfg.symbol}${displayLocalPrice} ${regionCfg.currency} ≈ $${(displayLocalPrice * regionCfg.usdRate).toFixed(2)} USD charged):`;
+                }
+            }
+            renderPriceLabel(localPrice);
+
+            // Discount codes are USD-only for now (matched on the backend) —
+            // hide the input entirely outside the US region so it doesn't
+            // look like a working option that will silently fail.
+            const discountRow = document.getElementById('discount-code-row');
+            if (discountRow) discountRow.classList.toggle('hidden', currentRegion !== 'US');
 
             // Automatic upgrade pricing: as soon as someone typing their
             // email for the Executive Leadership Index has entered one, ask
             // the server whether they've already bought the Core assessment
             // and show the real, correct price honestly before they even
-            // click — rather than the sticker price followed by a surprise
-            // discount at checkout. The actual charge amount is still
-            // independently re-verified server-side at /verify regardless,
-            // so this is purely an honest-display step, not the security
-            // boundary itself.
+            // click. Scoped to the default USD region only for now — the
+            // backend's upgrade/discount logic is USD-based, and a flat
+            // discount against a tiny regional USD-equivalent price would
+            // floor it to $0, a real exploit rather than a rounding quirk.
             async function refreshUpgradePricing() {
-                if (currentActiveAssessment !== "Executive Leadership Index") return;
+                if (currentRegion !== "US" || currentActiveAssessment !== "Executive Leadership Index") return;
                 const email = document.getElementById('userEmail')?.value.trim();
                 if (!email) return;
                 try {
@@ -4732,11 +4892,11 @@
                     }
 
                     // Final, fresh price check right at the moment of actual
-                    // checkout — this is what the actual charge amount is
-                    // based on, regardless of what the label happened to
-                    // show a moment earlier.
-                    let finalPrice = priceForThisAssessment;
-                    if (currentActiveAssessment === "Executive Leadership Index") {
+                    // checkout. Upgrade pricing only applies in the default
+                    // USD region (see scope note above); otherwise the
+                    // region's own USD-equivalent charge holds.
+                    let finalPrice = usdChargeAmount;
+                    if (currentRegion === "US" && currentActiveAssessment === "Executive Leadership Index") {
                         try {
                             const res = await fetch(`${API_BASE_URL}/payments/check-upgrade-eligibility?assessmentName=${encodeURIComponent(currentActiveAssessment)}&email=${encodeURIComponent(email)}`);
                             const elig = await res.json();
@@ -4745,6 +4905,21 @@
                             console.error("Final upgrade check failed, using standard price:", e);
                         }
                     }
+
+                    // Discount code — same USD-only scoping as above.
+                    const discountCode = currentRegion === "US" ? document.getElementById('discount-code-input')?.value.trim() : null;
+                    if (discountCode) {
+                        try {
+                            const res = await fetch(`${API_BASE_URL}/payments/check-discount-code?code=${encodeURIComponent(discountCode)}`);
+                            const discData = await res.json();
+                            if (discData.status === "success" && discData.valid) {
+                                finalPrice = Math.max(Number(finalPrice) - discData.discountAmount, 0).toFixed(2);
+                            }
+                        } catch (e) {
+                            console.error("Discount code check failed, proceeding without it:", e);
+                        }
+                    }
+
                     return actions.order.create({ purchase_units: [{ amount: { value: finalPrice } }] });
                 },
                 onApprove: async function(data, actions) {
@@ -4759,7 +4934,7 @@
                         const res = await fetch(`${API_BASE_URL}/payments/verify`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim(), assessmentName: currentActiveAssessment })
+                            body: JSON.stringify({ orderId: data.orderID, payerEmail: document.getElementById('userEmail').value.trim(), assessmentName: currentActiveAssessment, discountCode: currentRegion === 'US' ? (document.getElementById('discount-code-input')?.value.trim() || null) : null, region: currentRegion })
                         });
                         const verifyData = await res.json();
                         if (verifyData.status === "success" && verifyData.entitlementToken) {
@@ -5040,6 +5215,66 @@
         // -------------------------------------------------------------
         // REPORT GENERATION & DYNAMIC DATA BINDING
         // -------------------------------------------------------------
+        // Sends raw, item-level responses to the validation dataset —
+        // completely separate from the report/scoring flow above, and
+        // never allowed to affect it. Excludes demo/master/test accounts
+        // regardless of consent, since their responses aren't genuine and
+        // would quietly pollute a dataset meant to support real,
+        // legally-defensible validation claims later. Never sends name or
+        // email — only the anonymous answer pattern itself.
+        async function submitValidationData(config, dimIndices) {
+            try {
+                const consented = document.getElementById('researchConsent')?.checked;
+                if (!consented) return;
+
+                const isTestAccount = currentUser && ["demo", "master", "enterprise"].includes(currentUser.role);
+                if (isTestAccount) return;
+
+                const completionId = (crypto?.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+                const items = config.questions.map(q => ({
+                    itemNum: q.id,
+                    dimension: q.dim,
+                    rawScore: answers[q.id] || 3,
+                    reverseScored: !!q.rev,
+                }));
+                // Email is used ONLY to deliver the incentive code below — it
+                // is never stored alongside completionId or the item data
+                // itself (see the backend), so this doesn't compromise the
+                // anonymity of the actual research responses.
+                const email = document.getElementById('userEmail')?.value?.trim() || null;
+                // Exactly the piece needed for the fairness/DIF analysis and
+                // regional normative samples committed to in the Validation
+                // Manual — captured as it actually happens.
+                const regionNameMap = { US: "Other", IN: "India", AE: "UAE", SA: "Saudi Arabia", SG: "Singapore" };
+                const selfReportedRegion = regionNameMap[currentRegion] || "Other";
+
+                const res = await fetch(`${API_BASE_URL}/validation/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        completionId,
+                        assessmentName: currentActiveAssessment,
+                        items,
+                        email,
+                        selfReportedRegion,
+                    })
+                });
+                const data = await res.json();
+                // Shown immediately, not just emailed — given past real-world
+                // email delivery gaps, this guarantees the person actually
+                // sees their reward regardless of whether the email arrives.
+                if (data.status === "success" && data.incentiveCode) {
+                    alert(`Thank you for contributing to our research! Here's a $${data.discountAmount.toFixed(2)} credit toward your next Syntropix assessment:\n\n${data.incentiveCode}\n\nWe've also emailed this to you — it's valid for 90 days.`);
+                }
+            } catch (e) {
+                // Deliberately silent to the user and non-blocking — this is
+                // research infrastructure, not part of their own report, and
+                // must never interrupt or fail their actual assessment
+                // experience if it has a problem.
+                console.error("Validation data submission failed (non-fatal):", e);
+            }
+        }
+
         function generateDiagnosticReport(isReload = false) {
             try {
                 const config = assessmentBank[currentActiveAssessment];
@@ -5081,6 +5316,14 @@
                 const gni = Math.round((((totalTransformed - 20) / 100) * 100) * 10) / 10;
                 let archKey = gni >= 80 ? "high" : gni >= 60 ? "mid" : "low";
                 const arch = config.archetypes[archKey];
+
+                // Only submit raw validation data on the actual first
+                // completion, never on a reload/resume of an already-
+                // generated report, to avoid duplicate submissions of the
+                // same person's data.
+                if (!isReload) {
+                    submitValidationData(config, dimIndices);
+                }
 
                 let zCohort = (gni - 71.5) / 14.2;
                 let cohortPct = Math.min(99, Math.max(1, Math.round((1 / (1 + Math.exp(-1.7 * zCohort))) * 100)));
