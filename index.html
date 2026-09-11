@@ -2569,7 +2569,7 @@
                 const name = el.getAttribute('data-assessment');
                 const basePrice = getPriceForAssessment(name, currentRegion);
                 const discounted = Number((basePrice * (1 - RESEARCH_CONSENT_DISCOUNT)).toFixed(2));
-                el.innerHTML = `<span class="line-through text-slate-500">${cfg.symbol}${basePrice}</span> Pay ${cfg.symbol}${discounted} with our research discount`;
+                el.innerHTML = `<span class="line-through text-slate-500">${cfg.symbol}${basePrice}</span> <span class="text-sm font-bold text-emerald-400">Pay ${cfg.symbol}${discounted}</span> with our research discount`;
                 el.classList.remove('hidden');
             });
         }
