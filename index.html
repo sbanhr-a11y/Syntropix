@@ -376,9 +376,6 @@
                     <button onclick="showContactPage()" class="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">
                         Talk to Us About Your Mix →
                     </button>
-                    <button onclick="showServicesPage('diagnostics')" class="inline-flex items-center gap-2 px-7 py-3 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">
-                        Start with an Independent Assessment →
-                    </button>
                 </div>
                 <p class="text-[11px] text-slate-500">No pressure to buy the bundle — tell us where you are, and we'll work with you to carve out exactly the solution you need.</p>
             </div>
@@ -682,8 +679,18 @@
                     <p class="text-xs text-slate-300">Using the Metacognitive Assessment, the coach mapped stress-induced tunneling. Within a 90-day protocol establishing 3-second strategic pauses, team retention improved by 35%.</p>
                 </div>
             </div>
-            <div class="pt-6 text-center">
-                <button onclick="alert('Coach consultation request submitted!')" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Request an Empanelled Coach</button>
+            <div class="pt-6 max-w-md mx-auto space-y-3">
+                <div id="coach-request-form" class="space-y-3">
+                    <p class="text-center text-sm font-bold text-white">Need a Coach? Contact Us</p>
+                    <input id="coach-req-name" type="text" placeholder="Full Name" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
+                    <input id="coach-req-email" type="email" placeholder="Email Address" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
+                    <input id="coach-req-phone" type="tel" placeholder="Contact Number" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
+                    <button id="coach-req-submit-btn" onclick="submitCoachRequest()" class="w-full px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition">Submit Request</button>
+                </div>
+                <div id="coach-request-confirmed" class="hidden p-5 bg-emerald-950/20 border border-emerald-800/40 rounded-xl text-center space-y-1">
+                    <p class="text-sm font-bold text-emerald-300">Request already submitted</p>
+                    <p class="text-xs text-slate-400">Our team will reach out within 24 hours.</p>
+                </div>
             </div>
         </div>
     </main>
@@ -3284,7 +3291,66 @@
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
+            refreshCoachRequestState();
             window.scrollTo(0, 0);
+        }
+
+        // Checks whether this browser has already submitted a coach
+        // request, and shows the persistent "already submitted" state
+        // instead of the form if so — this is the actual fix for "I can't
+        // click it multiple times, but there's no message explaining why."
+        function refreshCoachRequestState() {
+            const alreadySubmitted = localStorage.getItem("syntropix_coach_request_submitted");
+            const form = document.getElementById('coach-request-form');
+            const confirmed = document.getElementById('coach-request-confirmed');
+            if (!form || !confirmed) return;
+            if (alreadySubmitted) {
+                form.classList.add('hidden');
+                confirmed.classList.remove('hidden');
+            } else {
+                form.classList.remove('hidden');
+                confirmed.classList.add('hidden');
+            }
+        }
+
+        async function submitCoachRequest() {
+            const name = document.getElementById('coach-req-name').value.trim();
+            const email = document.getElementById('coach-req-email').value.trim();
+            const phone = document.getElementById('coach-req-phone').value.trim();
+            if (!name || !email || !phone) {
+                alert("Please fill in your name, email, and contact number before submitting.");
+                return;
+            }
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            const btn = document.getElementById('coach-req-submit-btn');
+            btn.disabled = true;
+            btn.textContent = "Submitting...";
+            try {
+                const res = await fetch(`${API_BASE_URL}/contact/coach-request`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    localStorage.setItem("syntropix_coach_request_submitted", "true");
+                    refreshCoachRequestState();
+                } else {
+                    alert(data.message || "Something went wrong submitting your request. Please try again or email support@syntropix.in directly.");
+                    btn.disabled = false;
+                    btn.textContent = "Submit Request";
+                }
+            } catch (e) {
+                console.error("Coach request submission failed:", e);
+                alert("Something went wrong submitting your request. Please try again or email support@syntropix.in directly.");
+                btn.disabled = false;
+                btn.textContent = "Submit Request";
+            }
         }
 
         function showComplianceSuitePage() {
