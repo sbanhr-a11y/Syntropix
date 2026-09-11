@@ -3331,10 +3331,21 @@
             btn.disabled = true;
             btn.textContent = "Submitting...";
             try {
-                const res = await fetch(`${API_BASE_URL}/contact/coach-request`, {
+                // Reuses the existing, already-hardened /contact/message
+                // endpoint (rate limiting, spam protection, notification +
+                // acknowledgment emails all already built and working)
+                // rather than a separate, untested new endpoint. "source":
+                // "coach_request" is what makes this show up distinctly in
+                // your inbox instead of blending in with generic messages.
+                const res = await fetch(`${API_BASE_URL}/contact/message`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, phone })
+                    body: JSON.stringify({
+                        name,
+                        contact: email,
+                        message: `Coach consultation request. Phone: ${phone}`,
+                        source: "coach_request",
+                    })
                 });
                 const data = await res.json();
                 if (data.status === "success") {
