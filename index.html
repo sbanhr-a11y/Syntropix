@@ -231,6 +231,7 @@
                             <button onclick="showPrism360Page()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Prism360 — 360° Feedback</button>
                             <button onclick="showSecurityPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition border-t border-slate-800 mt-1 pt-2.5">Security & Data Privacy</button>
                             <button onclick="showBibliographyPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Scientific Foundations</button>
+                            <button onclick="showTalentAcquisitionPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition border-t border-slate-800 mt-1 pt-2.5">For Talent Acquisition Teams</button>
                             <button onclick="showPaymentsRefundPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Payments & Refunds</button>
                         </div>
                     </div>
@@ -280,6 +281,7 @@
             <button onclick="showPrism360Page(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Prism360 — 360° Feedback</button>
             <button onclick="showSecurityPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Security & Data Privacy</button>
             <button onclick="showBibliographyPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Scientific Foundations</button>
+            <button onclick="showTalentAcquisitionPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">For Talent Acquisition Teams</button>
             <button onclick="showPaymentsRefundPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Payments & Refunds</button>
             <button onclick="showContactPage(); closeMobileMenu();" class="w-full text-left py-2.5">Contact Us</button>
         </div>
@@ -1073,6 +1075,136 @@
         </div>
     </main>
 
+    <!-- TALENT ACQUISITION / ENTERPRISE CANDIDATE SCREENING — a genuinely
+         separate product line for recruitment teams, deliberately NOT using
+         "validated," "predicts," or "avoid mishires" language anywhere on
+         this page. Positioned as structured, standardized signal that
+         reduces reliance on unstructured gut-feel interviews — an honest,
+         still-genuinely-valuable claim given current evidence, rather than
+         reusing marketing language that would require evidence Syntropix
+         does not yet have, in the single highest-stakes use case there is. -->
+    <main id="talent-acquisition-view" class="hidden flex-1 w-full">
+        <div class="max-w-6xl mx-auto px-6 py-16 space-y-20">
+
+            <div class="text-center space-y-5 max-w-3xl mx-auto">
+                <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">For Talent Acquisition Teams</span>
+                <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">Structured Signal, Before the Interview Even Starts</h1>
+                <p class="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">Unstructured interviews are famously inconsistent — the same candidate can get wildly different impressions from different interviewers, on different days, for reasons that have nothing to do with the job. Syntropix's screening library gives your team a standardized, research-informed signal to bring into that conversation — not a black-box score that replaces your judgment, but a structured starting point that reduces how much rides on a single interviewer's gut feel.</p>
+                <div class="flex flex-wrap justify-center gap-3 pt-2">
+                    <button onclick="showContactPage()" class="px-7 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Try for Free →</button>
+                    <button onclick="showContactPage()" class="px-7 py-3 rounded-xl border border-slate-700 hover:border-indigo-500 text-slate-200 font-bold text-xs uppercase tracking-wider transition">Get a Demo →</button>
+                </div>
+                <p class="text-[11px] text-slate-600">Both currently route to a real conversation with our team — self-serve trial access for this product line is coming as it launches.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center space-y-2">
+                    <div class="w-10 h-10 mx-auto rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <h4 class="text-sm font-bold text-white">Risk Reduction</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">A structured, standardized signal applied consistently across every candidate — reducing how much a hiring decision rests on one interviewer's unstructured impression.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center space-y-2">
+                    <div class="w-10 h-10 mx-auto rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <h4 class="text-sm font-bold text-white">Time Saved</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Short, role-calibrated screens your TA team can send before a first interview — surfacing a clearer starting picture instead of scheduling to find out.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center space-y-2">
+                    <div class="w-10 h-10 mx-auto rounded-xl bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <h4 class="text-sm font-bold text-white">Bias Mitigation</h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">The same structured questions, in the same order, for every candidate — standardization is one of the most well-established ways to reduce inconsistent, interviewer-dependent evaluation.</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-950/15 border border-amber-800/40 rounded-2xl p-6 text-center">
+                <p class="text-xs text-amber-200/90 leading-relaxed max-w-2xl mx-auto">Honest positioning, stated plainly: these tools provide structured, research-informed signal — they do not yet have independent evidence that scores predict job performance for any specific role. Current validation status and full methodology are published on our <button onclick="showBibliographyPage()" class="underline">Scientific Foundations & Bibliography page</button>. For high-stakes employment decisions, use alongside other job-relevant evidence and human judgment — never as the sole basis for a hiring decision.</p>
+            </div>
+
+            <div class="space-y-8">
+                <div class="text-center space-y-2">
+                    <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">A Library Built Around How Recruitment Actually Works</h2>
+                    <p class="text-sm text-slate-400 max-w-2xl mx-auto">Not five disconnected products — one coherent screening flow your team assembles per role, combining the components that actually matter for that position.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900 border border-indigo-800/40 rounded-2xl p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold">R</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-950 text-emerald-300 border border-emerald-800">In Development</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">RoleFit Index™</h3>
+                        <p class="text-[11px] text-slate-500 uppercase tracking-wider font-bold">Behavioral / Psychometric Screening</p>
+                        <p class="text-xs text-slate-400 leading-relaxed">A short (10-15 minute), role-calibrated behavioral screen — built from the same real research foundation as our personal-development suite, recalibrated specifically for pre-hire use rather than reused at full length.</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-sky-600/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold">C</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">Planned</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Communication Readiness Screen</h3>
+                        <p class="text-[11px] text-slate-500 uppercase tracking-wider font-bold">Communication</p>
+                        <p class="text-xs text-slate-400 leading-relaxed">Built on the same Communication Styles Inventory foundation as our existing Communication Signature™ instrument, shortened and recalibrated for candidate screening.</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold">$</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">Planned</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Sales Readiness Index</h3>
+                        <p class="text-[11px] text-slate-500 uppercase tracking-wider font-bold">Sales</p>
+                        <p class="text-xs text-slate-400 leading-relaxed">Built on the HEXACO foundation underlying our existing Commercial Instinct Index™, recalibrated specifically for evaluating sales-role candidates.</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-slate-700/40 border border-slate-600 flex items-center justify-center text-slate-400 font-bold">&lt;/&gt;</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-950 text-amber-300 border border-amber-800">Scope Under Review</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Technical Aptitude</h3>
+                        <p class="text-[11px] text-slate-500 uppercase tracking-wider font-bold">Technical</p>
+                        <p class="text-xs text-slate-400 leading-relaxed">Honest scope note: real hands-on coding assessment (code execution, per-stack problem banks, plagiarism detection) is a different engineering discipline from our core work. We're evaluating whether to build a technical-reasoning/aptitude screen in-house, or integrate with a specialist technical-assessment partner, rather than overreach on this specific category.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="text-center space-y-2">
+                    <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Calibrated by Seniority, Not One-Size-Fits-All</h2>
+                    <p class="text-sm text-slate-400 max-w-2xl mx-auto">A graduate hire and a VP candidate shouldn't get the same screen. Each tier draws on real, existing Syntropix architecture — not new, unrelated content.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Entry-Level</span>
+                        <h4 class="text-sm font-bold text-white">Foundational Fit</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Shorter format, foundational reasoning and role-fit screening — built for volume hiring where speed and candidate experience matter most.</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Mid-Level</span>
+                        <h4 class="text-sm font-bold text-white">Role Depth</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Adds coachability and feedback-orientation screening, plus role-specific behavioral depth appropriate for someone stepping into more autonomy.</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Mid-Senior / Leadership</span>
+                        <h4 class="text-sm font-bold text-white">Managerial Effectiveness Index™</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Draws directly on our existing, already-built flagship architecture — genuinely ready today, not a future placeholder like the tiers above.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center space-y-4">
+                <h3 class="text-xl font-black text-white">Building This With You, Not Just For You</h3>
+                <p class="text-sm text-slate-400 max-w-xl mx-auto">This product line is in active development. If you're a TA leader who wants to help shape what gets built first — or wants early access as pieces go live — we'd genuinely like that conversation.</p>
+                <div class="flex flex-wrap justify-center gap-3 pt-2">
+                    <button onclick="showContactPage()" class="px-7 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Talk to Us →</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <main id="payments-refund-view" class="hidden max-w-3xl mx-auto px-6 py-12 flex-1 w-full space-y-10">
         <div class="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
@@ -1310,7 +1442,11 @@
                             <h4 class="text-lg font-bold text-white">Managerial Effectiveness Index™</h4>
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">Core</span>
                         </div>
-                        <p class="text-xs text-slate-400 leading-relaxed">The same 10-dimension architecture, at focused depth — 50 questions, ~25 minutes. A structured first read on the managerial capabilities the assessment explores.</p>
+                        <p class="text-xs text-slate-400 leading-relaxed">The same 10-dimension architecture, at focused depth. A structured first read on the managerial capabilities the assessment explores.</p>
+                        <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                            <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>50 Questions</span>
+                            <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~25 min</span>
+                        </div>
                         <p class="text-[11px] text-slate-500">For: any working manager, self-serve.</p>
                         <div class="text-2xl font-black text-white"><span id="flagship-mei-price">$99</span></div>
                         <p class="discount-preview text-[11px] text-emerald-400 hidden" data-assessment="Managerial Effectiveness Index"></p>
@@ -1323,7 +1459,11 @@
                             <h4 class="text-lg font-bold text-white">Executive Leadership Index™</h4>
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-950 text-amber-300 border border-amber-700">Advanced</span>
                         </div>
-                        <p class="text-xs text-slate-300 leading-relaxed">Our flagship, broader-coverage instrument — 200 questions, ~90 minutes. Designed for leadership-development, succession-development and executive capability conversations — not a standalone basis for high-stakes employment decisions.</p>
+                        <p class="text-xs text-slate-300 leading-relaxed">Our flagship, broader-coverage instrument. Designed for leadership-development, succession-development and executive capability conversations — not a standalone basis for high-stakes employment decisions.</p>
+                        <div class="flex items-center gap-4 text-[11px] text-amber-200/70 border-t border-amber-900/40 pt-3">
+                            <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>200 Questions</span>
+                            <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~90 min</span>
+                        </div>
                         <p class="text-[11px] text-slate-400">For: organizations making a big leadership decision.</p>
                         <div class="text-2xl font-black text-white"><span id="flagship-eli-price">$499</span></div>
                         <p class="discount-preview text-[11px] text-emerald-400 hidden" data-assessment="Executive Leadership Index"></p>
@@ -1349,7 +1489,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div data-assessment-card="CogniMorph Index" class="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between space-y-5 transition shadow-xl group">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
@@ -1358,7 +1498,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">CogniMorph Index™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Are your setbacks quietly building you, or quietly capping you?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">The gap between people who plateau and people who don't is rarely talent — it's what they do with failure in the first ten minutes after it happens. This assessment explores patterns relevant to resilience and how setbacks are processed under pressure — whether they tend to register as threats or as data.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="CogniMorph Index"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="CogniMorph Index"></p>
                     <button id="launch-btn-cognimorph-index" data-assessment="CogniMorph Index" onclick="launchAssessment('CogniMorph Index')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition">Launch Assessment ($49)</button>
@@ -1373,7 +1517,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Coachability Quotient™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Tough feedback: fuel, or a personal attack?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">The fastest-promoted people in any room are rarely the most talented — they're just the quickest to turn criticism into a next move. This assessment explores patterns related to openness to feedback, mentoring, and how developmental input tends to get applied.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Coachability Quotient"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Coachability Quotient"></p>
                     <button id="launch-btn-coachability-quotient" data-assessment="Coachability Quotient" onclick="launchAssessment('Coachability Quotient')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
@@ -1388,7 +1536,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Metacognitive Executive™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"When everything's on fire, can you still watch your own thinking clearly?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Smart people make bad calls under pressure constantly — not from a lack of intelligence, but a failure to notice their own blind spots in the moment. This explores metacognitive patterns such as monitoring attention, evaluating reasoning, and reflecting on problem-solving in real time.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Metacognitive Executive Assessment"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Metacognitive Executive Assessment"></p>
                     <button id="launch-btn-metacognitive-executive-assessment" data-assessment="Metacognitive Executive Assessment" onclick="launchAssessment('Metacognitive Executive Assessment')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
@@ -1403,7 +1555,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Strategic Inversion Diagnostics™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Is today's clever fix quietly building tomorrow's fire?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Most operational disasters were once someone's smart short-term solution. This explores strategic reasoning and consideration of potential second-order consequences, including first-principles thinking.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Strategic Inversion Diagnostics"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Strategic Inversion Diagnostics"></p>
                     <button id="launch-btn-strategic-inversion-diagnostics" data-assessment="Strategic Inversion Diagnostics" onclick="launchAssessment('Strategic Inversion Diagnostics')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
@@ -1418,7 +1574,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Self-Limiting Belief Auditor™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"What invisible rule is capping you — one you've never actually said out loud?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Nobody plateaus on purpose. Most ceilings are self-installed, unexamined, and years old. This explores patterns of self-doubt, perceived limitations, and recurring beliefs that may be quietly shaping professional behaviour.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Self-Limiting Belief Auditor"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Self-Limiting Belief Auditor"></p>
                     <button id="launch-btn-self-limiting-belief-auditor" data-assessment="Self-Limiting Belief Auditor" onclick="launchAssessment('Self-Limiting Belief Auditor')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
@@ -1433,7 +1593,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Cognitive Learning Profiler™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"AI just rewrote your job description again. How fast can you actually catch up?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">The shelf life of any given skill keeps shrinking. This explores how you approach new information, unfamiliar problems, and conceptual synthesis — not how many certificates you've collected.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Cognitive Learning Profiler"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Cognitive Learning Profiler"></p>
                     <button id="launch-btn-cognitive-learning-profiler" data-assessment="Cognitive Learning Profiler" onclick="launchAssessment('Cognitive Learning Profiler')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
@@ -1448,7 +1612,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Commercial Instinct Index™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Does your personality actually close deals, or just start conversations?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Warmth gets you in the door. A completely different set of traits is what gets someone to actually sign. Informed by the established HEXACO personality framework, this explores six patterns — integrity under incentive, rejection resilience, negotiation composure, and more. Syntropix's application and scoring are independently developed.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>24 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~12 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Commercial Instinct Index"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Commercial Instinct Index"></p>
                     <button id="launch-btn-commercial-instinct-index" data-assessment="Commercial Instinct Index" onclick="launchAssessment('Commercial Instinct Index')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
@@ -1463,7 +1631,11 @@
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Communication Signature™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Does your message land as sent, or does it always need a follow-up to explain what you meant?"</p>
                         <p class="text-[11px] text-slate-400 leading-relaxed">Most communication breakdowns aren't about vocabulary — they're a mismatch nobody ever named. Informed by the published Communication Styles Inventory, this explores six dimensions — precision, composure, directness, and more. Syntropix's assessment applies its own item and scoring approach.</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500 border-t border-slate-800/60 pt-3">
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>24 Questions</span>
+                        <span class="flex items-center gap-1.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~12 min</span>
                     </div>
+</div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Communication Signature"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Communication Signature"></p>
                     <button id="launch-btn-communication-signature" data-assessment="Communication Signature" onclick="launchAssessment('Communication Signature')" class="assessment-launch-btn w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-lg shadow-indigo-600/30">Launch Assessment ($49)</button>
@@ -3641,6 +3813,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo(0, 0);
@@ -3660,6 +3833,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
             refreshCoachRequestState();
@@ -3749,6 +3923,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3768,6 +3943,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('services-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3793,6 +3969,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('founder-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3812,6 +3989,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('contact-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3831,6 +4009,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('prism360-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3852,6 +4031,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view').classList.remove('hidden');
             resetPrism360Form();
@@ -3875,7 +4055,29 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('bibliography-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Talent Acquisition / Enterprise Candidate Screening landing page.
+        function showTalentAcquisitionPage() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('talk-to-syntropix-btn')?.classList.remove('hidden');
+            document.getElementById('chat-widget-bubble')?.classList.remove('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
@@ -3894,6 +4096,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('security-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -3913,6 +4116,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3968,6 +4172,7 @@
                 security: showSecurityPage,
                 paymentsRefund: showPaymentsRefundPage,
                 bibliography: showBibliographyPage,
+                talentAcquisition: showTalentAcquisitionPage,
                 admin: openAdminDashboard,
             };
             let currentSection = 'dashboard';
@@ -4014,6 +4219,7 @@
             window.showSecurityPage = sectionFns.security;
             window.showPaymentsRefundPage = sectionFns.paymentsRefund;
             window.showBibliographyPage = sectionFns.bibliography;
+            window.showTalentAcquisitionPage = sectionFns.talentAcquisition;
             window.openAdminDashboard = sectionFns.admin;
 
             // Also disable the browser's OWN native scroll restoration on
@@ -4087,6 +4293,7 @@
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
             document.getElementById('bibliography-view')?.classList.add('hidden');
+            document.getElementById('talent-acquisition-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
 
