@@ -225,6 +225,7 @@
                             <button onclick="showServicesPage('coaching')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Coaching</button>
                             <button onclick="showPrism360Page()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Prism360 — 360° Feedback</button>
                             <button onclick="showSecurityPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition border-t border-slate-800 mt-1 pt-2.5">Security & Data Privacy</button>
+                            <button onclick="showBibliographyPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Scientific Foundations</button>
                             <button onclick="showPaymentsRefundPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Payments & Refunds</button>
                         </div>
                     </div>
@@ -273,6 +274,7 @@
             <button onclick="showServicesPage('coaching'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Coaching</button>
             <button onclick="showPrism360Page(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Prism360 — 360° Feedback</button>
             <button onclick="showSecurityPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Security & Data Privacy</button>
+            <button onclick="showBibliographyPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Scientific Foundations</button>
             <button onclick="showPaymentsRefundPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Payments & Refunds</button>
             <button onclick="showContactPage(); closeMobileMenu();" class="w-full text-left py-2.5">Contact Us</button>
         </div>
@@ -309,7 +311,7 @@
                     <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-indigo-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-400"><circle cx="10" cy="10" r="6"></circle><line x1="19" y1="19" x2="14.5" y2="14.5"></line></svg></div>
                     <span class="text-[9px] font-mono text-indigo-400">01</span>
                     <h4 class="text-xs font-bold text-white leading-tight">Diagnostics</h4>
-                    <p class="text-[10px] text-slate-500 leading-snug">See what's really going on — not a guess.</p>
+                    <p class="text-[10px] text-slate-500 leading-snug">Get a structured view of the patterns the assessment explores.</p>
                 </div>
                 <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
                     <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-violet-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-violet-400"><polyline points="4,17 10,11 14,15 20,7"></polyline><polyline points="14,7 20,7 20,13"></polyline></svg></div>
@@ -327,7 +329,7 @@
                     <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></div>
                     <span class="text-[9px] font-mono text-emerald-400">04</span>
                     <h4 class="text-xs font-bold text-white leading-tight">Prism360</h4>
-                    <p class="text-[10px] text-slate-500 leading-snug">Prove behaviour actually changed.</p>
+                    <p class="text-[10px] text-slate-500 leading-snug">Track whether targeted behaviours changed over time.</p>
                 </div>
 
                 <div class="relative z-10 flex-1 flex flex-col items-center text-center gap-2 px-1">
@@ -343,7 +345,7 @@
 
                 <div class="relative z-10 flex items-center gap-4">
                     <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-indigo-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-400"><circle cx="10" cy="10" r="6"></circle><line x1="19" y1="19" x2="14.5" y2="14.5"></line></svg></div>
-                    <div><span class="text-[9px] font-mono text-indigo-400">01</span><h4 class="text-sm font-bold text-white leading-tight">Diagnostics</h4><p class="text-[11px] text-slate-500">See what's really going on — not a guess.</p></div>
+                    <div><span class="text-[9px] font-mono text-indigo-400">01</span><h4 class="text-sm font-bold text-white leading-tight">Diagnostics</h4><p class="text-[11px] text-slate-500">Get a structured view of the patterns the assessment explores.</p></div>
                 </div>
                 <div class="relative z-10 flex items-center gap-4">
                     <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-violet-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-violet-400"><polyline points="4,17 10,11 14,15 20,7"></polyline><polyline points="14,7 20,7 20,13"></polyline></svg></div>
@@ -355,7 +357,7 @@
                 </div>
                 <div class="relative z-10 flex items-center gap-4">
                     <div class="w-[52px] h-[52px] rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-emerald-400"><path d="M3 12l5-9 5 9-5 9-5-9z"></path><path d="M13 12l5-9 5 9-5 9-5-9z"></path></svg></div>
-                    <div><span class="text-[9px] font-mono text-emerald-400">04</span><h4 class="text-sm font-bold text-white leading-tight">Prism360</h4><p class="text-[11px] text-slate-500">Prove behaviour actually changed.</p></div>
+                    <div><span class="text-[9px] font-mono text-emerald-400">04</span><h4 class="text-sm font-bold text-white leading-tight">Prism360</h4><p class="text-[11px] text-slate-500">Track whether targeted behaviours changed over time.</p></div>
                 </div>
                 <div class="relative z-10 flex items-center gap-4">
                     <div class="w-[52px] h-[52px] rounded-full bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/40"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M5 13l4 4L19 7"></path></svg></div>
@@ -466,7 +468,7 @@
                     <div class="w-11 h-11 rounded-xl bg-indigo-600/15 flex items-center justify-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-400"><circle cx="10" cy="10" r="6"></circle><line x1="19" y1="19" x2="14.5" y2="14.5"></line></svg></div>
                     <h4 class="text-base font-bold text-white">Diagnostics Suite</h4>
                     <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                        Before you can fix a manager problem, you need to know exactly what it is. Our eight proprietary assessments measure how a specific person actually thinks, decides, and behaves under real pressure — not a vague personality label. For your business, that means training budgets stop being a guess: you spend money on the gap that's actually there, instead of a generic program that might not even be relevant.
+                        Before you can fix a manager problem, you need to know exactly what it is. Our eight proprietary assessments are designed to assess reported patterns relevant to thinking, decision-making and behaviour under pressure — not a vague personality label. For your business, that means training budgets stop being a guess: you spend money on the gap the assessment actually points to, instead of a generic program that might not even be relevant.
                     </p>
                     <button onclick="showServicesPage('diagnostics')" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Learn More →</button>
                 </div>
@@ -593,7 +595,7 @@
                     <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center text-indigo-400 font-black text-lg border border-indigo-500/30">02</div>
                     <h4 class="text-lg font-bold text-white">Real, Named, Cited Science — Not Borrowed Credibility</h4>
                     <p class="text-xs text-slate-400 leading-relaxed flex-1">
-                        Every instrument in our suite is built on real, published, peer-reviewed research, cited by name: the HEXACO personality model, the Communication Styles Inventory, Yukl's hierarchical taxonomy of leadership behavior, meta-analytic research on emotional intelligence, and neuroscience research on stress and decision quality from Yale and Rockefeller University. Every question is written from scratch for Syntropix — none are adapted from any published test. We publish our validation status transparently as it progresses, rather than presenting projected results as if they were already established.
+                        Our instruments are informed by established published research and theoretical frameworks relevant to the constructs they assess: the HEXACO personality model, the Communication Styles Inventory, Yukl's hierarchical taxonomy of leadership behavior, meta-analytic research on emotional intelligence and leadership effectiveness, and research on stress, cognition and decision-making — including work by researchers affiliated with Yale and Rockefeller University. Every question is written from scratch for Syntropix — none are adapted from any published test, and the underlying research does not itself constitute validation of the Syntropix instrument. <button onclick="showBibliographyPage()" class="text-indigo-300 underline">See the full citation list →</button> We publish our validation status transparently as it progresses, rather than presenting projected results as if they were already established.
                     </p>
                 </div>
                 <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-4 shadow-xl flex flex-col">
@@ -688,13 +690,13 @@
             <button onclick="showDashboard()" class="px-4 py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg transition hover:bg-slate-700">Return to Hub</button>
         </div>
         <div class="space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12">
-            <h3 class="text-xl font-bold text-white">How Syntropix Coaching Transforms Elite Leadership</h3>
-            <p>Self-awareness without external empirical telemetry creates invisible blind spots. Our empanelled executive coaches utilize Syntropix reports to bypass months of exploratory dialogue.</p>
+            <h3 class="text-xl font-bold text-white">How Syntropix Coaching Supports Leadership Development</h3>
+            <p>Self-report can provide one perspective; multi-rater and other behavioural evidence can add context. Our empanelled executive coaches use Syntropix reports as a starting point for that conversation, rather than beginning from scratch.</p>
             <div class="space-y-4 pt-2">
                 <div class="p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
-                    <span class="text-[10px] font-mono uppercase bg-indigo-950 text-indigo-300 px-2.5 py-1 rounded-full border border-indigo-800">Case Study 1: Fintech Scale-Up CEO</span>
+                    <span class="text-[10px] font-mono uppercase bg-amber-950 text-amber-300 px-2.5 py-1 rounded-full border border-amber-800">Illustrative Scenario — Not a Documented Client Outcome</span>
                     <h4 class="text-sm font-bold text-white">Overcoming Operational Micro-Management</h4>
-                    <p class="text-xs text-slate-300">Using the Metacognitive Assessment, the coach mapped stress-induced tunneling. Within a 90-day protocol establishing 3-second strategic pauses, team retention improved by 35%.</p>
+                    <p class="text-xs text-slate-300">Using the Metacognitive Assessment as a starting point, a coach might work with a leader on noticing stress-induced tunnel vision and building in deliberate pauses before high-stakes decisions. This is an illustrative example of how the assessment could be used in coaching, not a documented result from a real engagement.</p>
                 </div>
             </div>
             <div class="pt-6 max-w-md mx-auto space-y-3">
@@ -905,6 +907,113 @@
         </div>
     </main>
 
+    <!-- SCIENTIFIC FOUNDATIONS & BIBLIOGRAPHY — the dedicated transparency
+         page. Every citation here has been independently verified as a
+         real, existing publication before being included. This page
+         directly serves the canonical positioning language, current
+         validation status, the published Scientific Claims Ladder, and a
+         construct-by-construct source list — replacing a previously dead
+         "Methodology page" link with a genuine, substantive one. -->
+    <main id="bibliography-view" class="hidden max-w-4xl mx-auto px-6 py-12 flex-1 w-full space-y-12">
+        <div class="text-center space-y-3">
+            <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Scientific Foundations</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Scientific Foundations & Bibliography</h2>
+            <p class="text-sm text-slate-400 max-w-2xl mx-auto">What real, published research informed each Syntropix instrument, exactly what that research does and doesn't establish about Syntropix itself, and where our own validation work currently stands. No overstatement, no vague name-dropping — every citation below is a real, checkable publication.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-4">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-400">Our Scientific Positioning, Plainly Stated</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">Syntropix assessments are structured behavioural and developmental instruments informed by established research in psychology, behavioural science and leadership. Our proprietary items and scoring models are developed using structured scale-construction methods, with reliability, validity and normative studies conducted progressively as evidence accumulates. Results are intended to support reflection, professional development and leadership development, and should be interpreted alongside relevant contextual and organisational evidence.</p>
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                <p class="text-xs text-slate-400 leading-relaxed"><strong class="text-white">The core rule we hold ourselves to:</strong> a validated underlying theory or framework is not the same thing as a validated Syntropix instrument. Our assessments can be genuinely informed by established science without yet having independent evidence that Syntropix's own scores reliably and validly support every interpretation someone might want to draw from them. Where you see "informed by" or "grounded in" below, that is a deliberate, precise choice of words — not "validated," "proven," or "clinically validated," unless the evidence for that specific, stronger claim actually exists.</p>
+            </div>
+        </div>
+
+        <div class="bg-amber-950/20 border border-amber-800/50 rounded-2xl p-8 space-y-3">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-amber-300">⚠ Current Validation Status</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">Validation status: ongoing. Formal reliability, construct-validity and norming studies are being conducted progressively. Until those studies are completed, Syntropix reports should be interpreted as developmental indicators within the Syntropix scoring framework — not as population norms, clinical thresholds, or independently validated predictors of job performance.</p>
+            <p class="text-sm text-slate-300 leading-relaxed">Syntropix assessments are designed for developmental and professional learning purposes. They are not clinical or medical diagnostic instruments and should not be used as the sole basis for decisions concerning an individual's medical, psychological or clinical status. Where assessments are used in employment contexts, organisations should apply them alongside appropriate job-related evidence, human judgement, and applicable legal and fairness requirements.</p>
+            <p class="text-xs text-slate-500">For the full technical detail behind this statement, see the <button onclick="showContactPage()" class="text-amber-300 underline">Technical Validation Manual</button> — available on request.</p>
+        </div>
+
+        <div class="space-y-4">
+            <h3 class="text-lg font-black text-white tracking-tight">The Syntropix Scientific Claims Ladder</h3>
+            <p class="text-sm text-slate-400">We publish this deliberately. It's the same framework we use internally to decide what language is honest to use today, and what would require more evidence first. We commit to using the strongest level of language for which we can currently produce real, contemporaneous evidence — nothing borrowed from the reputation of an underlying theory to imply our own instrument is validated.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-900 border border-emerald-800/50 rounded-xl p-5 space-y-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Level 1 — In Use Now</span>
+                    <p class="text-xs text-slate-400 leading-relaxed">"Research-informed," "informed by established frameworks," "structured behavioural assessment," "explores patterns," "designed to support professional development." This is the language used across syntropix.in today.</p>
+                </div>
+                <div class="bg-slate-900 border border-sky-800/50 rounded-xl p-5 space-y-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400">Level 2 — With Documentation</span>
+                    <p class="text-xs text-slate-400 leading-relaxed">"Evidence-informed," "built using established scale-construction methodology," "theoretically grounded" — each backed by a maintained construct-to-source evidence file, referenced on this page.</p>
+                </div>
+                <div class="bg-slate-900 border border-amber-800/50 rounded-xl p-5 space-y-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Level 3 — After Psychometric Evidence</span>
+                    <p class="text-xs text-slate-400 leading-relaxed">"Psychometrically evaluated," "evidence of construct validity," "norm-referenced" — not yet in use anywhere on this site. Requires completed reliability, factor-structure, and validity studies, each naming the population and sample.</p>
+                </div>
+                <div class="bg-slate-900 border border-rose-800/50 rounded-xl p-5 space-y-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Level 4 — High-Stakes / Specialist Claims</span>
+                    <p class="text-xs text-slate-400 leading-relaxed">"Validated for selection," "predicts performance," "clinically validated," "diagnostic." Not used anywhere on this site, and won't be until the specific, purpose-built evidence and governance this level requires actually exists.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <h3 class="text-lg font-black text-white tracking-tight">Construct-by-Construct Sources</h3>
+            <p class="text-sm text-slate-400">Every citation below was independently verified as a real, existing publication before being listed here. Where Syntropix's own application is an independent, proprietary development — not a reproduction of the cited instrument — that is stated explicitly.</p>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h4 class="text-sm font-bold text-white">Commercial Instinct Index™ — informed by the HEXACO personality model</h4>
+                <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                    <li>Ashton, M. C., Lee, K., Perugini, M., Szarota, P., De Vries, R. E., Di Blas, L., Boies, K., & De Raad, B. (2004). A six-factor structure of personality-descriptive adjectives: Solutions from psycholexical studies in seven languages. <em>Journal of Personality and Social Psychology, 86</em>(2), 356–366.</li>
+                    <li>Ashton, M. C., & Lee, K. (2008). The HEXACO Model of Personality Structure and the Importance of the H Factor. <em>Social and Personality Psychology Compass, 2</em>(6), 1952–1962. <a href="https://doi.org/10.1111/j.1751-9004.2008.00134.x" target="_blank" class="text-indigo-300 underline">doi.org/10.1111/j.1751-9004.2008.00134.x</a></li>
+                </ul>
+                <p class="text-[11px] text-slate-500 pt-1">Syntropix's items, scoring, and the Commercial Instinct Index instrument itself are an independent, proprietary application informed by this framework — not a reproduction of the HEXACO-PI-R, and not independently validated at this time.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h4 class="text-sm font-bold text-white">Communication Signature™ — informed by the Communication Styles Inventory</h4>
+                <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                    <li>de Vries, R. E., Bakker-Pieper, A., Konings, F. E., & Schouten, B. (2013). The Communication Styles Inventory (CSI): A six-dimensional behavioral model of communication styles and its relation with personality. <em>Communication Research, 40</em>(4), 506–532. <a href="https://doi.org/10.1177/0093650211413571" target="_blank" class="text-indigo-300 underline">doi.org/10.1177/0093650211413571</a></li>
+                </ul>
+                <p class="text-[11px] text-slate-500 pt-1">Syntropix's assessment applies its own item and scoring approach, informed by this published framework — not a licensed reproduction of the CSI, and not independently validated at this time.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h4 class="text-sm font-bold text-white">Managerial Effectiveness Index™ & Executive Leadership Index™ — informed by four bodies of research</h4>
+                <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                    <li><strong class="text-slate-300">Leadership behavior taxonomy:</strong> Yukl, G. (2012). Effective Leadership Behavior: What We Know and What Questions Need More Attention. <em>Academy of Management Perspectives, 26</em>(4), 66–85. <a href="https://doi.org/10.5465/amp.2012.0088" target="_blank" class="text-indigo-300 underline">doi.org/10.5465/amp.2012.0088</a></li>
+                    <li><strong class="text-slate-300">Emotional intelligence and leadership effectiveness:</strong> Whitman, D. S. (2009). Emotional intelligence and leadership in organizations: A meta-analytic test of process mechanisms (Doctoral dissertation, Florida International University). Meta-analysis of 92 independent studies found a moderate relationship (ρ = .25) between leader EI and effectiveness. <a href="https://digitalcommons.fiu.edu/dissertations/AAI3394823/" target="_blank" class="text-indigo-300 underline">digitalcommons.fiu.edu/dissertations/AAI3394823</a></li>
+                    <li><strong class="text-slate-300">Stress, cognition and decision-making (Yale):</strong> Arnsten, A. F. T. (2009). Stress signalling pathways that impair prefrontal cortex structure and function. <em>Nature Reviews Neuroscience, 10</em>, 410–422. <a href="https://doi.org/10.1038/nrn2648" target="_blank" class="text-indigo-300 underline">doi.org/10.1038/nrn2648</a></li>
+                    <li><strong class="text-slate-300">Stress, adaptation and allostatic load (Rockefeller):</strong> McEwen, B. S. (1998). Stress, Adaptation, and Disease: Allostasis and Allostatic Load. <em>Annals of the New York Academy of Sciences, 840</em>, 33–44. <a href="https://doi.org/10.1111/j.1749-6632.1998.tb09546.x" target="_blank" class="text-indigo-300 underline">doi.org/10.1111/j.1749-6632.1998.tb09546.x</a></li>
+                    <li><strong class="text-slate-300">Social capital and organisational networks:</strong> Bourdieu, P. (1986). The Forms of Capital. In J. G. Richardson (Ed.), <em>Handbook of Theory and Research for the Sociology of Education</em> (pp. 241–258). Greenwood Press. Burt, R. S. (1992). <em>Structural Holes: The Social Structure of Competition</em>. Harvard University Press.</li>
+                </ul>
+                <p class="text-[11px] text-slate-500 pt-1">These citations describe real, peer-reviewed research on the general constructs involved — leadership behavior, emotional intelligence, stress physiology, and social capital. None of them constitute validation of the Syntropix instrument itself. Arnsten and McEwen's work specifically concerns the biological effects of stress on cognition in general; Syntropix's assessment is a self-report questionnaire, not a neurological measurement, and no claim is made that it measures brain activity directly.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h4 class="text-sm font-bold text-white">All instruments — scale-construction methodology</h4>
+                <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                    <li>DeVellis, R. F. <em>Scale Development: Theory and Applications</em>. Sage Publications. <a href="https://us.sagepub.com/en-us/nam/scale-development/book269114" target="_blank" class="text-indigo-300 underline">us.sagepub.com/scale-development</a></li>
+                    <li>Hinkin, T. R. (1998). A brief tutorial on the development of measures for use in survey questionnaires. <em>Organizational Research Methods, 1</em>(1), 104–121.</li>
+                </ul>
+                <p class="text-[11px] text-slate-500 pt-1">Every item across all ten Syntropix instruments was written from scratch, following this methodology — none are adapted from any existing published or copyrighted test.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+                <h4 class="text-sm font-bold text-white">CogniMorph Index™, Coachability Quotient™, Metacognitive Executive Assessment, Strategic Inversion Diagnostics™, Self-Limiting Belief Auditor™, Cognitive Learning Profiler™</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">These six instruments are informed by general, established research literatures on adaptive resilience, feedback receptivity and coaching psychology, metacognition, systems and strategic thinking, self-efficacy and cognitive-behavioral patterns, and learning agility — following the same scale-construction methodology above. A named, publication-level construct-to-literature matrix for each of these six is in active development as part of our validation roadmap, and will be published here as it's completed, rather than asserted ahead of that work.</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-3 text-center">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-400">Questions About Any of This?</h3>
+            <p class="text-sm text-slate-400 max-w-xl mx-auto">If you're doing procurement, legal, or scientific due diligence and need more detail than what's published here — including our full validation roadmap and Technical Validation Manual — we'd genuinely rather have that conversation directly than leave you guessing.</p>
+            <button onclick="showContactPage()" class="px-6 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">Contact Us →</button>
+        </div>
+    </main>
+
     <main id="payments-refund-view" class="hidden max-w-3xl mx-auto px-6 py-12 flex-1 w-full space-y-10">
         <div class="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
@@ -1065,7 +1174,7 @@
                 </div>
             </div>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-                A structured assessment portfolio — multi-dimensional instruments built specifically to measure how a manager actually thinks, decides, and behaves under real pressure, not just how they'd like to describe themselves on a good day. Eight proprietary scales, each targeting a specific, practical capability rather than a vague personality label.
+                A structured assessment portfolio — multi-dimensional instruments designed to explore patterns relevant to how a manager thinks, decides, and behaves under pressure, rather than relying solely on a single self-description. Eight proprietary scales, each targeting a specific, practical capability rather than a vague personality label.
             </p>
             <div class="flex flex-wrap items-center gap-3 pt-2">
                 <button onclick="showDashboard(); scrollToSection('usp-section')" class="px-6 py-2.5 rounded-lg border border-slate-700 hover:border-indigo-500 text-slate-200 text-xs font-bold uppercase tracking-wider transition">Our Methodology & USP →</button>
@@ -1075,8 +1184,8 @@
         <section id="assessments-section" class="space-y-8 pt-4">
             <div class="text-center space-y-3 max-w-2xl mx-auto">
                 <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">The Instruments</span>
-                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Your Career Has Vital Signs. Most People Only Check One.</h3>
-                <p class="text-xs text-slate-400 max-w-xl mx-auto">A single personality quiz hands you one number and a label — like taking someone's temperature and calling it a checkup. Resilience, coachability, and strategic thinking aren't the same muscle, so we built eight separate, purpose-built instruments instead of one blurry composite. Combined with Prism360's outside view and the flagship Executive Leadership Index below, this is the full panel: one precise reading at a time, or the whole picture at once.</p>
+                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Your Development Has Multiple Signals. Most People Only Check One.</h3>
+                <p class="text-xs text-slate-400 max-w-xl mx-auto">A single personality quiz hands you one number and a label. Resilience, coachability, and strategic thinking aren't the same capability, so we built eight separate, purpose-built instruments instead of one blurry composite. Combined with Prism360's outside view and the flagship Executive Leadership Index below, this lets you explore one specific pattern at a time, or a broader picture at once.</p>
                 <div class="flex justify-center pt-2">
                     <button onclick="openQuickMatcherModal()" class="w-full sm:w-auto flex items-center gap-3 px-6 py-3 rounded-lg border border-indigo-600/60 hover:border-indigo-400 text-left transition">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-indigo-300 shrink-0"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
@@ -1107,9 +1216,9 @@
             <div class="bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-700/40 rounded-3xl p-8 sm:p-10 space-y-8">
                 <div class="text-center space-y-3 max-w-3xl mx-auto">
                     <span class="text-xs font-mono font-bold uppercase tracking-widest text-amber-400">Syntropix Flagship — One of a Kind</span>
-                    <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">The Only Instrument Built to Answer the Whole Question</h3>
+                    <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">One Integrated Instrument, Broader Leadership Coverage</h3>
                     <p class="text-sm text-slate-300 leading-relaxed">
-                        Every assessment above measures one specific, well-defined capability. This measures ten — the complete architecture of what real, peer-reviewed research shows actually predicts managerial effectiveness. Not a combination of the assessments above. An entirely original instrument, purpose-built from the ground up.
+                        Every assessment above measures one specific, well-defined capability. This measures ten — capabilities identified in research as relevant to managerial effectiveness. Not a combination of the assessments above. An entirely original instrument, purpose-built from the ground up.
                     </p>
                 </div>
 
@@ -1118,7 +1227,7 @@
                     <div class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">Developing your team</strong> — not just being coachable yourself</span></div>
                     <div class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">Leading real change</strong> — rallying others, not just adapting yourself</span></div>
                     <div class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">Influence beyond your team</strong> — network, upward representation</span></div>
-                    <div class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">Composure under real pressure</strong> — grounded in neuroscience</span></div>
+                    <div class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">Composure under pressure</strong> — informed by research on stress, cognition and decision-making</span></div>
                     <div class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span><span><strong class="text-white">200 original questions</strong> — none adapted from any published test</span></div>
                 </div>
 
@@ -1132,7 +1241,7 @@
                 <div class="bg-amber-950/20 border border-amber-800/40 rounded-2xl p-5 max-w-2xl mx-auto">
                     <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2">What Changes When You Take This</h4>
                     <p class="text-[11px] text-slate-300 leading-relaxed">
-                        You stop guessing which of your capabilities are actually load-bearing for your team and organization, and which just feel important. You get a specific, evidence-based answer to where your real ceiling is right now — not a vague personality label, but ten concrete, actionable dimensions with a 90-day plan for the ones that matter most. For an organization, it replaces a gut-feel promotion or succession call with an actual, defensible, comprehensive picture.
+                        You stop guessing which of your capabilities are actually load-bearing for your team and organization, and which just feel important. You receive a structured, research-informed profile of the capabilities the assessment explores — not a vague personality label, but ten defined dimensions with development priorities and a 90-day action plan. For an organization, it adds structured assessment evidence to promotion and succession conversations, alongside other relevant evidence.
                     </p>
                 </div>
 
@@ -1142,7 +1251,7 @@
                             <h4 class="text-lg font-bold text-white">Managerial Effectiveness Index™</h4>
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-slate-300 border border-slate-700">Core</span>
                         </div>
-                        <p class="text-xs text-slate-400 leading-relaxed">The same 10-dimension architecture, at focused depth — 50 questions, ~25 minutes. A genuine, accurate first read on your managerial capability.</p>
+                        <p class="text-xs text-slate-400 leading-relaxed">The same 10-dimension architecture, at focused depth — 50 questions, ~25 minutes. A structured first read on the managerial capabilities the assessment explores.</p>
                         <p class="text-[11px] text-slate-500">For: any working manager, self-serve.</p>
                         <div class="text-2xl font-black text-white"><span id="flagship-mei-price">$99</span></div>
                         <p class="discount-preview text-[11px] text-emerald-400 hidden" data-assessment="Managerial Effectiveness Index"></p>
@@ -1155,7 +1264,7 @@
                             <h4 class="text-lg font-bold text-white">Executive Leadership Index™</h4>
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-950 text-amber-300 border border-amber-700">Advanced</span>
                         </div>
-                        <p class="text-xs text-slate-300 leading-relaxed">The complete, comprehensive instrument — 200 questions, ~90 minutes. Built for high-stakes decisions: succession planning, executive promotion, senior hiring.</p>
+                        <p class="text-xs text-slate-300 leading-relaxed">Our flagship, broader-coverage instrument — 200 questions, ~90 minutes. Designed for leadership-development, succession-development and executive capability conversations — not a standalone basis for high-stakes employment decisions.</p>
                         <p class="text-[11px] text-slate-400">For: organizations making a big leadership decision.</p>
                         <div class="text-2xl font-black text-white"><span id="flagship-eli-price">$499</span></div>
                         <p class="discount-preview text-[11px] text-emerald-400 hidden" data-assessment="Executive Leadership Index"></p>
@@ -1189,7 +1298,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">CogniMorph Index™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Are your setbacks quietly building you, or quietly capping you?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">The gap between people who plateau and people who don't is rarely talent — it's what they do with failure in the first ten minutes after it happens. This measures exactly that: your resilience under pressure, and whether mistakes register as threats or as data.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">The gap between people who plateau and people who don't is rarely talent — it's what they do with failure in the first ten minutes after it happens. This assessment explores patterns relevant to resilience and how setbacks are processed under pressure — whether they tend to register as threats or as data.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="CogniMorph Index"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="CogniMorph Index"></p>
@@ -1204,7 +1313,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Coachability Quotient™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Tough feedback: fuel, or a personal attack?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">The fastest-promoted people in any room are rarely the most talented — they're just the quickest to turn criticism into a next move. This is a direct read on your speed: how open you are to mentoring, and how fast advice actually becomes a new habit.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">The fastest-promoted people in any room are rarely the most talented — they're just the quickest to turn criticism into a next move. This assessment explores patterns related to openness to feedback, mentoring, and how developmental input tends to get applied.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Coachability Quotient"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Coachability Quotient"></p>
@@ -1219,7 +1328,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Metacognitive Executive™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"When everything's on fire, can you still watch your own thinking clearly?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Smart people make bad calls under pressure constantly — not from a lack of intelligence, but a failure to notice their own blind spots in the moment. This audits that noticing: how you allocate mental energy and debug problems in real time.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Smart people make bad calls under pressure constantly — not from a lack of intelligence, but a failure to notice their own blind spots in the moment. This explores metacognitive patterns such as monitoring attention, evaluating reasoning, and reflecting on problem-solving in real time.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Metacognitive Executive Assessment"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Metacognitive Executive Assessment"></p>
@@ -1234,7 +1343,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Strategic Inversion Diagnostics™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Is today's clever fix quietly building tomorrow's fire?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Most operational disasters were once someone's smart short-term solution. This checks whether you can see two moves ahead before you commit to the first one — first-principles thinking, and a real read on second-order consequences.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Most operational disasters were once someone's smart short-term solution. This explores strategic reasoning and consideration of potential second-order consequences, including first-principles thinking.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Strategic Inversion Diagnostics"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Strategic Inversion Diagnostics"></p>
@@ -1249,7 +1358,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Self-Limiting Belief Auditor™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"What invisible rule is capping you — one you've never actually said out loud?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Nobody plateaus on purpose. Most ceilings are self-installed, unexamined, and years old. This finds the specific ones — imposter-syndrome triggers and quiet self-sabotage — running your career without your permission.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Nobody plateaus on purpose. Most ceilings are self-installed, unexamined, and years old. This explores patterns of self-doubt, perceived limitations, and recurring beliefs that may be quietly shaping professional behaviour.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Self-Limiting Belief Auditor"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Self-Limiting Belief Auditor"></p>
@@ -1264,7 +1373,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Cognitive Learning Profiler™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"AI just rewrote your job description again. How fast can you actually catch up?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">The shelf life of any given skill keeps shrinking. This maps how quickly you genuinely absorb something new — your sensory preferences and conceptual synthesis speed — not how many certificates you've collected.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">The shelf life of any given skill keeps shrinking. This explores how you approach new information, unfamiliar problems, and conceptual synthesis — not how many certificates you've collected.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Cognitive Learning Profiler"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Cognitive Learning Profiler"></p>
@@ -1279,7 +1388,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Commercial Instinct Index™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Does your personality actually close deals, or just start conversations?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Warmth gets you in the door. A completely different set of traits is what gets someone to actually sign. Built on the validated HEXACO framework, this maps six patterns — integrity under incentive, rejection resilience, negotiation composure, and more.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Warmth gets you in the door. A completely different set of traits is what gets someone to actually sign. Informed by the established HEXACO personality framework, this explores six patterns — integrity under incentive, rejection resilience, negotiation composure, and more. Syntropix's application and scoring are independently developed.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Commercial Instinct Index"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Commercial Instinct Index"></p>
@@ -1294,7 +1403,7 @@
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition">Communication Signature™</h4>
                         <p class="text-xs text-slate-300 leading-relaxed italic">"Does your message land as sent, or does it always need a follow-up to explain what you meant?"</p>
-                        <p class="text-[11px] text-slate-400 leading-relaxed">Most communication breakdowns aren't about vocabulary — they're a mismatch nobody ever named. Built on the peer-reviewed Communication Styles Inventory, this names yours across six validated dimensions: precision, composure, directness, and more.</p>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Most communication breakdowns aren't about vocabulary — they're a mismatch nobody ever named. Informed by the published Communication Styles Inventory, this explores six dimensions — precision, composure, directness, and more. Syntropix's assessment applies its own item and scoring approach.</p>
                     </div>
                     <div class="hub-rating-display text-[11px] text-slate-400 mb-2" data-assessment-rating="Communication Signature"><span class="text-slate-700">☆☆☆☆☆</span></div>
                     <p class="discount-preview text-[11px] text-emerald-400 -mt-1 hidden" data-assessment="Communication Signature"></p>
@@ -1333,7 +1442,7 @@
                 <div class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2">
                     <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-black text-sm flex items-center justify-center mx-auto">1</div>
                     <h4 class="text-sm font-bold text-white">Assessment</h4>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">We measure before we plan anything. Every manager completes a structured psychometric diagnostic first — no guessing at what "leadership training" should cover.</p>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">We measure before we plan anything. Every manager completes a structured behavioural and developmental assessment first — no guessing at what "leadership training" should cover.</p>
                 </div>
                 <div class="hidden md:flex items-center justify-center text-slate-600 px-1">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polyline points="9,6 15,12 9,18"></polyline></svg>
@@ -1341,7 +1450,7 @@
                 <div class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-5 text-center space-y-2">
                     <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-black text-sm flex items-center justify-center mx-auto">2</div>
                     <h4 class="text-sm font-bold text-white">Diagnosis</h4>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">Scores become a real plan. We identify the two or three specific gaps actually holding someone back — not a generic list of "areas for improvement."</p>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Scores become a real plan. We identify two or three development priorities indicated by the assessment and contextual evidence — not a generic list of "areas for improvement."</p>
                 </div>
                 <div class="hidden md:flex items-center justify-center text-slate-600 px-1">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><polyline points="9,6 15,12 9,18"></polyline></svg>
@@ -1365,7 +1474,7 @@
                 <div class="flex-1 bg-slate-900 border border-indigo-800/50 rounded-2xl p-5 text-center space-y-2">
                     <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-black text-sm flex items-center justify-center mx-auto">5</div>
                     <h4 class="text-sm font-bold text-white">Behavioural Evidence</h4>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">We re-measure. A genuine before-and-after comparison — the only honest way to know whether the development actually worked.</p>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">We re-measure. A before-and-after comparison provides structured evidence of change in the targeted behaviours over time.</p>
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
@@ -1376,7 +1485,7 @@
                 </div>
                 <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
                     <h4 class="text-sm font-bold text-white">Manager Effectiveness Program</h4>
-                    <p class="text-xs text-slate-400">A focused diagnostic on how a specific manager or team of managers thinks, behaves, and leads today — the fastest way to find out exactly where a development budget should actually go.</p>
+                    <p class="text-xs text-slate-400">A focused, structured assessment of how a specific manager or team of managers approaches their role today — a way to identify development priorities and inform where development resources may be focused.</p>
                     <button onclick="showContactPage()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Diagnostics →</button>
                 </div>
                 <div class="p-6 bg-slate-900 border border-indigo-800/50 rounded-2xl space-y-2">
@@ -1391,7 +1500,7 @@
                 </div>
                 <div class="p-6 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
                     <h4 class="text-sm font-bold text-white">Assessment & Development Centres</h4>
-                    <p class="text-xs text-slate-400">A structured, multi-exercise centre (simulations, role-plays, business cases) to identify leadership strengths, real development gaps, and genuine promotion readiness — positioned as a development tool first, not a high-stakes selection gate.</p>
+                    <p class="text-xs text-slate-400">A structured, multi-exercise centre (simulations, role-plays, business cases) to identify leadership strengths and development priorities, generating developmental evidence relevant to promotion-readiness discussions — positioned as a development tool first, not a high-stakes selection gate.</p>
                     <button onclick="showContactPage()" class="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition">Explore Assessment Centres →</button>
                 </div>
             </div>
@@ -1532,7 +1641,7 @@
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 sm:p-12 space-y-8 shadow-xl">
             <div class="text-center max-w-2xl mx-auto">
                 <h3 class="text-xl font-bold text-white">We are here to elevate your human potential.</h3>
-                <p class="text-sm text-slate-400 mt-2">Whether you need enterprise deployment assistance, custom psychometric validation, or technical support, our team is ready to assist.</p>
+                <p class="text-sm text-slate-400 mt-2">Whether you need enterprise deployment assistance, custom assessment validation, or technical support, our team is ready to assist.</p>
                 <p class="text-xs text-slate-500 mt-3">Evaluating us for a security or vendor review? <button onclick="showSecurityPage()" class="text-indigo-300 underline">See our Security & Data Privacy practices →</button></p>
             </div>
             
@@ -1975,11 +2084,11 @@
                     📖 How to Read This Report & Approach It Without Bias
                 </div>
                 <p class="text-xs text-slate-300 leading-relaxed">
-                    This report is an objective mirror. Approach your scores without judgment. Leadership excellence is about recognizing your current mental blind spots and deliberately rewiring daily habits.
+                    This report offers one structured perspective on the patterns explored, based on your own self-report. Approach your scores as a starting point for reflection rather than a final verdict — leadership development is about noticing current patterns and deliberately practicing new ones over time.
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-[11px] text-slate-300">
-                    <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800"><strong class="text-indigo-300 block mb-1">1. Objective Acceptance</strong> Treat scores as neutral data points.</div>
-                    <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800"><strong class="text-indigo-300 block mb-1">2. Target Gaps</strong> Focus energy on your lowest subscale.</div>
+                    <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800"><strong class="text-indigo-300 block mb-1">1. Neutral Starting Point</strong> Treat scores as data points for reflection, not a verdict.</div>
+                    <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800"><strong class="text-indigo-300 block mb-1">2. Target Priorities</strong> Focus energy on your lowest-scoring dimension.</div>
                     <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800"><strong class="text-indigo-300 block mb-1">3. Daily Action</strong> Implement the 30-60-90 day exercises consistently.</div>
                 </div>
             </div>
@@ -1996,8 +2105,8 @@
                 <div class="space-y-4">
                     <h3 class="text-sm font-bold uppercase text-indigo-400 border-l-2 border-indigo-500 pl-3">How to Interpret This Score</h3>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        A score of <strong id="dynamic-score-text" class="text-white"></strong> is not inherently "good" or "bad"—it is a diagnostic coordinate indicating your current level of neuro-adaptive flexibility under stress. 
-                        Scores below 60 indicate rigid mental systems that struggle with ambiguity; scores between 60-79 indicate moderate adaptability with specific environmental triggers; scores 80+ demonstrate elite cognitive fluidity.
+                        A score of <strong id="dynamic-score-text" class="text-white"></strong> is not inherently "good" or "bad" — it reflects your relative position within the Syntropix scoring framework on the patterns this assessment explores, based on your own self-report.
+                        Scores below 60 suggest this may currently be an area worth deliberate attention; scores between 60-79 suggest a moderate, situational expression of this pattern; scores of 80+ suggest a stronger, more consistent expression of this pattern in how you describe yourself. These bands are descriptive within the Syntropix framework, not clinical thresholds or population norms.
                     </p>
                 </div>
 
@@ -2041,9 +2150,9 @@
                 <div class="keep-together p-4 bg-slate-950 rounded-xl border border-slate-800 mt-4">
                     <h4 class="text-xs font-bold text-white mb-2">What Your Score Range Means</h4>
                     <div class="text-[11px] text-slate-400 leading-relaxed space-y-2">
-                        <p><strong class="text-rose-300">0–40 (Developing):</strong> Suggests this pattern shows up inconsistently under pressure — a strong candidate for focused, near-term development work, since even small deliberate changes here tend to compound quickly.</p>
-                        <p><strong class="text-amber-300">41–70 (Emerging):</strong> The capability is present and usable, but not yet a reliable default under stress or ambiguity — the goal is consistency, not a new skill.</p>
-                        <p><strong class="text-emerald-300">71–100 (Strong):</strong> This tends to be a genuine strength you can lean on — worth naming explicitly in how you lead, since strengths used deliberately compound faster than weaknesses fixed reluctantly.</p>
+                        <p><strong class="text-rose-300">0–40 (Lower observed expression):</strong> This range indicates a lower score within the current Syntropix scoring framework and may identify this pattern as a near-term development priority — even small deliberate changes here tend to compound quickly.</p>
+                        <p><strong class="text-amber-300">41–70 (Moderate observed expression):</strong> This range indicates a moderate score within the current Syntropix scoring framework — the capability appears present and usable, but not yet a reliable default under stress or ambiguity.</p>
+                        <p><strong class="text-emerald-300">71–100 (Higher observed expression):</strong> This range indicates a higher score within the current Syntropix scoring framework and may identify an area to explore as a potential strength worth naming explicitly in how you lead.</p>
                     </div>
                 </div>
 
@@ -2051,9 +2160,9 @@
                     <div>
                         <h4 class="text-xs font-bold text-emerald-400">Your Percentile Rank: <span id="rep-cohort-percentile"></span></h4>
                         <div class="text-[11px] text-slate-400 mt-2 max-w-md leading-relaxed space-y-2">
-                            <p><strong class="text-white">What does Percentile mean?</strong> This reflects your standing relative to other Syntropix participants on this dimension, not the raw percentage of "correct" answers — there are no correct answers on this instrument, only patterns.</p>
+                            <p><strong class="text-white">What does Percentile mean?</strong> This reflects your standing relative to other Syntropix participants on this dimension, not the raw percentage of "correct" answers — there are no correct answers on this instrument, only patterns. This is descriptive of the current participant pool and should not be interpreted as a population-representative norm.</p>
                             <ul class="list-disc list-inside space-y-1 ml-1">
-                                <li><strong>Your comparison group:</strong> Your score ranks higher than <span id="rep-cohort-pct-text-small" class="text-white font-bold"></span> of participants who have completed the Syntropix suite to date.</li>
+                                <li><strong>Your comparison group:</strong> Your score falls higher than <span id="rep-cohort-pct-text-small" class="text-white font-bold"></span> of participants who have completed the Syntropix suite to date.</li>
                                 <li><strong>What this doesn't mean:</strong> A high percentile here reflects your standing within our current participant pool specifically — not a claim about the general population or a comparison to any external, independently validated norm.</li>
                             </ul>
                         </div>
@@ -2069,31 +2178,31 @@
 
             <div class="space-y-6">
                 <div class="border-b border-slate-800 pb-2 flex justify-between items-center">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Cognitive Subscale Diagnostics & Gap Analysis</h3>
-                    <span class="text-[10px] font-mono text-indigo-400 bg-indigo-950 px-2.5 py-1 rounded border border-indigo-800">Empirical Telemetry</span>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Dimension-by-Dimension Profile & Development Priorities</h3>
+                    <span class="text-[10px] font-mono text-indigo-400 bg-indigo-950 px-2.5 py-1 rounded border border-indigo-800">Assessment Evidence</span>
                 </div>
                 <div class="grid grid-cols-1 gap-6" id="detailed-subscales-grid"></div>
             </div>
 
             <div class="bg-slate-900 border border-indigo-900/60 p-6 rounded-xl space-y-3 print-card shadow-lg">
-                <h3 class="text-sm font-bold uppercase text-indigo-400 border-b border-indigo-900/50 pb-2">Combined Cognitive Inference: Your Mindset at Work</h3>
+                <h3 class="text-sm font-bold uppercase text-indigo-400 border-b border-indigo-900/50 pb-2">Integrated Capability Profile: Patterns Relevant to Your Development</h3>
                 <p id="combined-inference-text" class="text-xs text-slate-300 leading-relaxed pt-2"></p>
             </div>
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 print-card">
-                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">Dimensional Topology Map</h4>
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">Capability Profile Map</h4>
                 <div class="flex flex-col md:flex-row items-center gap-6 pt-2">
                     <div class="flex flex-col items-center shrink-0">
                         <div class="px-6 py-2"><canvas id="radarChart" width="280" height="280" class="w-full max-w-[280px]"></canvas></div>
-                        <span class="text-[10px] text-slate-400 mt-2 font-mono">Axis Scale: 0% to 100% Optimal</span>
+                        <span class="text-[10px] text-slate-400 mt-2 font-mono">Relative Score: 0–100 within the Syntropix scoring framework</span>
                     </div>
                     <div class="space-y-4 text-xs text-slate-300 leading-relaxed border-t md:border-t-0 md:border-l border-slate-800 md:pl-6 w-full">
                         <div>
-                            <h5 class="font-bold text-white uppercase text-[11px] tracking-wider text-indigo-300 mb-1">Topology Architecture</h5>
-                            <p><strong>What the Graph Says:</strong> A balanced, symmetrical polygon indicates steady, multi-dimensional agility under stress. An asymmetrical or constricted geometric shape immediately highlights highly specific mental bottlenecks where operational stress triggers defensive rigidity rather than adaptive, fluid problem-solving.</p>
+                            <h5 class="font-bold text-white uppercase text-[11px] tracking-wider text-indigo-300 mb-1">Reading This Profile</h5>
+                            <p><strong>What the Graph Shows:</strong> This visualises your relative scores across the assessed dimensions within the Syntropix scoring framework. Interpretation should focus on the pattern of relative strengths and development priorities it suggests, rather than the shape itself as a diagnosis.</p>
                         </div>
                         <div>
-                            <h5 class="font-bold text-white uppercase text-[11px] tracking-wider text-indigo-300 mb-1">Actionable Topology Outcome</h5>
+                            <h5 class="font-bold text-white uppercase text-[11px] tracking-wider text-indigo-300 mb-1">What This Suggests for Development</h5>
                             <p id="topology-inference-text"></p>
                         </div>
                     </div>
@@ -2133,7 +2242,7 @@
                 
                 <div class="bg-purple-950/20 p-4 rounded-lg border border-purple-900/30 text-[11px] text-purple-200 leading-relaxed">
                     <strong class="text-white block mb-1">How to use your dedicated AI Coach:</strong>
-                    This AI has deeply analyzed your unique scoring topology. It acts as an elite executive advisor. You can ask it to:
+                    This AI uses your assessment results to provide personalised developmental guidance. It provides AI-generated developmental coaching and reflection prompts. You can ask it to:
                     <ul class="list-disc list-inside mt-1 space-y-1">
                         <li>"Generate a 360-degree feedback email template based on my Phase 2 goals."</li>
                         <li>"Explain how my low score impacts my ability to lead my specific department."</li>
@@ -2145,7 +2254,7 @@
                     <div class="flex gap-2.5 items-start">
                         <div class="w-6 h-6 rounded-full bg-purple-600/30 text-purple-300 flex items-center justify-center font-bold text-[10px] shrink-0">AI</div>
                         <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 max-w-2xl leading-relaxed">
-                            Hello! I’ve synthesized your complete telemetry report. I can explain your scores, act as an executive sounding board, or even <strong>generate and download tracking sheets/PDFs</strong> directly to your computer. How can I help you implement your 12-step protocol today?
+                            Hello! I've synthesised your assessment results. I can explain your scores, act as a reflective sounding board, or even <strong>generate and download tracking sheets/PDFs</strong> directly to your computer. How can I help you work through your development plan today?
                         </div>
                     </div>
                 </div>
@@ -2172,7 +2281,7 @@
                     
                     <div class="p-5 bg-indigo-900/40 border border-indigo-500 rounded-xl shadow-lg transform transition hover:scale-[1.01] max-w-4xl mx-auto">
                         <p class="text-sm text-indigo-100 leading-relaxed italic font-bold">
-                            Unlike legacy personality inventories which measure static occupational traits, Syntropix focuses on how you actually respond to real-world pressure, feedback, and ambiguity. Our scales are being built following DeVellis and Hinkin's scale-construction methodology, and we're transparent that formal reliability and validity testing is still in progress — see the Methodology page for our current validation status.
+                            Unlike legacy personality inventories which measure static occupational traits, Syntropix explores patterns relevant to how you respond to pressure, feedback, and ambiguity. Our scales are being built following DeVellis and Hinkin's scale-construction methodology, and we're transparent that formal reliability and validity testing is still in progress — see <button onclick="showBibliographyPage()" class="text-indigo-300 underline">Scientific Foundations & Bibliography</button> for our current validation status and full citations.
                         </p>
                     </div>
 
@@ -2393,7 +2502,7 @@
             <p class="text-[10px] uppercase font-bold text-slate-500 pt-2">Frequently Asked</p>
             <details class="bg-slate-950 border border-slate-800 rounded-lg p-3 group">
                 <summary class="cursor-pointer text-xs font-semibold text-slate-200 list-none flex items-center justify-between">What does Syntropix actually do?<span class="text-slate-500 text-[10px] group-open:rotate-180 transition">▼</span></summary>
-                <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">We help organisations assess, develop, and elevate managers — through psychometric diagnostics, structured development programs, Prism360 360° feedback, and AI-assisted coaching.</p>
+                <p class="text-[11px] text-slate-400 mt-2 leading-relaxed">We help organisations assess, develop, and elevate managers — through structured behavioural assessments, structured development programs, Prism360 360° feedback, and AI-assisted coaching.</p>
             </details>
             <details class="bg-slate-950 border border-slate-800 rounded-lg p-3 group">
                 <summary class="cursor-pointer text-xs font-semibold text-slate-200 list-none flex items-center justify-between">How long does an assessment take?<span class="text-slate-500 text-[10px] group-open:rotate-180 transition">▼</span></summary>
@@ -2606,7 +2715,7 @@
                 title: "Managerial Effectiveness Index™ (Core)",
                 introHeader: "Introduction: The Syntropix Managerial Effectiveness Index™",
                 introBody: `<p>The Managerial Effectiveness Index™ is a focused, 50-question read on the ten dimensions that real research shows actually predict managerial effectiveness — spanning how you execute, how you develop and protect your team, how you lead change, your influence beyond your own team, and your composure under real pressure.</p>
-                            <p>This is the accessible entry point into Syntropix's flagship assessment architecture — the same ten scientifically-grounded dimensions as the full Executive Leadership Index, measured at a faster, more focused depth. If you're facing a specific high-stakes decision — succession planning, a senior hire, executive promotion — the full 200-question Executive Leadership Index gives the complete picture; this gives you a genuine, accurate first read.</p>`,
+                            <p>This is the accessible entry point into Syntropix's flagship assessment architecture — the same ten research-informed dimensions as the full Executive Leadership Index, measured at a faster, more focused depth. If you're navigating a leadership-development or succession conversation — a senior hire, an executive promotion decision — the full 200-question Executive Leadership Index gives broader coverage; this gives you a structured first read.</p>`,
                 archetypes: MEI_ARCHETYPES,
                 dimensionData: MEI_DIMENSION_DATA,
                 phases: MEI_PHASES,
@@ -3472,6 +3581,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             if (!skipScroll) window.scrollTo(0, 0);
@@ -3490,6 +3600,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('coaching-view').classList.remove('hidden');
             refreshCoachRequestState();
@@ -3578,6 +3689,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3596,6 +3708,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('services-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3620,6 +3733,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('founder-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3638,6 +3752,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('contact-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3656,6 +3771,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('prism360-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3676,6 +3792,7 @@
             document.getElementById('founder-view')?.classList.add('hidden');
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view').classList.remove('hidden');
             resetPrism360Form();
@@ -3684,6 +3801,25 @@
         }
 
         // Trust Center — Security & Data Privacy page.
+        function showBibliographyPage() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('assessment-view-container').classList.add('hidden');
+            document.getElementById('talk-to-syntropix-btn')?.classList.remove('hidden');
+            document.getElementById('chat-widget-bubble')?.classList.remove('hidden');
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('contact-view').classList.add('hidden');
+            document.getElementById('coaching-view').classList.add('hidden');
+            document.getElementById('compliance-suite-view')?.classList.add('hidden');
+            document.getElementById('services-view')?.classList.add('hidden');
+            document.getElementById('founder-view')?.classList.add('hidden');
+            document.getElementById('prism360-view')?.classList.add('hidden');
+            document.getElementById('prism360-admin-view')?.classList.add('hidden');
+            document.getElementById('payments-refund-view')?.classList.add('hidden');
+            document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
         function showSecurityPage() {
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('assessment-view-container').classList.add('hidden');
@@ -3698,6 +3834,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('security-view').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
@@ -3716,6 +3853,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -3874,6 +4012,7 @@
             document.getElementById('prism360-view')?.classList.add('hidden');
             document.getElementById('prism360-admin-view')?.classList.add('hidden');
             document.getElementById('security-view')?.classList.add('hidden');
+            document.getElementById('bibliography-view')?.classList.add('hidden');
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('admin-dashboard-view').classList.remove('hidden');
 
@@ -5776,7 +5915,7 @@
             { name: "Commercial Instinct Index", short: "Commercial Instinct Index™", tagline: "The personality patterns behind real sales performance.", initial: "$", color: "indigo" },
             { name: "Communication Signature", short: "Communication Signature™", tagline: "How you actually communicate under real workplace pressure.", initial: "C", color: "sky" },
             { name: "Managerial Effectiveness Index", short: "Managerial Effectiveness Index™", tagline: "A focused, 50-question read on core managerial capability.", initial: "M", color: "slate" },
-            { name: "Executive Leadership Index", short: "Executive Leadership Index™", tagline: "The comprehensive, 10-dimension flagship — built for high-stakes decisions.", initial: "E", color: "amber" },
+            { name: "Executive Leadership Index", short: "Executive Leadership Index™", tagline: "The broader-coverage, 10-dimension flagship — for leadership-development and succession conversations.", initial: "E", color: "amber" },
             { name: "Prism360", short: "Prism360", tagline: "Structured, anonymous multi-rater 360° feedback from a real team.", initial: "P", color: "violet" },
         ];
 
