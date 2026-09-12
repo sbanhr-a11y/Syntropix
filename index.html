@@ -197,9 +197,14 @@
 
     <header class="no-print border-b border-slate-800/80 bg-slate-950/90 backdrop-blur sticky top-0 z-40" id="main-header">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard(); closeMobileMenu();">
-                <img src="logo.png" alt="Syntropix Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
-                <div id="logo-fallback" class="hidden w-11 h-11 rounded-lg bg-indigo-600 items-center justify-center font-black text-white text-lg">S</div>
+            <div class="flex items-center gap-3">
+                <button id="global-back-btn" onclick="history.back()" title="Back" class="hidden w-9 h-9 rounded-lg border border-slate-700 hover:border-indigo-500 hover:bg-slate-900 flex items-center justify-center text-slate-300 hover:text-white transition shrink-0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </button>
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="showDashboard(); closeMobileMenu();">
+                    <img src="logo.png" alt="Syntropix Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
+                    <div id="logo-fallback" class="hidden w-11 h-11 rounded-lg bg-indigo-600 items-center justify-center font-black text-white text-lg">S</div>
+                </div>
             </div>
 
             <nav class="hidden md:flex items-center space-x-8 text-xs text-slate-300 font-medium">
@@ -3962,6 +3967,7 @@
                 prism360admin: showPrism360AdminPage,
                 security: showSecurityPage,
                 paymentsRefund: showPaymentsRefundPage,
+                bibliography: showBibliographyPage,
                 admin: openAdminDashboard,
             };
             let currentSection = 'dashboard';
@@ -3982,6 +3988,7 @@
                 const wrapped = function (...args) {
                     const result = original.apply(this, args);
                     currentSection = key;
+                    updateBackArrowVisibility(key);
                     if (!isPopping) {
                         try {
                             history.pushState({ section: key, arg: args[0] }, '', '#' + key);
@@ -4006,6 +4013,7 @@
             window.showPrism360AdminPage = sectionFns.prism360admin;
             window.showSecurityPage = sectionFns.security;
             window.showPaymentsRefundPage = sectionFns.paymentsRefund;
+            window.showBibliographyPage = sectionFns.bibliography;
             window.openAdminDashboard = sectionFns.admin;
 
             // Also disable the browser's OWN native scroll restoration on
@@ -4021,6 +4029,18 @@
                 fn(state.arg);
                 isPopping = false;
             });
+
+            // A visible "← Back" affordance, not just reliance on the
+            // browser's own (often-hidden, especially on mobile or in an
+            // embedded webview) back button — reuses the exact same
+            // pushState history this whole tracker already builds, so it's
+            // never a separate, parallel navigation stack to keep in sync.
+            function updateBackArrowVisibility(section) {
+                const btn = document.getElementById('global-back-btn');
+                if (!btn) return;
+                btn.classList.toggle('hidden', section === 'dashboard');
+            }
+            window.updateBackArrowVisibility = updateBackArrowVisibility;
         })();
 
         function scrollToSection(id) {
