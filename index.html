@@ -224,7 +224,87 @@
                     <button class="hover:text-white transition flex items-center gap-1">Services <span class="text-[9px]">▾</span></button>
                     <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
                         <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl w-64 py-2">
-                            <button onclick="showServicesPage('diagnostics')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Diagnostics Suite</button>
+                            <div class="relative group/diag">
+                                <button onclick="showServicesPage('diagnostics')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition flex items-center justify-between">
+                                    <span>Diagnostics Suite</span>
+                                    <span class="text-[9px] text-slate-500">▸</span>
+                                </button>
+                                <!-- Mega-panel: opens on hover of THIS item
+                                     specifically, positioned to the right so
+                                     it doesn't compete with the parent
+                                     dropdown for space. Organized by the
+                                     same category scheme as the Hiring
+                                     Assessments Suite, for one consistent
+                                     mental model across the whole site. -->
+                                <div class="absolute left-full top-0 pl-2 hidden group-hover/diag:block z-50">
+                                    <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl w-[640px] p-6 grid grid-cols-2 gap-x-8 gap-y-5">
+                                        <div class="space-y-3">
+                                            <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Behavioral / Cognitive</span>
+                                            <div class="space-y-2.5">
+                                                <button onclick="showDiagnosticsMenuTarget('CogniMorph Index')" class="w-full text-left group/item">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-indigo-300">CogniMorph Index™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
+                                                </button>
+                                                <button onclick="showDiagnosticsMenuTarget('Coachability Quotient')" class="w-full text-left group/item">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-indigo-300">Coachability Quotient™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
+                                                </button>
+                                                <button onclick="showDiagnosticsMenuTarget('Metacognitive Executive Assessment')" class="w-full text-left group/item">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-indigo-300">Metacognitive Executive</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
+                                                </button>
+                                                <button onclick="showDiagnosticsMenuTarget('Strategic Inversion Diagnostics')" class="w-full text-left group/item">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-indigo-300">Strategic Inversion™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
+                                                </button>
+                                                <button onclick="showDiagnosticsMenuTarget('Self-Limiting Belief Auditor')" class="w-full text-left group/item">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-indigo-300">Self-Limiting Belief Auditor™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
+                                                </button>
+                                                <button onclick="showDiagnosticsMenuTarget('Cognitive Learning Profiler')" class="w-full text-left group/item">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-indigo-300">Cognitive Learning Profiler™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>20 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~10 min</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-5">
+                                            <div class="space-y-2.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-widest text-sky-400">Communication</span>
+                                                <button onclick="showDiagnosticsMenuTarget('Communication Signature')" class="w-full text-left group/item block">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-sky-300">Communication Signature™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>24 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~12 min</span>
+                                                </button>
+                                            </div>
+                                            <div class="space-y-2.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-400">Sales</span>
+                                                <button onclick="showDiagnosticsMenuTarget('Commercial Instinct Index')" class="w-full text-left group/item block">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-emerald-300">Commercial Instinct Index™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>24 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~12 min</span>
+                                                </button>
+                                            </div>
+                                            <div class="space-y-2.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-widest text-amber-400">Leadership & Aptitude</span>
+                                                <button onclick="showDiagnosticsMenuTarget('Managerial Effectiveness Index')" class="w-full text-left group/item block">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-amber-300">Managerial Effectiveness Index™</span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>50 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~25 min</span>
+                                                </button>
+                                                <button onclick="showDiagnosticsMenuTarget('Executive Leadership Index')" class="w-full text-left group/item block mt-2">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-amber-300">Executive Leadership Index™ <span class="text-[9px] text-amber-400">FLAGSHIP</span></span>
+                                                    <span class="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>200 Q <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3 h-3 ml-1"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>~90 min</span>
+                                                </button>
+                                            </div>
+                                            <div class="space-y-2.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-widest text-violet-400">360° Feedback</span>
+                                                <button onclick="showPrism360Page()" class="w-full text-left group/item block">
+                                                    <span class="text-xs font-semibold text-slate-200 group-hover/item:text-violet-300">Prism360™</span>
+                                                    <span class="text-[10px] text-slate-500 mt-0.5 block">Multi-rater, org-run cycle</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button onclick="showServicesPage('diagnostics')" class="col-span-2 text-center text-[11px] font-bold text-indigo-400 hover:text-indigo-300 border-t border-slate-800 pt-3 transition">See All Diagnostics →</button>
+                                    </div>
+                                </div>
+                            </div>
                             <button onclick="showServicesPage('development')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Manager Development Suite</button>
                             <button onclick="showComplianceSuitePage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Compliance Suite</button>
                             <button onclick="showServicesPage('coaching')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Coaching</button>
@@ -3985,6 +4065,22 @@
             document.getElementById('payments-refund-view')?.classList.add('hidden');
             document.getElementById('compliance-suite-view').classList.remove('hidden');
             window.scrollTo(0, 0);
+        }
+
+        // Interim behavior for the mega-menu's individual assessment links:
+        // navigates to the Diagnostics Suite and scrolls to that specific
+        // card. Once dedicated per-assessment pages exist, this is the one
+        // function to update to route there directly instead.
+        function showDiagnosticsMenuTarget(assessmentName) {
+            showServicesPage('diagnostics');
+            setTimeout(() => {
+                const card = document.querySelector(`[data-assessment-card="${assessmentName}"]`);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.classList.add('ring-2', 'ring-indigo-500');
+                    setTimeout(() => card.classList.remove('ring-2', 'ring-indigo-500'), 2000);
+                }
+            }, 150);
         }
 
         function showServicesPage(section) {
