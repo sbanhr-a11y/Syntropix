@@ -309,9 +309,16 @@
                             <button onclick="showComplianceSuitePage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Compliance Suite</button>
                             <button onclick="showServicesPage('coaching')" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Coaching</button>
                             <button onclick="showPrism360Page()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Prism360 — 360° Feedback</button>
-                            <button onclick="showSecurityPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition border-t border-slate-800 mt-1 pt-2.5">Security & Data Privacy</button>
-                            <button onclick="showBibliographyPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Scientific Foundations</button>
                             <button onclick="showTalentAcquisitionPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition border-t border-slate-800 mt-1 pt-2.5">Hiring Assessments Suite</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <button class="hover:text-white transition flex items-center gap-1">Trust Center <span class="text-[9px]">▾</span></button>
+                    <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl w-64 py-2">
+                            <button onclick="showSecurityPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Security & Data Privacy</button>
+                            <button onclick="showBibliographyPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Scientific Foundations & Bibliography</button>
                             <button onclick="showPaymentsRefundPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Payments & Refunds</button>
                         </div>
                     </div>
@@ -359,9 +366,10 @@
             <button onclick="showComplianceSuitePage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Compliance Suite</button>
             <button onclick="showServicesPage('coaching'); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Coaching</button>
             <button onclick="showPrism360Page(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Prism360 — 360° Feedback</button>
-            <button onclick="showSecurityPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Security & Data Privacy</button>
-            <button onclick="showBibliographyPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Scientific Foundations</button>
             <button onclick="showTalentAcquisitionPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Hiring Assessments Suite</button>
+            <span class="block pt-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Trust Center</span>
+            <button onclick="showSecurityPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Security & Data Privacy</button>
+            <button onclick="showBibliographyPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Scientific Foundations & Bibliography</button>
             <button onclick="showPaymentsRefundPage(); closeMobileMenu();" class="w-full text-left py-2.5 border-b border-slate-800/60">Payments & Refunds</button>
             <button onclick="showContactPage(); closeMobileMenu();" class="w-full text-left py-2.5">Contact Us</button>
         </div>
