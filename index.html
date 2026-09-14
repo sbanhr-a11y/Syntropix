@@ -2417,7 +2417,8 @@
                         <div id="upi-qr-canvas"></div>
                         <p class="text-[11px] text-slate-600 font-mono">sban.hr@okhdfcbank</p>
                     </div>
-                    <p class="text-[11px] text-slate-400">Scan with any UPI app (GPay, PhonePe, Paytm, etc.) and complete the payment for the exact amount shown above. Then enter your UPI transaction reference number (UTR) below.</p>
+                    <a id="upi-direct-pay-link" href="#" class="block w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider text-center transition">Already on Your Phone? Pay Directly →</a>
+                    <p class="text-[11px] text-slate-400">On a phone with a UPI app installed, tap the button above to open it directly. On a computer, scan the QR code above with your phone's UPI app instead. Either way, complete the payment for the exact amount shown, then enter your UPI transaction reference number (UTR) below.</p>
                     <div id="upi-submit-form" class="space-y-2">
                         <input id="upi-utr-input" type="text" placeholder="UPI Transaction Reference / UTR Number" class="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
                         <button id="upi-submit-btn" onclick="submitUpiPayment()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">I've Paid — Submit for Verification</button>
@@ -5715,12 +5716,20 @@
             const label = document.getElementById('upi-price-label');
             if (label) label.textContent = `Pay ₹${discountedPrice} via UPI:`;
 
+            // Single source for both the QR code and the direct-pay button
+            // below — the same link, just two different ways to act on it
+            // depending on whether someone's on a phone (tap directly) or
+            // a computer (scan with their phone instead).
+            const upiLink = `upi://pay?pa=sban.hr@okhdfcbank&pn=Syntropix&am=${discountedPrice}&cu=INR&tn=${encodeURIComponent(currentActiveAssessment)}`;
+
             const qrContainer = document.getElementById('upi-qr-canvas');
             if (qrContainer && typeof QRCode !== 'undefined') {
                 qrContainer.innerHTML = ''; // clear any previous QR before re-rendering, same reason as the PayPal container
-                const upiLink = `upi://pay?pa=sban.hr@okhdfcbank&pn=Syntropix&am=${discountedPrice}&cu=INR&tn=${encodeURIComponent(currentActiveAssessment)}`;
                 new QRCode(qrContainer, { text: upiLink, width: 180, height: 180 });
             }
+
+            const directPayLink = document.getElementById('upi-direct-pay-link');
+            if (directPayLink) directPayLink.href = upiLink;
 
             // Reset the form each time this renders, so switching between
             // assessments never carries over a stale UTR from a different
