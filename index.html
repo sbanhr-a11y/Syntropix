@@ -209,18 +209,7 @@
             </div>
 
             <nav class="hidden md:flex items-center space-x-8 text-xs text-slate-300 font-medium">
-                <div class="relative group">
-                    <button class="hover:text-white transition flex items-center gap-1">Home <span class="text-[9px]">▾</span></button>
-                    <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-2xl w-52 py-2">
-                            <button onclick="showDashboard()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Home</button>
-                            <!-- "Meet the Founder" nav entry deliberately hidden for now, not deleted —
-                                 founder-view and showFounderPage() remain fully intact below,
-                                 so this can be restored later just by uncommenting this button. -->
-                            <!-- <button onclick="showFounderPage()" class="w-full text-left px-4 py-2.5 hover:bg-slate-800 transition">Meet the Founder</button> -->
-                        </div>
-                    </div>
-                </div>
+                <button onclick="showDashboard()" class="hover:text-white transition">Home</button>
                 <div class="relative group">
                     <button class="hover:text-white transition flex items-center gap-1">Services <span class="text-[9px]">▾</span></button>
                     <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
