@@ -6,6 +6,7 @@
     <title>Syntropix™ | The Architecture of Human Potential</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://www.paypal.com/sdk/js?client-id=BAAoaGuJGS0__6_N0d5d14H4qVeNxTSp3Gsaicy_YTipOwRtM9M5XyLz8O_FmviWUkPJLtBUX84kK2HbbE&currency=USD"></script>
     <script>
         tailwind.config = {
@@ -574,6 +575,55 @@
                     <div class="flex items-start gap-2 pt-2 border-t border-slate-800">
                         <span class="text-emerald-400 font-bold shrink-0">→</span>
                         <p class="text-sm text-slate-100 font-medium leading-relaxed">A before-and-after re-assessment, so improvement is something you can actually point to — not just something you hope happened.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS — real, named quotes provided directly by
+             Syntropix. Placeholder initial-avatars in use until real
+             photos are supplied; swap the <img> src in when available,
+             each one already has a matching id for that. -->
+        <section class="space-y-8">
+            <div class="text-center space-y-2 max-w-2xl mx-auto">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">What People Are Saying</span>
+                <h3 class="text-2xl sm:text-4xl font-black text-white tracking-tight">From People Who've Actually Used It</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col space-y-4">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-indigo-500/40"><path d="M6.5 10c-1.5 0-2.5 1-2.5 2.5v5C4 19 5 20 6.5 20h1c1.5 0 2.5-1 2.5-2.5v-3C10 13 9 12 7.5 12H7c0-2 1-3 3-3.5V6c-2.5.5-4.5 2-3.5 4zm10 0c-1.5 0-2.5 1-2.5 2.5v5c0 1.5 1 2.5 2.5 2.5h1c1.5 0 2.5-1 2.5-2.5v-3c0-1.5-1-2.5-2.5-2.5h-.5c0-2 1-3 3-3.5V6c-2.5.5-4.5 2-3.5 4z"></path></svg>
+                    <p class="text-xs text-slate-300 leading-relaxed flex-1">"What makes Syntropix stand out is its holistic approach. It views assessments not as an end in themselves, but as the starting point for a meaningful growth journey. By seamlessly connecting diagnostics, development, and coaching, the platform helps organisations move from pure insight to real action. The true value lies in helping managers understand themselves better and translate that awareness into everyday leadership behaviours. It makes leadership development focused, highly personalised, and deeply relevant — a thoughtfully designed solution for organisations serious about building stronger leaders."</p>
+                    <div class="flex items-center gap-3 pt-3 border-t border-slate-800">
+                        <img id="testimonial-avatar-1" src="" alt="" class="w-11 h-11 rounded-full object-cover hidden">
+                        <div id="testimonial-avatar-1-fallback" class="w-11 h-11 rounded-full bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-indigo-300 font-bold text-sm">PB</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Pooja Bhatia</p>
+                            <p class="text-[11px] text-slate-500">L&D Leader · Ex-Fidelity International</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col space-y-4">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-indigo-500/40"><path d="M6.5 10c-1.5 0-2.5 1-2.5 2.5v5C4 19 5 20 6.5 20h1c1.5 0 2.5-1 2.5-2.5v-3C10 13 9 12 7.5 12H7c0-2 1-3 3-3.5V6c-2.5.5-4.5 2-3.5 4zm10 0c-1.5 0-2.5 1-2.5 2.5v5c0 1.5 1 2.5 2.5 2.5h1c1.5 0 2.5-1 2.5-2.5v-3c0-1.5-1-2.5-2.5-2.5h-.5c0-2 1-3 3-3.5V6c-2.5.5-4.5 2-3.5 4z"></path></svg>
+                    <p class="text-xs text-slate-300 leading-relaxed flex-1">"In consulting, we need metrics that drive real business action. Syntropix strips away the guesswork from manager capability. Their diagnostics provide a clean, rigorous, and highly actionable baseline without ever losing sight of the human element. Instead of handing someone a generic report, it creates a clear mirror for professionals to honestly look at their blind spots and see exactly where their next growth move needs to be. It is a fantastic tool for engineering high-performing management teams."</p>
+                    <div class="flex items-center gap-3 pt-3 border-t border-slate-800">
+                        <img id="testimonial-avatar-2" src="" alt="" class="w-11 h-11 rounded-full object-cover hidden">
+                        <div id="testimonial-avatar-2-fallback" class="w-11 h-11 rounded-full bg-violet-600/30 border border-violet-500/40 flex items-center justify-center text-violet-300 font-bold text-sm">AC</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Abira Chatterjee</p>
+                            <p class="text-[11px] text-slate-500">Associate Consultant · TCS</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col space-y-4">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-indigo-500/40"><path d="M6.5 10c-1.5 0-2.5 1-2.5 2.5v5C4 19 5 20 6.5 20h1c1.5 0 2.5-1 2.5-2.5v-3C10 13 9 12 7.5 12H7c0-2 1-3 3-3.5V6c-2.5.5-4.5 2-3.5 4zm10 0c-1.5 0-2.5 1-2.5 2.5v5c0 1.5 1 2.5 2.5 2.5h1c1.5 0 2.5-1 2.5-2.5v-3c0-1.5-1-2.5-2.5-2.5h-.5c0-2 1-3 3-3.5V6c-2.5.5-4.5 2-3.5 4z"></path></svg>
+                    <p class="text-xs text-slate-300 leading-relaxed flex-1">"From a workforce management lens, structural promotions must translate into real-world performance. Syntropix achieves this beautifully. Tools like their Managerial Effectiveness Index™ map out actual behavioural patterns rather than just checking theoretical boxes. It provides a reliable, structured signal long before a manager steps into a challenging new role, ensuring we aren't just shifting people around, but setting them up to genuinely succeed as leaders."</p>
+                    <div class="flex items-center gap-3 pt-3 border-t border-slate-800">
+                        <img id="testimonial-avatar-3" src="" alt="" class="w-11 h-11 rounded-full object-cover hidden">
+                        <div id="testimonial-avatar-3-fallback" class="w-11 h-11 rounded-full bg-emerald-600/30 border border-emerald-500/40 flex items-center justify-center text-emerald-300 font-bold text-sm">MM</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Mahua Mukerji</p>
+                            <p class="text-[11px] text-slate-500">WFM Staffing Professional · IBM</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2189,6 +2239,19 @@
                 <p class="text-[11px] text-slate-400">A downloadable methodology template for when you're ready to run a real validation study — sampling requirements, EFA/CFA procedure, and reliability testing plan, following AERA/APA/NCME standards. This is a plan to follow, not generated results.</p>
                 <a href="Syntropix_Statistical_Analysis_Plan.docx" download class="inline-block px-6 py-2.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs uppercase tracking-wider transition">Download Analysis Plan</a>
             </div>
+
+            <!-- TEMPORARY UPI approval queue — see the matching frontend
+                 note near upi-section. Manual review is the actual
+                 security boundary for this whole flow: check the bank/UPI
+                 app for a matching credit before clicking Approve. -->
+            <div class="bg-slate-900 border border-amber-800/40 rounded-xl p-6 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-bold text-white">Pending UPI Payments <span class="text-amber-400 font-mono">(temporary — until Razorpay)</span></h3>
+                    <button onclick="loadUpiPendingQueue()" class="text-[11px] text-indigo-300 underline">Refresh</button>
+                </div>
+                <p class="text-[11px] text-slate-500">Check your UPI app or bank statement for a matching credit before approving — this is the only real verification step in this flow.</p>
+                <div id="upi-pending-list" class="space-y-2"></div>
+            </div>
         </div>
     </main>
 
@@ -2346,6 +2409,26 @@
                     </p>
                     <p id="multi-assessment-nudge" class="hidden text-[11px] text-amber-300 font-semibold mb-2"></p>
                     <div id="paypal-button-container"></div>
+                </div>
+
+                <!-- TEMPORARY UPI FLOW — India region only, until Razorpay is
+                     integrated. No automated verification is possible with a
+                     personal UPI ID, so this is deliberately a manual-review
+                     flow: person pays via QR, submits their UTR reference,
+                     and access is granted once someone on the team has
+                     actually confirmed the payment landed. -->
+                <div id="upi-section" class="hidden pt-4 border-t border-slate-800 space-y-4">
+                    <p id="upi-price-label" class="text-[11px] text-indigo-300 font-medium"></p>
+                    <div class="flex flex-col items-center gap-3 p-4 bg-white rounded-xl">
+                        <div id="upi-qr-canvas"></div>
+                        <p class="text-[11px] text-slate-600 font-mono">sban.hr@okhdfcbank</p>
+                    </div>
+                    <p class="text-[11px] text-slate-400">Scan with any UPI app (GPay, PhonePe, Paytm, etc.) and complete the payment for the exact amount shown above. Then enter your UPI transaction reference number (UTR) below.</p>
+                    <div id="upi-submit-form" class="space-y-2">
+                        <input id="upi-utr-input" type="text" placeholder="UPI Transaction Reference / UTR Number" class="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
+                        <button id="upi-submit-btn" onclick="submitUpiPayment()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider transition">I've Paid — Submit for Verification</button>
+                    </div>
+                    <p id="upi-status-msg" class="text-[11px]"></p>
                 </div>
 
                 <div id="admin-bypass-section" class="hidden pt-4 border-t border-slate-800">
@@ -4471,7 +4554,67 @@
                 document.getElementById('org-admin-panel').classList.add('hidden');
                 document.getElementById('research-console-panel').classList.remove('hidden');
                 document.getElementById('master-org-tools').classList.remove('hidden');
+                loadUpiPendingQueue();
             }
+        }
+
+        // TEMPORARY UPI approval queue — see the matching note on the
+        // backend endpoints and the frontend upi-section.
+        async function loadUpiPendingQueue() {
+            const listEl = document.getElementById('upi-pending-list');
+            if (!listEl) return;
+            listEl.innerHTML = '<p class="text-[11px] text-slate-500">Loading…</p>';
+            try {
+                const token = localStorage.getItem('syntropix_token');
+                const res = await fetch(`${API_BASE_URL}/payments/upi-pending?token=${encodeURIComponent(token)}`);
+                const data = await res.json();
+                if (data.status !== "success") {
+                    listEl.innerHTML = `<p class="text-[11px] text-rose-400">${data.message || "Could not load queue."}</p>`;
+                    return;
+                }
+                if (!data.requests.length) {
+                    listEl.innerHTML = '<p class="text-[11px] text-slate-500">No pending requests right now.</p>';
+                    return;
+                }
+                listEl.innerHTML = data.requests.map(r => `
+                    <div class="p-4 bg-slate-950 border border-slate-800 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="text-xs text-slate-300">
+                            <strong class="text-white">${r.name}</strong> — ${r.email}<br>
+                            ${r.assessment_name} · ₹${r.amount} · UTR: <span class="font-mono text-amber-300">${r.utr_reference}</span><br>
+                            <span class="text-slate-500">${new Date(r.created_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</span>
+                        </div>
+                        <div class="flex gap-2 shrink-0">
+                            <button onclick="approveUpiPayment('${r.id}')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold uppercase transition">Approve</button>
+                            <button onclick="rejectUpiPayment('${r.id}')" class="px-3 py-1.5 rounded-lg border border-rose-700 hover:bg-rose-950 text-rose-300 text-[11px] font-bold uppercase transition">Reject</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error("Failed to load UPI pending queue:", e);
+                listEl.innerHTML = '<p class="text-[11px] text-rose-400">Could not reach the server.</p>';
+            }
+        }
+
+        async function approveUpiPayment(requestId) {
+            if (!confirm("Have you confirmed this payment actually arrived in your UPI account? Only approve after checking.")) return;
+            const token = localStorage.getItem('syntropix_token');
+            const res = await fetch(`${API_BASE_URL}/payments/upi-approve`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, requestId })
+            });
+            const data = await res.json();
+            if (data.status === "success") { loadUpiPendingQueue(); } else { alert(data.message || "Approval failed."); }
+        }
+
+        async function rejectUpiPayment(requestId) {
+            const reason = prompt("Reason for rejection (optional):", "No matching credit found");
+            const token = localStorage.getItem('syntropix_token');
+            const res = await fetch(`${API_BASE_URL}/payments/upi-reject`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, requestId, reason })
+            });
+            const data = await res.json();
+            if (data.status === "success") { loadUpiPendingQueue(); } else { alert(data.message || "Rejection failed."); }
         }
 
         // ---------------------------------------------------------------
@@ -5568,7 +5711,97 @@
             }
         }
 
+        // Renders the UPI QR code and price label for the India region,
+        // reusing the exact same price computation as everywhere else
+        // (including research-consent and multi-assessment discounts) so
+        // the amount shown here can never drift from what's shown
+        // elsewhere on the page.
+        function renderUpiPaymentOption() {
+            const { discountedPrice } = computeCurrentCheckoutPrice();
+            const label = document.getElementById('upi-price-label');
+            if (label) label.textContent = `Pay ₹${discountedPrice} via UPI:`;
+
+            const qrContainer = document.getElementById('upi-qr-canvas');
+            if (qrContainer && typeof QRCode !== 'undefined') {
+                qrContainer.innerHTML = ''; // clear any previous QR before re-rendering, same reason as the PayPal container
+                const upiLink = `upi://pay?pa=sban.hr@okhdfcbank&pn=Syntropix&am=${discountedPrice}&cu=INR&tn=${encodeURIComponent(currentActiveAssessment)}`;
+                new QRCode(qrContainer, { text: upiLink, width: 180, height: 180 });
+            }
+
+            // Reset the form each time this renders, so switching between
+            // assessments never carries over a stale UTR from a different
+            // purchase.
+            const utrInput = document.getElementById('upi-utr-input');
+            if (utrInput) utrInput.value = '';
+            const statusMsg = document.getElementById('upi-status-msg');
+            if (statusMsg) statusMsg.textContent = '';
+            document.getElementById('upi-submit-form')?.classList.remove('hidden');
+        }
+
+        async function submitUpiPayment() {
+            const name = document.getElementById('userName')?.value.trim();
+            const email = document.getElementById('userEmail')?.value.trim();
+            const utr = document.getElementById('upi-utr-input')?.value.trim();
+            const statusMsg = document.getElementById('upi-status-msg');
+            const btn = document.getElementById('upi-submit-btn');
+
+            if (!name || !email) {
+                alert("Please fill in your Full Name and Email above before submitting.");
+                return;
+            }
+            if (!document.getElementById('privacyConsent')?.checked) {
+                alert("Please read and agree to the Privacy Policy before continuing.");
+                return;
+            }
+            if (!utr) {
+                statusMsg.textContent = "Please enter your UPI transaction reference (UTR) number.";
+                statusMsg.className = "text-[11px] text-rose-400";
+                return;
+            }
+
+            const { discountedPrice } = computeCurrentCheckoutPrice();
+            btn.disabled = true;
+            btn.textContent = "Submitting...";
+            try {
+                const res = await fetch(`${API_BASE_URL}/payments/upi-submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, assessmentName: currentActiveAssessment, amount: discountedPrice, utrReference: utr })
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    statusMsg.textContent = "Thank you — we've received your reference number and will verify your payment shortly. You'll get an email once your access is unlocked, usually within a few hours.";
+                    statusMsg.className = "text-[11px] text-emerald-400";
+                    document.getElementById('upi-submit-form')?.classList.add('hidden');
+                } else {
+                    statusMsg.textContent = data.message || "Something went wrong — please email support@syntropix.in with your UTR number directly.";
+                    statusMsg.className = "text-[11px] text-rose-400";
+                    btn.disabled = false;
+                    btn.textContent = "I've Paid — Submit for Verification";
+                }
+            } catch (e) {
+                console.error("UPI submission failed:", e);
+                statusMsg.textContent = "Couldn't reach our server — please email support@syntropix.in with your UTR number directly.";
+                statusMsg.className = "text-[11px] text-rose-400";
+                btn.disabled = false;
+                btn.textContent = "I've Paid — Submit for Verification";
+            }
+        }
+
         function initPayPalButton() {
+            // TEMPORARY: India region routes to manual UPI verification
+            // instead of PayPal, until Razorpay is integrated. Every other
+            // region continues through PayPal exactly as before — this is
+            // the one, deliberate branch point for that.
+            if (currentRegion === 'IN') {
+                document.getElementById('paypal-section')?.classList.add('hidden');
+                document.getElementById('upi-section')?.classList.remove('hidden');
+                renderUpiPaymentOption();
+                return;
+            }
+            document.getElementById('paypal-section')?.classList.remove('hidden');
+            document.getElementById('upi-section')?.classList.add('hidden');
+
             if (typeof paypal === 'undefined') return;
             // This can now legitimately be called more than once per page
             // visit (once per assessment someone actually launches, not
