@@ -1,0 +1,1 @@
+(function(){'use strict';try{var s=document.createElement('script');s.src='/website-v3.js';s.defer=true;s.onerror=function(){console.warn('Syntropix Website v3 enhancement did not load; existing experience preserved.');};document.head.appendChild(s);}catch(e){console.warn('Syntropix Website v3 loader failed safely.',e);}})();
