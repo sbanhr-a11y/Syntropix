@@ -30,5 +30,37 @@
 /* Enterprise gets the same premium card family, with licence-oriented content and no retail checkout. */
 .enterprise-grid .assessment-card{min-height:330px;box-shadow:0 14px 34px rgba(12,18,13,.12)}
 .enterprise-grid .assessment-card:hover{box-shadow:0 22px 46px rgba(10,15,11,.20)}
+
+/* Flagship restore — ONLY the two Professionals flagship cards. Matches the approved dark Managerial / Executive treatment. */
+.flagship-grid .flagship-card{color:#f7f9f6!important;border-radius:24px!important;box-shadow:0 18px 42px rgba(10,15,11,.16)!important}
+.flagship-grid .manager-flagship{border-color:#86a85d!important;background:linear-gradient(145deg,#13270d 0%,#071008 72%)!important}
+.flagship-grid .executive-flagship{border-color:#555c86!important;background:linear-gradient(145deg,#1b1e32 0%,#090e10 72%)!important}
+.flagship-grid .manager-flagship:before{height:4px;background:#a7ff22!important}
+.flagship-grid .executive-flagship:before{height:4px;background:#8584ff!important}
+.flagship-grid .flagship-card:hover{transform:translateY(-3px);box-shadow:0 24px 52px rgba(10,15,11,.23)!important}
+.flagship-grid .manager-flagship:hover{border-color:#a7ff22!important}
+.flagship-grid .executive-flagship:hover{border-color:#8584ff!important}
+.flagship-grid .manager-flagship .flagship-ribbon{background:#a7ff22;color:#0b1208}
+.flagship-grid .executive-flagship .flagship-ribbon{background:#8584ff;color:#fff}
+.flagship-grid .manager-flagship .flagship-icon{color:rgba(167,255,34,.075)}
+.flagship-grid .executive-flagship .flagship-icon{color:rgba(133,132,255,.075)}
+.flagship-grid .flagship-card h3{color:#fff!important}
+.flagship-grid .flagship-card>p{color:#8e9990!important}
+.flagship-grid .flagship-card .assessment-meta span{border-color:#39443b;color:#d4dbd5;background:rgba(255,255,255,.015)}
+.flagship-grid .executive-flagship .assessment-meta span{border-color:#373b50}
+.flagship-grid .flagship-promise{color:#eef2ed;border-color:#303a32}
+.flagship-grid .executive-flagship .flagship-promise{border-color:#303447}
+.flagship-grid .flagship-card .assessment-commercial{color:#d7ddd8;border-color:#303a32}
+.flagship-grid .flagship-card .assessment-price-line{border-color:#303a32;color:#aeb8b0}
+.flagship-grid .executive-flagship .assessment-price-line{border-color:#303447}
+.flagship-grid .flagship-card .assessment-price-line strong{color:#fff}
+.flagship-grid .flagship-card .assessment-saving-line{color:#aeb8b0}
+.flagship-grid .flagship-card .assessment-saving-line small{color:#eef3ee}
+.flagship-grid .flagship-card .assessment-saving-line s{color:#858f87}
+.flagship-grid .manager-flagship .assessment-saving-line strong{color:#c9ff79}
+.flagship-grid .executive-flagship .assessment-saving-line strong{color:#b9b8ff}
+.flagship-grid .flagship-card .btn.primary{background:#a7ff22;color:#0a1008;border-color:#a7ff22;box-shadow:none}
+.flagship-grid .flagship-card .btn.primary:hover{background:#b7ff49;border-color:#b7ff49;transform:translateY(-1px)}
+
 @media(max-width:900px){.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{min-height:auto;border-radius:22px}}
 @media(prefers-reduced-motion:reduce){.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{transition:none}}
