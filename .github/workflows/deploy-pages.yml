@@ -11,8 +11,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: "syntropix-custom-pages"
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html homepage-v4.css homepage-v4.js enterprise.html professionals.html science.html trust.html CNAME; do
+          for f in index.html assessments.html homepage-v4.css homepage-v4.js enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do
             test -s "$f" || { echo "Missing required file: $f"; exit 1; }
           done
           grep -q 'Build better managers' index.html
@@ -65,6 +65,11 @@ jobs:
         with:
           path: .
 
-      - name: Deploy to GitHub Pages
+      - name: Wait for repository-source Pages build to finish
+        run: |
+          echo "GitHub Pages source-build also runs on main. Waiting so the verified v4 artifact is the final deployment."
+          sleep 90
+
+      - name: Deploy verified Website v4 artifact last
         id: deployment
         uses: actions/deploy-pages@v4
