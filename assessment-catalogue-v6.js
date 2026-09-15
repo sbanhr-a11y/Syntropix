@@ -1,0 +1,4 @@
+(()=>{'use strict';const names={
+'managerial-effectiveness':'Managerial Effectiveness Index','executive-leadership':'Executive Leadership Index','cognimorph':'CogniMorph Index','coachability':'Coachability Quotient','metacognitive-executive':'Metacognitive Executive','cognitive-learning-profiler':'Cognitive Learning Profiler','self-limiting-belief':'Self-Limiting Belief Auditor','strategic-inversion':'Strategic Inversion Diagnostics','commercial-instinct':'Commercial Instinct Index','communication-signature':'Communication Signature'};
+const form=document.getElementById('assessment-finder');if(form){form.addEventListener('submit',e=>{e.preventDefault();const key=document.getElementById('finder-question').value;const out=document.getElementById('finder-result');out.innerHTML=`A useful starting point is <strong>${names[key]}</strong>. <a class="btn primary" href="/assessments.html?assessment=${encodeURIComponent(key)}">Start this assessment →</a>`;});}
+})();
