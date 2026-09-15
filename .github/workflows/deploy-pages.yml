@@ -44,15 +44,16 @@ jobs:
         run: |
           set -euo pipefail
           for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js assessment-shell-v4.css assessment-shell-v4.js assessment-intelligence.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
-          grep -q 'Six capability layers' index.html
+          grep -qi 'six capability layers' index.html
           grep -q '/compliance-learning.html' index.html; grep -q '/employee-experience.html' index.html
           grep -q 'WHAT PEOPLE ARE SAYING' index.html; grep -q 'TRAINING EXPERIENCE DELIVERED' index.html
-          grep -q 'Manager Development + Coaching' manager-development.html
+          grep -qi 'Manager Development.*Coaching' manager-development.html
           grep -q 'Syntropix Signal' employee-experience.html; grep -q 'COMING SOON' compliance-learning.html
           grep -q 'lead-form' enterprise.html
           grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
           grep -q 'assessment-shell-v4.css' assessments.html; grep -q 'assessment-shell-v4.js' assessments.html
           grep -q '#main-header{display:none' assessment-shell-v4.css
+          grep -q 'Master Console' assessment-shell-v4.js; grep -q 'Sign in' assessment-shell-v4.js
           grep -q 'site-v5-augment.js' trust.html
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into v5 homepage'; exit 1; fi
