@@ -29,20 +29,34 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import shutil
           legacy=Path('index.html'); homepage=Path('homepage-v4.html')
           if not legacy.is_file() or legacy.stat().st_size < 500000: raise SystemExit('Assessment application missing or unexpectedly small; refusing deployment')
           if not homepage.is_file() or homepage.stat().st_size < 5000: raise SystemExit('Website v4 homepage missing or unexpectedly small; refusing deployment')
           app=legacy.read_text(encoding='utf-8'); css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
           if css not in app: app=app.replace('</head>',css+'\n</head>',1)
           if js not in app: app=app.replace('</body>',js+'\n</body>',1)
-          Path('assessments.html').write_text(app,encoding='utf-8'); shutil.copy2(homepage,'index.html')
+          Path('assessments.html').write_text(app,encoding='utf-8')
+          home=homepage.read_text(encoding='utf-8')
+          replacements={
+            'href="/assessments.html" class="tile feature"':'href="/assessment-intelligence.html" class="tile feature"',
+            'href="/enterprise.html" class="tile"><div class="num">02</div>':'href="/manager-development.html" class="tile"><div class="num">02</div>',
+            'href="/enterprise.html" class="tile"><div class="num">03</div>':'href="/prism360.html" class="tile"><div class="num">03</div>',
+            'href="/enterprise.html" class="tile"><div class="num">04</div>':'href="/talent-solutions.html" class="tile"><div class="num">04</div>'
+          }
+          for old,new in replacements.items():
+            if old not in home: raise SystemExit('Expected homepage route marker missing: '+old)
+            home=home.replace(old,new,1)
+          Path('index.html').write_text(home,encoding='utf-8')
       - name: Verify production artifact boundaries and navigation
         shell: bash
         run: |
           set -euo pipefail
           for f in index.html assessments.html homepage-v4.css homepage-v4.js assessment-shell-v4.css assessment-shell-v4.js solution-v4.css assessment-intelligence.html manager-development.html prism360.html talent-solutions.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -q 'Build better managers' index.html
+          grep -q '/assessment-intelligence.html' index.html
+          grep -q '/manager-development.html' index.html
+          grep -q '/prism360.html' index.html
+          grep -q '/talent-solutions.html' index.html
           grep -q '/assessment-intelligence.html' homepage-v4.js
           grep -q '/manager-development.html' homepage-v4.js
           grep -q '/prism360.html' homepage-v4.js
