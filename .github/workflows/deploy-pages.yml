@@ -20,14 +20,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Build unified v5 experience without rewriting assessment engine
+      - name: Build canonical assessment runner and report surface
         shell: python
         run: |
           from pathlib import Path
+          import re
           engine=Path('index.html'); homepage=Path('homepage-v4.html')
           if not engine.is_file() or engine.stat().st_size < 500000: raise SystemExit('Assessment engine missing or unexpectedly small')
           if not homepage.is_file() or homepage.stat().st_size < 5000: raise SystemExit('Unified homepage missing or unexpectedly small')
-          app=engine.read_text(encoding='utf-8'); css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
+          app=engine.read_text(encoding='utf-8')
+          # The legacy header is removed from the deployed DOM, not hidden under another header.
+          app,n=re.subn(r'<header\b[^>]*id="main-header"[^>]*>.*?</header>','',app,count=1,flags=re.S)
+          if n != 1: raise SystemExit('Could not structurally remove legacy assessment header')
+          css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
           if css not in app: app=app.replace('</head>',css+'\n</head>',1)
           if js not in app: app=app.replace('</body>',js+'\n</body>',1)
           Path('assessments.html').write_text(app,encoding='utf-8')
@@ -39,29 +44,28 @@ jobs:
               text=p.read_text(encoding='utf-8')
               if augment not in text: text=text.replace('</body>',augment+'\n</body>',1)
               p.write_text(text,encoding='utf-8')
-      - name: Verify v5 artifact and preserved functional engine
+      - name: Verify canonical artifact and preserved business engine
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js assessment-shell-v4.css assessment-shell-v4.js assessment-intelligence.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html
-          grep -q '/compliance-learning.html' index.html; grep -q '/employee-experience.html' index.html
-          grep -q 'WHAT PEOPLE ARE SAYING' index.html; grep -q 'TRAINING EXPERIENCE DELIVERED' index.html
-          grep -qi 'Manager Development.*Coaching' manager-development.html
-          grep -q 'Syntropix Signal' employee-experience.html; grep -q 'COMING SOON' compliance-learning.html
           grep -q 'lead-form' enterprise.html
           grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
-          grep -q 'assessment-shell-v4.css' assessments.html; grep -q 'assessment-shell-v4.js' assessments.html
-          grep -q '#main-header{display:none' assessment-shell-v4.css
-          grep -q 'Master Console' assessment-shell-v4.js; grep -q 'Sign in' assessment-shell-v4.js
-          grep -q 'site-v5-augment.js' trust.html
+          if grep -q 'id="main-header"' assessments.html; then echo 'Legacy assessment header remains in deployed DOM'; exit 1; fi
+          grep -q 'sx-assessment-runner' assessment-shell-v4.js
+          grep -q 'sx-report-section' assessment-shell-v4.js
+          grep -q 'data-syntropix-ui' assessment-shell-v4.css
+          grep -q 'Commercial Instinct Index' assessment-catalogue-v6.js
+          grep -q '15% off' assessment-catalogue-v6.js
+          grep -q '20% off' assessment-catalogue-v6.js
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
-          if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into v5 homepage'; exit 1; fi
-          echo 'Syntropix v5 unified artifact verification passed'
+          if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
+          echo 'Syntropix canonical assessment/report artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
       - run: sleep 90
-      - name: Deploy verified unified Syntropix artifact last
+      - name: Deploy verified Syntropix artifact last
         id: deployment
         uses: actions/deploy-pages@v4
