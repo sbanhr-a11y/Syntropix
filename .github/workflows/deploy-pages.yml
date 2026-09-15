@@ -25,49 +25,42 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Build unified public and assessment experience
+      - name: Build unified v5 experience without rewriting assessment engine
         shell: python
         run: |
           from pathlib import Path
-          legacy=Path('index.html'); homepage=Path('homepage-v4.html')
-          if not legacy.is_file() or legacy.stat().st_size < 500000: raise SystemExit('Assessment application missing or unexpectedly small; refusing deployment')
-          if not homepage.is_file() or homepage.stat().st_size < 5000: raise SystemExit('Website v4 homepage missing or unexpectedly small; refusing deployment')
-          app=legacy.read_text(encoding='utf-8'); css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
+          engine=Path('index.html'); homepage=Path('homepage-v4.html')
+          if not engine.is_file() or engine.stat().st_size < 500000: raise SystemExit('Assessment engine missing or unexpectedly small')
+          if not homepage.is_file() or homepage.stat().st_size < 5000: raise SystemExit('Unified homepage missing or unexpectedly small')
+          app=engine.read_text(encoding='utf-8')
+          css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
           if css not in app: app=app.replace('</head>',css+'\n</head>',1)
           if js not in app: app=app.replace('</body>',js+'\n</body>',1)
           Path('assessments.html').write_text(app,encoding='utf-8')
-          home=homepage.read_text(encoding='utf-8')
-          replacements={
-            'href="/assessments.html" class="tile feature"':'href="/assessment-intelligence.html" class="tile feature"',
-            'href="/enterprise.html" class="tile"><div class="num">02</div>':'href="/manager-development.html" class="tile"><div class="num">02</div>',
-            'href="/enterprise.html" class="tile"><div class="num">03</div>':'href="/prism360.html" class="tile"><div class="num">03</div>',
-            'href="/enterprise.html" class="tile"><div class="num">04</div>':'href="/talent-solutions.html" class="tile"><div class="num">04</div>'
-          }
-          for old,new in replacements.items():
-            if old not in home: raise SystemExit('Expected homepage route marker missing: '+old)
-            home=home.replace(old,new,1)
-          Path('index.html').write_text(home,encoding='utf-8')
-      - name: Verify production artifact boundaries and navigation
+          Path('index.html').write_text(homepage.read_text(encoding='utf-8'),encoding='utf-8')
+      - name: Verify v5 artifact and preserved functional engine
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html homepage-v4.css homepage-v4.js assessment-shell-v4.css assessment-shell-v4.js solution-v4.css assessment-intelligence.html manager-development.html prism360.html talent-solutions.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
-          grep -q 'Build better managers' index.html
-          grep -q '/assessment-intelligence.html' index.html
-          grep -q '/manager-development.html' index.html
-          grep -q '/prism360.html' index.html
-          grep -q '/talent-solutions.html' index.html
-          grep -q '/assessment-intelligence.html' homepage-v4.js
-          grep -q '/manager-development.html' homepage-v4.js
-          grep -q '/prism360.html' homepage-v4.js
-          grep -q '/talent-solutions.html' homepage-v4.js
-          grep -q 'homepage-v4.css' index.html; grep -q 'homepage-v4.js' index.html
-          grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
-          grep -q 'assessment-shell-v4.css' assessments.html; grep -q 'assessment-shell-v4.js' assessments.html
-          grep -q 'Assessment Intelligence' assessment-intelligence.html; grep -q 'Manager Development' manager-development.html; grep -q 'Prism360' prism360.html; grep -q 'Talent Solutions' talent-solutions.html
-          grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
-          if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into new homepage'; exit 1; fi
-          echo 'Unified Syntropix production verification passed'
+          for f in index.html assessments.html site-v5.css site-v5.js assessment-shell-v4.css assessment-shell-v4.js assessment-intelligence.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          grep -q 'Six capability layers' index.html
+          grep -q '/compliance-learning.html' index.html
+          grep -q '/employee-experience.html' index.html
+          grep -q 'What People Are Saying' index.html
+          grep -q 'Training experience delivered' index.html
+          grep -q 'Manager Development + Coaching' manager-development.html
+          grep -q 'Syntropix Signal' employee-experience.html
+          grep -q 'COMING SOON' compliance-learning.html
+          grep -q 'lead-form' enterprise.html
+          grep -q 'paypal.com/sdk/js' assessments.html
+          grep -q 'PapaParse' assessments.html
+          grep -q 'assessment-shell-v4.css' assessments.html
+          grep -q 'assessment-shell-v4.js' assessments.html
+          grep -q '#main-header{display:none' assessment-shell-v4.css
+          grep -q 'syntropix.in' CNAME
+          test "$(wc -c < assessments.html)" -gt 500000
+          if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into v5 homepage'; exit 1; fi
+          echo 'Syntropix v5 unified artifact verification passed'
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
