@@ -1,0 +1,63 @@
+name: Deploy Syntropix website to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Activate Architecture v2 homepage loader in deploy artifact
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path("index.html")
+          html = p.read_text(encoding="utf-8")
+          tag = '<script src="/architecture-v2-loader.js"></script>'
+          if tag not in html:
+              if "</body>" not in html.lower():
+                  raise SystemExit("index.html has no closing body tag; refusing unsafe injection")
+              lower = html.lower()
+              pos = lower.rfind("</body>")
+              html = html[:pos] + "  " + tag + "\n" + html[pos:]
+              p.write_text(html, encoding="utf-8")
+          print("Architecture v2 loader active in deployment artifact")
+
+      - name: Verify required production files
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in index.html architecture-v2-loader.js architecture-v2-nav.js enterprise.html professionals.html science.html trust.html CNAME; do
+            test -s "$f" || { echo "Missing required file: $f"; exit 1; }
+          done
+          grep -q 'architecture-v2-loader.js' index.html
+          echo "Production artifact verification passed"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
