@@ -27,38 +27,38 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Activate progressive homepage layers in deploy artifact
+      - name: Build separated public and assessment experiences
         shell: python
         run: |
           from pathlib import Path
-          p = Path("index.html")
-          html = p.read_text(encoding="utf-8")
-          tags = [
-              '<script src="/architecture-v2-loader.js"></script>',
-              '<script src="/website-v3-loader.js"></script>',
-          ]
-          lower = html.lower()
-          if "</body>" not in lower:
-              raise SystemExit("index.html has no closing body tag; refusing unsafe injection")
-          for tag in tags:
-              if tag not in html:
-                  lower = html.lower()
-                  pos = lower.rfind("</body>")
-                  html = html[:pos] + "  " + tag + "\n" + html[pos:]
-          p.write_text(html, encoding="utf-8")
-          print("Architecture v2 and Website v3 loaders active in deployment artifact")
+          import shutil
+          legacy = Path('index.html')
+          homepage = Path('homepage-v4.html')
+          if not legacy.is_file() or legacy.stat().st_size < 500000:
+              raise SystemExit('Legacy assessment application missing or unexpectedly small; refusing deployment')
+          if not homepage.is_file() or homepage.stat().st_size < 5000:
+              raise SystemExit('Website v4 homepage missing or unexpectedly small; refusing deployment')
+          shutil.copy2(legacy, 'assessments.html')
+          shutil.copy2(homepage, 'index.html')
+          print('Public homepage replaced; legacy assessment application preserved at /assessments.html')
 
-      - name: Verify required production files
+      - name: Verify production artifact boundaries
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html architecture-v2-loader.js architecture-v2-nav.js website-v3-loader.js website-v3-seo.js website-v3.js website-v3.css enterprise.html professionals.html science.html trust.html CNAME; do
+          for f in index.html assessments.html homepage-v4.css homepage-v4.js enterprise.html professionals.html science.html trust.html CNAME; do
             test -s "$f" || { echo "Missing required file: $f"; exit 1; }
           done
-          grep -q 'architecture-v2-loader.js' index.html
-          grep -q 'website-v3-loader.js' index.html
+          grep -q 'Build better managers' index.html
+          grep -q '/assessments.html' index.html
+          grep -q 'homepage-v4.css' index.html
+          grep -q 'homepage-v4.js' index.html
+          grep -q 'paypal.com/sdk/js' assessments.html
+          grep -q 'PapaParse' assessments.html
           grep -q 'syntropix.in' CNAME
-          echo "Production artifact verification passed"
+          test "$(wc -c < assessments.html)" -gt 500000
+          if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into new homepage'; exit 1; fi
+          echo "Website v4 production boundary verification passed"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
