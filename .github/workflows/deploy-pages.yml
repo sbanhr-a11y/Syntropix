@@ -23,53 +23,43 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
-
-      - name: Build separated public and assessment experiences
+      - name: Build unified public and assessment experience
         shell: python
         run: |
           from pathlib import Path
           import shutil
-          legacy = Path('index.html')
-          homepage = Path('homepage-v4.html')
-          if not legacy.is_file() or legacy.stat().st_size < 500000:
-              raise SystemExit('Legacy assessment application missing or unexpectedly small; refusing deployment')
-          if not homepage.is_file() or homepage.stat().st_size < 5000:
-              raise SystemExit('Website v4 homepage missing or unexpectedly small; refusing deployment')
-          shutil.copy2(legacy, 'assessments.html')
-          shutil.copy2(homepage, 'index.html')
-          print('Public homepage replaced; legacy assessment application preserved at /assessments.html')
-
-      - name: Verify production artifact boundaries
+          legacy=Path('index.html'); homepage=Path('homepage-v4.html')
+          if not legacy.is_file() or legacy.stat().st_size < 500000: raise SystemExit('Assessment application missing or unexpectedly small; refusing deployment')
+          if not homepage.is_file() or homepage.stat().st_size < 5000: raise SystemExit('Website v4 homepage missing or unexpectedly small; refusing deployment')
+          app=legacy.read_text(encoding='utf-8'); css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
+          if css not in app: app=app.replace('</head>',css+'\n</head>',1)
+          if js not in app: app=app.replace('</body>',js+'\n</body>',1)
+          Path('assessments.html').write_text(app,encoding='utf-8'); shutil.copy2(homepage,'index.html')
+      - name: Verify production artifact boundaries and navigation
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html homepage-v4.css homepage-v4.js enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do
-            test -s "$f" || { echo "Missing required file: $f"; exit 1; }
-          done
+          for f in index.html assessments.html homepage-v4.css homepage-v4.js assessment-shell-v4.css assessment-shell-v4.js solution-v4.css assessment-intelligence.html manager-development.html prism360.html talent-solutions.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -q 'Build better managers' index.html
-          grep -q '/assessments.html' index.html
-          grep -q 'homepage-v4.css' index.html
-          grep -q 'homepage-v4.js' index.html
-          grep -q 'paypal.com/sdk/js' assessments.html
-          grep -q 'PapaParse' assessments.html
-          grep -q 'syntropix.in' CNAME
-          test "$(wc -c < assessments.html)" -gt 500000
+          grep -q '/assessment-intelligence.html' homepage-v4.js
+          grep -q '/manager-development.html' homepage-v4.js
+          grep -q '/prism360.html' homepage-v4.js
+          grep -q '/talent-solutions.html' homepage-v4.js
+          grep -q 'homepage-v4.css' index.html; grep -q 'homepage-v4.js' index.html
+          grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
+          grep -q 'assessment-shell-v4.css' assessments.html; grep -q 'assessment-shell-v4.js' assessments.html
+          grep -q 'Assessment Intelligence' assessment-intelligence.html; grep -q 'Manager Development' manager-development.html; grep -q 'Prism360' prism360.html; grep -q 'Talent Solutions' talent-solutions.html
+          grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into new homepage'; exit 1; fi
-          echo "Website v4 production boundary verification passed"
-
+          echo 'Unified Syntropix production verification passed'
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
-
       - name: Wait for repository-source Pages build to finish
-        run: |
-          echo "GitHub Pages source-build also runs on main. Waiting so the verified v4 artifact is the final deployment."
-          sleep 90
-
-      - name: Deploy verified Website v4 artifact last
+        run: sleep 90
+      - name: Deploy verified unified Syntropix artifact last
         id: deployment
         uses: actions/deploy-pages@v4
