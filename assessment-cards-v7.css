@@ -1,0 +1,27 @@
+/* Syntropix portfolio card system v7 — quieter siblings of the flagship cards. */
+.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{position:relative;overflow:hidden;isolation:isolate;border:1px solid #cfd5cd;border-radius:24px;background:linear-gradient(145deg,#fbfcf9 0%,#f3f5f0 100%);box-shadow:0 10px 28px rgba(19,27,20,.055);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.assessment-catalogue-inline .assessment-card:before,.enterprise-grid .assessment-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--card-accent,#6f7d70);opacity:.72}
+.assessment-catalogue-inline .assessment-card:after,.enterprise-grid .assessment-card:after{content:"";position:absolute;width:170px;height:170px;right:-72px;top:-78px;border-radius:50%;background:var(--card-wash,rgba(90,110,92,.07));z-index:-1}
+.assessment-catalogue-inline .assessment-card:hover,.enterprise-grid .assessment-card:hover{transform:translateY(-3px);border-color:var(--card-accent,#6f7d70);box-shadow:0 18px 38px rgba(19,27,20,.09)}
+.assessment-catalogue-inline .assessment-card .num,.enterprise-grid .assessment-card .num{align-self:flex-start;margin-bottom:4px;padding:6px 9px;border-radius:999px;background:var(--card-chip,#e8ece6);color:var(--card-ink,#405045);font-size:10px;line-height:1;letter-spacing:.11em}
+.assessment-catalogue-inline .assessment-card h3,.enterprise-grid .assessment-card h3{letter-spacing:-.025em}
+.assessment-catalogue-inline .assessment-card .btn.primary{background:transparent;color:#1b211c;border-color:#aeb8ae}
+.assessment-catalogue-inline .assessment-card .btn.primary:hover{background:var(--card-chip,#e8ece6);border-color:var(--card-accent,#6f7d70)}
+/* Deliberately muted category palette: differentiated, not neon. */
+.assessment-grid .assessment-card:nth-child(8n+1){--card-accent:#647a69;--card-chip:#e5ebe5;--card-ink:#405448;--card-wash:rgba(100,122,105,.08)}
+.assessment-grid .assessment-card:nth-child(8n+2){--card-accent:#6d728d;--card-chip:#e9e9f0;--card-ink:#4b5069;--card-wash:rgba(109,114,141,.08)}
+.assessment-grid .assessment-card:nth-child(8n+3){--card-accent:#80715f;--card-chip:#eee9e2;--card-ink:#5d5042;--card-wash:rgba(128,113,95,.08)}
+.assessment-grid .assessment-card:nth-child(8n+4){--card-accent:#55777b;--card-chip:#e2ecec;--card-ink:#3c5a5e;--card-wash:rgba(85,119,123,.08)}
+.assessment-grid .assessment-card:nth-child(8n+5){--card-accent:#7d6877;--card-chip:#eee7eb;--card-ink:#5d4a56;--card-wash:rgba(125,104,119,.08)}
+.assessment-grid .assessment-card:nth-child(8n+6){--card-accent:#6f7654;--card-chip:#eaecdf;--card-ink:#50563b;--card-wash:rgba(111,118,84,.08)}
+.assessment-grid .assessment-card:nth-child(8n+7){--card-accent:#806957;--card-chip:#efe7e1;--card-ink:#5e4b3e;--card-wash:rgba(128,105,87,.08)}
+.assessment-grid .assessment-card:nth-child(8n+8){--card-accent:#5f7182;--card-chip:#e5eaee;--card-ink:#435463;--card-wash:rgba(95,113,130,.08)}
+/* Enterprise uses the same visual language but remains informational: no checkout treatment. */
+.enterprise-grid .assessment-card{min-height:300px;background:linear-gradient(150deg,#101511 0%,#0c100d 100%);border-color:#29312b;color:#f3f5f1;box-shadow:none}
+.enterprise-grid .assessment-card>p{color:#aeb6ae}
+.enterprise-grid .assessment-card h3{color:#f5f7f4}
+.enterprise-grid .assessment-card .assessment-meta span{border-color:#374039;color:#aeb8af}
+.enterprise-grid .assessment-card .num{background:color-mix(in srgb,var(--card-accent,#647a69) 18%,#111612);color:#d6ddd7}
+.enterprise-grid .assessment-card:hover{box-shadow:0 16px 34px rgba(0,0,0,.18)}
+@media(max-width:900px){.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{min-height:auto}}
+@media(prefers-reduced-motion:reduce){.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{transition:none}}
