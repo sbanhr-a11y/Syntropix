@@ -57,8 +57,8 @@ jobs:
           grep -q 'sx-report-section' assessment-shell-v4.js
           grep -q 'data-syntropix-ui' assessment-shell-v4.css
           grep -q 'Commercial Instinct Index' assessment-catalogue-v6.js
-          grep -q '15% off' assessment-catalogue-v6.js
-          grep -q '20% off' assessment-catalogue-v6.js
+          grep -q 'Research 15%' assessment-catalogue-v6.js
+          grep -q '3rd+ assessment 20%' assessment-catalogue-v6.js
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
           echo 'Syntropix canonical assessment/report artifact verification passed'
