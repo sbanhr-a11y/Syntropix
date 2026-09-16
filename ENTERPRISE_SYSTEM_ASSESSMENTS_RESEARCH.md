@@ -1,4 +1,4 @@
-# Syntropix Enterprise System Assessments — Research Architecture v1.0
+# Syntropix Enterprise System Assessments — Research Architecture v1.1
 
 ## Design objective
 These instruments are designed to complement rather than imitate legacy trait/personality tools. Their differentiator is multilevel actionability: participant behaviour + manager operating practice + organisational system signals. They do not claim superiority to established instruments before comparative empirical studies exist.
@@ -20,16 +20,28 @@ Differentiator: measures the behavioural chain from signal detection to changed 
 ## Evidence discipline
 All Syntropix items are original. Published research supports construct selection, not the psychometric properties of these exact item sets. Current status is `research-informed / validation in progress` until Syntropix-specific samples support reliability, dimensionality, measurement invariance, criterion/convergent/discriminant validity and fairness. Predictive, normative, selection and comparative-superiority claims require separate evidence.
 
+## Controlled validation programme — operational v1.1
+Syntropix now separates validation data into explicit, versioned phases. Consented responses are attached to the exact assessment code, instrument version and scoring version. Active pilots assign a `discovery`, `confirmation` or `monitoring` role. Discovery and confirmation samples must remain analytically independent; CFA is never run on the same sample used to discover the structure.
+
+Operational readiness gates are deliberately conservative. Reliability screening becomes available at n>=100 complete discovery administrations. EFA readiness requires at least n=300 and at least 10 complete respondents per item. CFA readiness requires an independent confirmation sample meeting the same n>=300 / 10-per-item gate. These are readiness conditions, not evidence that a model is valid. Model suitability, estimator choice, item distributions, missingness, KMO/Bartlett where relevant, factor retention, loadings, residuals, fit, omega/factor-model reliability, uncertainty and substantive interpretability still determine the analysis.
+
+The 300-person threshold is a planning safeguard rather than a universal psychometric law. Sample requirements can increase when communalities/loadings are weak, the factor model is complex, subgroup comparisons are required or missingness is material. Final technical notes must justify the achieved sample rather than citing a rule of thumb alone.
+
+## Organisation cohort analytics & privacy
+Organisation reporting is computed from consented, version-matched responses and separated from raw research tables. The current minimum reporting cell is n=7. Cells below that threshold are suppressed and the API does not return dimension means for the suppressed cohort. Organisation aggregates are descriptive system signals only: they are not employee rankings, norms, selection scores or performance predictions.
+
+Cohort means and dispersion should be interpreted alongside participation rate, role/function mix, context and operational evidence. A low cohort score is a hypothesis about employee behaviour, manager practice and/or work-system conditions—not proof that individuals are deficient. Future subgroup reporting must preserve the same minimum-cell rule and should consider complementary suppression where multiple cuts could permit re-identification.
+
 ## Validation programme
 1. Expert construct/content review and cognitive interviews across regions.
-2. Pilot >= 300 per instrument with item analysis and response-quality checks.
-3. EFA on development sample; revise/freeze version.
-4. CFA on independent sample; omega/alpha and test-retest subset.
+2. Discovery pilot >=300 per instrument with item analysis and response-quality checks.
+3. EFA on the discovery sample; revise/freeze a new instrument version if items change.
+4. Independent confirmation sample >=300; CFA plus omega/alpha and a planned test–retest subset.
 5. Convergent/discriminant studies against established measures where licensing permits.
 6. Criterion studies using manager ratings and objective role-relevant outcomes, with preregistered hypotheses.
 7. Multi-group invariance/DIF across priority geographies, language, gender and job levels when sample sizes permit.
 8. Cross-validation before any norm, benchmark, selection or predictive claim.
-9. Annual monitoring and versioned technical manual.
+9. Monitoring after release and a versioned technical manual with sample characteristics, exclusions, uncertainty and limitations.
 
 ## Trust benchmark
 Legacy trust is built through accumulated validation, published technical documentation, fairness monitoring, stable administration, translation/local validation, and evidence tied to intended use—not through visual polish alone. Syntropix should publish technical notes and sample characteristics as evidence accumulates.
@@ -45,5 +57,6 @@ Do not price as a commodity test. Position as enterprise diagnostic + cohort int
 - A meta-analysis of team reflexivity: Antecedents, outcomes, and boundary conditions. Human Resource Management Review 34(4), 101042 (2024). DOI: 10.1016/j.hrmr.2024.101042.
 - Empirical perspectives of transactive memory systems: a meta-analysis. Team Performance Management 26 (2020). DOI: 10.1108/TPM-05-2020-0036.
 - Cross, R., Rebele, R., & Grant, A. (2016). Collaborative Overload. Harvard Business Review.
+- Recent scale-development guidance continues to emphasize that factor-analysis sample size depends on item quality, communalities, model complexity and estimator; n≈300 is commonly treated as a useful planning point, not a universal guarantee.
 
 Competitive science references reviewed: Hogan Assessments validity materials; Predictive Index reliability/validity and EFPA certification materials; Everything DiSC research/reliability/validity documentation. These are benchmarks for evidence governance, not sources for copied items.
