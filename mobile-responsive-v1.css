@@ -1,0 +1,49 @@
+/* Syntropix mobile alignment layer v1 — additive only; desktop behaviour is unchanged. */
+@media (max-width: 760px){
+ html,body{max-width:100%;overflow-x:hidden}
+ .v5nav{min-height:64px;padding:0 16px;gap:10px}
+ .v5nav .brand{font-size:13px;letter-spacing:.10em;min-width:0}
+ .v5nav nav,.v5nav .navcta{display:none}
+ .v5nav .nav-back{padding:8px 9px}.v5nav .nav-back span{display:none}
+ .v5nav .nav-auth{margin-left:auto;padding:8px 10px}
+ .hero5,.section5{padding:58px 20px}
+ .hero5{min-height:auto;padding-top:72px;padding-bottom:72px}
+ .hero5 h1,.section5 h2{font-size:clamp(36px,11vw,52px);line-height:1.01;letter-spacing:-.045em;overflow-wrap:anywhere}
+ .hero5 p,.section-lead{font-size:17px;line-height:1.55}
+ .actions{display:grid;grid-template-columns:1fr;gap:10px;width:100%}
+ .actions .btn{width:100%;justify-content:center;text-align:center;white-space:normal}
+ .grid2,.grid3,.grid6,.assessment-grid,.flagship-grid,.finder,.pricing-strip,.coaching-boundary .grid2{grid-template-columns:1fr!important}
+ .grid2,.grid3,.grid6{gap:14px}
+ .card,.assessment-card,.flagship-card{min-width:0;width:100%;padding:22px;border-radius:20px}
+ .card h3,.assessment-card h3{overflow-wrap:anywhere}
+ .flow{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .flow article{padding:15px 10px;min-width:0}
+ .flow article p{font-size:13px;overflow-wrap:anywhere}
+ .assessment-grid{margin-top:28px;gap:16px}
+ .assessment-card,.enterprise-grid .assessment-card,.flagship-card{min-height:auto!important}
+ .assessment-meta{width:100%;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:auto!important;padding-top:18px}
+ .assessment-meta span{min-width:0;justify-content:center;text-align:center;padding:7px 5px!important}
+ .assessment-meta svg{width:15px!important;height:15px!important;flex:0 0 15px}
+ .flagship-heading{display:block}.flagship-marker{display:none}.flagship-icon{right:18px;top:20px;font-size:40px}
+ .flagship-card h3{padding-right:36px}
+ .price-panel{min-width:0;padding:20px}.price-panel strong{font-size:30px}
+ .assessment-price-line,.assessment-saving-line{align-items:flex-start;gap:8px}.assessment-saving-line{flex-direction:column}.assessment-saving-line small{text-align:left}
+ .form5{width:100%;max-width:100%}.form5 input,.form5 textarea,.form5 select{font-size:16px;min-width:0}
+ .marquee{margin:26px 0 20px}.marquee .track{gap:46px}.marquee img{max-width:130px!important;max-height:46px!important}
+ .testimonial-grid .quote{min-height:auto}.quote-person{align-items:center}.quote-avatar{flex:0 0 auto}
+ footer{padding-left:20px!important;padding-right:20px!important;text-align:center}footer .footer-brand-lockup{justify-items:center}footer p{line-height:1.9}
+ .floating{bottom:16px;width:48px;height:48px}.call5{left:16px}.chat5{right:16px}.chatpanel{right:16px;bottom:76px;width:calc(100vw - 32px);max-height:72vh}.chat-messages{height:min(270px,36vh)}
+ .home-menu{margin-left:auto}.home-menu-toggle{width:42px;height:42px;padding:0!important;justify-content:center;border-radius:11px}.home-menu-toggle span{font-size:20px}.home-menu-toggle em{display:none!important}.home-menu-panel{position:fixed!important;left:16px!important;right:16px!important;top:72px!important;width:auto!important;max-height:calc(100vh - 88px);overflow:auto}
+ .home-capability-card,.capability-link{padding-right:54px!important}.home-card-arrow,.capability-card-arrow{right:18px!important;top:18px!important;width:28px!important;height:28px!important}
+ .enterprise-note{min-width:0;overflow-wrap:anywhere}
+ .trustbar{padding-left:20px!important;padding-right:20px!important;font-size:10px!important;line-height:1.5}
+ img,svg,video,canvas{max-width:100%}
+}
+@media (max-width: 390px){
+ .hero5,.section5{padding-left:16px;padding-right:16px}
+ .hero5 h1,.section5 h2{font-size:clamp(33px,10.5vw,44px)}
+ .assessment-meta{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .assessment-meta span{font-size:10px!important}
+ .v5nav{padding-left:12px;padding-right:12px}
+ .v5nav .brand{font-size:12px}
+}
