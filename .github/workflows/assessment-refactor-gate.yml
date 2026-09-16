@@ -5,6 +5,10 @@ on:
     paths:
       - 'index.html'
       - 'assessment-engine-*.js'
+      - 'assessment-suite-v2.js'
+      - 'assessment-validation-v2.js'
+      - 'science.html'
+      - 'trust.html'
       - 'tools/extract-assessment-bank.py'
       - '.github/workflows/assessment-refactor-gate.yml'
   workflow_dispatch:
@@ -29,4 +33,19 @@ jobs:
           grep -q 'SyntropixAssessmentParity' assessment-engine-parity.js
           bytes=$(wc -c < build/assessment-bank.snapshot.js)
           test "$bytes" -gt 10000 || { echo "assessmentBank extraction unexpectedly small: $bytes"; exit 1; }
-          echo "Assessment refactor source gate passed; extracted snapshot bytes=$bytes"
+      - name: Verify new suite governance and item integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s assessment-suite-v2.js
+          test -s assessment-validation-v2.js
+          count=$(grep -o "make({title:" assessment-suite-v2.js | wc -l | tr -d ' ')
+          test "$count" -eq 10 || { echo "Expected 10 suite-v2 instruments, found $count"; exit 1; }
+          grep -q "status:'research-informed'" assessment-suite-v2.js
+          grep -q "selection:false" assessment-suite-v2.js
+          grep -q "clinical:false" assessment-suite-v2.js
+          grep -q 'Developmental indicator' assessment-validation-v2.js
+          grep -q 'Selected bibliography' science.html
+          grep -q '← Back' science.html
+          grep -q '← Back' trust.html
+          echo "Assessment suite v2 governance gate passed."
