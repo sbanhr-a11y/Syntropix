@@ -43,11 +43,19 @@ jobs:
               text=p.read_text(encoding='utf-8')
               if augment not in text: text=text.replace('</body>',augment+'\n</body>',1)
               p.write_text(text,encoding='utf-8')
+          # Theme is deliberately injected at build time so rollback is one-line:
+          # remove this injection and redeploy to restore the original neon palette.
+          sage='<link rel="stylesheet" href="/sage-theme-preview.css" data-syntropix-theme="pale-sage">'
+          for p in Path('.').rglob('*.html'):
+            text=p.read_text(encoding='utf-8')
+            if '</head>' in text and sage not in text:
+              text=text.replace('</head>',sage+'\n</head>',1)
+              p.write_text(text,encoding='utf-8')
       - name: Verify canonical artifact and preserved business engine
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js sage-theme-preview.css assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html
           grep -q 'lead-form' enterprise.html
           grep -q 'Download completion CSV' enterprise-console.html
@@ -60,6 +68,8 @@ jobs:
           grep -q 'Research 15%' assessment-catalogue-v6.js
           grep -q '3rd+ assessment 20%' assessment-catalogue-v6.js
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
+          grep -q 'data-syntropix-theme="pale-sage"' index.html
+          grep -q 'data-syntropix-theme="pale-sage"' assessments.html
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
           echo 'Syntropix canonical assessment/report/enterprise artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
