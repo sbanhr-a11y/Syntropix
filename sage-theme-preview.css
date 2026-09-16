@@ -1,0 +1,13 @@
+/*
+ * Syntropix Pale Sage Theme Preview
+ * Reversible: remove this stylesheet link to restore the prior neon palette.
+ * Primary sage: #B7C9B0; stronger sage: #9CAF94; ink: #10150F.
+ */
+:root{--accent:#B7C9B0!important;--sage:#B7C9B0;--sage-strong:#9CAF94;--sage-ink:#10150F}
+.primary,.btn.primary{background:var(--sage)!important;color:var(--sage-ink)!important;border-color:var(--sage)!important;box-shadow:none!important}
+.primary:hover,.btn.primary:hover{background:#C5D4BF!important;border-color:#C5D4BF!important}
+.orb1{background:var(--sage)!important}
+.assessment-catalogue-inline .assessment-card .btn.primary,.flagship-grid .flagship-card .btn.primary{background:var(--sage)!important;color:var(--sage-ink)!important;border-color:var(--sage)!important}
+.assessment-catalogue-inline .assessment-card .btn.primary:hover,.flagship-grid .flagship-card .btn.primary:hover{background:#C5D4BF!important;border-color:#C5D4BF!important}
+.assessment-grid .assessment-card:nth-child(10n+1){--card-accent:var(--sage)!important;--card-chip-bg:var(--sage)!important;--card-chip-ink:var(--sage-ink)!important}
+.flagship-grid .manager-flagship:before{background:var(--sage)!important}.flagship-grid .manager-flagship:hover{border-color:var(--sage)!important}.flagship-grid .manager-flagship .flagship-ribbon{background:var(--sage)!important;color:var(--sage-ink)!important}.flagship-grid .manager-flagship .assessment-saving-line strong{color:#D8E3D4!important}
