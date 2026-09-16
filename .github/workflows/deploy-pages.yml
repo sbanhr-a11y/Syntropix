@@ -40,11 +40,12 @@ jobs:
               text=p.read_text(encoding='utf-8')
               if augment not in text: text=text.replace('</body>',augment+'\n</body>',1)
               p.write_text(text,encoding='utf-8')
-          premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">'; consumer_css='<link rel="stylesheet" href="/consumer-insight-cards.css">'; premium_js='<script src="/premium-ui-v1.js" defer></script>'; footer_js='<script src="/global-footer-v1.js" defer></script>'; meta_js='<script src="/assessment-card-meta-v9.js" defer></script>'
+          premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">'; consumer_css='<link rel="stylesheet" href="/consumer-insight-cards.css">'; mobile_css='<link rel="stylesheet" href="/mobile-responsive-v1.css">'; premium_js='<script src="/premium-ui-v1.js" defer></script>'; footer_js='<script src="/global-footer-v1.js" defer></script>'; meta_js='<script src="/assessment-card-meta-v9.js" defer></script>'
           for p in Path('.').rglob('*.html'):
             text=p.read_text(encoding='utf-8')
             if '</head>' in text and premium_css not in text: text=text.replace('</head>',premium_css+'\n</head>',1)
             if '</head>' in text and consumer_css not in text: text=text.replace('</head>',consumer_css+'\n</head>',1)
+            if '</head>' in text and mobile_css not in text: text=text.replace('</head>',mobile_css+'\n</head>',1)
             if '</body>' in text and premium_js not in text: text=text.replace('</body>',premium_js+'\n</body>',1)
             if '</body>' in text and footer_js not in text: text=text.replace('</body>',footer_js+'\n</body>',1)
             if '</body>' in text and meta_js not in text: text=text.replace('</body>',meta_js+'\n</body>',1)
@@ -58,7 +59,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js global-footer-v1.js assessment-card-meta-v9.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js consumer-insight-suite.js consumer-insight-runner.html consumer-insight-runner.js consumer-insight-catalogue.js consumer-insight-cards.css auth-passwordless.js signin.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js enterprise-system-suite.js enterprise-system-runner.html enterprise-system-runner.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css mobile-responsive-v1.css site-v5.js site-v5-augment.js global-footer-v1.js assessment-card-meta-v9.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js consumer-insight-suite.js consumer-insight-runner.html consumer-insight-runner.js consumer-insight-catalogue.js consumer-insight-cards.css auth-passwordless.js signin.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js enterprise-system-suite.js enterprise-system-runner.html enterprise-system-runner.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html; grep -q 'lead-form' enterprise.html; grep -q 'Download completion CSV' enterprise-console.html; grep -q 'bulk-assign' enterprise-console.js
           grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
           if grep -q 'id="main-header"' assessments.html; then echo 'Legacy assessment header remains in deployed DOM'; exit 1; fi
@@ -70,10 +71,11 @@ jobs:
           grep -q 'Human–AI Collaboration Readiness Index' enterprise-system-suite.js; grep -q 'Customer-Centric Decision Intelligence Index' enterprise-system-suite.js
           grep -q 'global-footer-v1.js' index.html; grep -q 'global-footer-v1.js' enterprise.html; grep -q 'All rights reserved' global-footer-v1.js
           grep -q 'assessment-card-meta-v9.js' index.html; grep -q 'assessment-card-meta-v9.js' enterprise.html; grep -q 'assessment-card-meta-v9.js' professionals.html
+          grep -q 'mobile-responsive-v1.css' index.html; grep -q 'mobile-responsive-v1.css' enterprise.html; grep -q 'mobile-responsive-v1.css' professionals.html
           grep -q 'Evidence before adjectives' science.html; grep -q 'Selected bibliography' science.html; grep -q 'Trust is a system, not a badge' trust.html
           grep -q 'signInWithOtp' auth-passwordless.js; grep -q 'shouldCreateUser:false' auth-passwordless.js; grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
-          echo 'Syntropix canonical assessment/report/enterprise/auth/consumer artifact verification passed'
+          echo 'Syntropix canonical assessment/report/enterprise/auth/consumer/mobile artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
