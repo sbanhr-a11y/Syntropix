@@ -59,7 +59,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js auth-passwordless.js signin.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html
           grep -q 'lead-form' enterprise.html
           grep -q 'Download completion CSV' enterprise-console.html
@@ -76,10 +76,13 @@ jobs:
           grep -q 'Evidence before adjectives' science.html
           grep -q 'Selected bibliography' science.html
           grep -q 'Trust is a system, not a badge' trust.html
+          grep -q 'signInWithOtp' auth-passwordless.js
+          grep -q 'shouldCreateUser:false' auth-passwordless.js
+          grep -q 'Passwordless access' signin.html
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           grep -q 'data-syntropix-theme="premium-champagne"' index.html
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
-          echo 'Syntropix canonical assessment/report/enterprise artifact verification passed'
+          echo 'Syntropix canonical assessment/report/enterprise/auth artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
