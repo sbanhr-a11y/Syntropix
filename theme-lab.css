@@ -1,0 +1,12 @@
+/* Syntropix premium palette lab. Apply one class to <body>: theme-champagne (recommended), theme-platinum, theme-copper, theme-ice, theme-amethyst, theme-teal. */
+:root{--premium-accent:#D6B878;--premium-accent-strong:#E3C98E;--premium-accent-ink:#17130A;--premium-glow:rgba(214,184,120,.20)}
+body.theme-champagne{--premium-accent:#D6B878;--premium-accent-strong:#E3C98E;--premium-accent-ink:#17130A;--premium-glow:rgba(214,184,120,.20)}
+body.theme-platinum{--premium-accent:#C7CBD1;--premium-accent-strong:#E0E3E7;--premium-accent-ink:#111318;--premium-glow:rgba(199,203,209,.18)}
+body.theme-copper{--premium-accent:#C98B63;--premium-accent-strong:#D9A17C;--premium-accent-ink:#1B0E08;--premium-glow:rgba(201,139,99,.20)}
+body.theme-ice{--premium-accent:#91B9C9;--premium-accent-strong:#AFD0DD;--premium-accent-ink:#081317;--premium-glow:rgba(145,185,201,.20)}
+body.theme-amethyst{--premium-accent:#AA9BC7;--premium-accent-strong:#C3B7DA;--premium-accent-ink:#120D19;--premium-glow:rgba(170,155,199,.20)}
+body.theme-teal{--premium-accent:#72B7A4;--premium-accent-strong:#91CCBC;--premium-accent-ink:#071511;--premium-glow:rgba(114,183,164,.20)}
+body[class*="theme-"]{--lime:var(--premium-accent);--limeink:#69551F;--accent:var(--premium-accent)!important;--sage:var(--premium-accent)!important;--sage-strong:var(--premium-accent-strong)!important;--sage-ink:var(--premium-accent-ink)!important}
+body[class*="theme-"] .brand span,body[class*="theme-"] .accent,body[class*="theme-"] .kicker,body[class*="theme-"] .num{color:var(--premium-accent)!important}
+body[class*="theme-"] .btn.primary,body[class*="theme-"] .primary,body[class*="theme-"] .navcta:hover{background:linear-gradient(135deg,var(--premium-accent-strong),var(--premium-accent))!important;color:var(--premium-accent-ink)!important;border-color:var(--premium-accent)!important;box-shadow:0 10px 30px var(--premium-glow)!important}
+body[class*="theme-"] .btn.primary:hover,body[class*="theme-"] .primary:hover{transform:translateY(-2px) scale(1.015);box-shadow:0 15px 38px var(--premium-glow)!important}
