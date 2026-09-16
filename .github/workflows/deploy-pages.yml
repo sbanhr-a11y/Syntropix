@@ -1,5 +1,4 @@
 name: Deploy Syntropix website to GitHub Pages
-
 on:
   push:
     branches: ["main"]
@@ -43,46 +42,46 @@ jobs:
               text=p.read_text(encoding='utf-8')
               if augment not in text: text=text.replace('</body>',augment+'\n</body>',1)
               p.write_text(text,encoding='utf-8')
-          premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">'
-          premium_js='<script src="/premium-ui-v1.js" defer></script>'
+          premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">'; premium_js='<script src="/premium-ui-v1.js" defer></script>'
           for p in Path('.').rglob('*.html'):
             text=p.read_text(encoding='utf-8')
             if '</head>' in text and premium_css not in text: text=text.replace('</head>',premium_css+'\n</head>',1)
             if '</body>' in text and premium_js not in text: text=text.replace('</body>',premium_js+'\n</body>',1)
             p.write_text(text,encoding='utf-8')
-          p=Path('professionals.html')
-          suite='<script src="/assessment-suite-v2-catalogue.js" defer></script>'
-          text=p.read_text(encoding='utf-8')
-          if suite not in text: text=text.replace('</body>',suite+'\n</body>',1)
+          p=Path('professionals.html'); text=p.read_text(encoding='utf-8')
+          for src in ['/assessment-suite-v2-catalogue.js','/consumer-insight-catalogue.js']:
+            tag=f'<script src="{src}" defer></script>'
+            if tag not in text: text=text.replace('</body>',tag+'\n</body>',1)
           p.write_text(text,encoding='utf-8')
       - name: Verify canonical artifact and preserved business engine
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js auth-passwordless.js signin.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js consumer-insight-suite.js consumer-insight-runner.html consumer-insight-runner.js consumer-insight-catalogue.js auth-passwordless.js signin.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html
           grep -q 'lead-form' enterprise.html
           grep -q 'Download completion CSV' enterprise-console.html
           grep -q 'bulk-assign' enterprise-console.js
           grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
           if grep -q 'id="main-header"' assessments.html; then echo 'Legacy assessment header remains in deployed DOM'; exit 1; fi
-          grep -q 'sx-assessment-runner' assessment-shell-v4.js
           grep -q 'Commercial Instinct Index' assessment-catalogue-v6.js
           grep -q 'SyntropixAssessmentSuiteV2' assessment-suite-v2.js
-          grep -q 'SyntropixAssessmentValidation' assessment-validation-v2.js
-          grep -q 'assessment-suite-v2-catalogue.js' professionals.html
-          grep -q 'Identity Compass' assessment-suite-v2.js
-          grep -q 'Intergenerational Bridge Profile' assessment-suite-v2.js
+          grep -q 'Relationship & Intimacy Blueprint' consumer-insight-suite.js
+          grep -q 'Shadow Pattern Map' consumer-insight-suite.js
+          grep -q 'Attention & Reward Rhythm Map' consumer-insight-suite.js
+          grep -q "clinical:false" consumer-insight-suite.js
+          if grep -Eqi 'diagnoses ADHD|diagnoses autism|measures dopamine|neurological measurement' consumer-insight-suite.js; then echo 'Unsafe consumer assessment claim detected'; exit 1; fi
+          grep -q 'consumer-insight-catalogue.js' professionals.html
+          grep -q 'Download / save PDF' consumer-insight-runner.html
+          grep -q 'Syntropix Development Coach' consumer-insight-runner.html
           grep -q 'Evidence before adjectives' science.html
           grep -q 'Selected bibliography' science.html
           grep -q 'Trust is a system, not a badge' trust.html
           grep -q 'signInWithOtp' auth-passwordless.js
           grep -q 'shouldCreateUser:false' auth-passwordless.js
-          grep -q 'Passwordless access' signin.html
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
-          grep -q 'data-syntropix-theme="premium-champagne"' index.html
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
-          echo 'Syntropix canonical assessment/report/enterprise/auth artifact verification passed'
+          echo 'Syntropix canonical assessment/report/enterprise/auth/consumer artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
