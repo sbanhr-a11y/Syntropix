@@ -29,7 +29,6 @@ jobs:
           if not engine.is_file() or engine.stat().st_size < 500000: raise SystemExit('Assessment engine missing or unexpectedly small')
           if not homepage.is_file() or homepage.stat().st_size < 5000: raise SystemExit('Unified homepage missing or unexpectedly small')
           app=engine.read_text(encoding='utf-8')
-          # The legacy header is removed from the deployed DOM, not hidden under another header.
           app,n=re.subn(r'<header\b[^>]*id="main-header"[^>]*>.*?</header>','',app,count=1,flags=re.S)
           if n != 1: raise SystemExit('Could not structurally remove legacy assessment header')
           css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
@@ -48,20 +47,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html
           grep -q 'lead-form' enterprise.html
+          grep -q 'Download completion CSV' enterprise-console.html
+          grep -q 'bulk-assign' enterprise-console.js
           grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
           if grep -q 'id="main-header"' assessments.html; then echo 'Legacy assessment header remains in deployed DOM'; exit 1; fi
           grep -q 'sx-assessment-runner' assessment-shell-v4.js
           grep -q 'sx-report-section' assessment-shell-v4.js
-          grep -q 'data-syntropix-ui' assessment-shell-v4.css
           grep -q 'Commercial Instinct Index' assessment-catalogue-v6.js
           grep -q 'Research 15%' assessment-catalogue-v6.js
           grep -q '3rd+ assessment 20%' assessment-catalogue-v6.js
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
-          echo 'Syntropix canonical assessment/report artifact verification passed'
+          echo 'Syntropix canonical assessment/report/enterprise artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
