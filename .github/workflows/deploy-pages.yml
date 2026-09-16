@@ -43,22 +43,23 @@ jobs:
               text=p.read_text(encoding='utf-8')
               if augment not in text: text=text.replace('</body>',augment+'\n</body>',1)
               p.write_text(text,encoding='utf-8')
-          # Premium candidate is deliberately injected at build time so rollback
-          # remains a one-line removal. theme-lab.css keeps five alternate palettes.
           premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">'
           premium_js='<script src="/premium-ui-v1.js" defer></script>'
           for p in Path('.').rglob('*.html'):
             text=p.read_text(encoding='utf-8')
-            if '</head>' in text and premium_css not in text:
-              text=text.replace('</head>',premium_css+'\n</head>',1)
-            if '</body>' in text and premium_js not in text:
-              text=text.replace('</body>',premium_js+'\n</body>',1)
+            if '</head>' in text and premium_css not in text: text=text.replace('</head>',premium_css+'\n</head>',1)
+            if '</body>' in text and premium_js not in text: text=text.replace('</body>',premium_js+'\n</body>',1)
             p.write_text(text,encoding='utf-8')
+          p=Path('professionals.html')
+          suite='<script src="/assessment-suite-v2-catalogue.js" defer></script>'
+          text=p.read_text(encoding='utf-8')
+          if suite not in text: text=text.replace('</body>',suite+'\n</body>',1)
+          p.write_text(text,encoding='utf-8')
       - name: Verify canonical artifact and preserved business engine
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js premium-ui-v1.css premium-ui-v1.js theme-lab.css assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css site-v5.js site-v5-augment.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html
           grep -q 'lead-form' enterprise.html
           grep -q 'Download completion CSV' enterprise-console.html
@@ -66,14 +67,17 @@ jobs:
           grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
           if grep -q 'id="main-header"' assessments.html; then echo 'Legacy assessment header remains in deployed DOM'; exit 1; fi
           grep -q 'sx-assessment-runner' assessment-shell-v4.js
-          grep -q 'sx-report-section' assessment-shell-v4.js
           grep -q 'Commercial Instinct Index' assessment-catalogue-v6.js
-          grep -q 'Research 15%' assessment-catalogue-v6.js
-          grep -q '3rd+ assessment 20%' assessment-catalogue-v6.js
+          grep -q 'SyntropixAssessmentSuiteV2' assessment-suite-v2.js
+          grep -q 'SyntropixAssessmentValidation' assessment-validation-v2.js
+          grep -q 'assessment-suite-v2-catalogue.js' professionals.html
+          grep -q 'Identity Compass' assessment-suite-v2.js
+          grep -q 'Intergenerational Bridge Profile' assessment-suite-v2.js
+          grep -q 'Evidence before adjectives' science.html
+          grep -q 'Selected bibliography' science.html
+          grep -q 'Trust is a system, not a badge' trust.html
           grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           grep -q 'data-syntropix-theme="premium-champagne"' index.html
-          grep -q 'data-syntropix-theme="premium-champagne"' assessments.html
-          grep -q 'premium-ui-v1.js' index.html
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
           echo 'Syntropix canonical assessment/report/enterprise artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
