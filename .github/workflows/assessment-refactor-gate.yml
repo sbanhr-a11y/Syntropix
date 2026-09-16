@@ -1,0 +1,32 @@
+name: Assessment Refactor Safety Gate
+
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'assessment-engine-*.js'
+      - 'tools/extract-assessment-bank.py'
+      - '.github/workflows/assessment-refactor-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  parity-source-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract legacy assessment bank without executing it
+        run: python tools/extract-assessment-bank.py --source index.html --output build/assessment-bank.snapshot.js
+      - name: Verify extraction and refactor guards
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s build/assessment-bank.snapshot.js
+          grep -q 'sha256:' build/assessment-bank.snapshot.js
+          grep -q 'SyntropixAssessmentEngine' assessment-engine-loader.js
+          grep -q 'SyntropixAssessmentParity' assessment-engine-parity.js
+          bytes=$(wc -c < build/assessment-bank.snapshot.js)
+          test "$bytes" -gt 10000 || { echo "assessmentBank extraction unexpectedly small: $bytes"; exit 1; }
+          echo "Assessment refactor source gate passed; extracted snapshot bytes=$bytes"
