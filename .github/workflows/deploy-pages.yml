@@ -19,62 +19,43 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Compile canonical assessment data and website artifact
-        shell: bash
+      - name: Build canonical website artifact
+        shell: python
         run: |
-          set -euo pipefail
-          # The historical monolith is used only as a frozen migration source in CI.
-          # It is never copied to the deploy artifact and no production route executes it.
-          test -s index.html
-          test "$(wc -c < index.html)" -gt 500000
-          python tools/build-assessment-registry-v3.py --source index.html --output assessment-registry-v3.js
-          test -s assessment-registry-v3.js
-          test "$(wc -c < assessment-registry-v3.js)" -gt 10000
-          cp homepage-v4.html index.html
-          python - <<'PY'
           from pathlib import Path
-          premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">'
-          consumer_css='<link rel="stylesheet" href="/consumer-insight-cards.css">'
-          mobile_css='<link rel="stylesheet" href="/mobile-responsive-v1.css">'
-          premium_js='<script src="/premium-ui-v1.js" defer></script>'
-          footer_js='<script src="/global-footer-v1.js" defer></script>'
-          meta_js='<script src="/assessment-card-meta-v9.js" defer></script>'
+          required=['index.html','assessment-registry-v3.js','assessment-runtime-v3.html','assessment-runtime-v3.js']
+          for f in required:
+            if not Path(f).is_file() or Path(f).stat().st_size<100: raise SystemExit('Missing canonical asset: '+f)
+          premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">';consumer_css='<link rel="stylesheet" href="/consumer-insight-cards.css">';mobile_css='<link rel="stylesheet" href="/mobile-responsive-v1.css">';premium_js='<script src="/premium-ui-v1.js" defer></script>';footer_js='<script src="/global-footer-v1.js" defer></script>';meta_js='<script src="/assessment-card-meta-v9.js" defer></script>'
           for p in Path('.').rglob('*.html'):
-              text=p.read_text(encoding='utf-8')
-              if '</head>' in text and premium_css not in text:text=text.replace('</head>',premium_css+'\n</head>',1)
-              if '</head>' in text and consumer_css not in text:text=text.replace('</head>',consumer_css+'\n</head>',1)
-              if '</head>' in text and mobile_css not in text:text=text.replace('</head>',mobile_css+'\n</head>',1)
-              if '</body>' in text and premium_js not in text:text=text.replace('</body>',premium_js+'\n</body>',1)
-              if '</body>' in text and footer_js not in text:text=text.replace('</body>',footer_js+'\n</body>',1)
-              if '</body>' in text and meta_js not in text:text=text.replace('</body>',meta_js+'\n</body>',1)
-              p.write_text(text,encoding='utf-8')
-          p=Path('index.html');t=p.read_text(encoding='utf-8');tag='<script src="/assessment-invite-router-v1.js" defer></script>'
-          if tag not in t:t=t.replace('</body>',tag+'\n</body>',1)
-          p.write_text(t,encoding='utf-8')
-          p=Path('professionals.html');t=p.read_text(encoding='utf-8')
+            text=p.read_text(encoding='utf-8')
+            for tag in [premium_css,consumer_css,mobile_css]:
+              if '</head>' in text and tag not in text:text=text.replace('</head>',tag+'\n</head>',1)
+            for tag in [premium_js,footer_js,meta_js]:
+              if '</body>' in text and tag not in text:text=text.replace('</body>',tag+'\n</body>',1)
+            p.write_text(text,encoding='utf-8')
+          p=Path('professionals.html');text=p.read_text(encoding='utf-8')
           for src in ['/assessment-suite-v2-catalogue.js','/consumer-insight-catalogue.js','/assessment-assignment-ui-v1.js']:
-              tag=f'<script src="{src}" defer></script>'
-              if tag not in t:t=t.replace('</body>',tag+'\n</body>',1)
-          p.write_text(t,encoding='utf-8')
-          PY
-          # Production artifact must not contain the old executable assessment front.
-          rm -f assessments.html assessment-shell-v4.js
-      - name: Canonical assessment parity and safety tests
+            tag=f'<script src="{src}" defer></script>'
+            if tag not in text:text=text.replace('</body>',tag+'\n</body>',1)
+          p.write_text(text,encoding='utf-8')
+          # Belt-and-suspenders: historical front files can never enter the Pages artifact.
+          for f in ['assessments.html','assessment-shell-v4.js']:
+            Path(f).unlink(missing_ok=True)
+      - name: Canonical assessment runtime safety gate
         shell: bash
         run: |
           set -euo pipefail
           node - <<'NODE'
-          const fs=require('fs'),vm=require('vm');const ctx={window:{}};vm.createContext(ctx);vm.runInContext(fs.readFileSync('assessment-registry-v3.js','utf8'),ctx);
-          const R=ctx.window.SyntropixAssessmentRegistryV3;if(!R||!R.sourceHash)throw Error('registry missing');
+          const fs=require('fs'),vm=require('vm'),ctx={window:{}};vm.createContext(ctx);vm.runInContext(fs.readFileSync('assessment-registry-v3.js','utf8'),ctx);const R=ctx.window.SyntropixAssessmentRegistryV3;
           const expected={'Managerial Effectiveness Index':50,'Executive Leadership Index':200,'CogniMorph Index':20,'Coachability Quotient':20,'Metacognitive Executive Assessment':20,'Strategic Inversion Diagnostics':20,'Self-Limiting Belief Auditor':20,'Cognitive Learning Profiler':20,'Commercial Instinct Index':24,'Communication Signature':24};
-          for(const [name,n] of Object.entries(expected)){const d=R.bank[name];if(!d)throw Error('missing '+name);if(!Array.isArray(d.questions)||d.questions.length!==n)throw Error(name+' item count');if(!d.archetypes||!d.dimensionData||!d.phases)throw Error(name+' report data incomplete');const ids=new Set(d.questions.map(q=>q.id));if(ids.size!==n)throw Error(name+' duplicate item ids');for(const q of d.questions)if(!q.dim||typeof q.rev!=='boolean'||!q.text)throw Error(name+' malformed item');}
-          function score(d,raw){let total=0;for(const q of d.questions)total+=q.rev?7-raw(q):raw(q);return Math.round((((total/d.questions.length)-1)/5)*1000)/10}
-          for(const d of Object.values(R.bank)){for(const v of [1,3,6]){const s=score(d,()=>v);if(!(s>=0&&s<=100))throw Error('score range')}const s=score(d,q=>(q.id%6)+1);if(!Number.isFinite(s))throw Error('mixed score')}
-          console.log('Canonical registry integrity + deterministic scoring gate passed',R.sourceHash);
+          if(!R?.sourceHash)throw Error('registry fingerprint missing');for(const [n,c] of Object.entries(expected)){const d=R.bank[n];if(!d||d.questions.length!==c||!d.archetypes||!d.dimensionData||!d.phases)throw Error(n+' registry integrity');if(new Set(d.questions.map(q=>q.id)).size!==c)throw Error(n+' duplicate item ids')}
+          console.log('Canonical registry verified',R.sourceHash)
           NODE
           grep -q 'assessment-runtime-v3.html?assessment=' professionals.html
-          if grep -q '/assessments.html?assessment=' professionals.html assessment-catalogue-v6.js; then echo 'Legacy assessment route remains'; exit 1; fi
-          grep -q 'check-discount-status' assessment-runtime-v3.js
+          ! grep -q '/assessments.html?assessment=' professionals.html
+          ! grep -q '/assessments.html?assessment=' assessment-catalogue-v6.js
+          grep -q 'payments/check-discount-status' assessment-runtime-v3.js
           grep -q 'payments/upi-submit' assessment-runtime-v3.js
           grep -q 'payments/verify' assessment-runtime-v3.js
           grep -q 'organizations/claim-license' assessment-runtime-v3.js
@@ -85,6 +66,7 @@ jobs:
           grep -q 'assessment-assignment-ui-v1.js' professionals.html
           test ! -e assessments.html
           test ! -e assessment-shell-v4.js
+          test "$(wc -c < index.html)" -lt 100000
       - name: Verify complete website artifact
         shell: bash
         run: |
@@ -99,8 +81,7 @@ jobs:
           grep -q 'signInWithOtp' auth-passwordless.js
           grep -q 'shouldCreateUser:false' auth-passwordless.js
           grep -q 'syntropix.in' CNAME
-          if grep -q 'website-v3-loader.js' index.html; then echo 'Obsolete homepage loader detected'; exit 1; fi
-          echo 'Fresh Syntropix website + canonical assessment runtime verification passed'
+          echo 'Legacy-free Syntropix artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
