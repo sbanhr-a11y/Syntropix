@@ -74,6 +74,14 @@ jobs:
           grep -q 'global-footer-v1.js' index.html; grep -q 'global-footer-v1.js' enterprise.html; grep -q 'All rights reserved' global-footer-v1.js
           grep -q 'assessment-card-meta-v9.js' index.html; grep -q 'assessment-card-meta-v9.js' enterprise.html; grep -q 'assessment-card-meta-v9.js' professionals.html
           grep -q 'mobile-responsive-v1.css' index.html; grep -q 'mobile-responsive-v1.css' enterprise.html; grep -q 'mobile-responsive-v1.css' professionals.html
+          # UX consistency gate: every assessment family must resolve to the same Champagne design system.
+          grep -q 'premium-ui-v1.css' assessment-suite-v2-runner.html
+          grep -q 'assessment-shell-v4.css' assessment-suite-v2-runner.html
+          grep -q 'premium-ui-v1.css' consumer-insight-runner.html
+          grep -q 'assessment-shell-v4.css' enterprise-system-runner.html
+          grep -q -- '--sx-premium:#D6B878' assessment-shell-v4.css
+          if grep -Eq '#b9ff38|#c7ff60' assessment-shell-v4.css; then echo 'Legacy neon palette leaked into canonical assessment shell'; exit 1; fi
+          if grep -q 'sx-unified-context' assessment-shell-v4.js; then echo 'Legacy duplicate assessment context bar returned'; exit 1; fi
           grep -q 'Evidence before adjectives' science.html; grep -q 'Selected bibliography' science.html; grep -q 'Trust is a system, not a badge' trust.html
           grep -q 'signInWithOtp' auth-passwordless.js; grep -q 'shouldCreateUser:false' auth-passwordless.js; grep -q 'syntropix.in' CNAME; test "$(wc -c < assessments.html)" -gt 500000
           if grep -q 'website-v3-loader.js' index.html; then echo 'Legacy v3 loader leaked into homepage'; exit 1; fi
