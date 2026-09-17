@@ -29,6 +29,8 @@ jobs:
           premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">';consumer_css='<link rel="stylesheet" href="/consumer-insight-cards.css">';mobile_css='<link rel="stylesheet" href="/mobile-responsive-v1.css">';premium_js='<script src="/premium-ui-v1.js" defer></script>';footer_js='<script src="/global-footer-v1.js" defer></script>';meta_js='<script src="/assessment-card-meta-v9.js" defer></script>'
           for p in Path('.').rglob('*.html'):
             text=p.read_text(encoding='utf-8')
+            # Syntropix is a registered mark: normalize every rendered brand/logo lockup and page-level brand reference.
+            text=text.replace('SYNTROPIX<span>™</span>','SYNTROPIX<span>®</span>').replace('SYNTROPIX™','SYNTROPIX®').replace('Syntropix™','Syntropix®')
             for tag in [premium_css,consumer_css,mobile_css]:
               if '</head>' in text and tag not in text:text=text.replace('</head>',tag+'\n</head>',1)
             for tag in [premium_js,footer_js,meta_js]:
@@ -64,6 +66,8 @@ jobs:
           grep -q 'syntropix_pending_completion' assessment-runtime-v3.js
           grep -q 'assessment-invite-router-v1.js' index.html
           grep -q 'assessment-assignment-ui-v1.js' professionals.html
+          grep -q 'syntropix:regionchange' assessment-catalogue-v6.js
+          grep -q 'syntropix:regionchange' assessment-suite-v2-catalogue.js
           test ! -e assessments.html
           test ! -e assessment-shell-v4.js
           test "$(wc -c < index.html)" -lt 100000
@@ -81,6 +85,9 @@ jobs:
           grep -q 'signInWithOtp' auth-passwordless.js
           grep -q 'shouldCreateUser:false' auth-passwordless.js
           grep -q 'syntropix.in' CNAME
+          grep -q 'SYNTROPIX<span>®</span>' index.html
+          grep -q 'Syntropix®' index.html
+          if grep -RIl --include='*.html' -E 'SYNTROPIX(<span>)?™|Syntropix™' .; then echo 'Unregistered Syntropix brand mark remains in rendered HTML'; exit 1; fi
           echo 'Legacy-free Syntropix artifact verification passed'
       - uses: actions/upload-pages-artifact@v3
         with:
