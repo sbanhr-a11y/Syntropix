@@ -2,17 +2,17 @@
 
 Release status: research-informed developmental instruments; Syntropix-specific empirical validation in progress. The published evidence below supports constructs and design choices, not a claim that these new Syntropix item sets are already validated.
 
-## 1. Relationship & Intimacy Blueprint™
+## 1. Relationship & Intimacy Blueprint
 Construct basis: adult romantic attachment is better represented dimensionally through attachment anxiety and avoidance than by viral fixed labels. ECR-R research reports strong short-term latent stability and meaningful prediction of attachment-related emotions in romantic interactions (Sibley, Fischer & Liu, 2005, DOI 10.1177/0146167205276865). Rejection sensitivity research shows that ambiguous negative cues can amplify rejection-focused emotion and interfere with regulation in romantic relationships (Richter et al., 2024, BMC Psychology). Syntropix therefore uses original items covering closeness security, rejection alarm, distance regulation and repair flexibility. It does not reproduce ECR-R items and does not diagnose attachment disorders.
 
 Consumer design: current attachment products commonly offer a free preview and paid personalised report; observed 2026 examples ranged from about $3.99–$49, with a $29.99 premium report/workbook also present in the market. Introductory Syntropix price: US$19 / ₹1,499.
 
-## 2. Shadow Pattern Map™
+## 2. Shadow Pattern Map
 Construct basis: “shadow” is used only as consumer-facing metaphor. Scoring is grounded in measurable domains: self-presentation/self-discrepancy, defensive functioning, antagonistic/strategic tendencies, and adaptive ownership/psychological flexibility. Dark Triad research supports measurement of antagonistic traits but also identifies discriminant-validity limitations between Machiavellianism and psychopathy in brief scales (Dragostinov & Mõttus, 2022/2023, DOI 10.1080/00223891.2022.2052303). The DMRS-SR-30 literature supports broad defensive-functioning self-report while older research cautions against assuming that self-report cleanly measures individual defense mechanisms. A 2026 Social Media Self-Presentation Discrepancy Scale study supports reality distortion/exaggeration, idealized presentation and strategic impression management as separable social-media self-presentation dimensions (DOI 10.1080/00224545.2026.2630716). Syntropix uses original items and does not label users narcissists, psychopaths, toxic, disordered or clinically defended.
 
 Consumer design: the report converts uncomfortable patterns into observable triggers, short-term payoffs and alternative actions rather than sensational “dark personality” diagnoses. Introductory Syntropix price: US$15 / ₹1,199.
 
-## 3. Attention & Reward Rhythm Map™
+## 3. Attention & Reward Rhythm Map
 Construct basis: executive-function self-report research supports assessment of working-memory/inhibitory and broader everyday executive patterns, but contemporary work also challenges traditional factor structures; this argues for conservative construct language rather than a neurological claim. ADEXI is a validated brief adult executive-function inventory (Holst & Thorell, 2018, DOI 10.1002/mpr.1567). The Short Executive Function Scale reports preliminary five-factor psychometric support with test-retest ICCs .75–.89. New 2026 BRIEF-A reanalysis found traditional factor structures did not fit adequately and proposed a more parsimonious response structure, underscoring the need for ongoing validation rather than inherited certainty (DOI 10.1080/23279095.2026.2664598).
 
 Social-media safety: ADHD/autism self-diagnosis is specifically avoided. A study of #ADHDtest videos found 92% of sampled TikTok videos misleading; other 2025–26 studies document substantial ADHD/autism misinformation and self-attribution risk. The Syntropix instrument therefore maps attention capture, activation friction, reward sensitivity and recovery architecture without screening for ADHD/autism, measuring dopamine, or implying neurodivergence.

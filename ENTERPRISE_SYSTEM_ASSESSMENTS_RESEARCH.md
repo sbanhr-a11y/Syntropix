@@ -3,14 +3,14 @@
 ## Design objective
 These instruments are designed to complement rather than imitate legacy trait/personality tools. Their differentiator is multilevel actionability: participant behaviour + manager operating practice + organisational system signals. They do not claim superiority to established instruments before comparative empirical studies exist.
 
-## 1. Network Flow & Collaboration Index™ (NFI)
+## 1. Network Flow & Collaboration Index (NFI)
 30 original items; six five-item dimensions: Access & Reach, Knowledge Routing, Collaboration Load, Voice & Repair, Boundary Bridging, Coordination Reliability.
 
 Scientific foundations include organisational network analysis; transactive memory systems; psychological safety; collective intelligence; team coordination; collaboration overload; team reflexivity. Network science indicates that network structure relates to performance and that effects differ by level; transactive memory research links knowing who knows what and coordination with team outcomes. Psychological-safety research supports speaking up/learning mechanisms. Collective-intelligence research indicates team performance is not reducible to the intelligence of the highest-scoring individual.
 
 Differentiator: the self-report is intentionally a first layer. The mature product should optionally add roster-based sociometric/ONA modules (advice, information, problem-solving and dependency ties) and operational collaboration metadata with privacy review. Survey scores must never be presented as literal network centrality.
 
-## 2. Adaptive Execution & Decision Index™ (AEI)
+## 2. Adaptive Execution & Decision Index (AEI)
 30 original items; six five-item dimensions: Sensemaking, Priority Reset, Experiment & Learning, Decision Quality, Recovery Regulation, Execution Transfer.
 
 Scientific foundations include adaptive performance, cognitive ability and adaptation, team reflexivity, learning from failures, psychological safety, metacognition and decision-making under uncertainty. Meta-analytic evidence shows cognitive ability is positively associated with performance adaptation, especially for dynamic tasks; team-reflexivity evidence supports structured reflection as a performance mechanism under relevant boundary conditions.

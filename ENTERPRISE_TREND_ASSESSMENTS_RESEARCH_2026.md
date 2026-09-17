@@ -9,7 +9,7 @@ The two instruments below were selected because they answer current enterprise b
 
 ---
 
-# 1. Human–AI Collaboration Readiness Index™ (HACRI)
+# 1. Human–AI Collaboration Readiness Index (HACRI)
 
 ## Corporate problem addressed
 
@@ -56,7 +56,7 @@ Cognitive interviews → pilot item analysis → omega/alpha → EFA → indepen
 
 ---
 
-# 2. Customer-Centric Decision Intelligence Index™ (CCDII)
+# 2. Customer-Centric Decision Intelligence Index (CCDII)
 
 ## Corporate problem addressed
 

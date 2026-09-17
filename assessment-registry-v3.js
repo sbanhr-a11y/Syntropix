@@ -84,9 +84,9 @@ const MEI_PHASES = [
         };
 const bank={
             "Managerial Effectiveness Index": {
-                title: "Managerial Effectiveness Index™ (Core)",
-                introHeader: "Introduction: The Syntropix Managerial Effectiveness Index™",
-                introBody: `<p>The Managerial Effectiveness Index™ is a focused, 50-question read on the ten dimensions that real research shows actually predict managerial effectiveness — spanning how you execute, how you develop and protect your team, how you lead change, your influence beyond your own team, and your composure under real pressure.</p>
+                title: "Managerial Effectiveness Index (Core)",
+                introHeader: "Introduction: The Syntropix Managerial Effectiveness Index",
+                introBody: `<p>The Managerial Effectiveness Index is a focused, 50-question read on the ten dimensions that real research shows actually predict managerial effectiveness — spanning how you execute, how you develop and protect your team, how you lead change, your influence beyond your own team, and your composure under real pressure.</p>
                             <p>This is the accessible entry point into Syntropix's flagship assessment architecture — the same ten research-informed dimensions as the full Executive Leadership Index, measured at a faster, more focused depth. If you're navigating a leadership-development or succession conversation — a senior hire, an executive promotion decision — the full 200-question Executive Leadership Index gives broader coverage; this gives you a structured first read.</p>`,
                 archetypes: MEI_ARCHETYPES,
                 dimensionData: MEI_DIMENSION_DATA,
@@ -145,9 +145,9 @@ const bank={
                 ],
             },
             "Executive Leadership Index": {
-                title: "Executive Leadership Index™ (Flagship — Comprehensive)",
-                introHeader: "Introduction: The Syntropix Executive Leadership Index™",
-                introBody: `<p>The Executive Leadership Index™ is Syntropix's flagship instrument — the most comprehensive assessment we build, and the only one designed to answer a single, high-stakes question completely: is this person genuinely ready to lead, across every dimension that real research shows actually predicts it? Where our other assessments each measure one specific, well-defined capability, this one measures ten, spanning task-oriented execution, how you actually develop and protect the people who work for you, your ability to lead real change rather than just adapt to it yourself, your influence and network beyond your own team, and your composure and decision quality exactly when the pressure is highest.</p>
+                title: "Executive Leadership Index (Flagship — Comprehensive)",
+                introHeader: "Introduction: The Syntropix Executive Leadership Index",
+                introBody: `<p>The Executive Leadership Index is Syntropix's flagship instrument — the most comprehensive assessment we build, and the only one designed to answer a single, high-stakes question completely: is this person genuinely ready to lead, across every dimension that real research shows actually predicts it? Where our other assessments each measure one specific, well-defined capability, this one measures ten, spanning task-oriented execution, how you actually develop and protect the people who work for you, your ability to lead real change rather than just adapt to it yourself, your influence and network beyond your own team, and your composure and decision quality exactly when the pressure is highest.</p>
                             <p>This isn't ten narrow assessments stapled together. It's a single, purpose-built instrument grounded directly in real, citable research: Yukl's hierarchical taxonomy of leadership behavior (2002), which organizes decades of leadership research into validated task-, relations-, change-, and external-oriented categories; meta-analytic research quantifying emotional intelligence's real relationship to leadership effectiveness; neuroscience research on stress, decision quality, and emotional contagion in teams, including work by Amy Arnsten (Yale) and Bruce McEwen (Rockefeller University); and social capital research on how professional network structure predicts real organizational influence. Every one of the 200 questions in this assessment was written specifically for Syntropix — none are adapted from any published instrument.</p>
                             <p>This is the complete, 90-minute, high-stakes version — built for the decisions where depth matters more than speed: succession planning, executive promotion, senior hiring.</p>`,
                 archetypes: MEI_ARCHETYPES,
@@ -357,9 +357,9 @@ const bank={
                 ],
             },
             "CogniMorph Index": { 
-                title: "CogniMorph Index™ (Adaptive Capability)",
-                introHeader: "Introduction: The CogniMorph Index™",
-                introBody: `<p>The CogniMorph Index™ evaluates your structural capacity to convert operational friction and complex failure into adaptive action. We do not measure generic 'resilience' or make unverified neurological claims; we measure observable behavioral adaptation under challenge.</p>
+                title: "CogniMorph Index (Adaptive Capability)",
+                introHeader: "Introduction: The CogniMorph Index",
+                introBody: `<p>The CogniMorph Index evaluates your structural capacity to convert operational friction and complex failure into adaptive action. We do not measure generic 'resilience' or make unverified neurological claims; we measure observable behavioral adaptation under challenge.</p>
                             <p>This baseline diagnostic isolates four critical executive capabilities: <strong>Adaptive Learning Orientation</strong> (capability development through strategic effort), <strong>Error Recovery</strong> (converting setbacks into corrective action), <strong>Pressure Regulation</strong> (appraising demands versus coping resources), and <strong>Feedback & Psychological Flexibility</strong> (processing credible criticism without confusing performance with personal worth). Mastering these quadrants separates leaders who freeze under ambiguity from those who systematically update their operational frameworks.</p>`,
                 keys: ['ALOR', 'ERAE', 'CTAP', 'FRUP'],
                 labels: ['Adaptive Learning', 'Error Recovery', 'Pressure Regulation', 'Feedback & Flexibility'],
@@ -423,9 +423,9 @@ const bank={
                 }
             },
             "Coachability Quotient": { 
-                title: "Coachability Quotient™",
-                introHeader: "Introduction: The Coachability Quotient™",
-                introBody: `<p>Being good at your job today doesn't guarantee you'll still be good at it in five years — the tools, the expectations, and the people around you keep changing. What actually predicts whether someone keeps growing isn't how much they already know. It's how well they take in feedback, learn from their mistakes, and act on advice — especially when it's uncomfortable to hear. That's exactly what the Coachability Quotient™ measures.</p>
+                title: "Coachability Quotient",
+                introHeader: "Introduction: The Coachability Quotient",
+                introBody: `<p>Being good at your job today doesn't guarantee you'll still be good at it in five years — the tools, the expectations, and the people around you keep changing. What actually predicts whether someone keeps growing isn't how much they already know. It's how well they take in feedback, learn from their mistakes, and act on advice — especially when it's uncomfortable to hear. That's exactly what the Coachability Quotient measures.</p>
                             <p>We look at four specific things. <strong>Feedback Receptivity</strong>: can you really listen to criticism without getting defensive? <strong>Defensiveness Regulation</strong>: how quickly can you calm down and think clearly again after feeling criticized? <strong>Translation Velocity</strong>: once you're told something useful, how fast do you actually change what you do? And <strong>Active Solicitation</strong>: do you go looking for honest feedback yourself, instead of waiting for someone to hand it to you? Together, these four things determine whether you keep growing and help others grow too — or whether your growth quietly stalls without anyone ever quite saying so out loud.</p>`,
                 keys: ['FBRC', 'DFRG', 'TRNV', 'ACSL'],
                 labels: ['Receptivity', 'Regulation', 'Velocity', 'Solicitation'],
@@ -489,9 +489,9 @@ const bank={
                 }
             },
             "Metacognitive Executive Assessment": { 
-                title: "Metacognitive Executive Assessment™",
+                title: "Metacognitive Executive Assessment",
                 introHeader: "Introduction: Executive Metacognition & Control",
-                introBody: `<p>The Metacognitive Executive Assessment™ evaluates the ultimate driver of scalable leadership: how you manage your own brain. Elite executives do not just execute tasks; they monitor, evaluate, and regulate their own cognitive processes while making consequential decisions under severe uncertainty and changing conditions.</p>
+                introBody: `<p>The Metacognitive Executive Assessment evaluates the ultimate driver of scalable leadership: how you manage your own brain. Elite executives do not just execute tasks; they monitor, evaluate, and regulate their own cognitive processes while making consequential decisions under severe uncertainty and changing conditions.</p>
                             <p>This diagnostic isolates four foundational capabilities: <strong>Metacognitive Calibration</strong> (how accurately your confidence matches your actual capability), <strong>Cognitive Control Under Load</strong> (resisting interference during crises), <strong>Adaptive Uncertainty Navigation</strong> (executing on probabilistic data), and <strong>Metacognitive Regulation</strong> (detecting your own errors and shifting strategies). We are measuring whether your cognitive architecture acts as an accelerator or an operational bottleneck under pressure.</p>`,
                 keys: ['MCAL', 'CCLD', 'AUNV', 'MREG'],
                 labels: ['Calibration', 'Control Under Load', 'Uncertainty Nav', 'Regulation & Flex'],
@@ -555,9 +555,9 @@ const bank={
                 }
             },
             "Strategic Inversion Diagnostics": { 
-                title: "Strategic Inversion Diagnostics™",
+                title: "Strategic Inversion Diagnostics",
                 introHeader: "Introduction: Strategic Inversion & Systems Thinking",
-                introBody: `<p>Legacy leadership models focus on forward-thinking execution. The Strategic Inversion Diagnostics™ flips this model entirely. We evaluate your capacity for <strong>First Principles Thinking</strong> and <strong>Systems Thinking</strong>—measuring how effectively you forecast second-order consequences, deconstruct complex marketplace problems, and prevent hidden risks before they materialize.</p>
+                introBody: `<p>Legacy leadership models focus on forward-thinking execution. The Strategic Inversion Diagnostics flips this model entirely. We evaluate your capacity for <strong>First Principles Thinking</strong> and <strong>Systems Thinking</strong>—measuring how effectively you forecast second-order consequences, deconstruct complex marketplace problems, and prevent hidden risks before they materialize.</p>
                             <p>We isolate four critical variables: <strong>First-Principle Deconstruction</strong>, <strong>Second-Order Forecasting</strong>, <strong>Assumption Auditing</strong>, and <strong>Complexity Navigation</strong>. Elite organizational capability relies on leaders who do not just solve the immediate symptom, but architect solutions that address the fundamental systemic root cause.</p>`,
                 keys: ['FPRD', 'SOFC', 'ASAU', 'CXNV'],
                 labels: ['First Principles', '2nd-Order Logic', 'Assumption Audit', 'Complexity Nav'],
@@ -621,9 +621,9 @@ const bank={
                 }
             },
             "Self-Limiting Belief Auditor": { 
-                title: "Self-Limiting Belief Auditor™",
+                title: "Self-Limiting Belief Auditor",
                 introHeader: "Introduction: Cognitive Ceilings & Executive Agency",
-                introBody: `<p>The Self-Limiting Belief Auditor™ is not a clinical diagnostic; it is a structural audit of the recurring cognitive friction that caps an executive’s operational impact. Highly capable leaders often subconsciously constrain their own trajectory through rigid narratives regarding their permission to lead, their interpretation of success, and their avoidance of strategic risk.</p>
+                introBody: `<p>The Self-Limiting Belief Auditor is not a clinical diagnostic; it is a structural audit of the recurring cognitive friction that caps an executive’s operational impact. Highly capable leaders often subconsciously constrain their own trajectory through rigid narratives regarding their permission to lead, their interpretation of success, and their avoidance of strategic risk.</p>
                             <p>This instrument isolates four primary constraint vectors: <strong>Fraudulence Appraisal</strong> (discounting objective evidence of competence), <strong>Executive Agency</strong> (unnecessary permission-dependence), <strong>Threat-Based Avoidance</strong> (masking fear-driven delay as prudence), and <strong>Resource Orientation</strong> (interpreting peer success as a zero-sum threat). By mapping these exact cognitive bottlenecks, we provide a blueprint to systematically dismantle them and unlock your full transformational mandate.</p>`,
                 keys: ['FRAP', 'EXAG', 'TBAV', 'RSOR'],
                 labels: ['Fraudulence Appraisal', 'Executive Agency', 'Threat Avoidance', 'Resource Orientation'],
@@ -687,9 +687,9 @@ const bank={
                 }
             },
             "Cognitive Learning Profiler": { 
-                title: "Cognitive Learning Profiler™",
+                title: "Cognitive Learning Profiler",
                 introHeader: "Introduction: The Cognitive Learning Profiler",
-                introBody: `<p>In an era of hyper-accelerated digital disruption, your historical knowledge is a depreciating asset. The Cognitive Learning Profiler™ does not measure what you already know; it evaluates your systemic learning curve when confronted with something you have never seen before. True executive agility requires separating your willingness to learn from your demonstrated capacity to actually adapt your workflows.</p>
+                introBody: `<p>In an era of hyper-accelerated digital disruption, your historical knowledge is a depreciating asset. The Cognitive Learning Profiler does not measure what you already know; it evaluates your systemic learning curve when confronted with something you have never seen before. True executive agility requires separating your willingness to learn from your demonstrated capacity to actually adapt your workflows.</p>
                             <p>This instrument isolates four critical learning vectors: <strong>Rapid Knowledge Extraction</strong> (finding the signal in deep noise), <strong>Transfer & Synthesis</strong> (applying principles across unrelated domains), <strong>Adaptive Unlearning</strong> (abandoning obsolete models), and <strong>Digital Adaptation</strong> (hypothesis-driven exploration of unfamiliar tech). We are mapping how rapidly you can dismantle legacy assumptions and reconstruct them to leverage modern organizational capabilities.</p>`,
                 keys: ['RKEX', 'TRSY', 'ADUN', 'DGAD'],
                 labels: ['Knowledge Extraction', 'Transfer & Synthesis', 'Adaptive Unlearning', 'Digital Adaptation'],
@@ -753,9 +753,9 @@ const bank={
                 }
             },
             "Commercial Instinct Index": {
-                title: "Commercial Instinct Index™ (Sales Personality)",
-                introHeader: "Introduction: The Syntropix Commercial Instinct Index™",
-                introBody: `<p>The Commercial Instinct Index™ measures the specific personality patterns that predict how someone actually behaves in real sales situations — not a generic personality label, but six behaviors built on one of the most rigorously validated personality frameworks in modern psychology.</p>
+                title: "Commercial Instinct Index (Sales Personality)",
+                introHeader: "Introduction: The Syntropix Commercial Instinct Index",
+                introBody: `<p>The Commercial Instinct Index measures the specific personality patterns that predict how someone actually behaves in real sales situations — not a generic personality label, but six behaviors built on one of the most rigorously validated personality frameworks in modern psychology.</p>
 <p>This assessment is built on the HEXACO model of personality (Lee &amp; Ashton, and colleagues including Reinout E. de Vries), developed through lexical studies replicated across a dozen-plus languages. We did not adapt or reuse any published test items — every question here was written specifically for this assessment, reframing HEXACO's six validated personality dimensions around concrete, observable sales behavior: integrity under commission pressure, resilience to rejection, comfort initiating cold contact, composure in a tense negotiation, pipeline discipline, and the creativity to adapt a pitch to a real buyer instead of a script.</p>`,
                 archetypes: {
                     high: { title: "The Trusted Closer", desc: "You close deals consistently without compromising the things that make those deals actually stick — honesty under pressure, real composure in negotiation, and disciplined enough follow-through that nothing good falls through a crack. Rejection doesn't derail you, and your pitch flexes to fit whoever is actually in front of you.", strengths: "High close rates that hold up over time, strong client trust and referrals, resilience through inevitable rough patches.", gaps: "Risk of over-relying on natural instinct in areas that would benefit from more structured process, especially as deal complexity or team size grows." },
@@ -814,9 +814,9 @@ const bank={
                 ],
             },
             "Communication Signature": {
-                title: "Communication Signature™ (Workplace Communication Style)",
-                introHeader: "Introduction: The Syntropix Communication Signature™",
-                introBody: `<p>The Communication Signature™ measures how you actually communicate under real workplace conditions — not a generic "communication style" label, but six specific, observable behaviors built on the Communication Styles Inventory (CSI), developed by Reinout E. de Vries and colleagues and published in Communication Research (2013), with all six domain-level scales independently validated at reliability above α=0.82.</p>
+                title: "Communication Signature (Workplace Communication Style)",
+                introHeader: "Introduction: The Syntropix Communication Signature",
+                introBody: `<p>The Communication Signature measures how you actually communicate under real workplace conditions — not a generic "communication style" label, but six specific, observable behaviors built on the Communication Styles Inventory (CSI), developed by Reinout E. de Vries and colleagues and published in Communication Research (2013), with all six domain-level scales independently validated at reliability above α=0.82.</p>
 <p>We did not adapt or reuse any published CSI test items — every question here was written specifically for this assessment, reframing CSI's six validated communication dimensions around concrete workplace scenarios: whether your message actually holds attention, whether it's precise enough to need no follow-up, whether your directness stays constructive under real disagreement, how much you draw out other people's thinking versus just transmitting your own, whether your delivery holds steady under real pressure, and whether you calibrate your communication intelligently to whoever's actually receiving it.</p>`,
                 archetypes: {
                     high: { title: "The Clear Channel", desc: "Your message reliably lands as intended — vivid enough to hold attention, precise enough to need no follow-up, composed enough to survive real pressure, and calibrated to whoever's actually receiving it. People rarely misunderstand what you meant, and you draw out what they actually think rather than just transmitting your own view at them.", strengths: "High trust in your communication, fewer costly misunderstandings, strong performance in high-stakes conversations specifically.", gaps: "Risk of over-polishing routine communication that didn't need this much deliberate calibration in the first place." },

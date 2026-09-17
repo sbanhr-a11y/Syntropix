@@ -1,4 +1,4 @@
-# Syntropix Signal™ — Research & Validation Blueprint
+# Syntropix Signal — Research & Validation Blueprint
 
 ## Product boundary
 Signal is an enterprise employee-experience and engagement listening architecture. It is not a clinical diagnostic, certification scheme, or a claim that survey responses alone establish causal business drivers.

@@ -1,4 +1,4 @@
-# Syntropix™ Website Architecture Blueprint v2.0
+# Syntropix Website Architecture Blueprint v2.0
 
 ## Decision
 Keep the hybrid B2B + B2C model, but separate marketing journeys from authenticated applications. Do not build a monolithic enterprise portal inside the public website.
