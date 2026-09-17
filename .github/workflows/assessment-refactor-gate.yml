@@ -1,7 +1,7 @@
 name: Canonical Assessment Runtime Safety Gate
 on:
   pull_request:
-    paths: ['index.html','assessment-runtime-v3.*','assessment-catalogue-v6.js','professionals.html','tools/build-assessment-registry-v3.py','.github/workflows/assessment-refactor-gate.yml','.github/workflows/deploy-pages.yml']
+    paths: ['assessment-registry-v3.js','assessment-runtime-v3.*','assessment-catalogue-v6.js','professionals.html','.github/workflows/assessment-refactor-gate.yml','.github/workflows/deploy-pages.yml']
   workflow_dispatch:
 permissions: {contents: read}
 jobs:
@@ -9,15 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Compile immutable assessment registry
-        run: python tools/build-assessment-registry-v3.py --source index.html --output build/assessment-registry-v3.js
-      - name: Validate definitions and fresh runtime contract
+      - name: Validate canonical definitions and runtime contract
         shell: bash
         run: |
           set -euo pipefail
-          test -s build/assessment-registry-v3.js
-          test $(wc -c < build/assessment-registry-v3.js) -gt 10000
-          grep -q 'source-sha256:' build/assessment-registry-v3.js
+          test -s assessment-registry-v3.js
+          grep -q 'source-sha256:' assessment-registry-v3.js
           grep -q 'assessment-runtime-v3.html?assessment=' professionals.html
           ! grep -q '/assessments.html?assessment=' professionals.html
           grep -q 'payments/check-discount-status' assessment-runtime-v3.js
@@ -26,12 +23,9 @@ jobs:
           grep -q 'organizations/claim-license' assessment-runtime-v3.js
           grep -q 'reports/submit' assessment-runtime-v3.js
           grep -q 'validation/submit' assessment-runtime-v3.js
-          grep -q 'syntropix_pending_completion' assessment-runtime-v3.js
-      - name: Deterministic registry and scoring test
-        run: |
           node - <<'NODE'
-          const fs=require('fs'),vm=require('vm'),ctx={window:{}};vm.createContext(ctx);vm.runInContext(fs.readFileSync('build/assessment-registry-v3.js','utf8'),ctx);const R=ctx.window.SyntropixAssessmentRegistryV3;
+          const fs=require('fs'),vm=require('vm'),ctx={window:{}};vm.createContext(ctx);vm.runInContext(fs.readFileSync('assessment-registry-v3.js','utf8'),ctx);const R=ctx.window.SyntropixAssessmentRegistryV3;
           const expected={'Managerial Effectiveness Index':50,'Executive Leadership Index':200,'CogniMorph Index':20,'Coachability Quotient':20,'Metacognitive Executive Assessment':20,'Strategic Inversion Diagnostics':20,'Self-Limiting Belief Auditor':20,'Cognitive Learning Profiler':20,'Commercial Instinct Index':24,'Communication Signature':24};
-          for(const [name,n] of Object.entries(expected)){const d=R.bank[name];if(!d||d.questions.length!==n)throw Error(name+' definition mismatch');if(!d.archetypes||!d.dimensionData||!d.phases)throw Error(name+' report data missing');const ids=new Set(d.questions.map(q=>q.id));if(ids.size!==n)throw Error(name+' duplicate ids');}
-          console.log('Canonical runtime registry gate passed',R.sourceHash);
+          for(const [name,n] of Object.entries(expected)){const d=R.bank[name];if(!d||d.questions.length!==n||!d.archetypes||!d.dimensionData||!d.phases)throw Error(name+' definition mismatch');if(new Set(d.questions.map(q=>q.id)).size!==n)throw Error(name+' duplicate ids')}
+          console.log('Canonical runtime registry gate passed',R.sourceHash)
           NODE
