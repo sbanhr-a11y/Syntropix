@@ -1,47 +1,37 @@
-# Integrated release gate: legacy engine preservation + suite-v2 deterministic scoring
-name: Assessment Refactor Safety Gate
+name: Canonical Assessment Runtime Safety Gate
 on:
   pull_request:
-    paths: ['index.html','assessment-engine-*.js','assessment-suite-v2*.js','assessment-suite-v2*.html','assessment-validation-v2.js','science.html','trust.html','tools/extract-assessment-bank.py','.github/workflows/assessment-refactor-gate.yml','.github/workflows/deploy-pages.yml']
+    paths: ['index.html','assessment-runtime-v3.*','assessment-catalogue-v6.js','professionals.html','tools/build-assessment-registry-v3.py','.github/workflows/assessment-refactor-gate.yml','.github/workflows/deploy-pages.yml']
   workflow_dispatch:
 permissions: {contents: read}
 jobs:
-  parity-source-gate:
+  canonical-runtime-gate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Extract legacy assessment bank without executing it
-        run: python tools/extract-assessment-bank.py --source index.html --output build/assessment-bank.snapshot.js
-      - name: Verify extraction and release guards
+      - name: Compile immutable assessment registry
+        run: python tools/build-assessment-registry-v3.py --source index.html --output build/assessment-registry-v3.js
+      - name: Validate definitions and fresh runtime contract
         shell: bash
         run: |
           set -euo pipefail
-          test -s build/assessment-bank.snapshot.js
-          grep -q 'sha256:' build/assessment-bank.snapshot.js
-          grep -q 'SyntropixAssessmentEngine' assessment-engine-loader.js
-          grep -q 'SyntropixAssessmentParity' assessment-engine-parity.js
-          test $(wc -c < build/assessment-bank.snapshot.js) -gt 10000
-          for f in assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-governance.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js; do test -s "$f"; done
-          test $(grep -o "make({title:" assessment-suite-v2.js | wc -l | tr -d ' ') -eq 10
-          grep -q "status:'research-informed'" assessment-suite-v2.js
-          grep -q "selection:false" assessment-suite-v2.js
-          grep -q "clinical:false" assessment-suite-v2.js
-          grep -q 'minimumSelfServeAge:18' assessment-suite-v2-governance.js
-          grep -q 'under18:{enabled:false' assessment-suite-v2-governance.js
-          grep -q 'normsEnabled:false' assessment-suite-v2-governance.js
-          grep -q 'Age confirmation' assessment-suite-v2-runner.html
-          ! grep -q "'14–26'" assessment-suite-v2-catalogue.js
-          ! grep -q "'16+'" assessment-suite-v2-catalogue.js
-          grep -q 'window.print()' assessment-suite-v2-runner.html
-      - name: Deterministic scoring and governance smoke test
+          test -s build/assessment-registry-v3.js
+          test $(wc -c < build/assessment-registry-v3.js) -gt 10000
+          grep -q 'source-sha256:' build/assessment-registry-v3.js
+          grep -q 'assessment-runtime-v3.html?assessment=' professionals.html
+          ! grep -q '/assessments.html?assessment=' professionals.html
+          grep -q 'payments/check-discount-status' assessment-runtime-v3.js
+          grep -q 'payments/verify' assessment-runtime-v3.js
+          grep -q 'payments/upi-submit' assessment-runtime-v3.js
+          grep -q 'organizations/claim-license' assessment-runtime-v3.js
+          grep -q 'reports/submit' assessment-runtime-v3.js
+          grep -q 'validation/submit' assessment-runtime-v3.js
+          grep -q 'syntropix_pending_completion' assessment-runtime-v3.js
+      - name: Deterministic registry and scoring test
         run: |
           node - <<'NODE'
-          const fs=require('fs'),vm=require('vm');const ctx={window:{}};vm.createContext(ctx);
-          for(const f of ['assessment-engine-loader.js','assessment-suite-v2.js','assessment-validation-v2.js','assessment-suite-v2-governance.js']) vm.runInContext(fs.readFileSync(f,'utf8'),ctx,{filename:f});
-          const defs=ctx.window.SyntropixAssessmentSuiteV2,V=ctx.window.SyntropixAssessmentValidation,G=ctx.window.SyntropixSuiteV2Governance;
-          if(Object.keys(defs).length!==10) throw new Error('suite count');
-          if(G.ageGate(17).ok||!G.ageGate(18).ok) throw new Error('adult gate');
-          if(G.policy.evidence.normsEnabled!==false||G.policy.evidence.blockedUses.indexOf('employment-selection')<0) throw new Error('evidence governance');
-          for(const [name,d] of Object.entries(defs)){const q=V.quality(d);if(!q.ok)throw new Error(name+': '+q.errors.join('; '));for(const raw of [1,3,5]){const r={};d.questions.forEach(x=>r[x.id]=raw);const s=V.score(d,r);if(!Number.isFinite(s.overall)||s.validationStatus!=='research-informed')throw new Error(name+' score');}const mixed={};d.questions.forEach((x,i)=>mixed[x.id]=(i%5)+1);if(Object.keys(V.score(d,mixed).dimensions).length<3)throw new Error(name+' dimensions');}
-          console.log('Suite-v2 scoring + governance smoke test passed');
+          const fs=require('fs'),vm=require('vm'),ctx={window:{}};vm.createContext(ctx);vm.runInContext(fs.readFileSync('build/assessment-registry-v3.js','utf8'),ctx);const R=ctx.window.SyntropixAssessmentRegistryV3;
+          const expected={'Managerial Effectiveness Index':50,'Executive Leadership Index':200,'CogniMorph Index':20,'Coachability Quotient':20,'Metacognitive Executive Assessment':20,'Strategic Inversion Diagnostics':20,'Self-Limiting Belief Auditor':20,'Cognitive Learning Profiler':20,'Commercial Instinct Index':24,'Communication Signature':24};
+          for(const [name,n] of Object.entries(expected)){const d=R.bank[name];if(!d||d.questions.length!==n)throw Error(name+' definition mismatch');if(!d.archetypes||!d.dimensionData||!d.phases)throw Error(name+' report data missing');const ids=new Set(d.questions.map(q=>q.id));if(ids.size!==n)throw Error(name+' duplicate ids');}
+          console.log('Canonical runtime registry gate passed',R.sourceHash);
           NODE
