@@ -29,7 +29,8 @@ jobs:
           if not homepage.is_file() or homepage.stat().st_size < 5000: raise SystemExit('Unified homepage missing or unexpectedly small')
           app=engine.read_text(encoding='utf-8'); app,n=re.subn(r'<header\b[^>]*id="main-header"[^>]*>.*?</header>','',app,count=1,flags=re.S)
           if n != 1: raise SystemExit('Could not structurally remove legacy assessment header')
-          css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
+          boot='<script>document.documentElement.classList.add("sx-legacy-boot")</script>'; css='<link rel="stylesheet" href="/assessment-shell-v4.css">'; js='<script src="/assessment-shell-v4.js" defer></script>'
+          if boot not in app: app=app.replace('<head>','<head>'+boot,1)
           if css not in app: app=app.replace('</head>',css+'\n</head>',1)
           if js not in app: app=app.replace('</body>',js+'\n</body>',1)
           Path('assessments.html').write_text(app,encoding='utf-8'); Path('index.html').write_text(homepage.read_text(encoding='utf-8'),encoding='utf-8')
@@ -59,10 +60,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html assessments.html site-v5.css mobile-responsive-v1.css site-v5.js site-v5-augment.js global-footer-v1.js assessment-card-meta-v9.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js consumer-insight-suite.js consumer-insight-runner.html consumer-insight-runner.js consumer-insight-catalogue.js consumer-insight-cards.css auth-passwordless.js signin.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js enterprise-system-suite.js enterprise-system-runner.html enterprise-system-runner.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
+          for f in index.html assessments.html site-v5.css mobile-responsive-v1.css site-v5.js site-v5-augment.js global-footer-v1.js assessment-card-meta-v9.js premium-ui-v1.css premium-ui-v1.js assessment-shell-v4.css assessment-shell-v4.js assessment-catalogue-v6.js assessment-engine-loader.js assessment-suite-v2.js assessment-validation-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js assessment-suite-v2-catalogue.js suite-checkout-v1.js consumer-series-checkout-v1.js consumer-insight-suite.js consumer-insight-runner.html consumer-insight-runner.js consumer-insight-catalogue.js consumer-insight-cards.css auth-passwordless.js signin.html manager-development.html prism360.html talent-solutions.html employee-experience.html compliance-learning.html enterprise.html professionals.html enterprise-console.html enterprise-console.css enterprise-console.js enterprise-system-suite.js enterprise-system-runner.html enterprise-system-runner.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
           grep -qi 'six capability layers' index.html; grep -q 'lead-form' enterprise.html; grep -q 'Download completion CSV' enterprise-console.html; grep -q 'bulk-assign' enterprise-console.js
-          grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html
+          grep -q 'paypal.com/sdk/js' assessments.html; grep -q 'PapaParse' assessments.html; grep -q 'sx-legacy-boot' assessments.html
           if grep -q 'id="main-header"' assessments.html; then echo 'Legacy assessment header remains in deployed DOM'; exit 1; fi
+          grep -q 'suite-checkout-v1.js' assessment-suite-v2-runner.html; grep -q 'consumer-series-checkout-v1.js' consumer-insight-runner.html
           grep -q 'Commercial Instinct Index' assessment-catalogue-v6.js; grep -q 'SyntropixAssessmentSuiteV2' assessment-suite-v2.js
           grep -q 'Relationship & Intimacy Blueprint' consumer-insight-suite.js; grep -q 'Shadow Pattern Map' consumer-insight-suite.js; grep -q 'Attention & Reward Rhythm Map' consumer-insight-suite.js; grep -q "clinical:false" consumer-insight-suite.js
           if grep -Eqi 'diagnoses ADHD|diagnoses autism|measures dopamine|neurological measurement' consumer-insight-suite.js; then echo 'Unsafe consumer assessment claim detected'; exit 1; fi
