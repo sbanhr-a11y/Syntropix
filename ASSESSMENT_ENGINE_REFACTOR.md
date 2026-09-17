@@ -1,31 +1,32 @@
-# Assessment engine refactor — zero-downtime gate
+# Canonical assessment runtime — migration complete
 
-## Objective
-Reduce the generated assessment application from a single ~800KB HTML/JS artifact into independently testable runtime, instrument-definition, reporting, commerce and integration modules without changing assessment scores or customer-visible behaviour.
+## Production state
+The Flagship and Focused Professionals assessments no longer execute the historical monolithic assessment UI. Production traffic routes to `assessment-runtime-v3.html` + `assessment-runtime-v3.js` with a generated, data-only `assessment-registry-v3.js`.
 
-## Safety rules
-1. Never rewrite scoring and extraction in the same release.
-2. Existing inline `assessmentBank` remains the production fallback until every extracted instrument passes parity tests.
-3. Every extracted instrument must preserve: question ids/order/text, dimension codes, reverse-scoring flags, score formula, thresholds/archetypes, phases, report language and assessment display name.
-4. No module becomes canonical until old-vs-new output matches for deterministic fixture responses.
-5. Rollback is removal of module registration; the inline bank continues to work.
+The historical `index.html` remains in source control only as a frozen migration source until the generated registry is committed independently. The deploy workflow replaces it with `homepage-v4.html` before artifact upload. It is not shipped as the production homepage or assessment runtime. `assessments.html` is not created or deployed.
 
-## Target boundaries
-- `engine/runtime.js`: session state, rendering orchestration, answer collection.
-- `engine/scoring.js`: generic scoring primitives only.
-- `assessments/<code>.js`: immutable assessment definition/data.
-- `reports/`: report rendering and print/PDF behaviour.
-- `commerce/`: pricing/payment/entitlement client orchestration.
-- `integrations/`: API calls, ratings, contact, enterprise and Prism360 bridges.
+## Preserved capabilities
+- Exact migrated question ids/order/text/dimension/reverse-scoring flags.
+- Assessment archetypes, dimension metadata and development phases.
+- 1–6 response scale and equivalent normalized scoring formula.
+- Regional pricing and server-authoritative payment verification.
+- Research-consent eligibility and 15% discount.
+- Automatic 20% multi-assessment eligibility from the backend.
+- Executive upgrade eligibility.
+- India UPI submission/verification workflow.
+- PayPal checkout outside the India UPI branch.
+- Enterprise entitlement detection and claim flow.
+- Invite routing, including multi-assessment bundles.
+- Three-hour local resume window tied to registry fingerprint.
+- Validation submission with test/admin accounts excluded.
+- Report persistence and completion lifecycle submission, with retry queue on transient failure.
+- PDF/print report path.
 
-## Migration sequence
-A. Compatibility registry/validator (this branch).
-B. Extract one 20-question assessment and add deterministic parity fixtures.
-C. Run browser smoke test + parity test; only then register it ahead of inline fallback.
-D. Repeat instrument-by-instrument.
-E. Extract shared dimension/report data after all instruments have parity coverage.
-F. Extract runtime/scoring last, when the data layer is no longer embedded.
-G. Remove inline assessment bank only after full regression suite passes.
+## Deliberate removals
+Unsupported pseudo-normative cohort percentiles from the historical UI are not reproduced. No population percentile is shown without a separately validated normative sample.
 
-## Production gate
-The refactor is complete only when all instruments pass deterministic score parity, report smoke tests, session resume, payment/entitlement launch, enterprise assignment, rating submission and mobile/desktop launch checks. File-size reduction alone is not success.
+## Release gates
+Deployment fails if instrument counts/report data are incomplete, legacy `/assessments.html?assessment=` routes reappear, canonical payment/entitlement/report endpoints disappear, invite routing is missing, or the old executable assessment front is present in the Pages artifact.
+
+## Remaining source cleanup
+The historical monolith is retained only as a frozen source-of-truth for reproducible registry compilation. It has no production route. Once the generated registry is checked into source as an independently reviewed immutable data asset, the historical source file and migration compiler can be archived outside the production repository without changing runtime behaviour.
