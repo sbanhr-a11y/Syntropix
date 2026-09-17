@@ -1,0 +1,24 @@
+name: Persist Canonical Assessment Registry
+on:
+  push:
+    branches: ["main"]
+permissions:
+  contents: write
+jobs:
+  persist:
+    if: ${{ !contains(github.event.head_commit.message, '[registry-persisted]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Commit immutable canonical registry when absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -s assessment-registry-v3.js; then echo 'Registry already persisted'; exit 0; fi
+          python tools/build-assessment-registry-v3.py --source index.html --output assessment-registry-v3.js
+          node -e "const fs=require('fs'),vm=require('vm'),c={window:{}};vm.createContext(c);vm.runInContext(fs.readFileSync('assessment-registry-v3.js','utf8'),c);if(Object.keys(c.window.SyntropixAssessmentRegistryV3.bank).length!==10)process.exit(1)"
+          git config user.name 'Syntropix Release Bot'
+          git config user.email 'release-bot@syntropix.in'
+          git add assessment-registry-v3.js
+          git commit -m 'Persist canonical assessment registry [registry-persisted]'
+          git push origin HEAD:main
