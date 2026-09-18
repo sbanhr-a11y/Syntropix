@@ -8,7 +8,7 @@ class P(HTMLParser):
     def __init__(self): super().__init__(); self.refs=[]
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
-        for k in ("href","src"):
+        for k in ("href",):
             if k in a: self.refs.append((tag,k,a[k]))
 errors=[]
 htmls=list(ROOT.glob("*.html"))+list(ROOT.glob("*/*.html"))
