@@ -23,11 +23,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html professionals.html enterprise.html pricing.html privacy.html terms.html refund-cancellation.html signin.html admin.html; do
+          for f in index.html professionals.html enterprise.html pricing.html privacy.html terms.html refund-cancellation.html; do
             grep -q '/premium-ui-v1.css' "$f"
             grep -q '/mobile-responsive-v1.css' "$f"
             grep -q '/global-footer-v1.js' "$f"
             grep -q '/premium-ui-v1.js' "$f"
+          done
+          # Access-gate pages intentionally have no public footer or premium-ui JS;
+          # still require the canonical premium colour and responsive presentation layers.
+          for f in signin.html admin.html; do
+            grep -q '/premium-ui-v1.css' "$f"
+            grep -q '/mobile-responsive-v1.css' "$f"
           done
           grep -q '/assessment-suite-v2-catalogue.js' professionals.html
           grep -q '/consumer-insight-catalogue.js' professionals.html
