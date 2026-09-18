@@ -19,31 +19,22 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/configure-pages@v5
-      - name: Build canonical website artifact
-        shell: python
+      - name: Verify repository is deployment-ready without mutation
+        shell: bash
         run: |
-          from pathlib import Path
-          required=['index.html','assessment-registry-v3.js','assessment-runtime-v3.html','assessment-runtime-v3.js']
-          for f in required:
-            if not Path(f).is_file() or Path(f).stat().st_size<100: raise SystemExit('Missing canonical asset: '+f)
-          premium_css='<link rel="stylesheet" href="/premium-ui-v1.css" data-syntropix-theme="premium-champagne">';consumer_css='<link rel="stylesheet" href="/consumer-insight-cards.css">';mobile_css='<link rel="stylesheet" href="/mobile-responsive-v1.css">';premium_js='<script src="/premium-ui-v1.js" defer></script>';footer_js='<script src="/global-footer-v1.js" defer></script>';meta_js='<script src="/assessment-card-meta-v9.js" defer></script>'
-          for p in Path('.').rglob('*.html'):
-            text=p.read_text(encoding='utf-8')
-            # Corporate Syntropix brand is registered. Product/assessment names remain unmarked.
-            text=text.replace('SYNTROPIX<span></span>','SYNTROPIX<span>®</span>')
-            text=text.replace('© 2026 Syntropix. All rights reserved.','© 2026 Syntropix®. All rights reserved.')
-            for tag in [premium_css,consumer_css,mobile_css]:
-              if '</head>' in text and tag not in text:text=text.replace('</head>',tag+'\n</head>',1)
-            for tag in [premium_js,footer_js,meta_js]:
-              if '</body>' in text and tag not in text:text=text.replace('</body>',tag+'\n</body>',1)
-            p.write_text(text,encoding='utf-8')
-          p=Path('professionals.html');text=p.read_text(encoding='utf-8')
-          for src in ['/assessment-suite-v2-catalogue.js','/consumer-insight-catalogue.js','/assessment-assignment-ui-v1.js']:
-            tag=f'<script src="{src}" defer></script>'
-            if tag not in text:text=text.replace('</body>',tag+'\n</body>',1)
-          p.write_text(text,encoding='utf-8')
-          for f in ['assessments.html','assessment-shell-v4.js']:
-            Path(f).unlink(missing_ok=True)
+          set -euo pipefail
+          for f in index.html professionals.html enterprise.html pricing.html privacy.html terms.html refund-cancellation.html; do
+            grep -q '/premium-ui-v1.css' "$f"
+            grep -q '/mobile-responsive-v1.css' "$f"
+            grep -q '/global-footer-v1.js' "$f"
+            grep -q '/premium-ui-v1.js' "$f"
+          done
+          grep -q '/assessment-suite-v2-catalogue.js' professionals.html
+          grep -q '/consumer-insight-catalogue.js' professionals.html
+          grep -q '/assessment-assignment-ui-v1.js' professionals.html
+          test ! -e assessments.html
+          test ! -e assessment-shell-v4.js
+          echo 'Repository source equals deployable presentation contract'
       - name: Canonical assessment runtime safety gate
         shell: bash
         run: |
