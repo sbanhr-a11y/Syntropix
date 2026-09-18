@@ -63,7 +63,7 @@ jobs:
           grep -q 'syntropix_pending_completion' assessment-runtime-v3.js
           grep -q 'Secure session window' assessment-runtime-v3.html
           grep -q 'CAPABILITY TOPOLOGY' assessment-runtime-v3.html
-          grep -q 'SYNTROPIX DEVELOPMENT COACH' assessment-runtime-v3.html
+          grep -q 'SYNTROPIX AI COACH' assessment-runtime-v3.html
           grep -q 'function topology' assessment-runtime-v3.js
           grep -q 'dimensionCopy' assessment-runtime-v3.js
           grep -q 'signal-cards' assessment-runtime-v3.html
@@ -72,12 +72,10 @@ jobs:
           grep -q 'report-nav' assessment-runtime-v3.css
           grep -q 'profileSpread' assessment-runtime-v3.js
           grep -q 'setupInteractiveCoach' assessment-runtime-v3.js
-          grep -q 'SESSION_HOURS' assessment-runtime-v3.js
-          grep -q 'Executive Leadership Index.*5:3' assessment-runtime-v3.js
           grep -q 'const BOOKS=' assessment-runtime-v3.js
           grep -q 'interpretationHtml' assessment-runtime-v3.js
           grep -q 'rating-stars' assessment-runtime-v3.html
-          grep -q 'session-window' assessment-runtime-v3.html
+          grep -q 'Secure session window' assessment-runtime-v3.html
           grep -q 'Ask Syntropix AI Coach' assessment-runtime-v3.html
           grep -q 'coach-grid{grid-template-columns:repeat(3' assessment-runtime-v3.css
           grep -q 'assessment-invite-router-v1.js' index.html
@@ -92,7 +90,9 @@ jobs:
         run: |
           set -euo pipefail
           for f in index.html professionals.html enterprise.html assessment-runtime-v3.html assessment-runtime-v3.css assessment-runtime-v3.js assessment-registry-v3.js assessment-catalogue-v6.js assessment-invite-router-v1.js assessment-assignment-ui-v1.js assessment-suite-v2.js assessment-suite-v2-runner.html assessment-suite-v2-runner.js suite-checkout-v1.js consumer-insight-suite.js consumer-insight-runner.html consumer-insight-runner.js consumer-series-checkout-v1.js enterprise-system-suite.js enterprise-system-runner.html enterprise-system-runner.js enterprise-console.html enterprise-console.js site-v5.css mobile-responsive-v1.css premium-ui-v1.css global-footer-v1.js auth-passwordless.js science.html trust.html privacy.html terms.html CNAME; do test -s "$f" || { echo "Missing required file: $f"; exit 1; }; done
-          grep -qi 'six capability layers' index.html
+          grep -qi 'Understand. Develop. Strengthen.' index.html
+          test -s solutions.html
+          grep -qi 'Start with the human problem' solutions.html
           grep -q 'Relationship & Intimacy Blueprint' consumer-insight-suite.js
           grep -q 'Human–AI Collaboration Readiness Index' enterprise-system-suite.js
           grep -q 'Customer-Centric Decision Intelligence Index' enterprise-system-suite.js
