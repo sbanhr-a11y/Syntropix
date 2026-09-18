@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Freeze protected functional surfaces against V5 baseline
+        run: |
+          BASE=dac963dcc7f4acf7248efbde9601dea16d462099
+          git diff --exit-code "$BASE" -- assessment-registry-v3.js assessment-runtime-v3.html assessment-runtime-v3.js assessment-validation-v2.js assessment-test-lab-v1.js auth-passwordless.js assessment-assignment-ui-v1.js assessment-invite-router-v1.js region-sync-v1.js suite-checkout-v1.js consumer-series-checkout-v1.js enterprise-console.html enterprise-console.js enterprise-console.css admin.html prism360/survey.html enterprise-system-runner.html enterprise-system-runner.js consumer-insight-runner.html consumer-insight-runner.js
       - name: Verify V6 architecture
         run: |
           test -f V6_DESIGN_MIGRATION_BLUEPRINT.md
