@@ -47,6 +47,8 @@ jobs:
           test -f enterprise.html
           test -f science.html
           test -f trust.html
+      - name: Audit internal routes and assets
+        run: python3 scripts/v6_static_audit.py
       - name: Prevent V6 from silently weakening product status
         run: |
           grep -qi 'coming soon' compliance-learning.html
