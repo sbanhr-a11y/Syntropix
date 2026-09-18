@@ -70,6 +70,10 @@ jobs:
           grep -q 'roadmap-visual' assessment-runtime-v3.html
           grep -q 'reflection-prompts' assessment-runtime-v3.html
           grep -q 'report-nav' assessment-runtime-v3.css
+          grep -q 'profileSpread' assessment-runtime-v3.js
+          grep -q 'setupInteractiveCoach' assessment-runtime-v3.js
+          grep -q 'Ask Syntropix AI Coach' assessment-runtime-v3.html
+          grep -q 'coach-grid{grid-template-columns:repeat(3' assessment-runtime-v3.css
           grep -q 'assessment-invite-router-v1.js' index.html
           grep -q 'assessment-assignment-ui-v1.js' professionals.html
           grep -q 'syntropix:regionchange' assessment-catalogue-v6.js
