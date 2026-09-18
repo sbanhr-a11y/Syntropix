@@ -72,6 +72,12 @@ jobs:
           grep -q 'report-nav' assessment-runtime-v3.css
           grep -q 'profileSpread' assessment-runtime-v3.js
           grep -q 'setupInteractiveCoach' assessment-runtime-v3.js
+          grep -q 'SESSION_HOURS' assessment-runtime-v3.js
+          grep -q 'Executive Leadership Index.*5:3' assessment-runtime-v3.js
+          grep -q 'const BOOKS=' assessment-runtime-v3.js
+          grep -q 'interpretationHtml' assessment-runtime-v3.js
+          grep -q 'rating-stars' assessment-runtime-v3.html
+          grep -q 'session-window' assessment-runtime-v3.html
           grep -q 'Ask Syntropix AI Coach' assessment-runtime-v3.html
           grep -q 'coach-grid{grid-template-columns:repeat(3' assessment-runtime-v3.css
           grep -q 'assessment-invite-router-v1.js' index.html
