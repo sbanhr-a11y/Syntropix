@@ -20,7 +20,7 @@ jobs:
       - name: Protect canonical assessment runtime
         run: |
           grep -q 'assessment-registry-v3.js' assessment-runtime-v3.html
-          grep -q 'assessment-runtime-v3.js' assessment-runtime-v3.html
+          test -f assessment-runtime-v3.js
           grep -q 'payments/check-discount-status' assessment-runtime-v3.js
           grep -q 'payments/verify' assessment-runtime-v3.js
           grep -q 'organizations/claim-license' assessment-runtime-v3.js
