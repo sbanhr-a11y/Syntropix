@@ -1,0 +1,19 @@
+/* V6 Quiet Intelligence — safe marketing-page skin. Structural/functional hooks are untouched. */
+body.v6-surface{background:#080a09;color:#f3f0e8}
+.v6-surface .v5nav,.v6-surface header.site-header{background:rgba(8,10,9,.86)!important;backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
+.v6-surface main>section:first-child,.v6-surface .hero5,.v6-surface .hero{padding-top:clamp(110px,12vw,170px);padding-bottom:clamp(72px,9vw,125px)}
+.v6-surface .hero5 h1,.v6-surface .hero h1,.v6-surface main>section:first-child h1{font-size:clamp(48px,6.5vw,92px);line-height:.96;letter-spacing:-.055em;max-width:1050px}
+.v6-surface .hero5>p:not(.kicker),.v6-surface .hero>p:not(.kicker){font-size:clamp(17px,1.7vw,23px);line-height:1.55;max-width:760px;color:#b8beb8}
+.v6-surface .kicker{font:800 11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em;color:#d6b878;text-transform:uppercase}
+.v6-surface .section5{padding-top:clamp(76px,8vw,118px);padding-bottom:clamp(76px,8vw,118px)}
+.v6-surface .section5 h2{font-size:clamp(38px,4.6vw,68px);line-height:1.02;letter-spacing:-.045em;max-width:960px}
+.v6-surface .section5.light{background:#f3f0e8;color:#111411}
+.v6-surface .card{border-radius:22px;border-color:rgba(255,255,255,.10);box-shadow:none;transition:transform .22s ease,border-color .22s ease}
+.v6-surface .section5.light .card{border-color:rgba(17,20,17,.12)}
+.v6-surface .card:hover{transform:translateY(-2px);border-color:rgba(214,184,120,.42)}
+.v6-surface .btn{border-radius:999px}
+.v6-surface .btn.primary{background:#f3f0e8;color:#111411;border-color:#f3f0e8}
+.v6-surface footer{border-top:1px solid rgba(255,255,255,.08)}
+.v6-surface .accent{background:linear-gradient(90deg,#d6b878,#62b8d8,#8b7cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media(max-width:720px){.v6-surface main>section:first-child,.v6-surface .hero5,.v6-surface .hero{padding-top:105px}.v6-surface .card:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.v6-surface .card{transition:none}}
