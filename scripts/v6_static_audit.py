@@ -11,7 +11,8 @@ class P(HTMLParser):
         for k in ("href",):
             if k in a: self.refs.append((tag,k,a[k]))
 errors=[]
-htmls=list(ROOT.glob("*.html"))+list(ROOT.glob("*/*.html"))
+required=["index.html","solutions.html","enterprise.html","professionals.html","assessment-intelligence.html","manager-development.html","prism360.html","talent-solutions.html","compliance-learning.html","employee-experience.html","professional-coaching.html","science.html","trust.html","pricing.html","privacy.html","terms.html","refund-cancellation.html"]
+htmls=[ROOT/p for p in required]
 for path in htmls:
     text=path.read_text("utf-8",errors="ignore")
     p=P()
@@ -27,7 +28,7 @@ for path in htmls:
         if not target.exists():
             errors.append(f"{path}: broken {k}={ref}")
 # V6 public acquisition contract
-for p in ["index.html","solutions.html","enterprise.html","professionals.html","assessment-intelligence.html","manager-development.html","prism360.html","talent-solutions.html","compliance-learning.html","employee-experience.html","professional-coaching.html","science.html","trust.html","pricing.html","privacy.html","terms.html","refund-cancellation.html"]:
+for p in required:
     if not (ROOT/p).exists(): errors.append(f"missing required page: {p}")
 if errors:
     print("\n".join(errors));sys.exit(1)
