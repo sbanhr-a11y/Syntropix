@@ -61,6 +61,11 @@ jobs:
           grep -q 'reports/submit' assessment-runtime-v3.js
           grep -q 'validation/submit' assessment-runtime-v3.js
           grep -q 'syntropix_pending_completion' assessment-runtime-v3.js
+          grep -q 'Secure session window' assessment-runtime-v3.html
+          grep -q 'CAPABILITY TOPOLOGY' assessment-runtime-v3.html
+          grep -q 'SYNTROPIX DEVELOPMENT COACH' assessment-runtime-v3.html
+          grep -q 'function topology' assessment-runtime-v3.js
+          grep -q 'dimensionCopy' assessment-runtime-v3.js
           grep -q 'assessment-invite-router-v1.js' index.html
           grep -q 'assessment-assignment-ui-v1.js' professionals.html
           grep -q 'syntropix:regionchange' assessment-catalogue-v6.js
