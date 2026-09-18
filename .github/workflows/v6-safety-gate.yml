@@ -1,0 +1,46 @@
+name: V6 Quiet Intelligence Safety Gate
+on:
+  push:
+    branches: [v6-quiet-intelligence]
+  pull_request:
+    branches: [main]
+jobs:
+  protect-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Verify V6 architecture
+        run: |
+          test -f V6_DESIGN_MIGRATION_BLUEPRINT.md
+          test -f v6-quiet-intelligence.css
+          test -f solutions.html
+          grep -q 'v6-quiet-intelligence.css' index.html
+          grep -q 'Human capability is not one score' index.html
+          grep -q 'What are you trying to' solutions.html
+      - name: Protect canonical assessment runtime
+        run: |
+          grep -q 'assessment-registry-v3.js' assessment-runtime-v3.html
+          grep -q 'assessment-runtime-v3.js' assessment-runtime-v3.html
+          grep -q 'payments/check-discount-status' assessment-runtime-v3.js
+          grep -q 'payments/verify' assessment-runtime-v3.js
+          grep -q 'organizations/claim-license' assessment-runtime-v3.js
+          grep -q 'reports/submit' assessment-runtime-v3.js
+          grep -q 'validation/submit' assessment-runtime-v3.js
+      - name: Protect discovery and auth hooks
+        run: |
+          grep -q 'assessment-invite-router-v1.js' index.html
+          grep -q 'assessment-assignment-ui-v1.js' professionals.html
+          grep -q 'assessment-runtime-v3.html' professionals.html
+          grep -q 'auth-passwordless.js' signin.html
+      - name: Protect commercial and legal routes
+        run: |
+          test -f pricing.html
+          test -f privacy.html
+          test -f terms.html
+          test -f refund-cancellation.html
+          test -f enterprise.html
+          test -f science.html
+          test -f trust.html
+      - name: Prevent V6 from silently weakening product status
+        run: |
+          grep -qi 'coming soon' compliance-learning.html
