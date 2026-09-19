@@ -77,6 +77,9 @@ jobs:
           grep -q 'signal-green' assessment-runtime-v3.css
           grep -q 'signal-amber' assessment-runtime-v3.css
           grep -q 'signal-red' assessment-runtime-v3.css
+          grep -q 'referral-dialog' assessment-runtime-v3.html
+          grep -q '/reports/refer' assessment-runtime-v3.js
+          grep -q 'X-Syntropix-Report-Emailed' assessment-runtime-v3.js
           grep -q 'organizations/claim-license' assessment-runtime-v3.js
           grep -q 'reports/submit' assessment-runtime-v3.js
           grep -q 'validation/submit' assessment-runtime-v3.js
