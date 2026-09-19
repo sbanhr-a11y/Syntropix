@@ -13,3 +13,8 @@ footer{padding-top:38px!important;padding-bottom:38px!important}.footer-brand-lo
 .chat5{background:var(--premium)!important;border-color:var(--premium)!important;color:var(--premium-ink)!important}.chat-status-dot{background:var(--premium)!important}.floating:hover{border-color:var(--premium)!important;color:var(--premium)!important}
 @media(max-width:850px){.trustbar{grid-template-columns:1fr}.trustbar .trust-item{padding:15px 20px}.v5nav .brand::after{font-size:7.5px}.v5nav .brand>span,.v5nav .brand-registration,.footer-brand-lockup .brand>span,footer>.brand>span{font-size:.66em!important}footer{padding-top:30px!important;padding-bottom:30px!important}}
 @media(prefers-reduced-motion:reduce){.btn.primary::after{display:none}.btn,.navcta,.nav-auth,.nav-back{transition:none!important}}
+
+/* V5+ floating contact controls — isolated Emerald Green override. Rollback: revert the commit that introduced this block. */
+:root{--contact-emerald:#0F8A5F;--contact-emerald-hi:#19A974;--contact-emerald-ring:rgba(15,138,95,.18)}
+.call5,.chat5{background:var(--contact-emerald)!important;border:2px solid var(--contact-emerald-hi)!important;color:#fff!important;box-shadow:0 10px 30px rgba(15,138,95,.32),0 0 0 5px var(--contact-emerald-ring)!important}
+.call5:hover,.call5:focus-visible,.chat5:hover,.chat5:focus-visible{background:var(--contact-emerald-hi)!important;border-color:#58C89A!important;color:#fff!important}
