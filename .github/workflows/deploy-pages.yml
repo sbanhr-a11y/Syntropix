@@ -51,6 +51,10 @@ jobs:
           if(!R?.sourceHash)throw Error('registry fingerprint missing');for(const [n,c] of Object.entries(expected)){const d=R.bank[n];if(!d||d.questions.length!==c||!d.archetypes||!d.dimensionData||!d.phases)throw Error(n+' registry integrity');if(new Set(d.questions.map(q=>q.id)).size!==c)throw Error(n+' duplicate item ids')}
           console.log('Canonical registry verified',R.sourceHash)
           NODE
+          node --check assessment-runtime-v3.js
+          node --check assessment-validation-v2.js
+          node --check region-sync-v1.js
+          node --check assessment-test-lab-v1.js
           grep -q 'assessment-runtime-v3.html?assessment=' professionals.html
           ! grep -q '/assessments.html?assessment=' professionals.html
           ! grep -q '/assessments.html?assessment=' assessment-catalogue-v6.js
