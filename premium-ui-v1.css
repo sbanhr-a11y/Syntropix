@@ -18,3 +18,8 @@ footer{padding-top:38px!important;padding-bottom:38px!important}.footer-brand-lo
 :root{--contact-emerald:#0F8A5F;--contact-emerald-hi:#19A974;--contact-emerald-ring:rgba(15,138,95,.18)}
 .call5,.chat5{background:var(--contact-emerald)!important;border:2px solid var(--contact-emerald-hi)!important;color:#fff!important;box-shadow:0 10px 30px rgba(15,138,95,.32),0 0 0 5px var(--contact-emerald-ring)!important}
 .call5:hover,.call5:focus-visible,.chat5:hover,.chat5:focus-visible{background:var(--contact-emerald-hi)!important;border-color:#58C89A!important;color:#fff!important}
+
+/* V5+ assessment launch CTA treatment — isolated Sage Green override. Rollback: revert this commit. */
+:root{--assessment-sage:#7F9F7A;--assessment-sage-hi:#94B38E;--assessment-sage-ink:#0D170E;--assessment-sage-glow:rgba(127,159,122,.28)}
+.assessment-card .btn.primary,.finder-form .btn.primary,#finder-result .btn.primary{background:linear-gradient(135deg,var(--assessment-sage-hi),var(--assessment-sage))!important;border-color:var(--assessment-sage)!important;color:var(--assessment-sage-ink)!important;box-shadow:0 9px 26px var(--assessment-sage-glow)!important}
+.assessment-card .btn.primary:hover,.assessment-card .btn.primary:focus-visible,.finder-form .btn.primary:hover,.finder-form .btn.primary:focus-visible,#finder-result .btn.primary:hover,#finder-result .btn.primary:focus-visible{background:var(--assessment-sage-hi)!important;border-color:#A8C5A3!important;color:var(--assessment-sage-ink)!important;box-shadow:0 14px 32px var(--assessment-sage-glow)!important}
