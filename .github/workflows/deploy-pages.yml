@@ -76,7 +76,12 @@ jobs:
           grep -q 'CAPABILITY TOPOLOGY' assessment-runtime-v3.html
           grep -q 'SYNTROPIX AI COACH' assessment-runtime-v3.html
           grep -q 'function topology' assessment-runtime-v3.js
-          grep -q '/assessment-runtime-v3.js' assessment-runtime-v3.html
+          ! grep -q '<script src="/assessment-runtime-v3.js"></script>' assessment-runtime-v3.html
+          grep -q '/assessment-test-lab-v1.js' assessment-runtime-v3.html
+          grep -q "s.src='/assessment-runtime-v3.js'" assessment-test-lab-v1.js
+          grep -q '/payments/access-status' assessment-test-lab-v1.js
+          grep -q '/payments/grant-bypass' assessment-test-lab-v1.js
+          grep -q 'INTERNAL TEST MODE · NO PAYMENT' assessment-test-lab-v1.js
           grep -q 'supabase-js@' assessment-runtime-v3.html
           grep -q 'dimensionCopy' assessment-runtime-v3.js
           grep -q 'signal-cards' assessment-runtime-v3.html
