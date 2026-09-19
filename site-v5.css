@@ -6,3 +6,8 @@
 footer .sx-footer-extra{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:12px;color:#a9aea8}
 footer .sx-footer-extra a{color:inherit}
 footer .sx-footer-extra a:hover{color:#D6B878}
+
+/* V5 production heading accent standard — Champagne only */
+:root{--champagne:#D6B878}
+.hero5 h1 .accent,.section5 h2 .accent,.section5.light h1 .accent,.section5.light h2 .accent,
+.hero5 h1 em,.section5 h2 em{color:var(--champagne)!important;background:none!important;-webkit-background-clip:initial!important;background-clip:initial!important;-webkit-text-fill-color:var(--champagne)!important}
