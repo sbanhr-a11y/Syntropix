@@ -17,3 +17,17 @@ body.v6-surface{background:#080a09;color:#f3f0e8}
 .v6-surface .accent{background:linear-gradient(90deg,#d6b878,#62b8d8,#8b7cff);-webkit-background-clip:text;background-clip:text;color:transparent}
 @media(max-width:720px){.v6-surface main>section:first-child,.v6-surface .hero5,.v6-surface .hero{padding-top:105px}.v6-surface .card:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.v6-surface .card{transition:none}}
+
+/* V6.1 palette alignment: remove legacy neon from migrated marketing surfaces. */
+.v6-surface{--lime:#58B98C;--limeink:#2F6F54;--violet:#8B7CFF}
+.v6-surface .accent{background:none!important;-webkit-background-clip:initial!important;background-clip:initial!important;color:#D6B878!important}
+.v6-surface .kicker,.v6-surface .num{color:#D6B878!important}
+.v6-surface .btn.primary,.v6-surface .navcta:hover{background:#58B98C!important;border-color:#58B98C!important;color:#08100c!important}
+.v6-surface .section5.light .kicker,.v6-surface .section5.light .accent,.v6-surface .section5.light .num{color:#2F6F54!important}
+.v6-surface .chat5,.v6-surface .chat-compose button{background:#58B98C!important;border-color:#58B98C!important;color:#08100c!important}
+.v6-surface .chat-status-dot{background:#58B98C!important;box-shadow:0 0 0 4px rgba(88,185,140,.10)!important}
+.v6-surface .floating:hover{border-color:#58B98C!important;color:#58B98C!important}
+.v6-surface .hero5 h1 .accent{color:#D6B878!important}
+.v6-surface .section5.light h1 .accent,.v6-surface .section5.light h2 .accent{color:#2F6F54!important}
+.v6-surface .hero5 .kicker.employee-experience-kicker{max-width:760px;white-space:normal}
+.v6-surface .hero5 .kicker.employee-experience-kicker .kicker-line{display:block}
