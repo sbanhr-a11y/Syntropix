@@ -82,6 +82,8 @@ jobs:
           grep -q '/payments/access-status' assessment-test-lab-v1.js
           grep -q '/payments/grant-bypass' assessment-test-lab-v1.js
           grep -q 'INTERNAL TEST MODE · NO PAYMENT' assessment-test-lab-v1.js
+          grep -q "begin('TEST-LAB-EPHEMERAL')" assessment-runtime-v3.js
+          grep -q "d.sessionToken||'TEST-LAB-EPHEMERAL'" assessment-test-lab-v1.js
           grep -q 'supabase-js@' assessment-runtime-v3.html
           grep -q 'dimensionCopy' assessment-runtime-v3.js
           grep -q 'signal-cards' assessment-runtime-v3.html
