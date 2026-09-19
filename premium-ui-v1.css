@@ -23,3 +23,16 @@ footer{padding-top:38px!important;padding-bottom:38px!important}.footer-brand-lo
 :root{--assessment-sage:#7F9F7A;--assessment-sage-hi:#94B38E;--assessment-sage-ink:#0D170E;--assessment-sage-glow:rgba(127,159,122,.28)}
 .assessment-card .btn.primary,.finder-form .btn.primary,#finder-result .btn.primary{background:linear-gradient(135deg,var(--assessment-sage-hi),var(--assessment-sage))!important;border-color:var(--assessment-sage)!important;color:var(--assessment-sage-ink)!important;box-shadow:0 9px 26px var(--assessment-sage-glow)!important}
 .assessment-card .btn.primary:hover,.assessment-card .btn.primary:focus-visible,.finder-form .btn.primary:hover,.finder-form .btn.primary:focus-visible,#finder-result .btn.primary:hover,#finder-result .btn.primary:focus-visible{background:var(--assessment-sage-hi)!important;border-color:#A8C5A3!important;color:var(--assessment-sage-ink)!important;box-shadow:0 14px 32px var(--assessment-sage-glow)!important}
+
+/* V5 production design-system normalization */
+.v5nav nav{position:static!important;background:transparent!important;border:0!important;backdrop-filter:none!important}
+.v5nav .brand{margin-right:0!important}
+h1,h2,h3{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-wrap:balance}
+p,li{overflow-wrap:break-word}
+.section5>h1,.section5.light>h1{font-size:clamp(42px,5.4vw,76px);line-height:.98;letter-spacing:-.05em;margin:.3em 0 .55em}
+.section5>h2,.section5.light>h2{line-height:1.02}
+.section5.light{font-size:16px;line-height:1.65}
+.section5.light>p,.section5.light>ul,.section5.light>ol{max-width:900px}
+footer{width:100%;max-width:none!important;margin:0!important}
+footer .footer-brand-lockup{display:flex;align-items:flex-start}
+@media(max-width:760px){footer .footer-brand-lockup{justify-content:center}.section5>h1,.section5.light>h1{font-size:clamp(36px,10.5vw,50px)}}
