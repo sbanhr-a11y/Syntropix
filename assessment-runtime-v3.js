@@ -83,7 +83,7 @@ const BOOKS={"CogniMorph Index":[["Mindset","Carol S. Dweck"],["The Scout Mindse
     b.onclick=async()=>{
       chosen=Number(b.dataset.rating);
       document.querySelectorAll('#rating-stars button').forEach(x=>x.classList.toggle('selected',Number(x.dataset.rating)<=chosen));
-      $('rating-copy').textContent=copy[chosen];
+      $('rating-copy').textContent=copy[chosen]+' · Downloading the report will also email a copy to your registered inbox.';
       if(save){save.disabled=false;save.textContent='Download premium PDF report →'}
       try{
         const s=await getSession();
@@ -93,26 +93,8 @@ const BOOKS={"CogniMorph Index":[["Mindset","Carol S. Dweck"],["The Scout Mindse
           headers:{'Content-Type':'application/json','Authorization':`Bearer ${s.token}`},
           body:JSON.stringify({token:s.token,rating:chosen,assessmentName:name})
         });
-        const reportPayload={
-          token:s.token,
-          assessmentName:name,
-          participant:profile(),
-          score:Number(String($('overall').textContent).split('/')[0]),
-          archetype:$('archetype').textContent,
-          rating:chosen,
-          dimensionScores:currentReportResult?.dims||{},
-          reportHtml:$('report').innerHTML,
-          runtimeVersion:'3.0.0'
-        };
-        const delivery=await fetch(API+'/reports/deliver',{
-          method:'POST',
-          headers:{'Content-Type':'application/json','Authorization':`Bearer ${s.token}`},
-          body:JSON.stringify(reportPayload)
-        });
-        const delivered=await delivery.json().catch(()=>({}));
-        if(delivery.ok&&delivered.emailed)$('rating-copy').textContent=copy[chosen]+' · Premium report sent to your inbox.';
       }catch(e){
-        console.warn('Rating/report delivery non-blocking failure',e);
+        console.warn('Rating save non-blocking failure',e);
       }
     };
   });
