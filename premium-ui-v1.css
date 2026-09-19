@@ -36,3 +36,8 @@ p,li{overflow-wrap:break-word}
 footer{width:100%;max-width:none!important;margin:0!important}
 footer .footer-brand-lockup{display:flex;align-items:flex-start}
 @media(max-width:760px){footer .footer-brand-lockup{justify-content:center}.section5>h1,.section5.light>h1{font-size:clamp(36px,10.5vw,50px)}}
+
+/* V5 canonical navigation CTA contrast */
+.v5nav .navcta{background:#D6B878!important;border-color:#D6B878!important;color:#070908!important}
+.v5nav .navcta:visited{color:#070908!important}
+.v5nav .navcta:hover,.v5nav .navcta:focus-visible{background:#E7D09A!important;border-color:#E7D09A!important;color:#070908!important;transform:translateY(-1px)}
