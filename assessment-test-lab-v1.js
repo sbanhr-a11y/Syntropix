@@ -21,9 +21,9 @@ window.addEventListener('pagehide',restore,{once:true});
    if(!r.ok||!d.valid)throw new Error(d.message||'Invalid test session.');
    if(requestedAssessment&&d.assessment!==requestedAssessment)throw new Error('This test link is for a different assessment. Please relaunch it from Syntropix Command.');
    active=true;
-   window.__syntropixTestLab={active:true,assessment:d.assessment,expiresAt:d.expiresAt};
-   localStorage.setItem('syntropix_user',JSON.stringify({role:'demo',name:'Syntropix Test Lab',auth:'test-lab'}));
-   localStorage.setItem('syntropix_token','TEST-LAB-EPHEMERAL');
+   window.__syntropixTestLab={active:true,assessment:d.assessment,expiresAt:d.expiresAt,participant:d.participant||{}};
+   localStorage.setItem('syntropix_user',JSON.stringify({role:'demo',name:d.participant?.name||'Syntropix Test Lab',email:d.participant?.email||'',auth:'test-lab'}));
+   localStorage.setItem('syntropix_token',d.sessionToken||'TEST-LAB-EPHEMERAL');
    window.fetch=async(input,init={})=>{
      const url=typeof input==='string'?input:input?.url||'';
      if(url.includes('/payments/access-status'))return new Response(JSON.stringify({status:'success',authorized:true,role:'demo',testMode:true}),{status:200,headers:{'Content-Type':'application/json'}});
