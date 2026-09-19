@@ -68,6 +68,15 @@ jobs:
           grep -q 'ai-coach/chat' assessment-runtime-v3.js
           grep -q 'Rate this experience to unlock PDF' assessment-runtime-v3.html
           grep -q 'How to read your report' assessment-runtime-v3.html
+          grep -q 'assessment-brief' assessment-runtime-v3.html
+          grep -q 'ABOUT THIS ASSESSMENT' assessment-runtime-v3.html
+          grep -q 'const ASSESSMENT_GUIDES=' assessment-runtime-v3.js
+          grep -q 'Read the topology longitudinally' assessment-runtime-v3.js
+          grep -q 'YOUR FIRST 7 DAYS' assessment-runtime-v3.js
+          grep -q 'function buildStructuredReportData' assessment-runtime-v3.js
+          grep -q 'signal-green' assessment-runtime-v3.css
+          grep -q 'signal-amber' assessment-runtime-v3.css
+          grep -q 'signal-red' assessment-runtime-v3.css
           grep -q 'organizations/claim-license' assessment-runtime-v3.js
           grep -q 'reports/submit' assessment-runtime-v3.js
           grep -q 'validation/submit' assessment-runtime-v3.js
