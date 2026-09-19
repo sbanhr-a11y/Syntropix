@@ -57,6 +57,13 @@ jobs:
           grep -q 'payments/check-discount-status' assessment-runtime-v3.js
           grep -q 'payments/upi-submit' assessment-runtime-v3.js
           grep -q 'payments/verify' assessment-runtime-v3.js
+          grep -q 'payments/access-status' assessment-runtime-v3.js
+          grep -q 'payments/grant-bypass' assessment-runtime-v3.js
+          grep -q 'reports/deliver' assessment-runtime-v3.js
+          grep -q 'reports/pdf' assessment-runtime-v3.js
+          grep -q 'ai-coach/chat' assessment-runtime-v3.js
+          grep -q 'Rate this experience to unlock PDF' assessment-runtime-v3.html
+          grep -q 'How to read your report' assessment-runtime-v3.html
           grep -q 'organizations/claim-license' assessment-runtime-v3.js
           grep -q 'reports/submit' assessment-runtime-v3.js
           grep -q 'validation/submit' assessment-runtime-v3.js
@@ -101,7 +108,7 @@ jobs:
           grep -q 'signInWithOtp' auth-passwordless.js
           grep -q 'shouldCreateUser:false' auth-passwordless.js
           grep -q 'syntropix.in' CNAME
-          grep -q 'SYNTROPIX<span>®</span>' index.html
+          grep -Eq 'SYNTROPIX<span( class="brand-registration")?>®</span>' index.html
           grep -q 'Syntropix®' index.html
           echo 'Legacy-free Syntropix artifact verification passed'
       - uses: actions/upload-pages-artifact@v4
