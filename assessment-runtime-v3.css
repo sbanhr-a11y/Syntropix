@@ -13,3 +13,6 @@
 #save:disabled{opacity:.48;cursor:not-allowed;filter:saturate(.5)}
 @media(max-width:800px){.report-guide-grid{grid-template-columns:1fr}.exercise-field{grid-template-columns:1fr;gap:5px}.referral-panel{display:block}.referral-panel button{margin-top:12px}}
 @media print{.report-guide-grid{grid-template-columns:repeat(3,1fr)}.report-guide-grid article,.development-exercise,.topology-narrative{background:#fff;border-color:#ddd}.topology-narrative p,.exercise-field p,.report-guide-grid p{color:#333!important}}
+
+/* Privileged V5 test-access control */
+.authorized-access{display:flex!important;width:100%;margin-top:18px;justify-content:center;align-items:center;min-height:52px;background:#D6B878!important;color:#11130f!important;border:1px solid #E7D09A!important;font-weight:850!important;letter-spacing:.01em}.authorized-access:hover{background:#E7D09A!important;color:#11130f!important}.authorized-access:disabled{opacity:.62;cursor:wait}
