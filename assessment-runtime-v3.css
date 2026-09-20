@@ -96,3 +96,10 @@
 .referral-channel-status strong{color:#d8ddd8}.referral-channel-status .ok{color:#8fd0ad}.referral-channel-status .warn{color:#e1b86b}.referral-channel-status .bad{color:#e19a94}
 #referral-send-whatsapp[disabled]{opacity:.46;cursor:not-allowed}
 @media(max-width:700px){.phone-field{grid-template-columns:1fr}.country-code-wrap select,.mobile-number-wrap input{height:50px!important}}
+
+/* V5 email-only referral + timer status */
+.timer-wrap small{display:flex;flex-direction:column;gap:2px;line-height:1.25}
+.timer-wrap small span{display:block}
+.referral-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.referral-actions{justify-content:flex-start}
+@media(max-width:700px){.referral-fields{grid-template-columns:1fr}}
