@@ -79,10 +79,8 @@ jobs:
           grep -q 'signal-red' assessment-runtime-v3.css
           grep -q 'referral-dialog' assessment-runtime-v3.html
           grep -q '/reports/refer' assessment-runtime-v3.js
-          grep -q '/reports/refer-whatsapp' assessment-runtime-v3.js
-          grep -q '/reports/referral-channels' assessment-runtime-v3.js
-          grep -q 'referral-whatsapp-consent' assessment-runtime-v3.html
-          grep -q 'country-code-wrap' assessment-runtime-v3.css
+          ! grep -q 'WhatsApp' assessment-runtime-v3.html
+          ! grep -q '/reports/refer-whatsapp' assessment-runtime-v3.js
           grep -q 'Downloading the report will also email a copy to your registered inbox.' assessment-runtime-v3.js
           grep -q 'organizations/claim-license' assessment-runtime-v3.js
           grep -q 'reports/submit' assessment-runtime-v3.js
