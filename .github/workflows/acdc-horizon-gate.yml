@@ -1,0 +1,52 @@
+name: AC/DC Horizon Production Candidate Gate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'acdc-horizon.html'
+      - 'acdc-horizon.js'
+      - 'acdc-horizon.css'
+      - '.github/workflows/acdc-horizon-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  horizon-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate Horizon participant boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s acdc-horizon.html
+          test -s acdc-horizon.js
+          test -s acdc-horizon.css
+          node --check acdc-horizon.js
+          grep -q 'noindex,nofollow' acdc-horizon.html
+          grep -q 'SYNTROPIX HORIZON' acdc-horizon.html
+          grep -q 'not a clinical or neurological assessment' acdc-horizon.html
+          grep -q 'Behaviour, not speed.' acdc-horizon.html
+          grep -q 'https://syntropix-backend.onrender.com/api/acdc' acdc-horizon.js
+          grep -q "boundaries:{ai_scoring:false}" acdc-horizon.js
+          grep -q '/participant/open' acdc-horizon.js
+          grep -q '/participant/consent' acdc-horizon.js
+          grep -q '/participant/start' acdc-horizon.js
+          grep -q '/participant/action' acdc-horizon.js
+          grep -q '/participant/complete' acdc-horizon.js
+          ! grep -qi 'facial recognition\|emotion detection\|voice analysis\|neurological score' acdc-horizon.js
+          echo 'AC/DC Horizon PC1 contract passed'
+      - name: Preserve V5 production contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s index.html
+          test -s professionals.html
+          test -s enterprise.html
+          test -s assessment-runtime-v3.js
+          grep -q '/premium-ui-v1.css' index.html
+          grep -q '/global-footer-v1.js' index.html
+          grep -q 'assessment-runtime-v3.html?assessment=' professionals.html
+          test ! -e assessments.html
+          echo 'V5 production surface unchanged'
