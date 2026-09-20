@@ -9,11 +9,18 @@
       <label>Your name<input id="referrer-name" autocomplete="name"></label>
       <label>Friend / colleague name<input id="referral-name" autocomplete="name"></label>
       <label>Email address<input id="referral-email" type="email" autocomplete="email"></label>
-      <label>WhatsApp number<div class="phone-field"><select id="referral-country-code" aria-label="WhatsApp country code"></select><input id="referral-phone" inputmode="numeric" autocomplete="tel-national" placeholder="Mobile number"></div></label>
+      <label>WhatsApp number
+  <div class="phone-field">
+    <div class="country-code-wrap"><span>Country code</span><select id="referral-country-code" aria-label="WhatsApp country code"></select></div>
+    <div class="mobile-number-wrap"><span>Mobile number</span><input id="referral-phone" inputmode="numeric" autocomplete="tel-national" placeholder="Enter mobile number"></div>
+  </div>
+</label>
     </div>
     <label class="referral-message">Why are you referring them?
       <textarea id="referral-message" rows="5" maxlength="650" placeholder="I thought of you because..."></textarea>
     </label>
+    <label class="referral-consent"><input id="referral-whatsapp-consent" type="checkbox"> <span>I confirm this person has agreed to receive a WhatsApp referral from Syntropix.</span></label>
+    <div id="referral-channel-status" class="referral-channel-status"></div>
     <div class="referral-preview" id="referral-preview"></div>
     <div class="referral-actions">
       <button id="referral-send-email" class="primary" type="button">Send by email →</button>
