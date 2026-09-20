@@ -63,8 +63,8 @@ jobs:
           grep -q 'payments/verify' assessment-runtime-v3.js
           grep -q 'payments/access-status' assessment-runtime-v3.js
           grep -q 'payments/grant-bypass' assessment-runtime-v3.js
-          grep -q 'reports/deliver' assessment-runtime-v3.js
           grep -q 'reports/pdf' assessment-runtime-v3.js
+          grep -q "resp.headers.get('X-Syntropix-Report-Emailed')" assessment-runtime-v3.js
           grep -q 'ai-coach/chat' assessment-runtime-v3.js
           grep -q 'Rate this experience to unlock PDF' assessment-runtime-v3.html
           grep -q 'How to read your report' assessment-runtime-v3.html
