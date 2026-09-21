@@ -99,3 +99,63 @@ body.v6-marketing .tone-champagne{--tone:#D6B878;--wash:rgba(214,184,120,.18);--
 body.v6-marketing .tone-amber{--tone:#B8832F;--wash:rgba(184,131,47,.14);--tone-ink:#76551E}
 body.v6-marketing .tone-blue{--tone:#4E7F9C;--wash:rgba(78,127,156,.13);--tone-ink:#365B72}
 body.v6-marketing .assessment-catalogue-inline .assessment-card:hover{border-color:color-mix(in srgb,var(--tone,var(--sx-slate)) 42%, #d8ddd5)!important;box-shadow:0 24px 55px color-mix(in srgb,var(--tone,var(--sx-slate)) 11%, transparent)!important}
+
+/* V6 BETA 2 — glossy assessment cards + enterprise form alignment */
+body.v6-marketing .assessment-catalogue-inline .assessment-card{
+  background:
+    linear-gradient(155deg,rgba(255,255,255,.96),rgba(255,255,255,.84) 55%,rgba(248,249,246,.90))!important;
+  border:1px solid rgba(255,255,255,.88)!important;
+  box-shadow:0 24px 60px rgba(33,42,36,.12),inset 0 1px 0 rgba(255,255,255,1)!important;
+  backdrop-filter:blur(18px) saturate(130%);
+  -webkit-backdrop-filter:blur(18px) saturate(130%);
+}
+body.v6-marketing .assessment-catalogue-inline .assessment-card:after{
+  right:-54px;top:-64px;width:190px;height:190px;
+  background:radial-gradient(circle at 38% 38%,color-mix(in srgb,var(--tone,var(--sx-slate)) 22%, white),var(--wash,rgba(102,119,168,.13)) 62%,transparent 64%);
+  opacity:.88
+}
+body.v6-marketing .assessment-catalogue-inline .assessment-card h3{color:#111611!important;text-shadow:none!important}
+body.v6-marketing .assessment-catalogue-inline .assessment-card p{color:#566159!important}
+body.v6-marketing .assessment-catalogue-inline .assessment-meta span{
+  color:#39433C!important;background:rgba(248,249,246,.82)!important;border:1px solid rgba(97,112,101,.25)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9)
+}
+body.v6-marketing .assessment-catalogue-inline .assessment-card .price,
+body.v6-marketing .assessment-catalogue-inline .assessment-card strong{color:#182018}
+body.v6-marketing .assessment-catalogue-inline .assessment-card .btn.primary{box-shadow:0 12px 28px rgba(214,184,120,.24)!important}
+
+/* Enterprise conversation layout */
+body.v6-marketing.v6-org #conversation{
+  display:grid;grid-template-columns:minmax(280px,.72fr) minmax(620px,1.28fr);gap:clamp(42px,6vw,90px);
+  align-items:start;padding-top:clamp(90px,9vw,140px);padding-bottom:clamp(90px,9vw,140px)
+}
+body.v6-marketing.v6-org #conversation>.kicker,
+body.v6-marketing.v6-org #conversation>h2,
+body.v6-marketing.v6-org #conversation>p{grid-column:1}
+body.v6-marketing.v6-org #conversation>.kicker{align-self:end;margin-bottom:4px}
+body.v6-marketing.v6-org #conversation>h2{margin:0;max-width:520px}
+body.v6-marketing.v6-org #conversation>p{max-width:520px;margin-top:18px;color:#5C655D;line-height:1.62}
+body.v6-marketing.v6-org #conversation .form5{
+  grid-column:2;grid-row:1 / span 4;width:100%;max-width:none;margin:0;padding:28px;
+  display:grid;grid-template-columns:1fr 1fr;gap:18px 18px;background:rgba(255,255,255,.88)
+}
+body.v6-marketing.v6-org #conversation .form5>label{margin:0}
+body.v6-marketing.v6-org #conversation .form5>label:nth-of-type(7),
+body.v6-marketing.v6-org #conversation .form5>label:nth-of-type(8){grid-column:1/-1}
+body.v6-marketing.v6-org #conversation .form5>button,
+body.v6-marketing.v6-org #conversation .form5>.form-status{grid-column:1/-1}
+body.v6-marketing.v6-org #conversation .form5 input,
+body.v6-marketing.v6-org #conversation .form5 select,
+body.v6-marketing.v6-org #conversation .form5 textarea{width:100%;min-height:54px}
+body.v6-marketing.v6-org #conversation .form5 textarea{min-height:150px}
+@media(max-width:980px){
+  body.v6-marketing.v6-org #conversation{grid-template-columns:1fr}
+  body.v6-marketing.v6-org #conversation>.kicker,
+  body.v6-marketing.v6-org #conversation>h2,
+  body.v6-marketing.v6-org #conversation>p,
+  body.v6-marketing.v6-org #conversation .form5{grid-column:1;grid-row:auto}
+}
+@media(max-width:680px){
+  body.v6-marketing.v6-org #conversation .form5{grid-template-columns:1fr;padding:20px}
+  body.v6-marketing.v6-org #conversation .form5>label{grid-column:1!important}
+}
