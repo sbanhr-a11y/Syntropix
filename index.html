@@ -105,6 +105,17 @@
     <div class="sx-system-grid">
       <div class="sx-system-map sx-reveal" aria-label="Human capability architecture">
         <div class="sx-orbit">
+          <svg class="sx-connectors" viewBox="0 0 1000 650" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="sxLineA" x1="0" x2="1"><stop offset="0" stop-color="#6677A8"/><stop offset="1" stop-color="#D6B878"/></linearGradient>
+              <linearGradient id="sxLineB" x1="0" x2="1"><stop offset="0" stop-color="#5A345A"/><stop offset="1" stop-color="#7FA58F"/></linearGradient>
+            </defs>
+            <path class="line l1" d="M500 325 C380 260 280 160 185 115"/>
+            <path class="line l2" d="M500 325 C620 260 720 160 815 115"/>
+            <path class="line l3" d="M500 325 C380 390 280 505 175 545"/>
+            <path class="line l4" d="M500 325 C620 390 720 505 825 545"/>
+            <circle class="pulse p1" cx="500" cy="325" r="8"/>
+          </svg>
           <div class="sx-core"><div><strong>Human capability</strong><span>Insight → action → development</span></div></div>
           <div class="sx-node"><small>Evidence</small><strong>Assessment Intelligence</strong></div>
           <div class="sx-node"><small>Action</small><strong>Manager Development</strong></div>
@@ -156,15 +167,16 @@
     <div class="sx-product-strip">
       <div class="sx-product-story sx-reveal">
         <p class="sx-eyebrow">DEVELOPMENT LOOP</p>
-        <h3>Assess. Diagnose. Practice. Coach. Apply. Measure.</h3>
+        <h3>Assess. Diagnose. Develop. Practice. Coach. Apply. Measure.</h3>
         <p>Each stage has a different job. Together they create a continuous development loop that keeps evidence connected to real work.</p>
         <div class="sx-steps" aria-label="Development loop">
-          <div class="sx-step active"><b>01</b><strong>Assess</strong></div>
-          <div class="sx-step active"><b>02</b><strong>Diagnose</strong></div>
-          <div class="sx-step active"><b>03</b><strong>Practice</strong></div>
-          <div class="sx-step"><b>04</b><strong>Coach</strong></div>
-          <div class="sx-step"><b>05</b><strong>Apply</strong></div>
-          <div class="sx-step"><b>06</b><strong>Measure</strong></div>
+          <div class="sx-step active"><b>01</b><strong>Assess</strong><span>Gather evidence</span></div>
+          <div class="sx-step active"><b>02</b><strong>Diagnose</strong><span>Focus the signal</span></div>
+          <div class="sx-step active"><b>03</b><strong>Develop</strong><span>Build the capability</span></div>
+          <div class="sx-step active"><b>04</b><strong>Practice</strong><span>Rehearse at work</span></div>
+          <div class="sx-step"><b>05</b><strong>Coach</strong><span>Challenge & reflect</span></div>
+          <div class="sx-step"><b>06</b><strong>Apply</strong><span>Change the behaviour</span></div>
+          <div class="sx-step"><b>07</b><strong>Measure</strong><span>Review movement</span></div>
         </div>
       </div>
       <div class="sx-aside-stack">
@@ -175,14 +187,34 @@
   </div>
 </section>
 
-<section class="sx-section light">
-  <div class="sx-shell sx-testimonial sx-reveal">
-    <div class="sx-quote-mark">“</div>
-    <div>
-      <blockquote>What makes Syntropix stand out is its holistic approach. It views assessments not as an end in themselves, but as the starting point for a meaningful growth journey.</blockquote>
-      <div class="sx-person">
-        <img src="/testimonial-pooja-bhatia.jpg" alt="Pooja Bhatia" loading="lazy" decoding="async">
-        <div><b>Pooja Bhatia</b><span>L&amp;D Leader · Ex-Fidelity International</span></div>
+<section class="sx-section light sx-testimonials-section">
+  <div class="sx-shell">
+    <div class="sx-section-head sx-reveal">
+      <p class="sx-eyebrow">WHAT PEOPLE ARE SAYING</p>
+      <div><h2>Proof should feel human.</h2><p>Three perspectives from people who have experienced the work behind Syntropix.</p></div>
+    </div>
+    <div class="sx-testimonial-carousel sx-reveal" data-testimonial-carousel>
+      <div class="sx-testimonial-track" tabindex="0" aria-label="Syntropix testimonials">
+        <article class="sx-testimonial-card">
+          <div class="sx-quote-mark">“</div>
+          <blockquote>What makes Syntropix stand out is its holistic approach. It views assessments not as an end in themselves, but as the starting point for a meaningful growth journey. By connecting diagnostics, development and coaching, the platform helps organisations move from insight to action.</blockquote>
+          <div class="sx-person"><img src="/testimonial-pooja-bhatia.jpg" alt="Pooja Bhatia" loading="lazy" decoding="async"><div><b>Pooja Bhatia</b><span>L&amp;D Leader · Ex-Fidelity International</span></div></div>
+        </article>
+        <article class="sx-testimonial-card">
+          <div class="sx-quote-mark">“</div>
+          <blockquote>In consulting, we need metrics that drive real business action. Syntropix strips away the guesswork from manager capability. Their diagnostics provide a clean, rigorous and highly actionable baseline without losing sight of the human element.</blockquote>
+          <div class="sx-person"><img src="/testimonial-abira-chatterjee.jpg" alt="Abira Chatterjee" loading="lazy" decoding="async"><div><b>Abira Chatterjee</b><span>Associate Consultant · TCS</span></div></div>
+        </article>
+        <article class="sx-testimonial-card">
+          <div class="sx-quote-mark">“</div>
+          <blockquote>From a workforce management lens, structural promotions must translate into real-world performance. Tools like the Managerial Effectiveness Index map actual behavioural patterns rather than simply checking theoretical boxes.</blockquote>
+          <div class="sx-person"><img src="/testimonial-mahua-mukerji.jpg" alt="Mahua Mukerji" loading="lazy" decoding="async"><div><b>Mahua Mukerji</b><span>WFM Staffing Professional · IBM</span></div></div>
+        </article>
+      </div>
+      <div class="sx-carousel-controls">
+        <button type="button" data-carousel-prev aria-label="Previous testimonial">←</button>
+        <div class="sx-carousel-dots" aria-hidden="true"><i class="active"></i><i></i><i></i></div>
+        <button type="button" data-carousel-next aria-label="Next testimonial">→</button>
       </div>
     </div>
   </div>
