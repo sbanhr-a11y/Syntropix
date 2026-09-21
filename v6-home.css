@@ -152,3 +152,51 @@ body.sx-v6 footer{background:#080A08!important;border-top:1px solid rgba(255,255
   .sx-connectors .line,.sx-connectors .pulse,.sx-core{animation:none!important}
   .sx-testimonial-track{scroll-behavior:auto}
 }
+
+/* V6 BETA 2 — premium capability topology */
+.sx-system-map{
+  background:
+    radial-gradient(circle at 50% 48%,rgba(214,184,120,.10),transparent 19%),
+    radial-gradient(circle at 18% 14%,rgba(102,119,168,.10),transparent 24%),
+    radial-gradient(circle at 82% 78%,rgba(127,165,143,.11),transparent 22%),
+    linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,247,242,.94));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 30px 80px rgba(37,43,40,.08);
+}
+.sx-system-map:after{
+  content:"";position:absolute;left:50%;top:50%;width:330px;height:330px;transform:translate(-50%,-50%);
+  border-radius:50%;border:1px solid rgba(214,184,120,.22);
+  box-shadow:0 0 0 48px rgba(102,119,168,.04),0 0 0 96px rgba(90,52,90,.025);
+  animation:sxOrbitBreath 6.8s ease-in-out infinite;pointer-events:none
+}
+.sx-core{
+  width:190px;height:190px;
+  background:linear-gradient(145deg,rgba(10,14,12,.98),rgba(18,24,20,.98));
+  border:1px solid rgba(214,184,120,.18);
+  box-shadow:0 26px 70px rgba(8,14,11,.28),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.sx-core:before{
+  content:"";position:absolute;inset:-18px;border-radius:50%;
+  border:1px solid rgba(214,184,120,.18);filter:drop-shadow(0 0 18px rgba(214,184,120,.12));
+  animation:sxHalo 4.2s ease-in-out infinite
+}
+.sx-core:after{
+  content:"";position:absolute;inset:14px;border-radius:50%;
+  background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.08),transparent 28%);
+  pointer-events:none
+}
+.sx-node{
+  backdrop-filter:blur(14px) saturate(125%);
+  -webkit-backdrop-filter:blur(14px) saturate(125%);
+  background:linear-gradient(155deg,rgba(255,255,255,.90),rgba(255,255,255,.70));
+  border:1px solid rgba(255,255,255,.80);
+  box-shadow:0 16px 44px rgba(42,48,44,.11),inset 0 1px 0 rgba(255,255,255,.95);
+}
+.sx-node:after{
+  content:"";position:absolute;inset:auto 16px 12px;width:36px;height:2px;border-radius:999px;background:currentColor;opacity:.25
+}
+.sx-connectors .line{stroke-width:2.4;stroke-dasharray:8 13;filter:drop-shadow(0 0 3px rgba(214,184,120,.15))}
+.sx-connectors .pulse{filter:drop-shadow(0 0 10px rgba(214,184,120,.5))}
+.sx-connectors:after{content:"";position:absolute}
+@keyframes sxOrbitBreath{0%,100%{opacity:.58;transform:translate(-50%,-50%) scale(.98)}50%{opacity:.95;transform:translate(-50%,-50%) scale(1.025)}}
+@keyframes sxHalo{0%,100%{opacity:.35;transform:scale(.98)}50%{opacity:.8;transform:scale(1.03)}}
+@media(prefers-reduced-motion:reduce){.sx-system-map:after,.sx-core:before{animation:none!important}}
