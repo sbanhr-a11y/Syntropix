@@ -81,3 +81,21 @@ body.v6-marketing footer{background:#080A08!important;border-top:1px solid rgba(
 @media(prefers-reduced-motion:reduce){
   body.v6-marketing .card,body.v6-marketing .assessment-card,body.v6-marketing .btn{transition:none!important}
 }
+/* V6 BETA — semantic assessment colour system */
+body.v6-marketing .assessment-catalogue-inline .assessment-card{position:relative;overflow:hidden;color:#131713!important;background:#fff!important;border:1px solid rgba(18,28,42,.10)!important}
+body.v6-marketing .assessment-catalogue-inline .assessment-card:before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--tone,var(--sx-slate))}
+body.v6-marketing .assessment-catalogue-inline .assessment-card:after{content:"";position:absolute;right:-70px;top:-90px;width:210px;height:210px;border-radius:50%;background:var(--wash,rgba(102,119,168,.09));pointer-events:none}
+body.v6-marketing .assessment-catalogue-inline .assessment-card .num{position:relative;z-index:1;display:inline-flex;width:max-content;padding:8px 11px;border-radius:999px;color:var(--tone-ink,#44516f)!important;background:var(--wash,rgba(102,119,168,.12))!important;border:1px solid color-mix(in srgb,var(--tone,var(--sx-slate)) 24%, transparent)}
+body.v6-marketing .assessment-catalogue-inline .assessment-card h3{position:relative;z-index:1;color:#151915!important}
+body.v6-marketing .assessment-catalogue-inline .assessment-card p{position:relative;z-index:1;color:#5f695f!important}
+body.v6-marketing .assessment-catalogue-inline .assessment-meta span{color:#3f4841!important;background:#f7f7f3!important;border-color:#cbd1c9!important}
+body.v6-marketing .assessment-catalogue-inline .assessment-card .btn.primary{position:relative;z-index:2}
+body.v6-marketing .tone-lime{--tone:#7FAE2A;--wash:rgba(127,174,42,.14);--tone-ink:#4E7115}
+body.v6-marketing .tone-slate{--tone:#6677A8;--wash:rgba(102,119,168,.14);--tone-ink:#495680}
+body.v6-marketing .tone-emerald{--tone:#2F8F6B;--wash:rgba(47,143,107,.13);--tone-ink:#21674D}
+body.v6-marketing .tone-sage{--tone:#7FA58F;--wash:rgba(127,165,143,.16);--tone-ink:#537461}
+body.v6-marketing .tone-plum{--tone:#5A345A;--wash:rgba(90,52,90,.12);--tone-ink:#5A345A}
+body.v6-marketing .tone-champagne{--tone:#D6B878;--wash:rgba(214,184,120,.18);--tone-ink:#755E29}
+body.v6-marketing .tone-amber{--tone:#B8832F;--wash:rgba(184,131,47,.14);--tone-ink:#76551E}
+body.v6-marketing .tone-blue{--tone:#4E7F9C;--wash:rgba(78,127,156,.13);--tone-ink:#365B72}
+body.v6-marketing .assessment-catalogue-inline .assessment-card:hover{border-color:color-mix(in srgb,var(--tone,var(--sx-slate)) 42%, #d8ddd5)!important;box-shadow:0 24px 55px color-mix(in srgb,var(--tone,var(--sx-slate)) 11%, transparent)!important}
