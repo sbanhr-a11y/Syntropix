@@ -103,8 +103,11 @@ jobs:
             ! grep -q '/corporate-humanist-v1.css' "$f"
             ! grep -q '/corporate-humanist-v1.js' "$f"
           done
-          grep -q '/v6-editorial.css' science.html
-          grep -q '/v6-editorial.css' trust.html
+          grep -q '/v6-beta-pages.css' solutions.html
+          grep -q '/v6-beta-pages.css' science.html
+          grep -q '/v6-beta-pages.css' trust.html
+          ! grep -q '/v6-editorial.css' science.html
+          ! grep -q '/v6-editorial.css' trust.html
           echo 'Full public V6 migration verified'
       - name: Guard protected runtimes
         shell: bash
