@@ -91,3 +91,64 @@ body.sx-v6 footer{background:#080A08!important;border-top:1px solid rgba(255,255
   .sx-steps{grid-template-columns:1fr 1fr}.sx-product-story,.sx-aside-card,.sx-evidence-main,.sx-evidence-card{padding:24px}.sx-final{padding:92px 0}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sx-reveal{opacity:1;transform:none;transition:none}.sx-btn,.sx-capability{transition:none}.sx-product-frame{transform:none}}
+/* V6 BETA REFINEMENTS */
+.sx-orbit{isolation:isolate}
+.sx-connectors{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:visible;pointer-events:none}
+.sx-connectors .line{fill:none;stroke:url(#sxLineA);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:10 12;opacity:.68;animation:sxFlow 9s linear infinite}
+.sx-connectors .l3,.sx-connectors .l4{stroke:url(#sxLineB);animation-direction:reverse}
+.sx-connectors .l2{animation-delay:-2s}.sx-connectors .l3{animation-delay:-4s}.sx-connectors .l4{animation-delay:-6s}
+.sx-connectors .pulse{fill:var(--sx-champagne);opacity:.75;transform-origin:center;animation:sxPulse 2.8s ease-out infinite}
+.sx-core,.sx-node{z-index:2}
+.sx-core{animation:sxCoreFloat 5.6s ease-in-out infinite}
+.sx-node{transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
+.sx-node:hover{transform:translateY(-6px);box-shadow:0 20px 45px rgba(18,28,42,.12)}
+.sx-node:nth-child(2):hover{border-color:rgba(102,119,168,.48)}
+.sx-node:nth-child(3):hover{border-color:rgba(47,143,107,.48)}
+.sx-node:nth-child(4):hover{border-color:rgba(90,52,90,.48)}
+.sx-node:nth-child(5):hover{border-color:rgba(127,165,143,.50)}
+@keyframes sxFlow{to{stroke-dashoffset:-120}}
+@keyframes sxPulse{0%{r:7;opacity:.72}70%,100%{r:24;opacity:0}}
+@keyframes sxCoreFloat{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-7px)}}
+
+.sx-journey ul{margin-bottom:34px}
+.sx-journey .sx-btn{margin-top:auto}
+.sx-journey p+ul{padding-top:8px}
+
+.sx-steps{grid-template-columns:repeat(7,1fr);gap:7px}
+.sx-step{min-height:148px;display:flex;flex-direction:column}
+.sx-step strong{margin-top:28px}
+.sx-step span{display:block;margin-top:7px;color:#7e857e;font-size:10px;line-height:1.35}
+.sx-step.active span{color:#9ba49d}
+
+.sx-testimonials-section{overflow:hidden}
+.sx-testimonial-carousel{position:relative}
+.sx-testimonial-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(620px,72%);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px max(1px,14vw) 28px 0;scroll-behavior:smooth}
+.sx-testimonial-track::-webkit-scrollbar{display:none}
+.sx-testimonial-card{scroll-snap-align:start;min-height:430px;padding:36px;border:1px solid #d8d7cf;border-radius:32px;background:#fff;display:flex;flex-direction:column;box-shadow:0 20px 55px rgba(26,35,30,.06)}
+.sx-testimonial-card:nth-child(1){border-top:4px solid var(--sx-champagne)}
+.sx-testimonial-card:nth-child(2){border-top:4px solid var(--sx-slate)}
+.sx-testimonial-card:nth-child(3){border-top:4px solid var(--sx-plum)}
+.sx-testimonial-card .sx-quote-mark{font-size:76px;height:58px;line-height:.85}
+.sx-testimonial-card blockquote{margin:28px 0 30px;font-size:clamp(24px,2.3vw,36px);line-height:1.24;letter-spacing:-.03em}
+.sx-testimonial-card .sx-person{margin-top:auto}
+.sx-carousel-controls{display:flex;align-items:center;gap:14px;justify-content:flex-end;margin-top:14px}
+.sx-carousel-controls button{width:44px;height:44px;border-radius:50%;border:1px solid #cfd1ca;background:#fff;color:#111;font-weight:900;cursor:pointer;transition:transform .2s ease,border-color .2s ease}
+.sx-carousel-controls button:hover{transform:translateY(-2px);border-color:var(--sx-champagne)}
+.sx-carousel-dots{display:flex;gap:7px}.sx-carousel-dots i{width:7px;height:7px;border-radius:50%;background:#c9cbc5}.sx-carousel-dots i.active{background:var(--sx-plum)}
+
+@media(max-width:1100px){
+  .sx-steps{grid-template-columns:repeat(4,1fr)}
+  .sx-testimonial-track{grid-auto-columns:86%}
+}
+@media(max-width:760px){
+  .sx-connectors{display:none}
+  .sx-core{animation:none}
+  .sx-steps{grid-template-columns:1fr 1fr}
+  .sx-testimonial-track{grid-auto-columns:94%;padding-right:0}
+  .sx-testimonial-card{min-height:390px;padding:26px}
+  .sx-testimonial-card blockquote{font-size:24px}
+}
+@media(prefers-reduced-motion:reduce){
+  .sx-connectors .line,.sx-connectors .pulse,.sx-core{animation:none!important}
+  .sx-testimonial-track{scroll-behavior:auto}
+}
