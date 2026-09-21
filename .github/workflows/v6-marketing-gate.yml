@@ -6,6 +6,21 @@ on:
       - 'index.html'
       - 'enterprise.html'
       - 'professionals.html'
+      - 'solutions.html'
+      - 'assessment-intelligence.html'
+      - 'manager-development.html'
+      - 'prism360.html'
+      - 'employee-experience.html'
+      - 'talent-solutions.html'
+      - 'professional-coaching.html'
+      - 'compliance-learning.html'
+      - 'pricing.html'
+      - 'science.html'
+      - 'trust.html'
+      - 'privacy.html'
+      - 'terms.html'
+      - 'refund-cancellation.html'
+      - 'cookie-policy.html'
       - 'v6-home.css'
       - 'v6-home.js'
       - 'v6-shared.css'
@@ -74,6 +89,19 @@ jobs:
           grep -q '/assessment-assignment-ui-v1.js' professionals.html
           grep -q '<title>For Individuals | Syntropix</title>' professionals.html
           echo 'Organization and Individual journey contracts verified'
+      - name: Validate full public V6 migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          pages='solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          for f in $pages; do
+            grep -q '/v6-shared.css' "$f"
+            ! grep -q '/corporate-humanist-v1.css' "$f"
+            ! grep -q '/corporate-humanist-v1.js' "$f"
+          done
+          grep -q '/v6-editorial.css' science.html
+          grep -q '/v6-editorial.css' trust.html
+          echo 'Full public V6 migration verified'
       - name: Guard protected runtimes
         shell: bash
         run: |
