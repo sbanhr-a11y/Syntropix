@@ -1,16 +1,32 @@
-name: V6 Architecture Browser Parity QA
+name: V6 Production Browser QA
 
 on:
   push:
     branches:
-      - v6-architecture-consolidation-v3
+      - main
+      - v6-browser-regression-hardening
+    paths:
+      - '*.html'
+      - '*.css'
+      - '*.js'
+      - 'qa/v6-architecture-browser-qa.mjs'
+      - '.github/workflows/v6-architecture-browser-qa.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '*.html'
+      - '*.css'
+      - '*.js'
+      - 'qa/v6-architecture-browser-qa.mjs'
+      - '.github/workflows/v6-architecture-browser-qa.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: v6-architecture-browser-qa
+  group: v6-production-browser-qa-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -49,7 +65,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: v6-architecture-browser-qa
+          name: v6-production-browser-qa
           path: |
             qa-output/
           retention-days: 14
