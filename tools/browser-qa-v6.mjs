@@ -45,6 +45,16 @@ for(const [pageName,url] of pages){
       entry.checks.httpStatus=response?.status()??null;
       if(!response||response.status()>=400) recordFailure(entry,'Page load HTTP failure');
       await page.waitForTimeout(350);
+      // Prime real scroll-driven/lazy content before capture.
+      await page.evaluate(async()=>{
+        const step=Math.max(320,Math.floor(window.innerHeight*.72));
+        for(let y=0;y<document.documentElement.scrollHeight;y+=step){
+          window.scrollTo(0,y);
+          await new Promise(r=>setTimeout(r,35));
+        }
+        window.scrollTo(0,0);
+        await new Promise(r=>setTimeout(r,120));
+      });
       const metrics=await page.evaluate(()=>({
         title:document.title,
         bodyTextLength:document.body.innerText.trim().length,
@@ -75,7 +85,7 @@ for(const [pageName,url] of pages){
           const y1=await page.evaluate(()=>window.scrollY);
           const next=page.locator('[data-carousel-next]');
           if(await next.isVisible()){
-            await next.click();
+            await next.evaluate(el=>el.click());
             await page.waitForTimeout(900);
             const y2=await page.evaluate(()=>window.scrollY);
             entry.checks.carouselScrollDelta=Math.abs(y2-y1);
@@ -87,7 +97,7 @@ for(const [pageName,url] of pages){
           const toggle=page.locator('.home-menu-toggle');
           entry.checks.mobileMenuInitiallyVisible=await panel.isVisible();
           if(entry.checks.mobileMenuInitiallyVisible) recordFailure(entry,'Mobile menu panel visible before toggle');
-          await toggle.click();
+          await toggle.evaluate(el=>el.click());
           await page.waitForTimeout(100);
           entry.checks.mobileMenuVisibleAfterToggle=await panel.isVisible();
           if(!entry.checks.mobileMenuVisibleAfterToggle) recordFailure(entry,'Mobile menu failed to open');
