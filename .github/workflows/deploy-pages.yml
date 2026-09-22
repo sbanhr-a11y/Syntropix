@@ -23,14 +23,20 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for f in index.html professionals.html enterprise.html pricing.html privacy.html terms.html refund-cancellation.html; do
-            grep -q '/premium-ui-v1.css' "$f"
-            grep -q '/mobile-responsive-v1.css' "$f"
+          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          for f in $pages; do
+            grep -q '/v6-foundation.css' "$f"
+            ! grep -q '/site-v5.css' "$f"
+            ! grep -q '/premium-ui-v1.css' "$f"
+            ! grep -q '/mobile-responsive-v1.css' "$f"
             grep -q '/global-footer-v1.js' "$f"
-            grep -q '/premium-ui-v1.js' "$f"
           done
-          # Access-gate pages intentionally have no public footer or premium-ui JS;
-          # still require the canonical premium colour and responsive presentation layers.
+          for f in enterprise.html professionals.html pricing.html; do
+            grep -q '/v6-assessment-cards.css' "$f"
+          done
+          grep -q '@layer v6-foundation' v6-foundation.css
+          grep -q 'v5nav.open nav' v6-shared.css
+          # Access-gate pages intentionally remain outside the public V6 presentation layer.
           for f in signin.html admin.html; do
             grep -q '/premium-ui-v1.css' "$f"
             grep -q '/mobile-responsive-v1.css' "$f"
