@@ -162,7 +162,7 @@ body.v6-marketing .signal-raw-note{margin:0 18px 6px;color:#727A73;font-size:10p
 @media(max-width:980px){body.v6-marketing .signal-exec-shell{grid-template-columns:1fr}body.v6-marketing .signal-exec-rail{display:grid;grid-template-columns:repeat(3,1fr)}body.v6-marketing .signal-brand{grid-column:1/-1}body.v6-marketing .signal-output-row{grid-template-columns:1fr}}
 @media(max-width:680px){body.v6-marketing .signal-matrix{grid-template-columns:1fr}body.v6-marketing .signal-exec-rail{grid-template-columns:1fr 1fr}body.v6-marketing .signal-exec-canvas{padding:16px}body.v6-marketing .signal-exec-toolbar{align-items:flex-start;flex-direction:column}body.v6-marketing .signal-output-row{padding:14px}}
 
-.v6-skip{position:fixed;left:18px;top:-80px;z-index:3000;padding:10px 14px;border-radius:10px;background:#F4F2EC;color:#070908;font-weight:850;box-shadow:0 10px 28px rgba(0,0,0,.18);transition:top .18s ease}.v6-skip:focus{top:14px}
+.v6-skip{position:fixed;left:18px;top:-80px;z-index:3000;padding:10px 14px;border-radius:10px;background:#F4F2EC;color:#070908;font-weight:850;box-shadow:0 10px 28px rgba(0,0,0,.18)}.v6-skip:focus,.v6-skip:focus-visible{top:14px}
 
 
 /* V6 ELITE REFINEMENT — assessment report galleries + clearer micro-labels */
