@@ -46,23 +46,26 @@ for(const [pageName,url] of pages){
       if(!response||response.status()>=400) recordFailure(entry,'Page load HTTP failure');
       await page.waitForTimeout(350);
       // Prime real scroll-driven/lazy content before capture.
-      await page.evaluate(async()=>{
-        const reveals=[...document.querySelectorAll('.sx-reveal')];
-        if(reveals.length){
-          for(const el of reveals){
-            el.scrollIntoView({block:'center'});
-            await new Promise(r=>setTimeout(r,130));
-          }
-        }else{
+      if(pageName==='home'){
+        const revealLocators=page.locator('.sx-reveal');
+        const revealCount=await revealLocators.count();
+        for(let ri=0;ri<revealCount;ri++){
+          await revealLocators.nth(ri).scrollIntoViewIfNeeded();
+          await page.waitForTimeout(140);
+        }
+        await page.evaluate(()=>window.scrollTo(0,0));
+        await page.waitForTimeout(250);
+      }else{
+        await page.evaluate(async()=>{
           const step=Math.max(320,Math.floor(window.innerHeight*.72));
           for(let y=0;y<document.documentElement.scrollHeight;y+=step){
             window.scrollTo(0,y);
             await new Promise(r=>setTimeout(r,60));
           }
-        }
-        window.scrollTo(0,0);
-        await new Promise(r=>setTimeout(r,180));
-      });
+          window.scrollTo(0,0);
+          await new Promise(r=>setTimeout(r,180));
+        });
+      }
       const metrics=await page.evaluate(()=>({
         title:document.title,
         bodyTextLength:document.body.innerText.trim().length,
