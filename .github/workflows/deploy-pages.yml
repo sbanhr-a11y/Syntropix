@@ -138,7 +138,13 @@ jobs:
           test -s v6-beta-pages.css
           grep -q 'Build better managers.' index.html
           grep -q 'Make better people decisions.' index.html
-          grep -q 'Assessment → report → develop → practice → optional coaching.' professionals.html
+          grep -q 'A clear path from insight to applied change.' professionals.html
+          grep -q 'sx-report-gallery' professionals.html
+          grep -q 'sx-report-gallery' enterprise.html
+          grep -q 'The Culture Compass' employee-experience.html
+          grep -q 'SECURE & RELIABLE / GLOBAL CAPABILITY' index.html
+          grep -q 'nav-products-menu' site-v5.js
+          ! grep -R -i -q 'employee listening' --include='*.html' .
           grep -q 'signal-exec-showcase' employee-experience.html
           ! grep -q 'mailto:contact@syntropix.in' trust.html
           test -s solutions.html
