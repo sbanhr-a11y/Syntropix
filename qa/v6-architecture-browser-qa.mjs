@@ -24,6 +24,18 @@ const viewports=[
 fs.rmSync('qa-output',{recursive:true,force:true});
 fs.mkdirSync('qa-output/screenshots',{recursive:true});
 
+async function revealForScreenshot(page){
+  await page.evaluate(async()=>{
+    const step=Math.max(420,Math.floor(window.innerHeight*.72));
+    for(let y=0;y<document.documentElement.scrollHeight;y+=step){
+      window.scrollTo(0,y);
+      await new Promise(r=>setTimeout(r,70));
+    }
+    window.scrollTo(0,0);
+    await new Promise(r=>setTimeout(r,120));
+  });
+}
+
 const browser=await chromium.launch({headless:true});
 const report={generatedAt:new Date().toISOString(),results:[],targeted:{},failures:[]};
 
@@ -59,6 +71,7 @@ for(const vp of viewports){
       report.failures.push({viewport:vp.name,path,navError,metrics,overflow,pageErrors,badResponses});
     }
     if(critical.has(path) && !navError){
+      await revealForScreenshot(page);
       await page.screenshot({path:`qa-output/screenshots/${path.replace('.html','')}--${vp.name}.png`,fullPage:true});
     }
     await page.close();
@@ -90,12 +103,14 @@ for(const vp of viewports){
  await page.waitForTimeout(150);
  const y1=await page.evaluate(()=>window.scrollY);
  const next=page.locator('[data-carousel-next]');
- if(await next.count()){
+ const visible=await next.count()?await next.isVisible():false;
+ if(visible){
    await next.click();
    await page.waitForTimeout(450);
  }
  const y2=await page.evaluate(()=>window.scrollY);
- report.targeted.testimonialVerticalJump={before:y1,after:y2,delta:Math.abs(y2-y1),pass:Math.abs(y2-y1)<=2};
+ const controlsStatic=await page.locator('.sx-carousel-controls').getAttribute('data-static');
+ report.targeted.testimonialVerticalJump={before:y1,after:y2,delta:Math.abs(y2-y1),controlVisible:visible,controlsStatic,pass:Math.abs(y2-y1)<=2 && (visible || controlsStatic==='true')};
  if(!report.targeted.testimonialVerticalJump.pass) report.failures.push({target:'testimonialVerticalJump',...report.targeted.testimonialVerticalJump});
  await context.close();
 }
