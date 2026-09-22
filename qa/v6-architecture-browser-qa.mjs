@@ -167,6 +167,37 @@ for(const vp of viewports){
  await context.close();
 }
 
+ // Targeted regression: floating contact controls must not obstruct mobile hero CTAs.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const checks=[];
+ for(const path of ['index.html','professionals.html']){
+   const page=await context.newPage();
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   await page.waitForTimeout(180);
+   const state=await page.evaluate(()=>{
+     const ctas=[...document.querySelectorAll('.sx-hero .sx-actions a,.hero5>.actions a')].filter(el=>getComputedStyle(el).display!=='none');
+     const floats=[...document.querySelectorAll('.floating')].filter(el=>getComputedStyle(el).display!=='none');
+     const overlaps=[];
+     for(const cta of ctas){
+       const a=cta.getBoundingClientRect();
+       for(const fl of floats){
+         const b=fl.getBoundingClientRect();
+         const overlap=!(a.right<=b.left||a.left>=b.right||a.bottom<=b.top||a.top>=b.bottom);
+         if(overlap) overlaps.push({cta:cta.textContent.trim().slice(0,60),floating:fl.className});
+       }
+     }
+     return {ctaCount:ctas.length,floatingCount:floats.length,overlaps};
+   });
+   checks.push({path,...state});
+   await page.close();
+ }
+ const pass=checks.every(x=>x.ctaCount>0 && x.overlaps.length===0);
+ report.targeted.mobileHeroCtaClearance={checks,pass};
+ if(!pass) report.failures.push({target:'mobileHeroCtaClearance',checks});
+ await context.close();
+}
+
  // Targeted regression: testimonial carousel must not vertically jump the page.
 {
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
