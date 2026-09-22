@@ -23,6 +23,7 @@ on:
       - 'cookie-policy.html'
       - 'robots.txt'
       - 'sitemap.xml'
+      - 'v6-foundation.css'
       - 'v6-home.css'
       - 'v6-home.js'
       - 'v6-shared.css'
@@ -43,6 +44,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          test -s v6-foundation.css
           test -s v6-home.css
           test -s v6-shared.css
           test -s v6-beta-pages.css
@@ -110,6 +112,17 @@ jobs:
           grep -q '/v6-beta-pages.css' trust.html
           ! grep -q '/v6-editorial.css' science.html
           ! grep -q '/v6-editorial.css' trust.html
+          public_pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          for f in $public_pages; do
+            grep -q '/v6-foundation.css' "$f"
+            ! grep -q '/site-v5.css' "$f"
+            ! grep -q '/premium-ui-v1.css' "$f"
+            ! grep -q '/mobile-responsive-v1.css' "$f"
+          done
+          grep -q '@layer v6-foundation' v6-foundation.css
+          grep -q '.form5 input.sr-only' v6-foundation.css
+          grep -q '.home-menu-panel' v6-foundation.css
+          echo 'Architecture consolidation verified'
           echo 'Full public V6 migration verified'
       - name: Validate Final Elite Polish contract
         shell: bash
