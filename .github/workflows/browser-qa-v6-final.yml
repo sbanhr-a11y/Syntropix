@@ -1,0 +1,62 @@
+name: V6 Browser QA
+
+on:
+  push:
+    branches:
+      - browser-qa-v6-final
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact branch artifact
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/v6-browser-qa-server.log 2>&1 &
+          echo $! > /tmp/v6-browser-qa-server.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/v6-browser-qa-server.log
+          exit 1
+
+      - name: Run multi-viewport browser QA
+        id: qa
+        continue-on-error: true
+        run: node tools/browser-qa-v6.mjs
+
+      - name: Upload browser QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v6-browser-qa-evidence
+          path: browser-qa-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Enforce browser QA result
+        if: always()
+        run: |
+          cat browser-qa-artifacts/summary.txt
+          test -f browser-qa-artifacts/report.json
+          node -e "const r=require('./browser-qa-artifacts/report.json'); if(r.summary.failures>0){console.error(JSON.stringify(r.summary)); process.exit(1)}; console.log(JSON.stringify(r.summary))"
