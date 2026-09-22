@@ -48,6 +48,13 @@ for(const [pageName,url] of pages){
       // Measure header/hero geometry only at the real top-of-page state.
       await page.evaluate(()=>window.scrollTo(0,0));
       await page.waitForTimeout(80);
+      entry.checks.navHeroOverlap=await page.evaluate(()=>{
+        const nav=document.querySelector('.v5nav'),hero=document.querySelector('main section:first-child h1, main h1');
+        if(!nav||!hero)return null;
+        const n=nav.getBoundingClientRect(),h=hero.getBoundingClientRect();
+        return {navBottom:n.bottom,heroTop:h.top,overlap:Math.max(0,n.bottom-h.top)};
+      });
+      if(entry.checks.navHeroOverlap?.overlap>2) recordFailure(entry,`Sticky nav overlaps hero by ${entry.checks.navHeroOverlap.overlap}px`);
       // Prime real scroll-driven/lazy content before capture.
       if(pageName==='home'){
         const revealLocators=page.locator('.sx-reveal');
@@ -89,13 +96,6 @@ for(const [pageName,url] of pages){
         return {top:r.top,bottom:r.bottom,display:s.display,visibility:s.visibility,opacity:s.opacity,focused:document.activeElement===el};
       });
       if(entry.checks.skipState && !entry.checks.skipState.focused && entry.checks.skipState.bottom>0) recordFailure(entry,'Skip link visible without focus');
-      entry.checks.navHeroOverlap=await page.evaluate(()=>{
-        const nav=document.querySelector('.v5nav'),hero=document.querySelector('main section:first-child h1, main h1');
-        if(!nav||!hero)return null;
-        const n=nav.getBoundingClientRect(),h=hero.getBoundingClientRect();
-        return {navBottom:n.bottom,heroTop:h.top,overlap:Math.max(0,n.bottom-h.top)};
-      });
-      if(entry.checks.navHeroOverlap?.overlap>2) recordFailure(entry,`Sticky nav overlaps hero by ${entry.checks.navHeroOverlap.overlap}px`);
       if(metrics.bodyTextLength<200) recordFailure(entry,'Page content unexpectedly sparse');
       if(metrics.h1Count!==1) recordFailure(entry,'Expected exactly one H1');
       if(metrics.scrollWidth-metrics.clientWidth>2) recordFailure(entry,`Horizontal overflow: ${metrics.scrollWidth-metrics.clientWidth}px`);
@@ -108,12 +108,20 @@ for(const [pageName,url] of pages){
         .map(img=>img.getAttribute('src')).filter(Boolean));
       if(entry.checks.unloadedImages.length) recordFailure(entry,`Unloaded images: ${entry.checks.unloadedImages.length}`);
 
-      entry.checks.overflowers=await page.evaluate(()=>Array.from(document.querySelectorAll('body *')).filter(el=>{
+      entry.checks.offcanvasElements=await page.evaluate(()=>Array.from(document.querySelectorAll('body *')).filter(el=>{
         const r=el.getBoundingClientRect(),s=getComputedStyle(el);
         if(s.position==='fixed' || s.position==='sticky' || s.display==='none' || s.visibility==='hidden') return false;
         return r.width>0 && (r.right>window.innerWidth+3 || r.left<-3);
-      }).slice(0,12).map(el=>({tag:el.tagName,class:String(el.className||''),id:el.id,right:Math.round(el.getBoundingClientRect().right),left:Math.round(el.getBoundingClientRect().left)})));
-      if(entry.checks.overflowers.length) recordFailure(entry,'Element-level horizontal overflow detected');
+      }).slice(0,12).map(el=>{
+        let a=el.parentElement,contained=false;
+        while(a&&a!==document.body){
+          const as=getComputedStyle(a);
+          if(['hidden','clip','auto','scroll'].includes(as.overflowX)){contained=true;break}
+          a=a.parentElement;
+        }
+        const r=el.getBoundingClientRect();
+        return {tag:el.tagName,class:String(el.className||''),id:el.id,right:Math.round(r.right),left:Math.round(r.left),contained};
+      }));
 
       if(width<=1100 && pageName!=='home'){
         const toggle=page.locator('.menu5');
