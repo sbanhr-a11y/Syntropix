@@ -3,7 +3,24 @@ name: V6 Architecture Browser Parity QA
 on:
   push:
     branches:
+      - main
       - v6-architecture-consolidation-v3
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+      - 'enterprise.html'
+      - 'professionals.html'
+      - 'solutions.html'
+      - 'employee-experience.html'
+      - 'trust.html'
+      - 'v6-foundation.css'
+      - 'v6-home.css'
+      - 'v6-shared.css'
+      - 'site-v5.js'
+      - 'qa/v6-architecture-browser-qa.mjs'
+      - '.github/workflows/v6-architecture-browser-qa.yml'
   workflow_dispatch:
 
 permissions:
