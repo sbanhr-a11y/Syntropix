@@ -122,12 +122,50 @@ for(const vp of viewports){
    const afterNav=await nav.evaluate(el=>getComputedStyle(el).display);
    const box=await nav.boundingBox();
    const viewportPass=!!box && box.x>=-1 && box.x+box.width<=391;
-   checks.push({path,buttonVisible,label,beforeNav,afterNav,box,viewportPass});
+   const iconState=await button.evaluate(el=>{
+     const icon=el.querySelector('.sx-menu-icon'),mid=icon?.querySelector('i');
+     const before=icon?getComputedStyle(icon,'::before'):null,after=icon?getComputedStyle(icon,'::after'):null,buttonStyle=getComputedStyle(el);
+     return {borderWidth:buttonStyle.borderTopWidth,borderStyle:buttonStyle.borderTopStyle,midOpacity:mid?getComputedStyle(mid).opacity:null,beforeTransform:before?.transform||null,afterTransform:after?.transform||null};
+   });
+   checks.push({path,buttonVisible,label,beforeNav,afterNav,box,viewportPass,iconState});
    await page.close();
  }
- const pass=checks.every(x=>x.buttonVisible && x.label==='Open navigation' && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass);
+ const pass=checks.every(x=>x.buttonVisible && x.label==='Open navigation' && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass && x.iconState.borderWidth==='0px' && x.iconState.midOpacity==='1' && (x.iconState.beforeTransform==='none'||x.iconState.beforeTransform==='matrix(1, 0, 0, 1, 0, 0)') && (x.iconState.afterTransform==='none'||x.iconState.afterTransform==='matrix(1, 0, 0, 1, 0, 0)'));
  report.targeted.canonicalMobileNav={checks,pass};
  if(!pass) report.failures.push({target:'canonicalMobileNav',checks});
+ await context.close();
+}
+
+// Targeted regression: contact details and enterprise response framing are present and actionable.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(120);
+ const phoneLinks=await page.locator('a[href="tel:+918826706057"]').count();
+ const emailLinks=await page.locator('a[href="mailto:contact@syntropix.in"]').count();
+ const bodyText=await page.locator('body').innerText();
+ const exactNote='For enterprise enquiries, share your requirement and we will respond with the appropriate scope and conversation path.';
+ const pass=phoneLinks>=2&&emailLinks>=2&&bodyText.includes(exactNote);
+ report.targeted.enterpriseContactDetails={phoneLinks,emailLinks,exactNotePresent:bodyText.includes(exactNote),pass};
+ if(!pass) report.failures.push({target:'enterpriseContactDetails',phoneLinks,emailLinks,exactNotePresent:bodyText.includes(exactNote)});
+ await context.close();
+}
+
+// Targeted regression: Concierge relay note remains supporting microcopy, not body-sized text.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ const token='33333333-3333-4333-8333-333333333333';
+ await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})}));
+ await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor TEST'},messages:[]})}));
+ await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.locator('[data-chat]').first().click();
+ await page.waitForTimeout(120);
+ const state=await page.locator('.chat-note').evaluate(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return {fontSize:parseFloat(s.fontSize),lineHeight:s.lineHeight,textAlign:s.textAlign,left:r.left,width:r.width}});
+ const pass=state.fontSize<=10&&state.textAlign==='left';
+ report.targeted.conciergeMicrocopy={...state,pass};
+ if(!pass) report.failures.push({target:'conciergeMicrocopy',...state});
  await context.close();
 }
 
