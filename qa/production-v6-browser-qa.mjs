@@ -82,9 +82,12 @@ for(const [pageName,url] of pages){
       await page.waitForTimeout(300);
 
       entry.checks.initial=await initialGeometry(page);
-      if(Math.abs(entry.checks.initial.scrollY)>1)fail(entry,'Page did not open at scrollY=0');
+      entry.checks.actualUrl=page.url();
+      const intentionalAssessmentRedirect=pageName==='assessment-intelligence' && /\/(professionals|enterprise)\.html#/.test(new URL(entry.checks.actualUrl).pathname+new URL(entry.checks.actualUrl).hash);
+      entry.checks.intentionalAssessmentRedirect=intentionalAssessmentRedirect;
+      if(!intentionalAssessmentRedirect&&Math.abs(entry.checks.initial.scrollY)>1)fail(entry,'Page did not open at scrollY=0');
       if(entry.checks.initial.skip?.bottom>1&&!entry.checks.initial.skip.focused)fail(entry,'Skip link visible without focus');
-      if(entry.checks.initial.overlap>4)fail(entry,'Navigation overlaps initial H1 by '+Math.round(entry.checks.initial.overlap)+'px');
+      if(!intentionalAssessmentRedirect&&entry.checks.initial.overlap>4)fail(entry,'Navigation overlaps initial H1 by '+Math.round(entry.checks.initial.overlap)+'px');
 
       const metrics=await page.evaluate(()=>({
         title:document.title,
@@ -117,23 +120,40 @@ for(const [pageName,url] of pages){
       const axe=await new AxeBuilder({page}).analyze();
       const critical=axe.violations.filter(v=>v.impact==='critical');
       const serious=axe.violations.filter(v=>v.impact==='serious');
-      entry.checks.a11y={critical:critical.map(v=>({id:v.id,help:v.help,nodes:v.nodes.length})),serious:serious.map(v=>({id:v.id,help:v.help,nodes:v.nodes.length}))};
+      entry.checks.a11y={
+        critical:critical.map(v=>({id:v.id,help:v.help,nodes:v.nodes.length,evidence:v.nodes.slice(0,10).map(n=>({target:n.target,html:n.html,failureSummary:n.failureSummary,any:n.any?.map(a=>a.data).filter(Boolean)}))})),
+        serious:serious.map(v=>({id:v.id,help:v.help,nodes:v.nodes.length,evidence:v.nodes.slice(0,10).map(n=>({target:n.target,html:n.html,failureSummary:n.failureSummary,any:n.any?.map(a=>a.data).filter(Boolean)}))}))
+      };
       report.summary.criticalA11y+=critical.length; report.summary.seriousA11y+=serious.length;
       if(critical.length)fail(entry,'Critical accessibility violations: '+critical.map(v=>v.id).join(', '));
       if(serious.length)warn(entry,'Serious accessibility violations: '+serious.map(v=>v.id).join(', '));
 
       await primeScroll(page);
 
-      const overflowers=await page.evaluate(()=>Array.from(document.querySelectorAll('body *')).filter(el=>{
-        const r=el.getBoundingClientRect(),s=getComputedStyle(el);
-        if(s.position==='fixed'||s.position==='absolute'||s.display==='none'||s.visibility==='hidden'||r.width<=0)return false;
-        return r.right>window.innerWidth+4||r.left<-4;
-      }).slice(0,12).map(el=>({tag:el.tagName,id:el.id,class:String(el.className).slice(0,120),left:Math.round(el.getBoundingClientRect().left),right:Math.round(el.getBoundingClientRect().right),width:Math.round(el.getBoundingClientRect().width)})));
+      const overflowers=await page.evaluate(()=>{
+        const insideScroller=(el)=>{
+          let p=el.parentElement;
+          while(p&&p!==document.body){
+            const ps=getComputedStyle(p);
+            if((ps.overflowX==='auto'||ps.overflowX==='scroll')&&p.scrollWidth>p.clientWidth+2)return true;
+            p=p.parentElement;
+          }
+          return false;
+        };
+        return Array.from(document.querySelectorAll('body *')).filter(el=>{
+          const r=el.getBoundingClientRect(),s=getComputedStyle(el);
+          if(s.position==='fixed'||s.position==='absolute'||s.display==='none'||s.visibility==='hidden'||r.width<=0||insideScroller(el))return false;
+          return r.right>window.innerWidth+4||r.left<-4;
+        }).slice(0,12).map(el=>({tag:el.tagName,id:el.id,class:String(el.className).slice(0,120),left:Math.round(el.getBoundingClientRect().left),right:Math.round(el.getBoundingClientRect().right),width:Math.round(el.getBoundingClientRect().width)}));
+      });
       entry.checks.overflowers=overflowers;
       if(overflowers.length)fail(entry,'Visible element horizontal overflow: '+overflowers.length);
 
       if(pageName==='home'){
-        const revealTotal=await page.locator('.sx-reveal').count();
+        const revealLoc=page.locator('.sx-reveal');
+        const revealTotal=await revealLoc.count();
+        for(let ri=0;ri<revealTotal;ri++){await revealLoc.nth(ri).scrollIntoViewIfNeeded();await page.waitForTimeout(110)}
+        await page.waitForTimeout(450);
         const revealVisible=await page.locator('.sx-reveal.visible').count();
         entry.checks.reveals={total:revealTotal,visible:revealVisible};
         if(revealVisible!==revealTotal)fail(entry,`Reveal state incomplete ${revealVisible}/${revealTotal}`);
