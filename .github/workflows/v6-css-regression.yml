@@ -1,0 +1,49 @@
+name: V6 CSS Architecture Regression
+on:
+  push:
+    branches: [v6-css-consolidation]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout consolidation candidate
+        uses: actions/checkout@v5
+        with:
+          path: candidate
+      - name: Checkout production baseline
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          path: baseline
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install browser regression dependencies
+        working-directory: candidate
+        run: |
+          npm install --no-save playwright pixelmatch pngjs
+          npx playwright install --with-deps chromium
+      - name: Start candidate and baseline servers
+        run: |
+          (cd candidate && python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/candidate.log 2>&1 &)
+          (cd baseline && python3 -m http.server 4174 --bind 127.0.0.1 >/tmp/baseline.log 2>&1 &)
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null && curl -fsS http://127.0.0.1:4174/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/candidate.log /tmp/baseline.log
+          exit 1
+      - name: Pixel and functional regression
+        working-directory: candidate
+        run: node qa/css-regression.mjs
+      - name: Upload regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v6-css-architecture-regression
+          path: candidate/qa-regression/
+          retention-days: 7
