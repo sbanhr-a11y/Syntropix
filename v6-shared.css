@@ -190,3 +190,17 @@ body.v6-marketing .signal-raw-note{margin:0 18px 6px;color:#727A73;font-size:10p
 @media(max-width:680px){body.v6-marketing .signal-matrix{grid-template-columns:1fr}.signal-exec-rail{grid-template-columns:1fr 1fr!important}.signal-exec-canvas{padding:16px!important}.signal-exec-toolbar{align-items:flex-start!important;flex-direction:column}.signal-output-row{padding:14px!important}}
 
 .v6-skip{position:fixed;left:18px;top:-80px;z-index:3000;padding:10px 14px;border-radius:10px;background:#F4F2EC;color:#070908;font-weight:850;box-shadow:0 10px 28px rgba(0,0,0,.18);transition:top .18s ease}.v6-skip:focus{top:14px}
+
+/* POST-V6 BROWSER QA — preserve visually hidden form controls */
+body.v6-marketing .form5 input.sr-only{
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  min-width:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
