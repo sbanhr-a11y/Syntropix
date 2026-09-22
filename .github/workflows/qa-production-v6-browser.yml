@@ -1,0 +1,60 @@
+name: Production V6 Browser QA
+
+on:
+  push:
+    branches:
+      - qa-browser-v6-final
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-v6-browser-qa
+  cancel-in-progress: true
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact production-derived branch
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Chromium QA dependencies
+        run: |
+          npm install --no-save playwright@1.55.0 @axe-core/playwright@4.10.2
+          npx playwright install --with-deps chromium
+
+      - name: Start local static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/syntropix-v6-qa.log 2>&1 &
+          echo $! > /tmp/syntropix-v6-qa.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/syntropix-v6-qa.log
+          exit 1
+
+      - name: Run 72-case browser QA
+        run: node qa/production-v6-browser-qa.mjs
+
+      - name: Upload browser QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-v6-browser-qa
+          path: qa-output/
+          retention-days: 14
+
+      - name: Enforce browser QA result
+        if: always()
+        run: |
+          cat qa-output/summary.txt
+          node -e "const r=require('./qa-output/report.json'); if(r.summary.failures>0){console.error(JSON.stringify(r.summary)); process.exit(1)}; console.log(JSON.stringify(r.summary))"
