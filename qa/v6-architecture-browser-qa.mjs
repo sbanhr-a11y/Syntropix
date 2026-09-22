@@ -146,7 +146,15 @@ for(const vp of viewports){
  await page.waitForTimeout(140);
  const after=await menu.evaluate(el=>getComputedStyle(el).display);
  const links=await menu.locator('.nav-product-link').count();
- report.targeted.productDropdown={before,during,after,links,pass:before==='none'&&during!=='none'&&after==='none'&&links>=8};
+ const trigger=page.locator('.nav-products-trigger');
+ await trigger.focus();
+ await trigger.press('Enter');
+ await page.waitForTimeout(100);
+ const keyboardOpen=await menu.evaluate(el=>getComputedStyle(el).display);
+ await trigger.press('Enter');
+ await page.waitForTimeout(100);
+ const keyboardClosed=await menu.evaluate(el=>getComputedStyle(el).display);
+ report.targeted.productDropdown={before,during,after,keyboardOpen,keyboardClosed,links,pass:before==='none'&&during!=='none'&&after==='none'&&keyboardOpen!=='none'&&keyboardClosed==='none'&&links>=8};
  if(!report.targeted.productDropdown.pass) report.failures.push({target:'productDropdown',...report.targeted.productDropdown});
  await context.close();
 }
@@ -403,6 +411,54 @@ for(const vp of viewports){
  const pass=panelVisible && text.includes('QA message') && !text.includes('could not be delivered');
  report.targeted.conciergeCommandFallback={panelVisible,text,pass};
  if(!pass) report.failures.push({target:'conciergeCommandFallback',panelVisible,text});
+ await context.close();
+}
+
+// Targeted regression: homepage hero must contain a balanced right-side architecture visual on desktop.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(180);
+ const state=await page.evaluate(()=>{
+   const hero=document.querySelector('.sx-hero');
+   const copy=document.querySelector('.sx-hero-copy');
+   const visual=document.querySelector('.sx-hero-visual');
+   const slab=document.querySelector('.sx-hero-slab');
+   const hb=hero?.getBoundingClientRect(),cb=copy?.getBoundingClientRect(),vb=visual?.getBoundingClientRect(),sb=slab?.getBoundingClientRect();
+   return {
+     hero:hb?{width:hb.width,height:hb.height}:null,
+     copy:cb?{left:cb.left,right:cb.right,width:cb.width}:null,
+     visual:vb?{left:vb.left,right:vb.right,width:vb.width,height:vb.height}:null,
+     slab:sb?{width:sb.width,height:sb.height}:null,
+     display:visual?getComputedStyle(visual).display:null
+   };
+ });
+ const pass=!!state.visual&&!!state.slab&&state.display!=='none'&&state.visual.width>380&&state.slab.width>190&&state.visual.left>state.copy.left;
+ report.targeted.homeHeroArchitecture={...state,pass};
+ if(!pass) report.failures.push({target:'homeHeroArchitecture',...state});
+ await context.close();
+}
+
+// Targeted regression: display typography stays within the calibrated premium scale.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const checks=[];
+ for(const path of ['index.html','enterprise.html','professionals.html','solutions.html','science.html','trust.html']){
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   await page.waitForTimeout(80);
+   const state=await page.evaluate(()=>{
+     const hero=document.querySelector('.sx-hero h1,.hero5 h1');
+     const section=document.querySelector('.sx-section-head h2,.section5 h2');
+     const size=el=>el?parseFloat(getComputedStyle(el).fontSize):null;
+     return {hero:size(hero),section:size(section)};
+   });
+   checks.push({path,...state});
+ }
+ const pass=checks.every(x=>(x.hero===null||x.hero<=84.5)&&(x.section===null||x.section<=70.5));
+ report.targeted.displayTypographyCalibration={checks,pass};
+ if(!pass) report.failures.push({target:'displayTypographyCalibration',checks});
  await context.close();
 }
 
