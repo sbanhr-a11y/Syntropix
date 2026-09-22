@@ -21,6 +21,8 @@ on:
       - 'terms.html'
       - 'refund-cancellation.html'
       - 'cookie-policy.html'
+      - 'robots.txt'
+      - 'sitemap.xml'
       - 'v6-home.css'
       - 'v6-home.js'
       - 'v6-shared.css'
@@ -138,6 +140,23 @@ jobs:
           done
           echo 'No escaped newline artifacts; launch metadata verified'
           echo 'Final Elite Polish contract verified'
+      - name: Validate search discovery contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s robots.txt
+          test -s sitemap.xml
+          grep -q 'Sitemap: https://syntropix.in/sitemap.xml' robots.txt
+          grep -q 'Disallow: /v6-preview/' robots.txt
+          grep -q '<loc>https://syntropix.in/</loc>' sitemap.xml
+          grep -q '<loc>https://syntropix.in/enterprise.html</loc>' sitemap.xml
+          grep -q '<loc>https://syntropix.in/professionals.html</loc>' sitemap.xml
+          grep -q '"@type":"Organization"' index.html
+          grep -q '"@type":"WebSite"' index.html
+          for f in privacy.html terms.html refund-cancellation.html; do
+            grep -q 'name="description"' "$f"
+          done
+          echo 'Search discovery and structured-data contract verified'
       - name: Guard protected runtimes
         shell: bash
         run: |
