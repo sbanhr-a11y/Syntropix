@@ -145,7 +145,7 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
       }
       await page.evaluate(() => window.scrollTo(0,0));
       await page.waitForTimeout(150);
-      const safe = path === '/' ? 'home' : path.replace(/^\\//,'').replace('.html','');
+      const safe = path === '/' ? 'home' : path.replace(/^\//,'').replace('.html','');
       await page.screenshot({ path: `qa-artifacts/screenshots/${safe}-${vpName}.png`, fullPage: true });
     } catch (e) {
       rec.exception = String(e);
