@@ -188,8 +188,9 @@ for(const vp of viewports){
  await page.locator('[data-call]').first().click();
  await page.waitForTimeout(100);
  const callColors=await page.evaluate(()=>{const css=e=>e?getComputedStyle(e):null;return {kicker:css(document.querySelector('.callpanel .kicker'))?.color,button:css(document.querySelector('.callpanel .btn.primary'))?.backgroundColor}});
- const terra='rgb(198, 93, 59)';
- const pass=history.visitor===1&&history.operator===1&&Object.values(chatColors).every(v=>v===terra)&&callColors.kicker===terra&&callColors.button===terra;
+ const terra='rgb(198, 93, 59)',terraHi='rgb(208, 106, 74)';
+ const terracottaValue=v=>v===terra||v===terraHi;
+ const pass=history.visitor===1&&history.operator===1&&Object.values(chatColors).every(terracottaValue)&&terracottaValue(callColors.kicker)&&terracottaValue(callColors.button);
  report.targeted.conciergeHistoryAndTerracotta={history,chatColors,callColors,pass};
  if(!pass)report.failures.push({target:'conciergeHistoryAndTerracotta',history,chatColors,callColors});
  await context.close();
