@@ -1,0 +1,39 @@
+name: Post-V6 Browser QA
+on:
+  push:
+    branches: [post-v6-browser-qa]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Start exact production artifact locally
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/syntropix-http.log 2>&1 &
+          echo $! > /tmp/syntropix-http.pid
+          for i in {1..30}; do
+            curl -fsS http://127.0.0.1:4173/ >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/syntropix-http.log
+          exit 1
+      - name: Run browser visual and responsive QA
+        run: node qa/browser-qa.mjs
+      - name: Upload browser QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: syntropix-post-v6-browser-qa
+          path: qa-artifacts/
+          retention-days: 7
