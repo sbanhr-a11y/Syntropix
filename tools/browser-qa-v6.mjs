@@ -47,13 +47,21 @@ for(const [pageName,url] of pages){
       await page.waitForTimeout(350);
       // Prime real scroll-driven/lazy content before capture.
       await page.evaluate(async()=>{
-        const step=Math.max(320,Math.floor(window.innerHeight*.72));
-        for(let y=0;y<document.documentElement.scrollHeight;y+=step){
-          window.scrollTo(0,y);
-          await new Promise(r=>setTimeout(r,35));
+        const reveals=[...document.querySelectorAll('.sx-reveal')];
+        if(reveals.length){
+          for(const el of reveals){
+            el.scrollIntoView({block:'center'});
+            await new Promise(r=>setTimeout(r,130));
+          }
+        }else{
+          const step=Math.max(320,Math.floor(window.innerHeight*.72));
+          for(let y=0;y<document.documentElement.scrollHeight;y+=step){
+            window.scrollTo(0,y);
+            await new Promise(r=>setTimeout(r,60));
+          }
         }
         window.scrollTo(0,0);
-        await new Promise(r=>setTimeout(r,120));
+        await new Promise(r=>setTimeout(r,180));
       });
       const metrics=await page.evaluate(()=>({
         title:document.title,
@@ -76,6 +84,9 @@ for(const [pageName,url] of pages){
       if(!metrics.main) recordWarning(entry,'main#main landmark missing');
 
       if(pageName==='home'){
+        entry.checks.revealTotal=await page.locator('.sx-reveal').count();
+        entry.checks.revealVisible=await page.locator('.sx-reveal.visible').count();
+        if(entry.checks.revealVisible!==entry.checks.revealTotal) recordFailure(entry,`Reveal state incomplete: ${entry.checks.revealVisible}/${entry.checks.revealTotal}`);
         entry.checks.testimonialCount=await page.locator('.sx-testimonial-card').count();
         if(entry.checks.testimonialCount<3) recordFailure(entry,'Expected at least 3 testimonials');
         const carousel=page.locator('[data-testimonial-carousel]');
