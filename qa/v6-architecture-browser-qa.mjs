@@ -79,6 +79,24 @@ for(const vp of viewports){
   await context.close();
 }
 
+// Targeted regression: homepage reveal content must become visible when scrolled into view.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const items=page.locator('.sx-reveal');
+ const count=await items.count();
+ for(let i=0;i<count;i++){
+   await items.nth(i).scrollIntoViewIfNeeded();
+   await page.waitForTimeout(120);
+ }
+ const state=await page.locator('.sx-reveal').evaluateAll(els=>els.map(el=>({visible:el.classList.contains('visible'),opacity:getComputedStyle(el).opacity,display:getComputedStyle(el).display})));
+ const failed=state.filter(x=>!x.visible || Number(x.opacity)<0.95 || x.display==='none');
+ report.targeted.homepageRevealState={count,failed:failed.length,pass:count>0&&failed.length===0};
+ if(!report.targeted.homepageRevealState.pass) report.failures.push({target:'homepageRevealState',...report.targeted.homepageRevealState,state});
+ await context.close();
+}
+
 // Targeted regression: homepage menu closed by default and opens only on interaction.
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
