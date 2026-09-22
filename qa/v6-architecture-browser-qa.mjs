@@ -146,7 +146,15 @@ for(const vp of viewports){
  await page.waitForTimeout(140);
  const after=await menu.evaluate(el=>getComputedStyle(el).display);
  const links=await menu.locator('.nav-product-link').count();
- report.targeted.productDropdown={before,during,after,links,pass:before==='none'&&during!=='none'&&after==='none'&&links>=8};
+ const trigger=page.locator('.nav-products-trigger');
+ await trigger.focus();
+ await trigger.press('Enter');
+ await page.waitForTimeout(100);
+ const keyboardOpen=await menu.evaluate(el=>getComputedStyle(el).display);
+ await trigger.press('Enter');
+ await page.waitForTimeout(100);
+ const keyboardClosed=await menu.evaluate(el=>getComputedStyle(el).display);
+ report.targeted.productDropdown={before,during,after,keyboardOpen,keyboardClosed,links,pass:before==='none'&&during!=='none'&&after==='none'&&keyboardOpen!=='none'&&keyboardClosed==='none'&&links>=8};
  if(!report.targeted.productDropdown.pass) report.failures.push({target:'productDropdown',...report.targeted.productDropdown});
  await context.close();
 }
