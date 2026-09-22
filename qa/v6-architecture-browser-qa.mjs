@@ -25,14 +25,20 @@ fs.rmSync('qa-output',{recursive:true,force:true});
 fs.mkdirSync('qa-output/screenshots',{recursive:true});
 
 async function revealForScreenshot(page){
+  const reveals=page.locator('.sx-reveal');
+  const count=await reveals.count();
+  for(let i=0;i<count;i++){
+    await reveals.nth(i).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(120);
+  }
   await page.evaluate(async()=>{
     const step=Math.max(420,Math.floor(window.innerHeight*.72));
     for(let y=0;y<document.documentElement.scrollHeight;y+=step){
       window.scrollTo(0,y);
-      await new Promise(r=>setTimeout(r,70));
+      await new Promise(r=>setTimeout(r,55));
     }
     window.scrollTo(0,0);
-    await new Promise(r=>setTimeout(r,800));
+    await new Promise(r=>setTimeout(r,500));
   });
 }
 
