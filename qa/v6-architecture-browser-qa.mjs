@@ -381,9 +381,30 @@ for(const vp of viewports){
  const panel=page.locator('#sx-call-panel');
  const panelVisible=await panel.count()?await panel.isVisible():false;
  const directLink=await panel.count()?await panel.locator('a[href^="https://call.whatsapp.com/"]').count():0;
- const pass=visible&&panelVisible&&directLink>=1;
- report.targeted.callControl={visible,panelVisible,directLink,pass};
- if(!pass) report.failures.push({target:'callControl',visible,panelVisible,directLink});
+ const qrImage=await panel.count()?await panel.locator('img[src="/assets/syntropix-whatsapp-call-qr.png"]').count():0;
+ const pass=visible&&panelVisible&&directLink>=1&&qrImage===1;
+ report.targeted.callControl={visible,panelVisible,directLink,qrImage,pass};
+ if(!pass) report.failures.push({target:'callControl',visible,panelVisible,directLink,qrImage});
+ await context.close();
+}
+
+// Targeted regression: touch/mobile call control bypasses QR and opens the WhatsApp call target directly.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
+ const page=await context.newPage();
+ await page.route('https://call.whatsapp.com/**',async route=>route.fulfill({status:200,contentType:'text/html',body:'<html><body>call target</body></html>'}));
+ await page.goto(base+'/solutions.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(120);
+ const call=page.locator('[data-call]').first();
+ const chat=page.locator('[data-chat]').first();
+ const controlsVisible=await call.isVisible()&&await chat.isVisible();
+ await call.click();
+ await page.waitForTimeout(160);
+ const url=page.url();
+ const qrPanel=await page.locator('#sx-call-panel').count();
+ const pass=controlsVisible&&url.startsWith('https://call.whatsapp.com/')&&qrPanel===0;
+ report.targeted.mobileDirectCall={controlsVisible,url,qrPanel,pass};
+ if(!pass) report.failures.push({target:'mobileDirectCall',controlsVisible,url,qrPanel});
  await context.close();
 }
 
