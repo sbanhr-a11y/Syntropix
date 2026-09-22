@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: v6-architecture-browser-qa
+  cancel-in-progress: true
+
 jobs:
   browser-parity:
     runs-on: ubuntu-latest
