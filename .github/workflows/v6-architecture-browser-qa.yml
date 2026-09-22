@@ -28,7 +28,7 @@ jobs:
 
       - name: Install browser QA dependencies
         run: |
-          npm install --no-save playwright@1.55.0
+          npm install --no-save playwright@1.55.0 pixelmatch@6.0.0 pngjs@7.0.0
           npx playwright install --with-deps chromium
 
       - name: Start exact-branch static server
@@ -42,8 +42,25 @@ jobs:
           cat /tmp/syntropix-http.log
           exit 1
 
+      - name: Start production baseline server
+        run: |
+          git fetch origin main --depth=1
+          git worktree add --detach /tmp/syntropix-baseline origin/main
+          cd /tmp/syntropix-baseline
+          python3 -m http.server 4174 --bind 127.0.0.1 > /tmp/syntropix-baseline-http.log 2>&1 &
+          echo $! > /tmp/syntropix-baseline-http.pid
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:4174/index.html >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/syntropix-baseline-http.log
+          exit 1
+
       - name: Run browser parity suite
         run: node qa/v6-architecture-browser-qa.mjs
+
+      - name: Run production visual diff
+        run: node qa/v6-architecture-visual-diff.mjs
 
       - name: Upload browser QA evidence
         if: always()
@@ -52,4 +69,5 @@ jobs:
           name: v6-architecture-browser-qa
           path: |
             qa-output/
+            visual-diff-output/
           retention-days: 14
