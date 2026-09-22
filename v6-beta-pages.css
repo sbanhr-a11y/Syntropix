@@ -32,16 +32,6 @@ body.v6-beta-page{background:#070908;color:#F4F2EC}
 @media(max-width:1000px){.v6-beta-head,.v6-roadmap{grid-template-columns:1fr}.v6-evidence-ladder{grid-template-columns:1fr 1fr}.v6-system-path{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:720px){.v6-page-shell{width:calc(100vw - 36px)}.v6-beta-hero{padding-top:76px}.v6-beta-hero h1{font-size:clamp(50px,14vw,70px)}.v6-problem-grid,.v6-trust-grid,.v6-boundary{grid-template-columns:1fr}.v6-boundary article+article{border-left:0;border-top:1px solid #DADFD8}.v6-evidence-ladder,.v6-system-path{grid-template-columns:1fr}.v6-beta-actions{display:grid}.v6-beta-btn{width:100%}}
 
-/* V6 BETA 2 — Evidence light-purple treatment + Trust CTA line */
-body.v6-evidence .v6-problem-grid .v6-problem:nth-child(3){
-  background:linear-gradient(145deg,rgba(232,223,241,.98),rgba(221,207,235,.92));
-  border-color:rgba(90,52,90,.20);
-  box-shadow:0 24px 55px rgba(90,52,90,.10);
-  color:#241D26
-}
-body.v6-evidence .v6-problem-grid .v6-problem:nth-child(3):before{background:#7A5480}
-body.v6-evidence .v6-problem-grid .v6-problem:nth-child(3) small{color:#6C416F}
-body.v6-evidence .v6-problem-grid .v6-problem:nth-child(3) h3{color:#211A23}
-body.v6-evidence .v6-problem-grid .v6-problem:nth-child(3) p{color:#5B4E5E}
+/* FINAL ELITE POLISH — Trust CTA line */
 body.v6-trust .v6-beta-cta p{max-width:1180px;white-space:nowrap}
 @media(max-width:1100px){body.v6-trust .v6-beta-cta p{white-space:normal;max-width:760px}}
