@@ -1,0 +1,153 @@
+name: V6 Marketing Experience Gate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'enterprise.html'
+      - 'professionals.html'
+      - 'solutions.html'
+      - 'assessment-intelligence.html'
+      - 'manager-development.html'
+      - 'prism360.html'
+      - 'employee-experience.html'
+      - 'talent-solutions.html'
+      - 'professional-coaching.html'
+      - 'compliance-learning.html'
+      - 'pricing.html'
+      - 'science.html'
+      - 'trust.html'
+      - 'privacy.html'
+      - 'terms.html'
+      - 'refund-cancellation.html'
+      - 'cookie-policy.html'
+      - 'v6-home.css'
+      - 'v6-home.js'
+      - 'v6-shared.css'
+      - 'v6-beta-pages.css'
+      - 'V6_INTELLIGENT_HUMANISM.md'
+      - '.github/workflows/v6-marketing-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  v6-marketing-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Validate canonical V6 design system
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s v6-home.css
+          test -s v6-shared.css
+          test -s v6-beta-pages.css
+          test -s V6_INTELLIGENT_HUMANISM.md
+          for token in '#2F8F6B' '#7FA58F' '#6677A8' '#5A345A' '#D6B878' '#E7D09A'; do
+            grep -q "$token" v6-home.css
+          done
+          grep -q '#2F8F6B' v6-shared.css
+          grep -q '#7FA58F' v6-shared.css
+          grep -q '#6677A8' v6-shared.css
+          grep -q '#5A345A' v6-shared.css
+          grep -q '#D6B878' v6-shared.css
+          grep -q 'prefers-reduced-motion' v6-home.css
+          echo 'Canonical V6 palette and accessibility primitives verified'
+      - name: Validate homepage functional contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '/site-v5.js' index.html
+          grep -q '/assessment-invite-router-v1.js' index.html
+          grep -q '/premium-ui-v1.js' index.html
+          grep -q '/global-footer-v1.js' index.html
+          grep -q 'data-call' index.html
+          grep -q 'data-chat' index.html
+          grep -q '/v6-home.css' index.html
+          grep -q '/v6-home.js' index.html
+          ! grep -q '/corporate-humanist-v1.css' index.html
+          ! grep -q '/corporate-humanist-v1.js' index.html
+          grep -q '>Individuals<' index.html
+          echo 'Homepage functional and audience contract verified'
+      - name: Validate organization and individual journey contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in enterprise.html professionals.html; do
+            grep -q '/v6-shared.css' "$f"
+            ! grep -q '/corporate-humanist-v1.css' "$f"
+            ! grep -q '/corporate-humanist-v1.js' "$f"
+            grep -q '/site-v5.js' "$f"
+            grep -q '/premium-ui-v1.js' "$f"
+            grep -q '/global-footer-v1.js' "$f"
+            grep -q 'data-call' "$f"
+            grep -q 'data-chat' "$f"
+          done
+          grep -q 'lead-form form5' enterprise.html
+          grep -q 'assessment-runtime-v3.html?assessment=' professionals.html
+          grep -q '/assessment-catalogue-v6.js' professionals.html
+          grep -q '/assessment-suite-v2-catalogue.js' professionals.html
+          grep -q '/consumer-insight-catalogue.js' professionals.html
+          grep -q '/assessment-assignment-ui-v1.js' professionals.html
+          grep -q '<title>For Individuals | Syntropix</title>' professionals.html
+          echo 'Organization and Individual journey contracts verified'
+      - name: Validate full public V6 migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          pages='solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          for f in $pages; do
+            grep -q '/v6-shared.css' "$f"
+            ! grep -q '/corporate-humanist-v1.css' "$f"
+            ! grep -q '/corporate-humanist-v1.js' "$f"
+          done
+          grep -q '/v6-beta-pages.css' solutions.html
+          grep -q '/v6-beta-pages.css' science.html
+          grep -q '/v6-beta-pages.css' trust.html
+          ! grep -q '/v6-editorial.css' science.html
+          ! grep -q '/v6-editorial.css' trust.html
+          echo 'Full public V6 migration verified'
+      - name: Validate Final Elite Polish contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'Proof should feel human.' index.html
+          grep -q 'data-testimonial-carousel' index.html
+          grep -q 'grid-auto-columns:calc((100% - 36px)/3)' v6-home.css
+          grep -q 'Build your development plan' professionals.html
+          grep -q 'Assessment → report → develop → practice → optional coaching.' professionals.html
+          grep -q '<h3>Develop</h3>' manager-development.html
+          grep -q 'signal-exec-showcase' employee-experience.html
+          grep -q 'signal-matrix' employee-experience.html
+          ! grep -q 'mailto:contact@syntropix.in' trust.html
+          grep -q 'href="/enterprise.html#conversation">Contact us →' trust.html
+          ! grep -q 'Evidence light-purple treatment' v6-beta-pages.css
+          grep -q 'Individuals inherit the proven Organization assessment-card system' v6-shared.css
+          for f in index.html enterprise.html professionals.html solutions.html science.html trust.html; do
+            grep -q 'rel="canonical"' "$f"
+            grep -q 'property="og:title"' "$f"
+            grep -q 'href="#main">Skip to content' "$f"
+          done
+          pages='enterprise.html professionals.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          for f in $pages; do
+            ! grep -q '\\n' "$f"
+            grep -q 'rel="canonical"' "$f"
+            grep -q 'property="og:title"' "$f"
+          done
+          echo 'No escaped newline artifacts; launch metadata verified'
+          echo 'Final Elite Polish contract verified'
+      - name: Guard protected runtimes
+        shell: bash
+        run: |
+          set -euo pipefail
+          protected='assessment-registry-v3.js assessment-runtime-v3.html assessment-runtime-v3.js assessment-runtime-v3.css assessment-validation-v2.js assessment-test-lab-v1.js auth-passwordless.js enterprise-console.html enterprise-console.js enterprise-console.css acdc-horizon.html acdc-horizon.js acdc-horizon.css'
+          changed="$(git diff --name-only origin/main...HEAD)"
+          for f in $protected; do
+            if printf '%s\n' "$changed" | grep -qx "$f"; then
+              echo "Protected runtime changed in V6 marketing PR: $f" >&2
+              exit 1
+            fi
+          done
+          echo 'Protected runtime boundary verified'
