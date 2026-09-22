@@ -35,3 +35,6 @@ body.v6-beta-page{background:#070908;color:#F4F2EC}
 /* FINAL ELITE POLISH — Trust CTA line */
 body.v6-trust .v6-beta-cta p{max-width:1180px;white-space:nowrap}
 @media(max-width:1100px){body.v6-trust .v6-beta-cta p{white-space:normal;max-width:760px}}
+
+.v6-contact-email{display:inline-flex;align-items:center;color:#8E958F;font-size:13px;font-weight:700;margin-left:4px}
+@media(max-width:720px){.v6-contact-email{justify-content:center;margin:0}}
