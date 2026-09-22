@@ -40,8 +40,8 @@ for(const vp of viewports){
     const url=`${base}/${path}`;
     let navError=null;
     try{
-      await page.goto(url,{waitUntil:'networkidle',timeout:30000});
-      await page.waitForTimeout(250);
+      await page.goto(url,{waitUntil:'domcontentloaded',timeout:12000});
+      await page.waitForTimeout(350);
     }catch(e){navError=String(e)}
     const metrics=navError?null:await page.evaluate(()=>({
       title:document.title,
@@ -70,7 +70,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const page=await context.newPage();
- await page.goto(base+'/index.html',{waitUntil:'networkidle'});
+ await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
  const before=await page.locator('.home-menu-panel').evaluate(el=>getComputedStyle(el).display);
  await page.locator('.home-menu-toggle').click();
  await page.waitForTimeout(100);
@@ -84,7 +84,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
- await page.goto(base+'/index.html',{waitUntil:'networkidle'});
+ await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
  const section=page.locator('[data-testimonial-carousel]');
  await section.scrollIntoViewIfNeeded();
  await page.waitForTimeout(150);
@@ -104,7 +104,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:1024,height:900}});
  const page=await context.newPage();
- await page.goto(base+'/enterprise.html',{waitUntil:'networkidle'});
+ await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
  const box=await page.locator('#conversation .form5').boundingBox();
  const doc=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth}));
  report.targeted.enterpriseTabletForm={box,doc,pass:!!box && box.x>=-1 && box.x+box.width<=1025 && doc.sw<=doc.cw+2};
@@ -116,7 +116,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const page=await context.newPage();
- await page.goto(base+'/professional-coaching.html',{waitUntil:'networkidle'});
+ await page.goto(base+'/professional-coaching.html',{waitUntil:'domcontentloaded',timeout:12000});
  const doc=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth}));
  const hidden=await page.locator('input.sr-only').count()?await page.locator('input.sr-only').first().evaluate(el=>{const s=getComputedStyle(el);return {width:s.width,height:s.height,position:s.position}}):null;
  report.targeted.coachingHiddenInput={doc,hidden,pass:doc.sw<=doc.cw+2 && (!hidden || (hidden.width==='1px'&&hidden.height==='1px'))};
@@ -128,7 +128,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
- await page.goto(base+'/professionals.html',{waitUntil:'networkidle'});
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
  const cards=page.locator('.assessment-catalogue-inline .assessment-card');
  const count=await cards.count();
  const sample=count?await cards.first().evaluate(el=>{
