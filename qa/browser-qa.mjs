@@ -54,7 +54,7 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
             const r=el.getBoundingClientRect(), cs=getComputedStyle(el);
             return {tag:el.tagName,id:el.id||'',cls:String(el.className||'').slice(0,100),x:Math.round(r.x),right:Math.round(r.right),w:Math.round(r.width),scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,cssWidth:cs.width,minWidth:cs.minWidth,maxWidth:cs.maxWidth,position:cs.position,overflowX:cs.overflowX,whiteSpace:cs.whiteSpace};
           }).filter(x=>x.right>vw+1 || x.x<-1 || x.w>vw+1 || x.scrollWidth>x.clientWidth+2)
-            .sort((a,b)=>Math.max(b.right-vw,b.scrollWidth-b.clientWidth)-Math.max(a.right-vw,a.scrollWidth-a.clientWidth)).slice(0,30);
+            .sort((a,b)=>Math.max(b.right-vw,b.scrollWidth-b.clientWidth)-Math.max(a.right-vw,a.scrollWidth-a.clientWidth)).slice(0,40);
           const hero=document.querySelector('.v6-beta-hero');
           const after=hero?getComputedStyle(hero,'::after'):null;
           return {vw,htmlScrollWidth:document.documentElement.scrollWidth,bodyScrollWidth:document.body.scrollWidth,bodyWidth:getComputedStyle(document.body).width,details,heroAfter:after?{width:after.width,right:after.right,left:after.left,boxShadow:after.boxShadow,position:after.position}:null};
