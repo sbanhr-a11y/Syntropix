@@ -40,10 +40,26 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
       rec.pageErrors = pageErrors;
       rec.failedRequests = failedRequests.filter(x => !x.url.includes('google') && !x.url.includes('wa.me'));
 
-      rec.offscreen = await page.evaluate(() => Array.from(document.querySelectorAll('body *')).map(el => {
-        const r = el.getBoundingClientRect();
-        return { tag: el.tagName, cls: String(el.className || '').slice(0,100), x:r.x, y:r.y, w:r.width, h:r.height };
-      }).filter(x => x.w > document.documentElement.clientWidth + 24 || x.x < -24).slice(0,25));
+      rec.offscreen = await page.evaluate(() => {
+        const vw=document.documentElement.clientWidth;
+        return Array.from(document.querySelectorAll('body *')).map(el => {
+          const r=el.getBoundingClientRect();
+          return {tag:el.tagName,cls:String(el.className||'').slice(0,100),x:r.x,right:r.right,y:r.y,w:r.width,h:r.height};
+        }).filter(x => x.w>vw+2 || x.x<-2 || x.right>vw+2).slice(0,40);
+      });
+      if (rec.overflowX) {
+        rec.overflowDiagnostics = await page.evaluate(() => {
+          const vw=document.documentElement.clientWidth;
+          const details=[...document.querySelectorAll('body *')].map(el=>{
+            const r=el.getBoundingClientRect(), cs=getComputedStyle(el);
+            return {tag:el.tagName,id:el.id||'',cls:String(el.className||'').slice(0,100),x:Math.round(r.x),right:Math.round(r.right),w:Math.round(r.width),scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,cssWidth:cs.width,minWidth:cs.minWidth,maxWidth:cs.maxWidth,position:cs.position,overflowX:cs.overflowX,whiteSpace:cs.whiteSpace};
+          }).filter(x=>x.right>vw+1 || x.x<-1 || x.w>vw+1 || x.scrollWidth>x.clientWidth+2)
+            .sort((a,b)=>Math.max(b.right-vw,b.scrollWidth-b.clientWidth)-Math.max(a.right-vw,a.scrollWidth-a.clientWidth)).slice(0,30);
+          const hero=document.querySelector('.v6-beta-hero');
+          const after=hero?getComputedStyle(hero,'::after'):null;
+          return {vw,htmlScrollWidth:document.documentElement.scrollWidth,bodyScrollWidth:document.body.scrollWidth,bodyWidth:getComputedStyle(document.body).width,details,heroAfter:after?{width:after.width,right:after.right,left:after.left,boxShadow:after.boxShadow,position:after.position}:null};
+        });
+      }
 
       if (path === '/') {
         rec.testimonialCardCount = await page.locator('.sx-testimonial-card').count();
@@ -51,11 +67,15 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
         const next = page.locator('[data-carousel-next]');
         if (await next.count()) {
           await page.locator('.sx-testimonials-section').scrollIntoViewIfNeeded();
-          const before = await page.evaluate(() => window.scrollY);
-          await next.click();
-          await page.waitForTimeout(800);
-          const after = await page.evaluate(() => window.scrollY);
-          rec.carouselVerticalJumpPx = Math.abs(after - before);
+          const controlsVisible = await next.isVisible();
+          rec.carouselNextVisible = controlsVisible;
+          if (controlsVisible) {
+            const before = await page.evaluate(() => window.scrollY);
+            await next.evaluate(el => el.click());
+            await page.waitForTimeout(800);
+            const after = await page.evaluate(() => window.scrollY);
+            rec.carouselVerticalJumpPx = Math.abs(after - before);
+          }
         }
         if (vpName === 'mobile') {
           const toggle = page.locator('.home-menu-toggle');
@@ -118,7 +138,14 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
         rec.signalMatrixCards = await page.locator('.signal-matrix article').count();
       }
 
-      const safe = path === '/' ? 'home' : path.replace(/^\//,'').replace('.html','');
+      const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+      for (let y=0; y<pageHeight; y+=Math.max(500, Math.floor(viewport.height*0.75))) {
+        await page.evaluate(y=>window.scrollTo(0,y), y);
+        await page.waitForTimeout(40);
+      }
+      await page.evaluate(() => window.scrollTo(0,0));
+      await page.waitForTimeout(150);
+      const safe = path === '/' ? 'home' : path.replace(/^\\//,'').replace('.html','');
       await page.screenshot({ path: `qa-artifacts/screenshots/${safe}-${vpName}.png`, fullPage: true });
     } catch (e) {
       rec.exception = String(e);
