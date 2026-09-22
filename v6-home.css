@@ -34,8 +34,8 @@ body.sx-v6 .v5nav{
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 body.sx-v6 .v5nav .brand{font-size:15px;letter-spacing:.18em}
-body.sx-v6 .v5nav .brand>span{color:var(--sx-champagne)!important}
-body.sx-v6 .home-desktop-nav{display:flex!important;gap:26px;margin-left:auto}
+body.sx-v6 .v5nav .brand>span{color:var(--sx-champagne)}
+body.sx-v6 .home-desktop-nav{display:flex;gap:26px;margin-left:auto}
 body.sx-v6 .home-desktop-nav a{position:relative;padding:30px 0 27px;color:#d7d8d3;font-size:13px;font-weight:700}
 body.sx-v6 .home-desktop-nav a:after{content:"";position:absolute;left:0;right:100%;bottom:20px;height:1px;background:var(--sx-champagne);transition:right .22s ease}
 body.sx-v6 .home-desktop-nav a:hover:after,body.sx-v6 .home-desktop-nav a[aria-current="page"]:after{right:0}
@@ -70,11 +70,11 @@ body.sx-v6 .home-menu{display:none}
 .sx-testimonial{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:center}.sx-quote-mark{font:700 110px/1 Georgia,serif;color:var(--sx-champagne)}.sx-testimonial blockquote{margin:0;font-size:clamp(30px,3.1vw,48px);line-height:1.2;letter-spacing:-.035em}.sx-person{display:flex;align-items:center;gap:14px;margin-top:28px}.sx-person img{width:58px;height:58px;border-radius:50%;object-fit:cover;border:1px solid #d7cfb7}.sx-person b,.sx-person span{display:block}.sx-person span{margin-top:3px;color:#757c75;font-size:12px}
 .sx-evidence-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.sx-evidence-main{padding:38px;border-radius:32px;background:#fff;color:#111;border:1px solid #dddcd5}.sx-evidence-main .sx-eyebrow{color:var(--sx-slate)}.sx-evidence-main h3{margin:0;font-size:clamp(42px,4.6vw,68px);letter-spacing:-.05em;line-height:1}.sx-evidence-main p{max-width:760px;color:#5f665f;font-size:17px;line-height:1.65}.sx-evidence-side{display:grid;gap:18px}.sx-evidence-card{padding:28px;border-radius:28px;color:#fff}.sx-evidence-card:nth-child(1){background:linear-gradient(145deg,#33405F,#202944)}.sx-evidence-card:nth-child(2){background:linear-gradient(145deg,#462846,#2D1B2D)}.sx-evidence-card h4{margin:8px 0 10px;font-size:26px}.sx-evidence-card p{margin:0;color:#d6d9d4;font-size:14px;line-height:1.55}
 .sx-final{position:relative;overflow:hidden;padding:120px 0 126px;text-align:center}.sx-final:before{content:"";position:absolute;left:50%;top:50%;width:760px;height:760px;transform:translate(-50%,-50%);border:1px solid rgba(214,184,120,.13);border-radius:50%;box-shadow:0 0 0 80px rgba(47,143,107,.025),0 0 0 160px rgba(102,119,168,.02)}.sx-final-inner{position:relative;width:min(960px,calc(100vw - 40px));margin:auto}.sx-final h2{margin:0;font-size:clamp(54px,6vw,94px);line-height:.94;letter-spacing:-.06em}.sx-final p{max-width:700px;margin:24px auto 0;color:#aeb3ad;font-size:18px}.sx-final .sx-actions{justify-content:center}
-body.sx-v6 .trustbar{display:none!important}
-body.sx-v6 footer{background:#080A08!important;border-top:1px solid rgba(255,255,255,.08)!important}
+body.sx-v6 .trustbar{display:none}
+body.sx-v6 footer{background:#080A08;border-top:1px solid rgba(255,255,255,.08)}
 .sx-reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.sx-reveal.visible{opacity:1;transform:none}
 @media(max-width:1100px){
-  body.sx-v6 .home-desktop-nav{display:none!important}body.sx-v6 .home-menu{display:block}
+  body.sx-v6 .home-desktop-nav{display:none}body.sx-v6 .home-menu{display:block}
   .sx-hero{grid-template-columns:1fr;padding-top:78px}.sx-product-frame{max-width:760px;transform:none}.sx-system-grid,.sx-product-strip,.sx-evidence-grid{grid-template-columns:1fr}.sx-section-head{grid-template-columns:1fr}.sx-trust-inner{grid-template-columns:1fr 1fr 1fr}.sx-trust-title{grid-column:1/-1;padding:16px 0}.sx-trust-item{min-height:64px}
 }
 @media(max-width:760px){
@@ -233,7 +233,7 @@ body.sx-v6 footer{background:#080A08!important;border-top:1px solid rgba(255,255
 /* POST-V6 BROWSER QA — mobile navigation visibility */
 .home-menu-panel{display:none}
 .home-menu.open .home-menu-panel{display:grid}
-@media(min-width:1101px){.home-menu{display:none!important}}
+@media(min-width:1101px){.home-menu{display:none}}
 @media(max-width:1100px){
   .home-menu{display:block}
   .home-menu-panel{

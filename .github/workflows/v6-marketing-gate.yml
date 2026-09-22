@@ -23,6 +23,8 @@ on:
       - 'cookie-policy.html'
       - 'robots.txt'
       - 'sitemap.xml'
+      - 'v6-foundation.css'
+      - 'v6-assessment-cards.css'
       - 'v6-home.css'
       - 'v6-home.js'
       - 'v6-shared.css'
@@ -57,6 +59,26 @@ jobs:
           grep -q '#D6B878' v6-shared.css
           grep -q 'prefers-reduced-motion' v6-home.css
           echo 'Canonical V6 palette and accessibility primitives verified'
+      - name: Validate V6 standalone architecture contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s v6-foundation.css
+          test -s v6-assessment-cards.css
+          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          for f in $pages; do
+            grep -q '/v6-foundation.css' "$f"
+            ! grep -q '/site-v5.css' "$f"
+            ! grep -q '/premium-ui-v1.css' "$f"
+            ! grep -q '/mobile-responsive-v1.css' "$f"
+            ! grep -q '/assessment-cards-v7.css' "$f"
+          done
+          for f in enterprise.html professionals.html pricing.html; do
+            grep -q '/v6-assessment-cards.css' "$f"
+          done
+          grep -q '@layer v6-foundation' v6-foundation.css
+          grep -q 'v5nav.open nav' v6-shared.css
+          echo 'Standalone V6 presentation architecture verified'
       - name: Validate homepage functional contract
         shell: bash
         run: |
@@ -126,7 +148,8 @@ jobs:
           ! grep -q 'mailto:contact@syntropix.in' trust.html
           grep -q 'href="/enterprise.html#conversation">Contact us →' trust.html
           ! grep -q 'Evidence light-purple treatment' v6-beta-pages.css
-          grep -q 'Individuals inherit the proven Organization assessment-card system' v6-shared.css
+          grep -q 'SYNTROPIX V6 ASSESSMENT CARDS' v6-assessment-cards.css
+          grep -q '.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card' v6-assessment-cards.css
           for f in index.html enterprise.html professionals.html solutions.html science.html trust.html; do
             grep -q 'rel="canonical"' "$f"
             grep -q 'property="og:title"' "$f"
