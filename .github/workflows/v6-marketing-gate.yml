@@ -170,7 +170,8 @@ jobs:
           test -s robots.txt
           test -s sitemap.xml
           grep -q 'Sitemap: https://syntropix.in/sitemap.xml' robots.txt
-          grep -q 'Disallow: /v6-preview/' robots.txt
+          ! grep -q '/v6-preview/' robots.txt
+          ! grep -q '/v6-architecture-preview/' robots.txt
           grep -q '<loc>https://syntropix.in/</loc>' sitemap.xml
           grep -q '<loc>https://syntropix.in/enterprise.html</loc>' sitemap.xml
           grep -q '<loc>https://syntropix.in/professionals.html</loc>' sitemap.xml
