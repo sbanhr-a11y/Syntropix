@@ -79,6 +79,20 @@ for(const [pageName,url] of pages){
         main:!!document.querySelector('main#main')
       }));
       entry.metrics=metrics;
+      entry.checks.skipState=await page.evaluate(()=>{
+        const el=document.querySelector('.v6-skip');
+        if(!el)return null;
+        const r=el.getBoundingClientRect(),s=getComputedStyle(el);
+        return {top:r.top,bottom:r.bottom,display:s.display,visibility:s.visibility,opacity:s.opacity,focused:document.activeElement===el};
+      });
+      if(entry.checks.skipState && !entry.checks.skipState.focused && entry.checks.skipState.bottom>0) recordFailure(entry,'Skip link visible without focus');
+      entry.checks.navHeroOverlap=await page.evaluate(()=>{
+        const nav=document.querySelector('.v5nav'),hero=document.querySelector('main section:first-child h1, main h1');
+        if(!nav||!hero)return null;
+        const n=nav.getBoundingClientRect(),h=hero.getBoundingClientRect();
+        return {navBottom:n.bottom,heroTop:h.top,overlap:Math.max(0,n.bottom-h.top)};
+      });
+      if(entry.checks.navHeroOverlap?.overlap>2) recordFailure(entry,`Sticky nav overlaps hero by ${entry.checks.navHeroOverlap.overlap}px`);
       if(metrics.bodyTextLength<200) recordFailure(entry,'Page content unexpectedly sparse');
       if(metrics.h1Count!==1) recordFailure(entry,'Expected exactly one H1');
       if(metrics.scrollWidth-metrics.clientWidth>2) recordFailure(entry,`Horizontal overflow: ${metrics.scrollWidth-metrics.clientWidth}px`);
