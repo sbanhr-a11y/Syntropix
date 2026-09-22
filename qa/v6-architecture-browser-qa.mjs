@@ -104,33 +104,73 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: homepage menu closed by default and opens only on interaction.
+// Targeted regression: canonical mobile navigation must be consistent and stay inside the viewport.
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
- const page=await context.newPage();
- await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
- const before=await page.locator('.home-menu-panel').evaluate(el=>getComputedStyle(el).display);
- await page.locator('.home-menu-toggle').click();
- await page.waitForTimeout(100);
- const after=await page.locator('.home-menu-panel').evaluate(el=>getComputedStyle(el).display);
- report.targeted.mobileMenu={before,after,pass:before==='none'&&after!=='none'};
- if(!report.targeted.mobileMenu.pass) report.failures.push({target:'mobileMenu',...report.targeted.mobileMenu});
+ const checks=[];
+ for(const path of ['index.html','enterprise.html','professionals.html']){
+   const page=await context.newPage();
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   await page.waitForTimeout(120);
+   const button=page.locator('.menu5');
+   const nav=page.locator('.v5nav nav');
+   const beforeNav=await nav.evaluate(el=>getComputedStyle(el).display);
+   const buttonVisible=await button.isVisible();
+   const label=await button.getAttribute('aria-label');
+   if(buttonVisible) await button.click();
+   await page.waitForTimeout(120);
+   const afterNav=await nav.evaluate(el=>getComputedStyle(el).display);
+   const box=await nav.boundingBox();
+   const viewportPass=!!box && box.x>=-1 && box.x+box.width<=391;
+   checks.push({path,buttonVisible,label,beforeNav,afterNav,box,viewportPass});
+   await page.close();
+ }
+ const pass=checks.every(x=>x.buttonVisible && x.label==='Open navigation' && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass);
+ report.targeted.canonicalMobileNav={checks,pass};
+ if(!pass) report.failures.push({target:'canonicalMobileNav',checks});
  await context.close();
 }
 
-// Targeted regression: inner-page mobile navigation must be usable.
+// Targeted regression: desktop product dropdown opens on hover and retracts when pointer leaves.
 {
- const context=await browser.newContext({viewport:{width:390,height:844}});
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
- await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
- const button=page.locator('.menu5');
- const beforeNav=await page.locator('.v5nav nav').evaluate(el=>getComputedStyle(el).display);
- const buttonVisible=await button.isVisible();
- if(buttonVisible) await button.click();
+ await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const group=page.locator('.nav-products');
+ const menu=page.locator('.nav-products-menu');
+ const before=await menu.evaluate(el=>getComputedStyle(el).display);
+ await group.hover();
  await page.waitForTimeout(120);
- const afterNav=await page.locator('.v5nav nav').evaluate(el=>getComputedStyle(el).display);
- report.targeted.innerPageMobileNav={buttonVisible,beforeNav,afterNav,pass:buttonVisible && beforeNav==='none' && afterNav!=='none'};
- if(!report.targeted.innerPageMobileNav.pass) report.failures.push({target:'innerPageMobileNav',...report.targeted.innerPageMobileNav});
+ const during=await menu.evaluate(el=>getComputedStyle(el).display);
+ await page.locator('main').hover({position:{x:10,y:10}});
+ await page.waitForTimeout(140);
+ const after=await menu.evaluate(el=>getComputedStyle(el).display);
+ const links=await menu.locator('.nav-product-link').count();
+ report.targeted.productDropdown={before,during,after,links,pass:before==='none'&&during!=='none'&&after==='none'&&links>=8};
+ if(!report.targeted.productDropdown.pass) report.failures.push({target:'productDropdown',...report.targeted.productDropdown});
+ await context.close();
+}
+
+// Targeted regression: report previews exist in both assessment journeys and individual steps stay on one desktop row.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const checks=[];
+ for(const path of ['enterprise.html','professionals.html']){
+   const page=await context.newPage();
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   const galleries=await page.locator('.sx-report-gallery').count();
+   const shots=await page.locator('.sx-report-shot').count();
+   checks.push({path,galleries,shots});
+   await page.close();
+ }
+ const page=await context.newPage();
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const tops=await page.locator('.journey-flow article').evaluateAll(els=>els.map(el=>Math.round(el.getBoundingClientRect().top)));
+ const sameRow=tops.length===7 && new Set(tops).size===1;
+ await page.close();
+ const pass=checks.every(x=>x.galleries===1&&x.shots>=3)&&sameRow;
+ report.targeted.reportPreviewAndJourneyRow={checks,tops,sameRow,pass};
+ if(!pass) report.failures.push({target:'reportPreviewAndJourneyRow',checks,tops,sameRow});
  await context.close();
 }
 
