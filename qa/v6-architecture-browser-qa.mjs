@@ -188,11 +188,10 @@ for(const vp of viewports){
  await page.locator('[data-call]').first().click();
  await page.waitForTimeout(100);
  const callColors=await page.evaluate(()=>{const css=e=>e?getComputedStyle(e):null;return {kicker:css(document.querySelector('.callpanel .kicker'))?.color,button:css(document.querySelector('.callpanel .btn.primary'))?.backgroundColor}});
- const terra='rgb(198, 93, 59)',terraHi='rgb(208, 106, 74)';
- const terracottaValue=v=>v===terra||v===terraHi;
- const pass=history.visitor===1&&history.operator===1&&Object.values(chatColors).every(terracottaValue)&&terracottaValue(callColors.kicker)&&terracottaValue(callColors.button);
- report.targeted.conciergeHistoryAndTerracotta={history,chatColors,callColors,pass};
- if(!pass)report.failures.push({target:'conciergeHistoryAndTerracotta',history,chatColors,callColors});
+ const champagne='rgb(214, 184, 120)',emerald='rgb(15, 138, 95)',offwhite='rgb(244, 242, 236)';
+ const pass=history.visitor===1&&history.operator===1&&chatColors.head===offwhite&&chatColors.send===champagne&&chatColors.wa===champagne&&chatColors.chatTab===emerald&&chatColors.callTab===emerald&&callColors.kicker===champagne;
+ report.targeted.conciergeHistoryAndApprovedPalette={history,chatColors,callColors,pass};
+ if(!pass)report.failures.push({target:'conciergeHistoryAndApprovedPalette',history,chatColors,callColors});
  await context.close();
 }
 
