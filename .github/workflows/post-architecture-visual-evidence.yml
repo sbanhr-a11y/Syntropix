@@ -1,0 +1,36 @@
+name: Post-Architecture Visual Evidence
+
+on:
+  push:
+    branches: [post-architecture-visual-evidence]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with: {fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/candidate.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/index.html >/dev/null && break; sleep 1; done
+      - run: |
+          git worktree add --detach /tmp/pre-v6-architecture 6f143f05253d997a4fd2b6777b376b84312e8d8d
+          cd /tmp/pre-v6-architecture
+          python3 -m http.server 4174 --bind 127.0.0.1 >/tmp/baseline.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4174/index.html >/dev/null && break; sleep 1; done
+      - run: node qa/post-architecture-visual-evidence.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: post-architecture-visual-evidence
+          path: visual-evidence/
+          retention-days: 14
