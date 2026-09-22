@@ -141,7 +141,15 @@ jobs:
           grep -q 'data-testimonial-carousel' index.html
           grep -q 'grid-auto-columns:calc((100% - 36px)/3)' v6-home.css
           grep -q 'Build your development plan' professionals.html
-          grep -q 'Assessment → report → develop → practice → optional coaching.' professionals.html
+          grep -q 'A clear path from insight to applied change.' professionals.html
+          grep -q 'sx-report-gallery' professionals.html
+          grep -q 'sx-report-gallery' enterprise.html
+          grep -q 'The Culture Compass' employee-experience.html
+          grep -q 'The Culture Compass' enterprise.html
+          ! grep -R -i -q 'employee listening' --include='*.html' .
+          grep -q 'SECURE & RELIABLE / GLOBAL CAPABILITY' index.html
+          grep -q 'nav-products-menu' site-v5.js
+          grep -q 'journey-flow' professionals.html
           grep -q '<h3>Develop</h3>' manager-development.html
           grep -q 'signal-exec-showcase' employee-experience.html
           grep -q 'signal-matrix' employee-experience.html
