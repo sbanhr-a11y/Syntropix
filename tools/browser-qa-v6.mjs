@@ -45,6 +45,9 @@ for(const [pageName,url] of pages){
       entry.checks.httpStatus=response?.status()??null;
       if(!response||response.status()>=400) recordFailure(entry,'Page load HTTP failure');
       await page.waitForTimeout(350);
+      // Measure header/hero geometry only at the real top-of-page state.
+      await page.evaluate(()=>window.scrollTo(0,0));
+      await page.waitForTimeout(80);
       // Prime real scroll-driven/lazy content before capture.
       if(pageName==='home'){
         const revealLocators=page.locator('.sx-reveal');
@@ -100,6 +103,29 @@ for(const [pageName,url] of pages){
       if(!metrics.skipLink) recordWarning(entry,'Skip link missing');
       if(!metrics.main) recordWarning(entry,'main#main landmark missing');
 
+      entry.checks.unloadedImages=await page.evaluate(()=>Array.from(document.images)
+        .filter(img=>!img.complete || img.naturalWidth===0)
+        .map(img=>img.getAttribute('src')).filter(Boolean));
+      if(entry.checks.unloadedImages.length) recordFailure(entry,`Unloaded images: ${entry.checks.unloadedImages.length}`);
+
+      entry.checks.overflowers=await page.evaluate(()=>Array.from(document.querySelectorAll('body *')).filter(el=>{
+        const r=el.getBoundingClientRect(),s=getComputedStyle(el);
+        if(s.position==='fixed' || s.position==='sticky' || s.display==='none' || s.visibility==='hidden') return false;
+        return r.width>0 && (r.right>window.innerWidth+3 || r.left<-3);
+      }).slice(0,12).map(el=>({tag:el.tagName,class:String(el.className||''),id:el.id,right:Math.round(el.getBoundingClientRect().right),left:Math.round(el.getBoundingClientRect().left)})));
+      if(entry.checks.overflowers.length) recordFailure(entry,'Element-level horizontal overflow detected');
+
+      if(width<=1100 && pageName!=='home'){
+        const toggle=page.locator('.menu5');
+        if(await toggle.count()){
+          entry.checks.sharedMenuToggleVisible=await toggle.isVisible();
+          if(!entry.checks.sharedMenuToggleVisible) recordFailure(entry,'Shared mobile menu toggle is not visible');
+          await toggle.click({force:true});
+          await page.waitForTimeout(100);
+          entry.checks.sharedMenuExpanded=await toggle.getAttribute('aria-expanded');
+        }
+      }
+
       if(pageName==='home'){
         entry.checks.revealTotal=await page.locator('.sx-reveal').count();
         entry.checks.revealVisible=await page.locator('.sx-reveal.visible').count();
@@ -141,7 +167,17 @@ for(const [pageName,url] of pages){
           const formRect=await page.locator('#conversation .form5').boundingBox();
           entry.checks.contactFormRect=formRect;
           if(formRect && formRect.x+formRect.width>width+2) recordFailure(entry,'Contact form exceeds viewport');
+          entry.checks.visibleFormControls=await page.locator('#conversation input, #conversation select, #conversation textarea, #conversation button[type="submit"]').count();
+          if(entry.checks.visibleFormControls<6) recordFailure(entry,'Contact form controls unexpectedly incomplete');
         } else recordFailure(entry,'Contact section missing');
+      }
+
+      if(pageName==='trust'){
+        const cta=page.locator('a[href="/enterprise.html#conversation"]');
+        entry.checks.internalContactCta=await cta.count();
+        if(!entry.checks.internalContactCta) recordFailure(entry,'Trust contact CTA does not route internally');
+        entry.checks.mailtoContact=await page.locator('a[href^="mailto:contact@syntropix.in"]').count();
+        if(entry.checks.mailtoContact) recordFailure(entry,'Trust contact CTA still uses mailto');
       }
 
       if(pageName==='individuals'){
@@ -184,19 +220,12 @@ for(const [pageName,url] of pages){
         if(!entry.checks.hasDevelop) recordFailure(entry,'Develop stage missing');
       }
 
-      if(pageName==='coaching'){
-        const overflowers=await page.evaluate(()=>Array.from(document.querySelectorAll('body *')).filter(el=>{
-          const r=el.getBoundingClientRect(); const s=getComputedStyle(el);
-          return s.position!=='fixed' && r.width>0 && (r.right>window.innerWidth+2 || r.left<-2);
-        }).slice(0,10).map(el=>({tag:el.tagName,class:el.className,id:el.id,right:Math.round(el.getBoundingClientRect().right),left:Math.round(el.getBoundingClientRect().left)})));
-        entry.checks.overflowers=overflowers;
-        if(overflowers.length) recordFailure(entry,'Element-level horizontal overflow detected');
-      }
-
       if(entry.consoleErrors.length) recordWarning(entry,`Console errors: ${entry.consoleErrors.length}`);
       if(entry.pageErrors.length) recordFailure(entry,`Page errors: ${entry.pageErrors.length}`);
       if(entry.requestFailures.length) recordFailure(entry,`Local request failures: ${entry.requestFailures.length}`);
 
+      await page.evaluate(()=>window.scrollTo(0,0));
+      await page.waitForTimeout(120);
       const file=`${pageName}--${vpName}.png`;
       await page.screenshot({path:path.join(outDir,file),fullPage:true,animations:'disabled'});
       entry.screenshot=file;
