@@ -24,6 +24,7 @@ on:
       - 'robots.txt'
       - 'sitemap.xml'
       - 'v6-foundation.css'
+      - 'v6-assessment-cards.css'
       - 'v6-home.css'
       - 'v6-home.js'
       - 'v6-shared.css'
@@ -45,6 +46,7 @@ jobs:
         run: |
           set -euo pipefail
           test -s v6-foundation.css
+          test -s v6-assessment-cards.css
           test -s v6-home.css
           test -s v6-shared.css
           test -s v6-beta-pages.css
@@ -122,6 +124,15 @@ jobs:
           grep -q '@layer v6-foundation' v6-foundation.css
           grep -q '.form5 input.sr-only' v6-foundation.css
           grep -q '.home-menu-panel' v6-foundation.css
+          for f in v6-foundation.css v6-assessment-cards.css v6-shared.css v6-beta-pages.css; do
+            ! grep -q '!important' "$f"
+          done
+          test "$(grep -o '!important' v6-home.css | wc -l)" -le 2
+          grep -q '/v6-assessment-cards.css' enterprise.html
+          grep -q '/v6-assessment-cards.css' professionals.html
+          ! grep -q '/assessment-cards-v7.css' enterprise.html
+          ! grep -q '/assessment-cards-v7.css' professionals.html
+          echo 'Specificity budget verified'
           echo 'Architecture consolidation verified'
           echo 'Full public V6 migration verified'
       - name: Validate Final Elite Polish contract
@@ -139,7 +150,7 @@ jobs:
           ! grep -q 'mailto:contact@syntropix.in' trust.html
           grep -q 'href="/enterprise.html#conversation">Contact us →' trust.html
           ! grep -q 'Evidence light-purple treatment' v6-beta-pages.css
-          grep -q 'Individuals inherit the proven Organization assessment-card system' v6-shared.css
+          grep -q 'SYNTROPIX V6 ASSESSMENT CARDS' v6-assessment-cards.css
           for f in index.html enterprise.html professionals.html solutions.html science.html trust.html; do
             grep -q 'rel="canonical"' "$f"
             grep -q 'property="og:title"' "$f"
