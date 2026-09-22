@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html company.html evidence-in-practice.html technical-notes.html trust-center.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
           for f in $pages; do
             grep -q '/v6-foundation.css' "$f"
             ! grep -q '/site-v5.css' "$f"
@@ -36,6 +36,11 @@ jobs:
           done
           grep -q '@layer v6-foundation' v6-foundation.css
           grep -q 'v5nav.open nav' v6-shared.css
+          test -s v6-credibility.css
+          for f in company.html evidence-in-practice.html technical-notes.html trust-center.html; do
+            grep -q '/v6-credibility.css' "$f"
+          done
+          test -s .well-known/security.txt
           # Access-gate pages intentionally remain outside the public V6 presentation layer.
           for f in signin.html admin.html; do
             grep -q '/premium-ui-v1.css' "$f"

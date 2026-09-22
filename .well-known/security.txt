@@ -1,0 +1,5 @@
+Contact: mailto:contact@syntropix.in
+Expires: 2027-09-22T00:00:00Z
+Preferred-Languages: en
+Canonical: https://syntropix.in/.well-known/security.txt
+Policy: https://syntropix.in/trust-center.html

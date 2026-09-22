@@ -7,12 +7,13 @@ const pages=[
   'assessment-intelligence.html','manager-development.html','prism360.html',
   'employee-experience.html','talent-solutions.html','professional-coaching.html',
   'compliance-learning.html','pricing.html','science.html','trust.html',
+  'company.html','evidence-in-practice.html','technical-notes.html','trust-center.html',
   'privacy.html','terms.html','refund-cancellation.html','cookie-policy.html'
 ];
 const critical=new Set([
   'index.html','enterprise.html','professionals.html','solutions.html',
   'employee-experience.html','professional-coaching.html','pricing.html',
-  'science.html','trust.html'
+  'science.html','trust.html','company.html','evidence-in-practice.html','technical-notes.html','trust-center.html'
 ]);
 const viewports=[
   {name:'desktop-1920',width:1920,height:1080},
@@ -224,7 +225,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const checks=[];
- for(const path of ['professionals.html','employee-experience.html']){
+ for(const path of ['professionals.html','employee-experience.html','company.html','trust-center.html']){
    const page=await context.newPage();
    await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
    const link=page.locator('.v6-skip');
@@ -540,6 +541,60 @@ for(const vp of viewports){
  const pass=checks.every(x=>(x.hero===null||x.hero<=84.5)&&(x.section===null||x.section<=70.5));
  report.targeted.displayTypographyCalibration={checks,pass};
  if(!pass) report.failures.push({target:'displayTypographyCalibration',checks});
+ await context.close();
+}
+
+// Targeted regression: credibility layer must expose accountable leadership, evidence boundaries and trust documentation.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const checks={};
+ await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.company={founder:await page.getByText('Shubhashish Banerjee',{exact:true}).count(),boundary:await page.getByText(/Previous professional experience informs/).count()};
+ await page.goto(base+'/technical-notes.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.technical={notes:await page.locator('.cred-note').count(),guardrail:await page.getByText(/Developmental indicators/).count()};
+ await page.goto(base+'/evidence-in-practice.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.evidence={blueprints:await page.locator('.cred-blueprint').count(),standard:await page.getByText(/Five questions before an outcome becomes marketing/).count()};
+ await page.goto(base+'/trust-center.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.trust={providers:await page.locator('.cred-table tbody tr').count(),providerBoundary:await page.getByText(/Provider certifications are not presented as Syntropix certifications/).count()};
+ const pass=checks.company.founder===1&&checks.company.boundary>=1&&checks.technical.notes===10&&checks.technical.guardrail>=1&&checks.evidence.blueprints===3&&checks.evidence.standard>=1&&checks.trust.providers>=5&&checks.trust.providerBoundary>=1;
+ report.targeted.credibilityLayer={checks,pass};
+ if(!pass) report.failures.push({target:'credibilityLayer',checks});
+ await context.close();
+}
+
+// Targeted regression: product demonstration modules must remain visible and clearly illustrative.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const checks=[];
+ for(const path of ['manager-development.html','prism360.html','employee-experience.html','solutions.html']){
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   const demos=await page.locator('.cred-demo').count();
+   const disclaimer=await page.locator('.cred-disclaimer').count();
+   const visible=demos?await page.locator('.cred-demo').first().isVisible():false;
+   checks.push({path,demos,disclaimer,visible});
+ }
+ const pass=checks.every(x=>x.demos>=1&&x.disclaimer>=1&&x.visible);
+ report.targeted.productDemonstrations={checks,pass};
+ if(!pass) report.failures.push({target:'productDemonstrations',checks});
+ await context.close();
+}
+
+// Targeted regression: public credibility pages must not claim Syntropix certifications it does not hold.
+{
+ const context=await browser.newContext({viewport:{width:1200,height:900}});
+ const page=await context.newPage();
+ const hits=[];
+ for(const path of ['company.html','trust-center.html','technical-notes.html','evidence-in-practice.html']){
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   const text=(await page.locator('body').innerText()).toLowerCase();
+   const prohibited=['syntropix is iso 27001 certified','syntropix is soc 2 certified','syntropix is soc2 certified'];
+   for(const phrase of prohibited)if(text.includes(phrase))hits.push({path,phrase});
+ }
+ const pass=hits.length===0;
+ report.targeted.noUnsupportedCertificationClaims={hits,pass};
+ if(!pass) report.failures.push({target:'noUnsupportedCertificationClaims',hits});
  await context.close();
 }
 
