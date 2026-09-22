@@ -134,7 +134,28 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: compact mobile chrome must preserve production behavior.
+// Targeted regression: skip link remains off-screen until keyboard focus.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const checks=[];
+ for(const path of ['professionals.html','employee-experience.html']){
+   const page=await context.newPage();
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   const link=page.locator('.v6-skip');
+   const before=await link.evaluate(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return {position:s.position,top:s.top,bottom:r.bottom,focused:document.activeElement===el}});
+   await link.focus();
+   await page.waitForTimeout(60);
+   const after=await link.evaluate(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return {position:s.position,top:s.top,bottom:r.bottom,focused:document.activeElement===el}});
+   checks.push({path,before,after});
+   await page.close();
+ }
+ const pass=checks.every(x=>x.before.position==='fixed' && x.before.bottom<=0 && !x.before.focused && x.after.position==='fixed' && x.after.focused && x.after.bottom>0);
+ report.targeted.skipLinkFocusBehavior={checks,pass};
+ if(!pass) report.failures.push({target:'skipLinkFocusBehavior',checks});
+ await context.close();
+}
+
+ // Targeted regression: compact mobile chrome must preserve production behavior.
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const checks=[];
