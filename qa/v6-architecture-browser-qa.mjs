@@ -381,9 +381,51 @@ for(const vp of viewports){
  const panel=page.locator('#sx-call-panel');
  const panelVisible=await panel.count()?await panel.isVisible():false;
  const directLink=await panel.count()?await panel.locator('a[href^="https://call.whatsapp.com/"]').count():0;
- const pass=visible&&panelVisible&&directLink>=1;
- report.targeted.callControl={visible,panelVisible,directLink,pass};
- if(!pass) report.failures.push({target:'callControl',visible,panelVisible,directLink});
+ const qrImage=await panel.count()?await panel.locator('img[src="/assets/syntropix-whatsapp-call-qr.png"]').count():0;
+ const pass=visible&&panelVisible&&directLink>=1&&qrImage===1;
+ report.targeted.callControl={visible,panelVisible,directLink,qrImage,pass};
+ if(!pass) report.failures.push({target:'callControl',visible,panelVisible,directLink,qrImage});
+ await context.close();
+}
+
+// Targeted regression: touch/mobile call control bypasses QR and opens the WhatsApp call target directly.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
+ const page=await context.newPage();
+ await page.route('https://call.whatsapp.com/**',async route=>route.fulfill({status:200,contentType:'text/html',body:'<html><body>call target</body></html>'}));
+ await page.goto(base+'/solutions.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(120);
+ const call=page.locator('[data-call]').first();
+ const chat=page.locator('[data-chat]').first();
+ const controlsVisible=await call.isVisible()&&await chat.isVisible();
+ await call.click();
+ await page.waitForTimeout(160);
+ const url=page.url();
+ const qrPanel=await page.locator('#sx-call-panel').count();
+ const pass=controlsVisible&&url.startsWith('https://call.whatsapp.com/')&&qrPanel===0;
+ report.targeted.mobileDirectCall={controlsVisible,url,qrPanel,pass};
+ if(!pass) report.failures.push({target:'mobileDirectCall',controlsVisible,url,qrPanel});
+ await context.close();
+}
+
+// Targeted regression: public pages without static contact markup still receive working floating controls.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const token='22222222-2222-4222-8222-222222222222';
+ await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})}));
+ await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor TEST'},messages:[]})}));
+ await page.goto(base+'/solutions.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(120);
+ const call=page.locator('[data-call]').first();
+ const chat=page.locator('[data-chat]').first();
+ const controlsVisible=await call.isVisible()&&await chat.isVisible();
+ await chat.click();
+ await page.waitForTimeout(100);
+ const panelVisible=await page.locator('#chat5').isVisible();
+ const pass=controlsVisible&&panelVisible;
+ report.targeted.injectedContactControls={controlsVisible,panelVisible,pass};
+ if(!pass) report.failures.push({target:'injectedContactControls',controlsVisible,panelVisible});
  await context.close();
 }
 
