@@ -134,7 +134,40 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: testimonial carousel must not vertically jump the page.
+// Targeted regression: compact mobile chrome must preserve production behavior.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const checks=[];
+ for(const path of ['index.html','professionals.html']){
+   const page=await context.newPage();
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   await page.waitForTimeout(150);
+   const state=await page.evaluate(()=>{
+     const nav=document.querySelector('.v5nav');
+     const brand=nav?.querySelector('.brand');
+     const auth=nav?.querySelector('.nav-auth');
+     const heading=document.querySelector('h1');
+     const visibleControls=[...nav?.querySelectorAll('button,select,a')||[]].filter(el=>el!==brand && getComputedStyle(el).display!=='none' && el.getBoundingClientRect().width>0);
+     const brandBox=brand?.getBoundingClientRect()||null;
+     const collisions=brandBox?visibleControls.filter(el=>{const r=el.getBoundingClientRect();return !(r.right<=brandBox.left||r.left>=brandBox.right||r.bottom<=brandBox.top||r.top>=brandBox.bottom)}).map(el=>el.className||el.tagName):[];
+     const hs=heading?getComputedStyle(heading):null;
+     return {
+       authDisplay:auth?getComputedStyle(auth).display:null,
+       collisions,
+       headingOverflowWrap:hs?.overflowWrap||null,
+       headingWordBreak:hs?.wordBreak||null
+     };
+   });
+   checks.push({path,...state});
+   await page.close();
+ }
+ const pass=checks.every(x=>x.authDisplay==='none' && x.collisions.length===0 && x.headingOverflowWrap!=='anywhere' && x.headingWordBreak!=='break-all');
+ report.targeted.mobileChromeParity={checks,pass};
+ if(!pass) report.failures.push({target:'mobileChromeParity',checks});
+ await context.close();
+}
+
+ // Targeted regression: testimonial carousel must not vertically jump the page.
 {
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
