@@ -130,6 +130,13 @@ jobs:
             grep -q 'property="og:title"' "$f"
             grep -q 'href="#main">Skip to content' "$f"
           done
+          pages='enterprise.html professionals.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          for f in $pages; do
+            ! grep -q '\\n' "$f"
+            grep -q 'rel="canonical"' "$f"
+            grep -q 'property="og:title"' "$f"
+          done
+          echo 'No escaped newline artifacts; launch metadata verified'
           echo 'Final Elite Polish contract verified'
       - name: Guard protected runtimes
         shell: bash
