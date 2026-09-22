@@ -321,6 +321,91 @@ for(const vp of viewports){
  await context.close();
 }
 
+// Targeted regression: sign-in shell must not receive the public Products megamenu.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/signin.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(180);
+ const state=await page.evaluate(()=>{
+   const nav=document.querySelector('.v5nav');
+   const main=document.querySelector('main');
+   const box=nav?.getBoundingClientRect();
+   return {
+     products:document.querySelectorAll('.nav-products').length,
+     auth:document.querySelectorAll('.nav-auth').length,
+     scrollWidth:document.documentElement.scrollWidth,
+     clientWidth:document.documentElement.clientWidth,
+     navBox:box?{left:box.left,right:box.right,width:box.width}:null,
+     mainVisible:!!main && getComputedStyle(main).display!=='none'
+   };
+ });
+ const pass=state.products===0 && state.auth===0 && state.scrollWidth<=state.clientWidth+2 && state.mainVisible;
+ report.targeted.signinShellIsolation={...state,pass};
+ if(!pass) report.failures.push({target:'signinShellIsolation',...state});
+ await context.close();
+}
+
+// Targeted regression: report-preview heading must remain legible on the dark gallery.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const state=await page.locator('.sx-report-gallery-head h3').evaluate(el=>{
+   const s=getComputedStyle(el),rgb=s.color.match(/\d+/g)?.map(Number)||[];
+   return {color:s.color,rgb};
+ });
+ const pass=state.rgb.length>=3 && state.rgb[0]>180 && state.rgb[1]>180 && state.rgb[2]>180;
+ report.targeted.reportPreviewContrast={...state,pass};
+ if(!pass) report.failures.push({target:'reportPreviewContrast',...state});
+ await context.close();
+}
+
+// Targeted regression: call control must open a usable desktop call panel.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const call=page.locator('[data-call]').first();
+ const visible=await call.isVisible();
+ if(visible) await call.click();
+ await page.waitForTimeout(120);
+ const panel=page.locator('#sx-call-panel');
+ const panelVisible=await panel.count()?await panel.isVisible():false;
+ const directLink=await panel.count()?await panel.locator('a[href^="https://call.whatsapp.com/"]').count():0;
+ const pass=visible&&panelVisible&&directLink>=1;
+ report.targeted.callControl={visible,panelVisible,directLink,pass};
+ if(!pass) report.failures.push({target:'callControl',visible,panelVisible,directLink});
+ await context.close();
+}
+
+// Targeted regression: concierge UI must accept a message when backend falls back to Command transport.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ const token='11111111-1111-4111-8111-111111111111';
+ await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>{
+   if(route.request().method()==='POST') return route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})});
+   return route.continue();
+ });
+ await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>{
+   if(route.request().method()==='POST') return route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',delivered:true,transport:'command'})});
+   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor TEST'},messages:[]})});
+ });
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.locator('[data-chat]').first().click();
+ await page.waitForTimeout(120);
+ const panelVisible=await page.locator('#chat5').isVisible();
+ await page.locator('#sx-chat-input').fill('QA message');
+ await page.locator('.chat-compose button').click();
+ await page.waitForTimeout(180);
+ const text=await page.locator('.chat-messages').innerText();
+ const pass=panelVisible && text.includes('QA message') && !text.includes('could not be delivered');
+ report.targeted.conciergeCommandFallback={panelVisible,text,pass};
+ if(!pass) report.failures.push({target:'conciergeCommandFallback',panelVisible,text});
+ await context.close();
+}
+
 await browser.close();
 fs.writeFileSync('qa-output/qa-report.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({failures:report.failures.length,targeted:report.targeted},null,2));
