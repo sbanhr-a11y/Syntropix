@@ -281,6 +281,31 @@ for(const vp of viewports){
  await context.close();
 }
 
+
+// Targeted regression: legacy/functional runner shells must not reference missing local assets.
+{
+ const runnerPages=['assessment-suite-v2-runner.html','enterprise-system-runner.html'];
+ const viewports=[{name:'desktop',width:1440,height:1000},{name:'mobile',width:390,height:844}];
+ const checks=[];
+ for(const vp of viewports){
+   const context=await browser.newContext({viewport:{width:vp.width,height:vp.height},javaScriptEnabled:false});
+   for(const path of runnerPages){
+     const page=await context.newPage();
+     const badResponses=[];
+     page.on('response',r=>{if(r.url().startsWith(base)&&r.status()>=400) badResponses.push({url:r.url(),status:r.status()})});
+     let navError=null;
+     try{await page.goto(base+'/'+path,{waitUntil:'networkidle',timeout:12000})}catch(e){navError=String(e)}
+     const metrics=navError?null:await page.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,title:document.title,bodyText:document.body?.innerText?.trim().length||0}));
+     checks.push({path,viewport:vp.name,navError,badResponses,metrics});
+     await page.close();
+   }
+   await context.close();
+ }
+ const pass=checks.every(x=>!x.navError && x.badResponses.length===0 && x.metrics && x.metrics.bodyText>100 && x.metrics.sw<=x.metrics.cw+2);
+ report.targeted.runnerAssetIntegrity={checks,pass};
+ if(!pass) report.failures.push({target:'runnerAssetIntegrity',checks});
+}
+
 await browser.close();
 fs.writeFileSync('qa-output/qa-report.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({failures:report.failures.length,targeted:report.targeted},null,2));
