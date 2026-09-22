@@ -557,7 +557,7 @@ for(const vp of viewports){
  checks.evidence={blueprints:await page.locator('.cred-blueprint').count(),standard:await page.getByText(/Five questions before an outcome becomes marketing/).count()};
  await page.goto(base+'/trust-center.html',{waitUntil:'domcontentloaded',timeout:12000});
  checks.trust={providers:await page.locator('.cred-table tbody tr').count(),providerBoundary:await page.getByText(/Provider certifications are not presented as Syntropix certifications/).count()};
- const pass=checks.company.founder===1&&checks.company.boundary>=1&&checks.technical.notes===10&&checks.technical.guardrail>=1&&checks.evidence.blueprints===3&&checks.evidence.standard>=1&&checks.trust.providers>=5&&checks.trust.providerBoundary>=1;
+ const pass=checks.company.founder===1&&checks.company.boundary>=1&&checks.technical.notes===13&&checks.technical.guardrail>=1&&checks.evidence.blueprints===3&&checks.evidence.standard>=1&&checks.trust.providers>=5&&checks.trust.providerBoundary>=1;
  report.targeted.credibilityLayer={checks,pass};
  if(!pass) report.failures.push({target:'credibilityLayer',checks});
  await context.close();
