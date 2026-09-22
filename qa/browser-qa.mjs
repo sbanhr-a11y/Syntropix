@@ -69,7 +69,7 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
 
       if (path === '/professionals.html') {
         const finder = page.locator('.finder');
-        const cat = page.locator('.assessment-catalogue-inline');
+        const cat = page.locator('.assessment-catalogue-inline').first();
         if (await finder.count() && await cat.count()) {
           const fb = await finder.boundingBox(), cb = await cat.boundingBox();
           rec.finderBeforeCatalogue = !!fb && !!cb && fb.y < cb.y;
