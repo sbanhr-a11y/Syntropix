@@ -44,7 +44,7 @@ body.v6-marketing .btn:not(.primary):hover{border-color:var(--sx-sage);color:#ff
 body.v6-marketing .card,body.v6-marketing .assessment-card{
   border-radius:var(--sx-radius);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
 }
-body.v6-marketing .light .card,body.v6-marketing .section5.light .assessment-card{
+body.v6-marketing .light .card:not(.assessment-card){
   background:rgba(255,255,255,.88);border-color:rgba(18,28,42,.10);
 }
 body.v6-marketing .card:hover,body.v6-marketing .assessment-card:hover{transform:translateY(-4px);box-shadow:var(--sx-shadow)}
