@@ -8,6 +8,5 @@ Disallow: /assessment-suite-v2-runner.html
 Disallow: /consumer-insight-runner.html
 Disallow: /enterprise-system-runner.html
 Disallow: /acdc-horizon.html
-Disallow: /v6-preview/
 
 Sitemap: https://syntropix.in/sitemap.xml
