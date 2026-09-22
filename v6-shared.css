@@ -71,6 +71,13 @@ body.v6-marketing .floating{z-index:999}
 body.v6-marketing footer{background:#080A08;border-top:1px solid rgba(255,255,255,.08)}
 @media(max-width:1100px){
   body.v6-marketing .v5nav nav,body.v6-marketing .v5nav>.navcta{display:none}
+  body.v6-marketing .v5nav.open nav{
+    display:flex;position:absolute;top:81px;left:0;right:0;padding:22px;
+    flex-direction:column;gap:4px;background:rgba(7,9,8,.98);
+    border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 22px 55px rgba(0,0,0,.24)
+  }
+  body.v6-marketing .v5nav.open nav a{padding:12px 10px}
+  body.v6-marketing .v5nav.open nav a:after{display:none}
   body.v6-marketing .menu5{display:block}
 }
 @media(max-width:760px){
