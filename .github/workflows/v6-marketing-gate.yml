@@ -148,7 +148,8 @@ jobs:
           ! grep -q 'mailto:contact@syntropix.in' trust.html
           grep -q 'href="/enterprise.html#conversation">Contact us →' trust.html
           ! grep -q 'Evidence light-purple treatment' v6-beta-pages.css
-          grep -q 'Individuals inherit the proven Organization assessment-card system' v6-shared.css
+          grep -q 'SYNTROPIX V6 ASSESSMENT CARDS' v6-assessment-cards.css
+          grep -q '.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card' v6-assessment-cards.css
           for f in index.html enterprise.html professionals.html solutions.html science.html trust.html; do
             grep -q 'rel="canonical"' "$f"
             grep -q 'property="og:title"' "$f"
