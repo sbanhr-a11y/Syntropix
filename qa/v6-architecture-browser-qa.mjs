@@ -8,12 +8,15 @@ const pages=[
   'employee-experience.html','talent-solutions.html','professional-coaching.html',
   'compliance-learning.html','pricing.html','science.html','trust.html',
   'company.html','evidence-in-practice.html','technical-notes.html','trust-center.html',
+  'technical-manuals.html','enterprise-due-diligence.html','dpa-template.html',
+  'product-walkthroughs.html','case-study-methodology.html',
   'privacy.html','terms.html','refund-cancellation.html','cookie-policy.html'
 ];
 const critical=new Set([
   'index.html','enterprise.html','professionals.html','solutions.html',
   'employee-experience.html','professional-coaching.html','pricing.html',
-  'science.html','trust.html','company.html','evidence-in-practice.html','technical-notes.html','trust-center.html'
+  'science.html','trust.html','company.html','evidence-in-practice.html','technical-notes.html','trust-center.html',
+  'technical-manuals.html','enterprise-due-diligence.html','product-walkthroughs.html'
 ]);
 const viewports=[
   {name:'desktop-1920',width:1920,height:1080},
@@ -621,6 +624,27 @@ for(const vp of viewports){
  const pass=hits.length===0;
  report.targeted.noUnsupportedCertificationClaims={hits,pass};
  if(!pass) report.failures.push({target:'noUnsupportedCertificationClaims',hits});
+ await context.close();
+}
+
+// Targeted regression: credibility assets must remain versioned, complete and non-inflationary.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const checks={};
+ await page.goto(base+'/technical-manuals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.manuals={count:await page.locator('.manual').count(),versions:await page.getByText('TECHNICAL MANUAL v1.0',{exact:true}).count(),noCoefficient:await page.getByText(/No reliability coefficient/).count()};
+ await page.goto(base+'/enterprise-due-diligence.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.due={providerBoundary:await page.getByText(/No certification inheritance/).count(),dpdp:await page.getByText(/phased commencement dates/).count()};
+ await page.goto(base+'/dpa-template.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.dpa={draft:await page.getByText(/Publication does not create a data-processing agreement/).count(),article28:await page.getByText(/GDPR Article 28/).count()};
+ await page.goto(base+'/product-walkthroughs.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.walk={synthetic:await page.getByText('Illustrative data only',{exact:true}).count(),products:await page.locator('.walkthrough-step').count()};
+ await page.goto(base+'/case-study-methodology.html',{waitUntil:'domcontentloaded',timeout:12000});
+ checks.caseMethod={gate:await page.getByText(/No case study/).count(),noFakeCase:await page.getByText(/no Syntropix client outcome case is published/).count()};
+ const pass=checks.manuals.count===13&&checks.manuals.versions===13&&checks.manuals.noCoefficient>=13&&checks.due.providerBoundary>=1&&checks.due.dpdp>=1&&checks.dpa.draft>=1&&checks.dpa.article28>=1&&checks.walk.synthetic>=1&&checks.walk.products>=10&&checks.caseMethod.gate>=1&&checks.caseMethod.noFakeCase>=1;
+ report.targeted.credibilityAssets={checks,pass};
+ if(!pass)report.failures.push({target:'credibilityAssets',checks});
  await context.close();
 }
 
