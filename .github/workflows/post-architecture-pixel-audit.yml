@@ -1,0 +1,45 @@
+name: Post-Architecture Pixel Audit
+
+on:
+  push:
+    branches:
+      - post-architecture-pixel-audit
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pixel-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser diff dependencies
+        run: |
+          npm install --no-save playwright@1.55.0 pixelmatch@6.0.0 pngjs@7.0.0
+          npx playwright install --with-deps chromium
+      - name: Start consolidated candidate
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/candidate.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/index.html >/dev/null && break; sleep 1; done
+      - name: Start exact pre-consolidation baseline
+        run: |
+          git worktree add --detach /tmp/pre-v6-architecture 6f143f05253d997a4fd2b6777b376b84312e8d8d
+          cd /tmp/pre-v6-architecture
+          python3 -m http.server 4174 --bind 127.0.0.1 > /tmp/baseline.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4174/index.html >/dev/null && break; sleep 1; done
+      - name: Run exact before/after pixel audit
+        run: node qa/post-architecture-visual-diff.mjs
+      - name: Upload visual diff evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-architecture-pixel-audit
+          path: visual-diff-output/
+          retention-days: 14
