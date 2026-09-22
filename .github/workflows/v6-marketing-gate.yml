@@ -17,6 +17,12 @@ on:
       - 'pricing.html'
       - 'science.html'
       - 'trust.html'
+      - 'company.html'
+      - 'evidence-in-practice.html'
+      - 'technical-notes.html'
+      - 'trust-center.html'
+      - 'v6-credibility.css'
+      - '.well-known/security.txt'
       - 'privacy.html'
       - 'terms.html'
       - 'refund-cancellation.html'
@@ -65,7 +71,7 @@ jobs:
           set -euo pipefail
           test -s v6-foundation.css
           test -s v6-assessment-cards.css
-          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html company.html evidence-in-practice.html technical-notes.html trust-center.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
           for f in $pages; do
             grep -q '/v6-foundation.css' "$f"
             ! grep -q '/site-v5.css' "$f"
@@ -130,6 +136,12 @@ jobs:
           grep -q '/v6-beta-pages.css' solutions.html
           grep -q '/v6-beta-pages.css' science.html
           grep -q '/v6-beta-pages.css' trust.html
+          test -s v6-credibility.css
+          for f in company.html evidence-in-practice.html technical-notes.html trust-center.html; do
+            grep -q '/v6-credibility.css' "$f"
+            grep -q '/site-v5.js' "$f"
+            grep -q '/global-footer-v1.js' "$f"
+          done
           ! grep -q '/v6-editorial.css' science.html
           ! grep -q '/v6-editorial.css' trust.html
           echo 'Full public V6 migration verified'
@@ -150,11 +162,33 @@ jobs:
           grep -q 'SECURE & RELIABLE / GLOBAL CAPABILITY' index.html
           grep -q 'nav-products-menu' site-v5.js
           grep -q 'journey-flow' professionals.html
+          grep -q 'Shubhashish Banerjee' company.html
+          grep -q 'Former VP HR' company.html
+          grep -q 'Case evidence,' evidence-in-practice.html
+          grep -q 'Managerial Effectiveness Index' technical-notes.html
+          grep -q 'DEVELOPMENTAL / EVIDENCE-BUILDING' technical-notes.html
+          grep -q 'Supabase' trust-center.html
+          grep -q 'Postmark' trust-center.html
+          grep -q 'Provider certifications are not presented as Syntropix certifications' trust-center.html
+          grep -q 'cred-demo' manager-development.html
+          grep -q 'cred-demo' prism360.html
+          grep -q 'cred-demo' employee-experience.html
+          grep -q 'id="acdc"' solutions.html
+          grep -q 'VERIFY BEFORE YOU BUY' index.html
+          grep -q '/technical-notes.html' index.html
+          grep -q '/trust-center.html' index.html
+          grep -q 'ENTERPRISE BUYER CONFIDENCE' enterprise.html
+          grep -q '/evidence-in-practice.html' enterprise.html
+          grep -q 'https://www.testingstandards.net/open-access-files.html' science.html
+          grep -q '10.1016/j.copsyc.2026.102307' science.html
+          grep -q '10.1177/01461672251341402' science.html
+          grep -q 'Canonical: https://syntropix.in/.well-known/security.txt' .well-known/security.txt
           grep -q '<h3>Develop</h3>' manager-development.html
           grep -q 'signal-exec-showcase' employee-experience.html
           grep -q 'signal-matrix' employee-experience.html
           ! grep -q 'mailto:contact@syntropix.in' trust.html
-          grep -q 'href="/enterprise.html#conversation">Contact us →' trust.html
+          grep -q 'href="/trust-center.html">Enterprise Trust Centre →' trust.html
+          grep -q 'href="/trust-center.html">Open Enterprise Trust Centre →' trust.html
           ! grep -q 'Evidence light-purple treatment' v6-beta-pages.css
           grep -q 'SYNTROPIX V6 ASSESSMENT CARDS' v6-assessment-cards.css
           grep -q '.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card' v6-assessment-cards.css

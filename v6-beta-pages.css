@@ -1,6 +1,6 @@
 /* SYNTROPIX V6 BETA — Solutions / Evidence / Trust */
 body.v6-beta-page{background:#070908;color:#F4F2EC}
-.v6-skip{position:fixed;left:18px;top:-80px;z-index:2000;padding:10px 14px;border-radius:10px;background:#F4F2EC;color:#070908;font-weight:800;transition:top .18s ease}
+.v6-skip{position:fixed;left:18px;top:-80px;z-index:2000;padding:10px 14px;border-radius:10px;background:#F4F2EC;color:#070908;font-weight:800;transition:none}
 .v6-skip:focus{top:14px}
 .v6-page-shell{width:min(1480px,calc(100vw - 48px));margin:auto}
 .v6-beta-hero{position:relative;overflow:hidden;padding:clamp(92px,10vw,150px) 0 92px}
