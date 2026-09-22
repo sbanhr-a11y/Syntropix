@@ -32,7 +32,7 @@ async function revealForScreenshot(page){
       await new Promise(r=>setTimeout(r,70));
     }
     window.scrollTo(0,0);
-    await new Promise(r=>setTimeout(r,120));
+    await new Promise(r=>setTimeout(r,800));
   });
 }
 
@@ -67,8 +67,8 @@ for(const vp of viewports){
     const overflow=metrics?Math.max(0,metrics.scrollWidth-metrics.clientWidth):null;
     const rec={viewport:vp.name,path,url,navError,metrics,overflow,consoleErrors,pageErrors,badResponses};
     report.results.push(rec);
-    if(navError || !metrics || metrics.bodyText<80 || !metrics.visibleMain || metrics.h1Count!==1 || overflow>2 || pageErrors.length || badResponses.length){
-      report.failures.push({viewport:vp.name,path,navError,metrics,overflow,pageErrors,badResponses});
+    if(navError || !metrics || metrics.bodyText<80 || !metrics.visibleMain || metrics.h1Count!==1 || overflow>2 || consoleErrors.length || pageErrors.length || badResponses.length){
+      report.failures.push({viewport:vp.name,path,navError,metrics,overflow,consoleErrors,pageErrors,badResponses});
     }
     if(critical.has(path) && !navError){
       await revealForScreenshot(page);
@@ -90,6 +90,7 @@ for(const vp of viewports){
    await items.nth(i).scrollIntoViewIfNeeded();
    await page.waitForTimeout(120);
  }
+ await page.waitForTimeout(750);
  const state=await page.locator('.sx-reveal').evaluateAll(els=>els.map(el=>({visible:el.classList.contains('visible'),opacity:getComputedStyle(el).opacity,display:getComputedStyle(el).display})));
  const failed=state.filter(x=>!x.visible || Number(x.opacity)<0.95 || x.display==='none');
  report.targeted.homepageRevealState={count,failed:failed.length,pass:count>0&&failed.length===0};
@@ -108,6 +109,22 @@ for(const vp of viewports){
  const after=await page.locator('.home-menu-panel').evaluate(el=>getComputedStyle(el).display);
  report.targeted.mobileMenu={before,after,pass:before==='none'&&after!=='none'};
  if(!report.targeted.mobileMenu.pass) report.failures.push({target:'mobileMenu',...report.targeted.mobileMenu});
+ await context.close();
+}
+
+// Targeted regression: inner-page mobile navigation must be usable.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const button=page.locator('.menu5');
+ const beforeNav=await page.locator('.v5nav nav').evaluate(el=>getComputedStyle(el).display);
+ const buttonVisible=await button.isVisible();
+ if(buttonVisible) await button.click();
+ await page.waitForTimeout(120);
+ const afterNav=await page.locator('.v5nav nav').evaluate(el=>getComputedStyle(el).display);
+ report.targeted.innerPageMobileNav={buttonVisible,beforeNav,afterNav,pass:buttonVisible && beforeNav==='none' && afterNav!=='none'};
+ if(!report.targeted.innerPageMobileNav.pass) report.failures.push({target:'innerPageMobileNav',...report.targeted.innerPageMobileNav});
  await context.close();
 }
 
