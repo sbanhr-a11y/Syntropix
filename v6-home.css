@@ -227,3 +227,5 @@ body.sx-v6 footer{background:#080A08!important;border-top:1px solid rgba(255,255
 .sx-carousel-controls[data-static="true"]{display:none}
 @media(max-width:1180px){.sx-testimonial-track{grid-auto-columns:calc((100% - 18px)/2)}}
 @media(max-width:760px){.sx-testimonial-track{grid-auto-columns:88%}.sx-testimonial-card{min-height:310px}}
+
+.v6-skip{position:fixed;left:18px;top:-80px;z-index:3000;padding:10px 14px;border-radius:10px;background:#F4F2EC;color:#070908;font-weight:850;box-shadow:0 10px 28px rgba(0,0,0,.18);transition:top .18s ease}.v6-skip:focus{top:14px}
