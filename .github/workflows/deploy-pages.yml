@@ -46,6 +46,8 @@ jobs:
           grep -q '/assessment-assignment-ui-v1.js' professionals.html
           test ! -e assessments.html
           test ! -e assessment-shell-v4.js
+          test ! -e assessment-shell-v4.css
+          ! grep -R -q '/assessment-shell-v4.css' --include='*.html' .
           echo 'Repository source equals deployable presentation contract'
       - name: Canonical assessment runtime safety gate
         shell: bash
