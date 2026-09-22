@@ -229,3 +229,37 @@ body.sx-v6 footer{background:#080A08!important;border-top:1px solid rgba(255,255
 @media(max-width:760px){.sx-testimonial-track{grid-auto-columns:88%}.sx-testimonial-card{min-height:310px}}
 
 .v6-skip{position:fixed;left:18px;top:-80px;z-index:3000;padding:10px 14px;border-radius:10px;background:#F4F2EC;color:#070908;font-weight:850;box-shadow:0 10px 28px rgba(0,0,0,.18);transition:top .18s ease}.v6-skip:focus{top:14px}
+
+/* POST-V6 BROWSER QA — mobile navigation visibility */
+.home-menu-panel{display:none}
+.home-menu.open .home-menu-panel{display:grid}
+@media(min-width:1101px){.home-menu{display:none!important}}
+@media(max-width:1100px){
+  .home-menu{display:block}
+  .home-menu-panel{
+    position:absolute;
+    top:calc(100% + 10px);
+    right:0;
+    min-width:min(320px,calc(100vw - 32px));
+    padding:12px;
+    gap:4px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:18px;
+    background:rgba(10,13,11,.96);
+    box-shadow:0 22px 55px rgba(0,0,0,.28);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    z-index:1200;
+  }
+  .home-menu-panel a{
+    display:flex;
+    align-items:center;
+    min-height:44px;
+    padding:0 12px;
+    border-radius:11px;
+    color:#F4F2EC;
+  }
+  .home-menu-panel a:hover,.home-menu-panel a:focus-visible{
+    background:rgba(255,255,255,.06);
+  }
+}
