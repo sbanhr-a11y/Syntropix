@@ -109,6 +109,28 @@ jobs:
           ! grep -q '/v6-editorial.css' science.html
           ! grep -q '/v6-editorial.css' trust.html
           echo 'Full public V6 migration verified'
+      - name: Validate Final Elite Polish contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'Proof should feel human.' index.html
+          grep -q 'data-testimonial-carousel' index.html
+          grep -q 'grid-auto-columns:calc((100% - 36px)/3)' v6-home.css
+          grep -q 'Build your development plan' professionals.html
+          grep -q 'Assessment → report → develop → practice → optional coaching.' professionals.html
+          grep -q '<h3>Develop</h3>' manager-development.html
+          grep -q 'signal-exec-showcase' employee-experience.html
+          grep -q 'signal-matrix' employee-experience.html
+          ! grep -q 'mailto:contact@syntropix.in' trust.html
+          grep -q 'href="/enterprise.html#conversation">Contact us →' trust.html
+          ! grep -q 'Evidence light-purple treatment' v6-beta-pages.css
+          grep -q 'Individuals inherit the proven Organization assessment-card system' v6-shared.css
+          for f in index.html enterprise.html professionals.html solutions.html science.html trust.html; do
+            grep -q 'rel="canonical"' "$f"
+            grep -q 'property="og:title"' "$f"
+            grep -q 'href="#main">Skip to content' "$f"
+          done
+          echo 'Final Elite Polish contract verified'
       - name: Guard protected runtimes
         shell: bash
         run: |
