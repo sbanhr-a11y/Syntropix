@@ -406,6 +406,54 @@ for(const vp of viewports){
  await context.close();
 }
 
+// Targeted regression: homepage hero must contain a balanced right-side architecture visual on desktop.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(180);
+ const state=await page.evaluate(()=>{
+   const hero=document.querySelector('.sx-hero');
+   const copy=document.querySelector('.sx-hero-copy');
+   const visual=document.querySelector('.sx-hero-visual');
+   const slab=document.querySelector('.sx-hero-slab');
+   const hb=hero?.getBoundingClientRect(),cb=copy?.getBoundingClientRect(),vb=visual?.getBoundingClientRect(),sb=slab?.getBoundingClientRect();
+   return {
+     hero:hb?{width:hb.width,height:hb.height}:null,
+     copy:cb?{left:cb.left,right:cb.right,width:cb.width}:null,
+     visual:vb?{left:vb.left,right:vb.right,width:vb.width,height:vb.height}:null,
+     slab:sb?{width:sb.width,height:sb.height}:null,
+     display:visual?getComputedStyle(visual).display:null
+   };
+ });
+ const pass=!!state.visual&&!!state.slab&&state.display!=='none'&&state.visual.width>380&&state.slab.width>190&&state.visual.left>state.copy.left;
+ report.targeted.homeHeroArchitecture={...state,pass};
+ if(!pass) report.failures.push({target:'homeHeroArchitecture',...state});
+ await context.close();
+}
+
+// Targeted regression: display typography stays within the calibrated premium scale.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const checks=[];
+ for(const path of ['index.html','enterprise.html','professionals.html','solutions.html','science.html','trust.html']){
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   await page.waitForTimeout(80);
+   const state=await page.evaluate(()=>{
+     const hero=document.querySelector('.sx-hero h1,.hero5 h1');
+     const section=document.querySelector('.sx-section-head h2,.section5 h2');
+     const size=el=>el?parseFloat(getComputedStyle(el).fontSize):null;
+     return {hero:size(hero),section:size(section)};
+   });
+   checks.push({path,...state});
+ }
+ const pass=checks.every(x=>(x.hero===null||x.hero<=84.5)&&(x.section===null||x.section<=70.5));
+ report.targeted.displayTypographyCalibration={checks,pass};
+ if(!pass) report.failures.push({target:'displayTypographyCalibration',checks});
+ await context.close();
+}
+
 await browser.close();
 fs.writeFileSync('qa-output/qa-report.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({failures:report.failures.length,targeted:report.targeted},null,2));
