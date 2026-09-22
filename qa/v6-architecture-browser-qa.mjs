@@ -408,6 +408,27 @@ for(const vp of viewports){
  await context.close();
 }
 
+// Targeted regression: public pages without static contact markup still receive working floating controls.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const token='22222222-2222-4222-8222-222222222222';
+ await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})}));
+ await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor TEST'},messages:[]})}));
+ await page.goto(base+'/solutions.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(120);
+ const call=page.locator('[data-call]').first();
+ const chat=page.locator('[data-chat]').first();
+ const controlsVisible=await call.isVisible()&&await chat.isVisible();
+ await chat.click();
+ await page.waitForTimeout(100);
+ const panelVisible=await page.locator('#chat5').isVisible();
+ const pass=controlsVisible&&panelVisible;
+ report.targeted.injectedContactControls={controlsVisible,panelVisible,pass};
+ if(!pass) report.failures.push({target:'injectedContactControls',controlsVisible,panelVisible});
+ await context.close();
+}
+
 // Targeted regression: concierge UI must accept a message when backend falls back to Command transport.
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
