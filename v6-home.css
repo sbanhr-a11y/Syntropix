@@ -102,9 +102,9 @@ body.sx-v6 footer{background:#080A08;border-top:1px solid rgba(255,255,255,.08)}
 }
 @media(max-width:760px){
   :root{--sx-shell:calc(100vw - 36px)}
-  .sx-hero{padding:66px 0 70px}.sx-hero h1{font-size:clamp(48px,14vw,68px)}.sx-signal-grid{grid-template-columns:1fr}.sx-product-frame{padding:10px;border-radius:26px}.sx-product-window{border-radius:18px}
+  .sx-hero{padding:64px 0 68px}.sx-hero h1{font-size:clamp(42px,12vw,60px)}.sx-signal-grid{grid-template-columns:1fr}.sx-product-frame{padding:10px;border-radius:26px}.sx-product-window{border-radius:18px}
   .sx-trust-inner{grid-template-columns:1fr 1fr}.sx-trust-item{border-top:1px solid rgba(255,255,255,.06);padding:14px 10px}
-  .sx-section{padding:78px 0}.sx-section-head h2{font-size:clamp(42px,12vw,58px)}.sx-system-map{min-height:640px;padding:18px}.sx-node{width:150px}.sx-core{width:150px;height:150px}.sx-node:nth-child(2){left:0}.sx-node:nth-child(3){right:0}.sx-node:nth-child(4){left:0}.sx-node:nth-child(5){right:0}
+  .sx-section{padding:76px 0}.sx-section-head h2{font-size:clamp(36px,10.5vw,52px)}.sx-system-map{min-height:640px;padding:18px}.sx-node{width:150px}.sx-core{width:150px;height:150px}.sx-node:nth-child(2){left:0}.sx-node:nth-child(3){right:0}.sx-node:nth-child(4){left:0}.sx-node:nth-child(5){right:0}
   .sx-journeys{grid-template-columns:1fr}.sx-journey{min-height:440px;padding:28px}.sx-steps{grid-template-columns:repeat(3,1fr)}.sx-testimonial{grid-template-columns:1fr;gap:12px}.sx-testimonial blockquote{font-size:30px}.sx-quote-mark{font-size:80px}
 }
 @media(max-width:520px){
