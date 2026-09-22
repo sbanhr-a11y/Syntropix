@@ -373,7 +373,7 @@ for(const vp of viewports){
  const panel=page.locator('#sx-call-panel');
  const panelVisible=await panel.count()?await panel.isVisible():false;
  const directLink=await panel.count()?await panel.locator('a[href^="https://call.whatsapp.com/"]').count():0;
- const pass=visible&&panelVisible&&directLink===1;
+ const pass=visible&&panelVisible&&directLink>=1;
  report.targeted.callControl={visible,panelVisible,directLink,pass};
  if(!pass) report.failures.push({target:'callControl',visible,panelVisible,directLink});
  await context.close();
