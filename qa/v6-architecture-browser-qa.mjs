@@ -170,6 +170,32 @@ for(const vp of viewports){
  await context.close();
 }
 
+// Targeted regression: Concierge history restores after reload and contact widgets use Burnt Terracotta.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const token='44444444-4444-4444-8444-444444444444';
+ await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})}));
+ await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>{
+   if(route.request().method()==='POST')return route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',delivered:true,transport:'command',messageId:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'})});
+   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor QA'},messages:[{id:'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',direction:'visitor',body:'Earlier visitor message',delivery_status:'command'},{id:'cccccccc-cccc-4ccc-8ccc-cccccccccccc',direction:'operator',body:'Earlier Syntropix reply',delivery_status:'command'}]})});
+ });
+ await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.locator('[data-chat]').first().click();
+ await page.waitForTimeout(180);
+ const history={visitor:await page.getByText('Earlier visitor message',{exact:true}).count(),operator:await page.getByText('Earlier Syntropix reply',{exact:true}).count()};
+ const chatColors=await page.evaluate(()=>{const css=e=>e?getComputedStyle(e):null;return {head:css(document.querySelector('.chat-head b'))?.color,send:css(document.querySelector('.chat-compose button'))?.backgroundColor,wa:css(document.querySelector('.chat-wa-link'))?.color,chatTab:css(document.querySelector('.chat5'))?.backgroundColor,callTab:css(document.querySelector('.call5'))?.backgroundColor}});
+ await page.locator('[data-call]').first().click();
+ await page.waitForTimeout(100);
+ const callColors=await page.evaluate(()=>{const css=e=>e?getComputedStyle(e):null;return {kicker:css(document.querySelector('.callpanel .kicker'))?.color,button:css(document.querySelector('.callpanel .btn.primary'))?.backgroundColor}});
+ const terra='rgb(198, 93, 59)',terraHi='rgb(208, 106, 74)';
+ const terracottaValue=v=>v===terra||v===terraHi;
+ const pass=history.visitor===1&&history.operator===1&&Object.values(chatColors).every(terracottaValue)&&terracottaValue(callColors.kicker)&&terracottaValue(callColors.button);
+ report.targeted.conciergeHistoryAndTerracotta={history,chatColors,callColors,pass};
+ if(!pass)report.failures.push({target:'conciergeHistoryAndTerracotta',history,chatColors,callColors});
+ await context.close();
+}
+
 // Targeted regression: desktop product dropdown opens on hover and retracts when pointer leaves.
 {
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
