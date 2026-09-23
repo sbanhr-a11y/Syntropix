@@ -160,3 +160,29 @@ Therefore, the current application behavior matches the database-policy conclusi
 
 ### Required hardening before external/multi-tenant Command
 Tenant isolation must be enforced twice: (1) backend queries must derive the allowed organisation from the authenticated Command identity and scope every relevant query/mutation accordingly; and (2) browser-accessible database paths must retain explicit grants/RLS appropriate to the same model. Object IDs supplied by clients must never be sufficient authorization by themselves. Role restrictions should be applied to sensitive recruitment/compensation actions, and negative cross-tenant tests should be part of the release gate.
+
+
+## Endpoint authorization / BOLA review — 2026-09-23
+
+A targeted read-only source review covered Command dashboard/readiness, CRM, payment administration, enterprise console and validation analytics.
+
+### Positive controls verified
+- Payment administration is protected by active Command authentication **and** founder/admin/master role middleware.
+- Enterprise organisation creation, admin invitation/status management and licence-pool changes are restricted to founder/admin/master roles.
+- Enterprise administrators are scoped to their stored `command_users.org_id` by the `orgId/scopedOrg` helpers for dashboard, CSV export, assignment and organisation-cohort analytics; non-master callers cannot substitute a different requested organisation id through those helpers.
+- Validation cohort reporting suppresses cells below its minimum reporting threshold and labels outputs as descriptive rather than normative/predictive.
+- Manual UPI approval uses a pending-status compare/update pattern that reduces duplicate operator processing.
+
+### Material authorization findings
+**SX-AUTH-01 — Shared Command dashboard aggregation (design limitation).** Any active Command user reaching the dashboard receives system-wide CRM/ATS/operations aggregate metrics because privileged backend queries are not scoped by `org_id`. This is compatible with a trusted internal workspace, but not with external enterprise-admin access if that route becomes reachable to those users.
+
+**SX-AUTH-02 — CRM object-level authorization (future BOLA risk).** CRM list and mutation paths authenticate Command membership but do not derive organisation scope from the authenticated identity. In particular, opportunity update selects by client-supplied row id using the service-role client. In a multi-tenant model this would be an object-level authorization weakness; under the current internal-only model it is a documented trust assumption.
+
+**SX-AUTH-03 — Enterprise-console scoping is materially stronger.** The inspected enterprise dashboard/export/assignment paths derive organisation context from the authenticated enterprise administrator and ignore a requested foreign organisation for non-master roles. This is the pattern to reuse for future Command tenant hardening.
+
+**SX-AUTH-04 — Master-only ID mutations.** Enterprise admin status changes and validation-pilot ID operations use client-supplied IDs but are protected by founder/admin/master role checks. They remain privileged administrative actions rather than tenant-user BOLA paths; audit and negative tests should still cover them.
+
+**SX-AUTH-05 — Audit insertion provenance.** Backend audit writes normally pass the authenticated actor id. Database policy also permits authenticated browser insertion with a null actor id. This is not required to prove the backend flow and should be reviewed separately before expanding browser-side audit writing.
+
+### Release gate before Command is exposed beyond trusted internal operators
+Do not expose generic Command dashboard/CRM/ATS routes to enterprise administrators merely because they possess a valid Command account. Introduce an explicit route capability matrix and default-deny role middleware, scope every customer-data query by authenticated organisation/ownership, and add negative integration tests using two organisations and at least three roles (master, enterprise admin A, enterprise admin B). Tests must prove that changing URL/body/query object IDs cannot cross organisation boundaries and that aggregate dashboards do not leak another organisation's counts, pipeline, candidate, compensation or revenue information.
