@@ -265,3 +265,12 @@ Each study closes with:
 - approval record.
 
 A null or disappointing result remains part of the evidence record; it must not be silently discarded.
+
+## 19. Methodological references
+
+Methodological alignment should be reviewed against the current editions/guidance in force at the time of each study. Current reference set for this protocol:
+- AERA, APA & NCME — *Standards for Educational and Psychological Testing* (2014 edition; current open-access edition at protocol date).
+- European Federation of Psychologists’ Associations — *EFPA Test Review Model, Version 2025*.
+- International Test Commission — guidelines on test use, test adaptation, and computer-/internet-delivered testing.
+
+These references inform study quality and reporting expectations. They do not constitute endorsement, accreditation, certification or independent review of any Syntropix instrument.
