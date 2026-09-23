@@ -245,3 +245,25 @@ The current connector environment could not directly retrieve the public staging
 
 ### Promotion decision
 The staging deployment shows no startup or existing AC/DC regression failure from the narrow hardening patch. Production promotion remains **PENDING external header/CORS response verification and diff review**; no automatic promotion is authorized by this evidence alone.
+
+
+## Production-candidate isolation and HTTP edge proof — 2026-09-23
+
+The staging branch was compared directly with production `main` before any promotion decision. It is heavily diverged (hundreds of commits ahead and materially behind production), so **staging must not be merged wholesale into production**.
+
+A fresh backend branch, `edge-hardening-prod-candidate`, was therefore created from current production `main`. Its diff is intentionally minimal: one file (`server.js`), 3 additions and 1 relocation. Draft PR #101 contains only (a) the API security-header middleware and (b) moving `/api/health` before the general API limiter. No AC/DC staging history, migrations, UI work, database change, dependency update or environment-variable change is included.
+
+### HTTP response verification in staging
+Because direct external header capture was unavailable from the browser connector, the existing staging startup self-test was extended to perform actual localhost HTTP requests against the deployed service. It now verifies:
+- `/api/health` returns HTTP 200;
+- `X-Content-Type-Options: nosniff`;
+- `X-Frame-Options: DENY`;
+- `Referrer-Policy: no-referrer`;
+- API CSP contains `default-src 'none'`;
+- an allowed origin (`https://syntropix.in`) receives the expected CORS allow-origin response;
+- an unapproved origin receives HTTP 403.
+
+The resulting staging deployment completed successfully and the startup suite reported **PASSED 37 checks**. The build again reported **107 packages audited, 0 vulnerabilities found** at that point in time. This is direct deployed-response evidence for the tested controls, although it is not a substitute for periodic external scanning.
+
+### Promotion status
+Production remains unchanged. Draft backend PR #101 is a production candidate only and must stay unmerged until final review of route compatibility and release posture is complete. The principal compatibility consideration is that the restrictive CSP/X-Frame-Options are applied to all `/api` responses; if any API endpoint intentionally serves embeddable HTML/PDF content, that behavior must be checked before promotion.
