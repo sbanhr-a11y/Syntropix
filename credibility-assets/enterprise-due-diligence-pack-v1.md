@@ -267,3 +267,16 @@ The resulting staging deployment completed successfully and the startup suite re
 
 ### Promotion status
 Production remains unchanged. Draft backend PR #101 is a production candidate only and must stay unmerged until final review of route compatibility and release posture is complete. The principal compatibility consideration is that the restrictive CSP/X-Frame-Options are applied to all `/api` responses; if any API endpoint intentionally serves embeddable HTML/PDF content, that behavior must be checked before promotion.
+
+
+## Production promotion result — 2026-09-23
+
+After narrowing the candidate to compatibility-safe controls, staging passed **35/35** startup checks including PDF smoke tests, API health response, `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, allowed-origin CORS and denied-origin CORS. The broader CSP and frame-blocking headers were intentionally removed from the global API middleware because the API includes downloadable PDF responses and the stronger headers provided limited value for JSON/PDF while adding avoidable compatibility uncertainty.
+
+Backend PR #101 was squash-merged to production as commit `214b3c9faba29180329452c01ca12ce4782e6de1`. The production Render deploy completed with status **live**. The build reported **148 packages audited, 0 vulnerabilities found** at that point in time, the Node process started successfully, and normal production startup integrations initialized without an immediate deployment error. No database schema, data, environment variable, assessment scoring, AC/DC logic, frontend UI or dependency manifest was changed by the production hardening commit.
+
+### Reproducibility finding
+The deployment also exposed a runtime-version drift: the staging build resolved Node 24.14.1 while production resolved Node 26.10.0 because `package.json` specifies only `>=22.0.0`. Both deployments built successfully, but this weakens staging-to-production reproducibility. A future controlled change should pin an explicitly supported Node major/minor policy (or otherwise align Render runtime resolution) and validate it in staging before promotion. Do not change the runtime version opportunistically during an unrelated release.
+
+### Current state
+**PRODUCTION VERIFIED LIVE** for the compatibility-safe edge patch. The remaining infrastructure actions are operational hardening rather than emergency remediation: configure a Render health-check path when supported by the service-management workflow, align Node runtime versions, establish repeatable dependency/security scanning evidence, and continue route-level error-response normalization and secret-lifecycle governance.
