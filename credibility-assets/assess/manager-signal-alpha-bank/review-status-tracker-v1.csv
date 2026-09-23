@@ -1,0 +1,19 @@
+testlet_id,construct,current_draft,method_audit,manager_ratings_required,manager_ratings_received,method_review,fairness_review,ai_review_if_applicable,cognitive_test,status,next_action
+GD-PJ-01,People Judgment,v0.2,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-PJ-02,People Judgment,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-PJ-03,People Judgment,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-EP-01,Execution & Prioritisation,v0.2,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-EP-02,Execution & Prioritisation,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-EP-03,Execution & Prioritisation,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-DE-01,Decision & Evidence Quality,v0.2,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-DE-02,Decision & Evidence Quality,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-DE-03,Decision & Evidence Quality,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-SJ-01,Stakeholder Judgment,v0.2,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-SJ-02,Stakeholder Judgment,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-SJ-03,Stakeholder Judgment,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-LA-01,Learning & Adaptive Judgment,v0.2,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-LA-02,Learning & Adaptive Judgment,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-LA-03,Learning & Adaptive Judgment,v0.3,OPEN,4,0,PENDING,PENDING,NA,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-AI-01,AI-era Management Judgment,v0.3,OPEN,4,0,PENDING,PENDING,PENDING,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-AI-02,AI-era Management Judgment,v0.2,OPEN,4,0,PENDING,PENDING,PENDING,PENDING,METHOD_REVIEW_DRAFT,Independent content review
+GD-AI-03,AI-era Management Judgment,v0.3,OPEN,4,0,PENDING,PENDING,PENDING,PENDING,METHOD_REVIEW_DRAFT,Independent content review
