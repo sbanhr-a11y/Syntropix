@@ -2,7 +2,7 @@
 
 Document ID: SX-SID-TD-1.0
 Technical-document version: 1.0
-Instrument/scoring version: **TO BE VERIFIED FROM RELEASE IMPLEMENTATION**
+Instrument/scoring implementation: **canonical registry/runtime verified; empirical evidence status remains developmental**
 Evidence status: **DEVELOPMENTAL / EVIDENCE-BUILDING**
 Effective date: 2026-09-23
 
@@ -12,8 +12,22 @@ This document instantiates the Syntropix full technical-document standard for St
 ## Current public-use boundary
 Use for developmental reflection and structured development conversations consistent with the current public instrument register. Do not silently repurpose the instrument for consequential employment decisions, clinical diagnosis, neurological inference or deterministic identity labelling.
 
-## Release facts to verify
-Before this document can move beyond scaffold status, extract and freeze from the canonical release: exact item set and item count; response scale; reverse-scored items; domain/subscale mapping; scoring algorithm and transformations; missing-data rules; completion/timing rules; report-band logic; report copy; AI/reflection features; language/locale; administration mode; consent/privacy copy; and release checksum/commit.
+## Canonical implementation facts verified
+- Runtime sources: `assessment-registry-v3.js + assessment-runtime-v3.js`.
+- Canonical registry source hash declared in `assessment-registry-v3.js`: `fc3277609366dcd733112f02d0a955af31dc9becd39ec07f517eb94e94569098`.
+- Item count: **20**.
+- Dimension keys: **FPRD, SOFC, ASAU, CXNV**.
+- Reverse-keyed items: **8**.
+- Response scale: **six-point integer scale, 1–6**.
+- Reverse scoring: **7 − raw response**.
+- Dimension score: mean of keyed item values transformed to 0–100 with `round(((mean-1)/5)*100)`.
+- Overall score: mean across all keyed item values transformed to 0–100 and rounded to one decimal.
+- Runtime descriptive tiers: **high ≥80; mid ≥60; low <60**. Report dimension bands are **Established strength ≥80; Developing capability ≥60; Development priority ≥40; Immediate development focus <40**. These are internal descriptive report rules, not population norms or validated cut scores.
+- Missing responses: production submission is gated until every configured item has a response; partial-score interpretation is not an approved pathway.
+- Runtime/report version observed: **3.0.0** report payload; registry integrity hash is submitted with reports.
+
+### Important evidence boundary
+These implementation facts establish what the software currently does. They do **not** establish reliability, factor structure, criterion validity, predictive validity, fairness, norms or decision utility.
 
 ## Evidence file
 Populate the following sections only from traceable evidence IDs: construct definition and literature map; content-development record; cognitive interviews; pilot sample; item analysis; reliability/precision; internal structure; external-variable evidence; test–retest where relevant; fairness/comparability; norms/benchmarks if justified; accessibility; limitations; and change-control history.
