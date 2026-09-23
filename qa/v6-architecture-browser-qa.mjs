@@ -137,7 +137,7 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: contact details and enterprise response framing are present and actionable.
+// Targeted regression: personal direct contact details are not exposed in enterprise page/footer.
 {
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
@@ -145,11 +145,10 @@ for(const vp of viewports){
  await page.waitForTimeout(120);
  const phoneLinks=await page.locator('a[href="tel:+918826706057"]').count();
  const emailLinks=await page.locator('a[href="mailto:contact@syntropix.in"]').count();
- const bodyText=await page.locator('body').innerText();
- const exactNote='For enterprise enquiries, share your requirement and we will respond with the appropriate scope and conversation path.';
- const pass=phoneLinks>=2&&emailLinks>=2&&bodyText.includes(exactNote);
- report.targeted.enterpriseContactDetails={phoneLinks,emailLinks,exactNotePresent:bodyText.includes(exactNote),pass};
- if(!pass) report.failures.push({target:'enterpriseContactDetails',phoneLinks,emailLinks,exactNotePresent:bodyText.includes(exactNote)});
+ const directCard=await page.locator('.enterprise-contact-direct').count();
+ const pass=phoneLinks===0&&emailLinks===0&&directCard===0;
+ report.targeted.enterpriseDirectContactRemoved={phoneLinks,emailLinks,directCard,pass};
+ if(!pass) report.failures.push({target:'enterpriseDirectContactRemoved',phoneLinks,emailLinks,directCard});
  await context.close();
 }
 
