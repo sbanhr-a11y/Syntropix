@@ -218,3 +218,30 @@ Recent production deploy history shows commit-triggered deployments reaching `li
 
 ### Current decision
 Do not change production solely to satisfy a checklist. The highest-value low-regression candidates for staging validation are: configure Render health checking against `/api/health`; establish an explicit security-header baseline after compatibility testing; add current dependency scanning evidence; and normalize external error responses while preserving server-side diagnostic logging. Secret rotation/access governance should be documented operationally before making any credential rotation that could interrupt production.
+
+
+## Staging hardening validation — 2026-09-23
+
+A deliberately narrow edge-hardening patch was deployed to the Render staging service only; production remained untouched.
+
+### Staging changes tested
+- replaced permissive `cors()` with an explicit origin allow-list and generic CORS-denial handling;
+- added API response headers: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, and an API-only restrictive Content Security Policy;
+- mounted `/api/health` before the general API limiter so future platform health polling cannot be blocked by the ordinary API request quota;
+- enabled the existing general API limiter in staging while retaining the tighter authentication and assessment limiters;
+- added generic API 500 handling while preserving server-side error logging.
+
+### Validation evidence
+- staging commit: `f212b8da531a36ae747b66e68da5d9a4c8e37a15`;
+- Render automatically built and deployed that commit from the `staging` branch;
+- build completed successfully;
+- the Render `npm install` step reported **107 packages audited, 0 vulnerabilities found** for that build. This is point-in-time build evidence, not a guarantee that future dependency states are vulnerability-free;
+- the staging service started successfully and Render reported the service live;
+- the existing AC/DC startup regression suite completed **PASSED 30 checks**, including AC/DC PDF smoke tests;
+- no production service, production branch, production database or production environment variable was modified.
+
+### Remaining limitation
+The current connector environment could not directly retrieve the public staging HTTP response headers, so header presence is verified from the deployed source and successful service startup rather than an independent external-response capture. Before production promotion, capture the live staging response headers from a normal browser/curl environment and confirm CORS behavior for one allowed and one denied origin.
+
+### Promotion decision
+The staging deployment shows no startup or existing AC/DC regression failure from the narrow hardening patch. Production promotion remains **PENDING external header/CORS response verification and diff review**; no automatic promotion is authorized by this evidence alone.
