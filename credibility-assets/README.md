@@ -19,6 +19,7 @@ This directory operationalises the public credibility architecture without creat
 10. `validation-evidence-roadmap-v1.md` — staged study sequencing and Suite v2 prioritization.
 11. `suite-v2/` — implementation register plus ten exact-version Suite v2 technical documents.
 12. `research-ops/` — operational templates for consent, preregistration, cognitive interviews, expert content review, de-identified datasets, launch readiness, evidence registration and study closeout.
+13. `pilots/` — instrument-specific, prerecruitment validation study packages. The first package is Career Navigation Index discovery v1; recruitment remains blocked until its readiness gate is complete.
 
 ## Non-negotiable publication boundary
 No reliability coefficient, validity result, norm, benchmark, customer logo, testimonial, security certification, compliance status or business outcome may be published unless supported by a version-specific evidence record and the required approval. Illustrative demonstrations must remain labelled illustrative.
