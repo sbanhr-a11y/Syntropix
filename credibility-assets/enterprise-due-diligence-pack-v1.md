@@ -186,3 +186,35 @@ A targeted read-only source review covered Command dashboard/readiness, CRM, pay
 
 ### Release gate before Command is exposed beyond trusted internal operators
 Do not expose generic Command dashboard/CRM/ATS routes to enterprise administrators merely because they possess a valid Command account. Introduce an explicit route capability matrix and default-deny role middleware, scope every customer-data query by authenticated organisation/ownership, and add negative integration tests using two organisations and at least three roles (master, enterprise admin A, enterprise admin B). Tests must prove that changing URL/body/query object IDs cannot cross organisation boundaries and that aggregate dashboards do not leak another organisation's counts, pipeline, candidate, compensation or revenue information.
+
+
+## Production edge, secret and dependency posture — 2026-09-23
+
+A read-only review covered the production Render service configuration, backend bootstrap, rate-limit configuration, repository secret-exclusion rules and dependency manifest/lockfile.
+
+### Verified controls
+- Production and staging are separate Render services/branches. Production auto-deploys from `main`; staging auto-deploys from `staging`.
+- CORS uses an explicit allow-list seeded with Syntropix production origins plus configured origins; credentials are disabled. Requests with no Origin are permitted, which is normal for non-browser/server clients and means CORS must not be treated as authentication.
+- JSON request bodies are limited to 1 MB; selected webhook raw bodies are preserved for signature verification workflows.
+- A general API limiter is mounted before API routers (300 requests / 15 minutes / IP), with tighter authentication (10 / 15 minutes / IP) and assessment (100 / 15 minutes / IP) limiters.
+- `.gitignore` excludes `.env`, `.env.*`, `config.env`, common private-key formats, credential/secret CSV patterns and logs. No secret value was retrieved in this review.
+- The backend requires Node >=22 and has a committed lockfile, supporting deterministic dependency resolution at install time.
+
+### Present gaps / limitations
+**SX-EDGE-01 — No dedicated Render health-check path configured.** The application exposes `/api/health`, but the inspected Render service configuration has an empty health-check path. Platform health/deploy verification therefore is not evidenced as using the application health endpoint.
+
+**SX-EDGE-02 — Security response headers not evidenced in application bootstrap.** The inspected bootstrap does not use Helmet and no application-level CSP / HSTS / X-Content-Type-Options configuration was found in the reviewed source. Some headers may be supplied by hosting/browser defaults, but Syntropix should not claim an explicit application security-header baseline until verified from live responses or implemented deliberately.
+
+**SX-EDGE-03 — Public network exposure is intentional.** Render permits `0.0.0.0/0` for the public web service. Security therefore depends on route authentication/authorization, webhook verification, rate limiting and application controls rather than network allow-listing.
+
+**SX-EDGE-04 — Secret lifecycle governance not evidenced.** Source references environment variables and excludes local secret files from Git, but rotation cadence, administrator access review, incident rotation procedure and historical secret scanning are not yet evidenced.
+
+**SX-EDGE-05 — Dependency vulnerability status not yet established.** A committed `package-lock.json` exists, but this review did not establish a current vulnerability scan result. Do not state that dependencies are vulnerability-free until a current audit/Dependabot or equivalent evidence exists.
+
+**SX-EDGE-06 — Error disclosure requires route-by-route normalization.** The global error handler returns a generic API 500 message, which is positive. Some individual routes return caught database/provider `error.message` values directly. Those paths should be classified before enterprise hardening so internal database/provider details are not unnecessarily exposed to callers.
+
+### Deployment evidence
+Recent production deploy history shows commit-triggered deployments reaching `live` status, confirming the configured auto-deploy path is active. This demonstrates deployment operation, not an uptime SLA, rollback SLA, high-availability architecture or disaster-recovery guarantee.
+
+### Current decision
+Do not change production solely to satisfy a checklist. The highest-value low-regression candidates for staging validation are: configure Render health checking against `/api/health`; establish an explicit security-header baseline after compatibility testing; add current dependency scanning evidence; and normalize external error responses while preserving server-side diagnostic logging. Secret rotation/access governance should be documented operationally before making any credential rotation that could interrupt production.
