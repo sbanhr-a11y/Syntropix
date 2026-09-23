@@ -88,3 +88,20 @@ Status labels below mean **VERIFIED CONFIGURATION**, **VERIFIED GAP**, or **NOT 
 An `RLS enabled, no policy` finding does **not automatically mean public read/write exposure**: with RLS enabled and no applicable policy, Data API access is normally denied. However, it is still a governance gap because Syntropix must document which tables are intentionally backend-only, which roles can access them, and whether privileged server-side access bypasses RLS. The remediation pass must therefore be table-by-table and must not create permissive policies merely to silence the advisor.
 
 Supabase advisor reference: https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy
+
+
+## Production authorization classification — 2026-09-23
+
+A read-only privilege inspection was run against the production Supabase project. For the 45 tables flagged by the advisor as **RLS enabled with no policy**, the inspected `anon` and `authenticated` roles also had **no SELECT or INSERT table privilege**. This materially changes the risk interpretation: the inspected findings are consistent with a deny-by-default/backend-only posture rather than evidence of anonymous browser exposure.
+
+This does **not** prove complete authorization security. Server-side service credentials or privileged database roles can bypass RLS, so the backend's endpoint authorization, credential handling and least-privilege design remain a separate control surface to verify. Supabase documents that once RLS is enabled, publishable-key API access is unavailable until policies permit it, and that service keys/roles can bypass RLS.
+
+### Classification decision
+- Do **not** add permissive RLS policies merely to clear the advisor.
+- Preserve deny-by-default for backend-only tables unless a documented product requirement needs direct Data API access.
+- Before exposing any table to `anon` or `authenticated`, define the ownership/tenant authorization model, explicit grants, RLS policy, tests and rollback together.
+- Tables with existing authenticated privileges/policies (including command/CRM surfaces observed in the inventory) require a separate policy-quality review; policy count alone does not establish correct tenant/owner isolation.
+- Backend privileged access remains **NOT YET VERIFIED** because code search did not produce sufficient evidence in this pass; do not infer absence of privileged credentials from an empty code-search result.
+
+### Current conclusion
+The 45 production advisor findings should presently be recorded as **REVIEWED — INTENTIONAL DENY-BY-DEFAULT CANDIDATES**, not as confirmed public-data vulnerabilities and not as remediated controls. Final closure requires endpoint/data-flow mapping and explicit owner approval of the backend-only classification.
