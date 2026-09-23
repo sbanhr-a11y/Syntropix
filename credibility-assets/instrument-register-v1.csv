@@ -1,0 +1,14 @@
+instrument_id,instrument_name,public_status,technical_doc_version,full_doc_status,prohibited_overclaim
+SX-MEI,Managerial Effectiveness Index,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Standalone promotion performance-rating or selection decision
+SX-ELI,Executive Leadership Index,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Predictive validity or executive potential without evidence
+SX-CMI,CogniMorph Index,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Cognitive ability or neurological assessment
+SX-CQ,Coachability Quotient,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Determination that a person can or cannot benefit from coaching
+SX-ME,Metacognitive Executive,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Clinical cognition attention or executive-function claim
+SX-CLP,Cognitive Learning Profiler,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Intelligence aptitude or learning-disability diagnosis
+SX-SLBA,Self-Limiting Belief Auditor,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Mental-health diagnosis or maladaptive-belief diagnosis
+SX-SID,Strategic Inversion Diagnostics,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Validated strategic intelligence or business-performance measure
+SX-CII,Commercial Instinct Index,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Standalone hiring or sales-performance predictor
+SX-CS,Communication Signature,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Objective rating of communication effectiveness from self-report alone
+SX-RIB,Relationship & Intimacy Blueprint,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Fixed attachment identity relationship diagnosis or mental-health assessment
+SX-SPM,Shadow Pattern Map,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,Personality-disorder narcissism psychopathy Machiavellianism toxicity diagnosis
+SX-ARRM,Attention & Reward Rhythm Map,DEVELOPMENTAL_EVIDENCE_BUILDING,1.0,SCAFFOLD_REQUIRED,ADHD autism neurological screening or diagnosis
