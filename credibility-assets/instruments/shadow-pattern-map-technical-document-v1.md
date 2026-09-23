@@ -31,3 +31,10 @@ Privacy/security review: [ ]
 Legal/employment review if applicable: [ ]
 Evidence IDs supporting stronger claims: [NONE YET]
 Next review: [ ]
+
+
+## Implementation status — explicitly unresolved
+
+As of 2026-09-23, no canonical runtime implementation for this instrument was located in the public frontend repository or the private backend repository under the names/aliases reviewed. Accordingly, item count, scoring algorithm, dimension mapping, reverse-scoring rules, timing, thresholds, report logic and runtime version are **not verified** and must not be inferred from public marketing or technical-note wording.
+
+**Publication rule:** keep this document as a controlled evidence-building scaffold only. Do not publish implementation-specific technical claims, psychometric coefficients, norms, predictive claims or high-stakes-use claims until a canonical implementation and versioned evidence record are identified and reviewed.
