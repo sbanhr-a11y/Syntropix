@@ -1,0 +1,19 @@
+testlet_id,construct,subconstruct,base_lens,stage1_cx,peak_cx,stages,ai_rule,status
+PJ-01,People Judgment,"accountability; team impact; proportional response",Universal,CX2,CX4,3,Restricted,RESEARCH_DRAFT
+PJ-02,People Judgment,"diagnosis; coaching; accountability",Universal,CX1,CX3,3,Restricted,RESEARCH_DRAFT
+PJ-03,People Judgment,"confidentiality; employee safety; escalation",Universal,CX2,CX4,3,Restricted,RESEARCH_DRAFT
+EP-01,Execution & Prioritisation,"trade-offs; capacity; escalation",Universal,CX2,CX3,3,Restricted,RESEARCH_DRAFT
+EP-02,Execution & Prioritisation,"incident priority; resource allocation",Universal,CX2,CX4,3,Restricted,RESEARCH_DRAFT
+EP-03,Execution & Prioritisation,"delegation; capacity; evidence quality",Universal,CX1,CX3,3,Restricted,RESEARCH_DRAFT
+DE-01,Decision & Evidence Quality,"metric definitions; leading indicators",Universal,CX2,CX3,3,Restricted,RESEARCH_DRAFT
+DE-02,Decision & Evidence Quality,"causal caution; reversibility",Universal,CX2,CX4,3,Restricted,RESEARCH_DRAFT
+DE-03,Decision & Evidence Quality,"source quality; uncertainty; sponsor pressure",Universal,CX2,CX4,3,Restricted,RESEARCH_DRAFT
+SJ-01,Stakeholder Judgment,"authority; control risk; escalation",Universal,CX2,CX4,3,Restricted,RESEARCH_DRAFT
+SJ-02,Stakeholder Judgment,"customer expectation; prioritisation",Universal,CX2,CX3,3,Restricted,RESEARCH_DRAFT
+SJ-03,Stakeholder Judgment,"cross-functional accountability; influence",Universal,CX2,CX3,3,Restricted,RESEARCH_DRAFT
+LA-01,Learning & Adaptive Judgment,"assumption revision; reputation pressure",Universal,CX2,CX4,3,Restricted,RESEARCH_DRAFT
+LA-02,Learning & Adaptive Judgment,"feedback use; delegation experiment",Universal,CX2,CX3,3,Restricted,RESEARCH_DRAFT
+LA-03,Learning & Adaptive Judgment,"operating-model adaptation; evidence integration",Universal,CX2,CX3,3,Restricted,RESEARCH_DRAFT
+AI-01,AI-era Management Judgment,"privacy; verification; task suitability",Universal,CX1,CX3,3,AI_JUDGMENT,RESEARCH_DRAFT
+AI-02,AI-era Management Judgment,"human oversight; sensitive inference; fairness",Universal,CX2,CX4,3,AI_JUDGMENT,RESEARCH_DRAFT
+AI-03,AI-era Management Judgment,"verification; model limits; human override",Universal,CX2,CX4,3,AI_JUDGMENT,RESEARCH_DRAFT
