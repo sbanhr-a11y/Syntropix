@@ -105,3 +105,29 @@ This does **not** prove complete authorization security. Server-side service cre
 
 ### Current conclusion
 The 45 production advisor findings should presently be recorded as **REVIEWED — INTENTIONAL DENY-BY-DEFAULT CANDIDATES**, not as confirmed public-data vulnerabilities and not as remediated controls. Final closure requires endpoint/data-flow mapping and explicit owner approval of the backend-only classification.
+
+
+## Existing-policy quality review — 2026-09-23
+
+The production RLS policy definitions were inspected read-only. The review confirms two materially different authorization patterns.
+
+**Backend-only / deny policies.** Core assessment, billing, entitlement, organisation, Prism360, session, purchase, research-credit, chat and related tables inspected use explicit `false` policies for `anon` / `authenticated`, or otherwise have no client grants. This is consistent with a server-mediated access model.
+
+**Syntropix Command internal policies.** Command/CRM/ATS policies allow authenticated users when a matching `command_users` record is active. `command_users` itself is self-readable; audit-log read is founder-only, while authenticated users may insert an audit event when `actor_user_id = auth.uid()` or is null. CRM account updates include owner/founder/TA-lead logic, but several CRM/ATS read/write policies authorize any active Command user rather than constraining rows by `org_id`, owner, account, or tenant.
+
+### Risk classification
+Current policy design is acceptable only if Syntropix Command is intentionally a **single trusted internal workspace** whose active users are permitted to see the shared CRM/ATS dataset. It is **not sufficient evidence of tenant isolation** for a future multi-organisation Command product. The schema already contains `command_users.org_id` and multiple organisation/account/owner fields, so future tenant expansion must not rely on the current active-user-only predicates.
+
+Sensitive ATS fields observed include candidate contact details, compensation, interview feedback and recruiter notes. This increases the consequence of over-broad internal access and makes least-privilege role design important before additional Command users are activated.
+
+### Required controls before multi-user / multi-tenant expansion
+1. Formally declare current Command scope: single-organisation trusted internal workspace, or multi-tenant product.
+2. If multi-tenant: add organisation/tenant predicates to relevant CRM/ATS policies, define cross-tenant founder/admin exception deliberately, and test read/insert/update/delete isolation with separate authenticated identities.
+3. Review role-based access for candidate PII, compensation, interview feedback, offers and placements; `status='active'` alone should not become the long-term authorization model for sensitive recruitment data.
+4. Tighten audit-event provenance: assess whether allowing `actor_user_id IS NULL` for authenticated inserts is necessary; if retained, document the use case and server-side provenance control.
+5. Preserve deny-by-default on customer/product tables unless direct browser access is explicitly required.
+
+### Current evidence statement
+**VERIFIED:** RLS is enabled; explicit deny policies protect many server-mediated tables; Command access is tied to an active authenticated Command user; founder-only audit read exists.
+
+**LIMITATION:** Current CRM/ATS policies are primarily workspace-membership based, not demonstrated tenant-row isolation. Syntropix must not claim row-level tenant isolation for Command/ATS from this evidence alone.
