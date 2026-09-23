@@ -26,6 +26,7 @@ on:
       - 'v6-home.css'
       - 'v6-shared.css'
       - 'site-v5.js'
+      - 'assessment-registry-v3.js'
       - 'qa/v6-architecture-browser-qa.mjs'
       - '.github/workflows/v6-architecture-browser-qa.yml'
   workflow_dispatch:
