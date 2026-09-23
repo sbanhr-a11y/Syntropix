@@ -1,0 +1,2 @@
+evidence_id,instrument,instrument_version,study_id,population,method,status,supports,does_not_support,dataset_version,analysis_commit,owner,date,notes
+SX-EV-[INSTRUMENT]-[STUDY]-[YYYY]-[NN],[instrument],[version],[study],[population],[method],PLANNED,[supported interpretation],[explicit exclusions],[dataset],[commit],[owner],[date],[notes]
