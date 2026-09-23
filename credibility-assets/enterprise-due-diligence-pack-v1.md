@@ -131,3 +131,32 @@ Sensitive ATS fields observed include candidate contact details, compensation, i
 **VERIFIED:** RLS is enabled; explicit deny policies protect many server-mediated tables; Command access is tied to an active authenticated Command user; founder-only audit read exists.
 
 **LIMITATION:** Current CRM/ATS policies are primarily workspace-membership based, not demonstrated tenant-row isolation. Syntropix must not claim row-level tenant isolation for Command/ATS from this evidence alone.
+
+
+## Backend-mediated access verification — 2026-09-23
+
+Backend source and deployment configuration were inspected read-only.
+
+### Verified trust boundary
+- Render production runs the private `syntropix-backend` repository from `main` using `node server.js`; staging runs the same repository from `staging`.
+- The shared database module creates the Supabase client from `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. The source explicitly states the service-role credential is backend-only and must never be shipped to the frontend.
+- Because the service role is privileged and can bypass RLS, **backend route authorization and query scoping are the effective authorization boundary for server-mediated data access**. RLS deny policies remain useful defense against browser/publishable-key access but do not constrain privileged backend queries.
+- Command browser authentication receives only `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from `/api/command/config`; no service-role credential is returned by that endpoint in the inspected source.
+- `requireCommandUser` validates the bearer token with Supabase Auth, loads the matching `command_users` row, and requires `status='active'` before protected Command/CRM routes continue. A separate `allowCommandRoles` middleware exists for routes that opt into role restrictions.
+
+### Verified CRM authorization behavior
+The currently inspected CRM routes are protected by `requireCommandUser`, but their service-layer database queries use the privileged backend client and are not organisation-scoped:
+- account listing selects all non-archived `crm_accounts`;
+- contact listing selects all non-archived contacts unless an account filter is supplied;
+- opportunity listing selects all non-archived opportunities unless an account filter is supplied;
+- opportunity update targets the supplied row id directly after Command membership authentication.
+
+Therefore, the current application behavior matches the database-policy conclusion: **Command is presently a shared trusted internal workspace, not a demonstrated multi-tenant-isolated CRM.** Adding organisation-aware RLS alone would not fix privileged backend access; tenant enforcement must also be implemented in backend query scoping and authorization checks.
+
+### Credential/control conclusion
+**VERIFIED:** the service-role secret is referenced server-side; the inspected public Command config exposes only the publishable key; protected Command/CRM routes authenticate the bearer token and active Command membership.
+
+**NOT VERIFIED / LIMITATION:** least-privilege database credentials are not used for the inspected server data path; service-role access is broad by design. Secret rotation cadence, Render environment-variable access governance and historical secret exposure have not yet been evidenced. No secret value was retrieved or recorded during this review.
+
+### Required hardening before external/multi-tenant Command
+Tenant isolation must be enforced twice: (1) backend queries must derive the allowed organisation from the authenticated Command identity and scope every relevant query/mutation accordingly; and (2) browser-accessible database paths must retain explicit grants/RLS appropriate to the same model. Object IDs supplied by clients must never be sufficient authorization by themselves. Role restrictions should be applied to sensitive recruitment/compensation actions, and negative cross-tenant tests should be part of the release gate.
