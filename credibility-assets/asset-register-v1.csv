@@ -1,0 +1,7 @@
+asset_id,asset_name,version,status,owner,external_release_gate,next_action
+SX-CA-001,Full Instrument Technical Document Master,1.0,READY_TEMPLATE,Assessment/Evidence Lead,Instrument-specific evidence review,Instantiate per proprietary instrument
+SX-CA-002,Enterprise Due-Diligence Pack,1.0,CONTROLLED_TEMPLATE,Enterprise/Trust Owner,Deployment-specific verification,Populate verified controls and evidence links
+SX-CA-003,DPA Working Draft,1.0,LEGAL_REVIEW_REQUIRED,Legal/Privacy Owner,Qualified legal review plus client-specific schedules,Do not execute as-is
+SX-CA-004,Controlled Product Walkthrough Standard,1.0,READY_INTERNAL,Product/Enterprise Owner,Synthetic sandbox QA,Build version-stamped walkthrough assets
+SX-CA-005,Case Study Evidence Pack,1.0,WAITING_FOR_REAL_DEPLOYMENT,Evidence/Client Owner,Real data plus client/privacy/method approval,Use from first pilot before outcomes are known
+SX-CA-006,13 Instrument Technical Documents,1.0,SCAFFOLDS_CREATED,Assessment/Evidence Lead,Canonical release extraction plus evidence mapping,Verify item/scoring/report facts before strengthening status
