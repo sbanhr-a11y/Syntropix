@@ -280,3 +280,19 @@ The deployment also exposed a runtime-version drift: the staging build resolved 
 
 ### Current state
 **PRODUCTION VERIFIED LIVE** for the compatibility-safe edge patch. The remaining infrastructure actions are operational hardening rather than emergency remediation: configure a Render health-check path when supported by the service-management workflow, align Node runtime versions, establish repeatable dependency/security scanning evidence, and continue route-level error-response normalization and secret-lifecycle governance.
+
+
+## Runtime reproducibility closure — 2026-09-23
+
+Render documentation was reviewed before changing runtime policy. Render gives `NODE_VERSION` highest precedence, then `.node-version`, then `.nvmrc`, then `package.json > engines.node`; unbounded ranges such as `>=22` can resolve to a newer major over time. This explained the observed staging/production runtime drift.
+
+### Staging verification
+Staging was explicitly pinned to Node `24.14.1` and redeployed. Render confirmed `Using Node.js version 24.14.1 via ... package.json`; the build audited 107 packages with 0 vulnerabilities at that point in time, the service reached live status, and the full staging startup suite passed **35/35 checks**, including PDF and edge-control checks.
+
+### Production implementation
+Production uses the smaller repository-level control: a one-line root `.node-version` containing `24.14.1`. This avoids dependency or lockfile modification while taking precedence over the existing broad `package.json` engine range. Backend PR #102 was squash-merged as production commit `5c9be8f2ea35dfa2169dea60c8b507761471486e`.
+
+Render production confirmed `Using Node.js version 24.14.1 via .../.node-version`; its build audited 148 packages with 0 vulnerabilities at that point in time, the Node process started normally, and the deployment reached **live** status. No application code, database schema/data, dependency manifest, lockfile, environment variable, assessment scoring, AC/DC logic or frontend file changed in this runtime-pinning release.
+
+### Health-check configuration status
+The application health endpoint exists and is deliberately outside the general API rate limiter. The currently available Render service-management connector exposes service inspection but does not expose a safe service-update action for the health-check path. Therefore the platform-level health-check-path change remains **NOT YET APPLIED** rather than being simulated through an unrelated configuration change. It should be applied only through a supported Render configuration surface and then verified against `/api/health`.
