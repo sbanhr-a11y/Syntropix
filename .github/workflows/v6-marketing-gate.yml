@@ -21,7 +21,13 @@ on:
       - 'evidence-in-practice.html'
       - 'technical-notes.html'
       - 'trust-center.html'
+      - 'technical-manuals.html'
+      - 'enterprise-due-diligence.html'
+      - 'dpa-template.html'
+      - 'product-walkthroughs.html'
+      - 'case-study-methodology.html'
       - 'v6-credibility.css'
+      - 'v6-credibility-assets.css'
       - '.well-known/security.txt'
       - 'privacy.html'
       - 'terms.html'
@@ -71,7 +77,7 @@ jobs:
           set -euo pipefail
           test -s v6-foundation.css
           test -s v6-assessment-cards.css
-          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html company.html evidence-in-practice.html technical-notes.html trust-center.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
+          pages='index.html enterprise.html professionals.html solutions.html assessment-intelligence.html manager-development.html prism360.html employee-experience.html talent-solutions.html professional-coaching.html compliance-learning.html pricing.html science.html trust.html company.html evidence-in-practice.html technical-notes.html trust-center.html technical-manuals.html enterprise-due-diligence.html dpa-template.html product-walkthroughs.html case-study-methodology.html privacy.html terms.html refund-cancellation.html cookie-policy.html'
           for f in $pages; do
             grep -q '/v6-foundation.css' "$f"
             ! grep -q '/site-v5.css' "$f"
@@ -142,6 +148,13 @@ jobs:
             grep -q '/site-v5.js' "$f"
             grep -q '/global-footer-v1.js' "$f"
           done
+          test -s v6-credibility-assets.css
+          for f in technical-manuals.html enterprise-due-diligence.html dpa-template.html product-walkthroughs.html case-study-methodology.html; do
+            grep -q '/v6-credibility.css' "$f"
+            grep -q '/v6-credibility-assets.css' "$f"
+            grep -q '/site-v5.js' "$f"
+            grep -q '/global-footer-v1.js' "$f"
+          done
           ! grep -q '/v6-editorial.css' science.html
           ! grep -q '/v6-editorial.css' trust.html
           echo 'Full public V6 migration verified'
@@ -170,6 +183,18 @@ jobs:
           grep -q 'Supabase' trust-center.html
           grep -q 'Postmark' trust-center.html
           grep -q 'Provider certifications are not presented as Syntropix certifications' trust-center.html
+          grep -q 'Technical manuals,' technical-manuals.html
+          test "$(grep -o 'TECHNICAL MANUAL v1.0' technical-manuals.html | wc -l)" -eq 13
+          grep -q 'No reliability coefficient' technical-manuals.html
+          grep -q 'DATA PROCESSING ADDENDUM / TEMPLATE v0.1' dpa-template.html
+          grep -q 'Publication does not create a data-processing agreement' dpa-template.html
+          grep -q 'ENTERPRISE DUE DILIGENCE / PUBLIC PACK v1.0' enterprise-due-diligence.html
+          grep -q 'No certification inheritance' enterprise-due-diligence.html
+          grep -q 'CONTROLLED PRODUCT WALKTHROUGHS' product-walkthroughs.html
+          grep -q 'Illustrative data only' product-walkthroughs.html
+          grep -q 'CASE STUDY EVIDENCE METHOD / v1.0' case-study-methodology.html
+          grep -q 'no Syntropix client outcome case is published' case-study-methodology.html
+          grep -q "'managerial-effectiveness':\['50 questions','10 dimensions','~25 min'\]" assessment-catalogue-v6.js
           grep -q 'cred-demo' manager-development.html
           grep -q 'cred-demo' prism360.html
           grep -q 'cred-demo' employee-experience.html
@@ -217,6 +242,11 @@ jobs:
           grep -q '<loc>https://syntropix.in/</loc>' sitemap.xml
           grep -q '<loc>https://syntropix.in/enterprise.html</loc>' sitemap.xml
           grep -q '<loc>https://syntropix.in/professionals.html</loc>' sitemap.xml
+          grep -q '<loc>https://syntropix.in/technical-manuals.html</loc>' sitemap.xml
+          grep -q '<loc>https://syntropix.in/enterprise-due-diligence.html</loc>' sitemap.xml
+          grep -q '<loc>https://syntropix.in/dpa-template.html</loc>' sitemap.xml
+          grep -q '<loc>https://syntropix.in/product-walkthroughs.html</loc>' sitemap.xml
+          grep -q '<loc>https://syntropix.in/case-study-methodology.html</loc>' sitemap.xml
           grep -q '"@type":"Organization"' index.html
           grep -q '"@type":"WebSite"' index.html
           for f in privacy.html terms.html refund-cancellation.html; do
