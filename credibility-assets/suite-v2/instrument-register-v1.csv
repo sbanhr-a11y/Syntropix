@@ -1,0 +1,11 @@
+instrument,version,items,dimensions,items_per_dimension,reverse_items,definition_audience,catalogue_age,current_self_serve_min,evidence_status,norms,selection,clinical
+Identity Compass,1.0.0,12,4,3,"2;4;6;8","14–26","18+","18","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Social Signal Profile,1.0.0,12,4,3,"2;4;6;8","16+","18+","18","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Career Navigation Index,1.0.0,12,4,3,"2;4;6;8","18+","18+","18","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Work-Life Fit Index,1.0.0,12,4,3,"2;4;6;8","21+","21+","18 platform gate; 21+ product positioning","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Adaptive Capacity Index,1.0.0,12,4,3,"2;4;6;8","18+","18+","18","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Relationship Dynamics Profile,1.0.0,12,4,3,"2;4;6;8","18+","18+","18","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Emotional Agility Profile,1.0.0,12,4,3,"2;4;6;8","18+","18+","18","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Life Chapter Compass,1.0.0,12,4,3,"2;4;6;8","35+","35+","18 platform gate; 35+ product positioning","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Generativity & Legacy Index,1.0.0,12,4,3,"2;4;6;8","40+","40+","18 platform gate; 40+ product positioning","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
+Intergenerational Bridge Profile,1.0.0,12,4,3,"2;4;6;8","18+","18+","18","RESEARCH_INFORMED_VALIDATION_IN_PROGRESS",false,false,false
