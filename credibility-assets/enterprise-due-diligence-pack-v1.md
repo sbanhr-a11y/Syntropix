@@ -296,3 +296,20 @@ Render production confirmed `Using Node.js version 24.14.1 via .../.node-version
 
 ### Health-check configuration status
 The application health endpoint exists and is deliberately outside the general API rate limiter. The currently available Render service-management connector exposes service inspection but does not expose a safe service-update action for the health-check path. Therefore the platform-level health-check-path change remains **NOT YET APPLIED** rather than being simulated through an unrelated configuration change. It should be applied only through a supported Render configuration surface and then verified against `/api/health`.
+
+
+## Repeatable security governance and error-response hardening — 2026-09-23
+
+### CI and dependency governance now implemented
+The private backend repository now contains a production security workflow that runs on relevant pull requests, relevant pushes to `main`, a weekly schedule and manual dispatch. The gate uses the pinned Node runtime, performs a locked `npm ci` installation, verifies the direct dependency tree, runs `npm audit --audit-level=high`, syntax-checks security-sensitive bootstrap files and runs the backend test suite. The workflow passed before merge.
+
+Dependabot configuration was also added for weekly npm and GitHub Actions review PRs. These are review inputs only; there is no automatic merge policy. An internal Security Operations Runbook now documents secret-handling boundaries, event-driven rotation triggers, staging-first rotation procedure, quarterly administrator-access review, incident handling and the evidence boundary for unsupported certification/operational claims.
+
+Production governance commit: `77556646c3669a1da22b25425b7a65280de56240`. Render subsequently built that commit on the pinned Node 24.14.1 runtime and the deployment reached live status.
+
+### Error-response normalization
+A source review identified selected routes that could return raw database or provider error strings to authenticated/admin callers. A targeted staging patch preserved existing success/error flow semantics and server-side logging while replacing those raw external messages with bounded operational messages. The affected functional areas include payment administration, organization/license administration, contact administration, integration provisioning/configuration, validation administration, backup operations and Prism360 administration. Production additionally includes the protected Command payment-admin route.
+
+The staging candidate passed its dedicated syntax workflow, deployed successfully, and the existing startup regression suite passed **35/35 checks**, including PDF and edge-control checks. The production candidate then passed the general Backend Security & Dependency Integrity workflow, the Command Authentication Safety Gate and the dedicated Error Response Integrity syntax gate before merge.
+
+Production error-normalization commit: `103ec9d63478fd956f4a0de57df44efb5433fc7a`. This change does not alter database schema/data, credentials, assessment scoring, AC/DC logic, dependency versions or frontend files. Detailed error information remains in server-side logs for operator diagnosis rather than being reflected to callers.
