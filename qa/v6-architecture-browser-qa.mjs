@@ -655,7 +655,7 @@ for(const vp of viewports){
  await page.waitForTimeout(220);
  const card=page.locator('.assessment-card').filter({has:page.locator('a[href*="assessment=managerial-effectiveness"]')}).first();
  const meta=(await card.locator('.assessment-meta').innerText()).trim();
- const pass=/10 dimensions/i.test(meta)&&!/8 dimensions/i.test(meta);
+ const pass=/10\s+(?:dimensions|dims?\.?)/i.test(meta)&&!/8\s+(?:dimensions|dims?\.?)/i.test(meta);
  report.targeted.managerialEffectivenessDimensionMetadata={meta,pass};
  if(!pass) report.failures.push({target:'managerialEffectivenessDimensionMetadata',meta});
  await page.close();
