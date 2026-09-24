@@ -1,0 +1,33 @@
+name: Public Repository Research IP Guard
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-research-ip-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - name: Reject private Assess research paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          private_research="$(git ls-files | grep -E '^credibility-assets/assess/(manager-signal-alpha-bank/|campus-signal/)' || true)"
+          if [ -n "$private_research" ]; then
+            echo "::error::Private Assess research content must live in the private backend repository, not the public website repository."
+            printf '%s\n' "$private_research"
+            exit 1
+          fi
+          echo "Public repository research boundary verified"
