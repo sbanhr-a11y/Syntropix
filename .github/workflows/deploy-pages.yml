@@ -19,6 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/configure-pages@v5
+      - name: Block proprietary Assess research from public deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          private_research="$(git ls-files | grep -E '^credibility-assets/assess/(manager-signal-alpha-bank/|campus-signal/)' || true)"
+          if [ -n "$private_research" ]; then
+            echo "::error::Private Assess research content is tracked in the public website repository:"
+            printf '%s\n' "$private_research"
+            exit 1
+          fi
+          echo "No private Assess research paths detected in public deployment source"
       - name: Verify repository is deployment-ready without mutation
         shell: bash
         run: |
