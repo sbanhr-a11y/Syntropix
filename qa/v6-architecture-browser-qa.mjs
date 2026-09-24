@@ -646,6 +646,22 @@ for(const vp of viewports){
  await context.close();
 }
 
+
+// Targeted regression: Managerial Effectiveness public metadata matches its canonical ten-dimension runtime.
+{
+ const context=await browser.newContext({viewport:{width:1200,height:900}});
+ const page=await context.newPage();
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(220);
+ const card=page.locator('.assessment-card').filter({has:page.locator('a[href*="assessment=managerial-effectiveness"]')}).first();
+ const meta=(await card.locator('.assessment-meta').innerText()).trim();
+ const pass=/10 dimensions/i.test(meta)&&!/8 dimensions/i.test(meta);
+ report.targeted.managerialEffectivenessDimensionMetadata={meta,pass};
+ if(!pass) report.failures.push({target:'managerialEffectivenessDimensionMetadata',meta});
+ await page.close();
+ await context.close();
+}
+
 await browser.close();
 fs.writeFileSync('qa-output/qa-report.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({failures:report.failures.length,targeted:report.targeted},null,2));
