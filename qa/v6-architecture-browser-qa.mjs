@@ -622,6 +622,30 @@ for(const vp of viewports){
  await context.close();
 }
 
+
+// Targeted regression: universal footer keeps the approved copyright and fresh Syntropix favicon.
+{
+ const context=await browser.newContext({viewport:{width:1200,height:900}});
+ const checks=[];
+ for(const path of ['index.html','enterprise.html','pricing.html','privacy.html']){
+   const page=await context.newPage();
+   await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+   await page.waitForTimeout(180);
+   const state=await page.evaluate(()=>({
+     icon:document.querySelector('link[rel="icon"]')?.href||'',
+     shortcut:document.querySelector('link[rel="shortcut icon"]')?.href||'',
+     apple:document.querySelector('link[rel="apple-touch-icon"]')?.href||'',
+     footerText:document.querySelector('footer.sx-global-footer')?.innerText||''
+   }));
+   checks.push({path,...state});
+   await page.close();
+ }
+ const pass=checks.every(x=>x.icon.includes('/favicon.png')&&x.shortcut.includes('/favicon.png')&&x.apple.includes('/favicon.png')&&x.footerText.includes('© 2026 Syntropix® – All rights reserved.'));
+ report.targeted.universalFooterBranding={checks,pass};
+ if(!pass) report.failures.push({target:'universalFooterBranding',checks});
+ await context.close();
+}
+
 await browser.close();
 fs.writeFileSync('qa-output/qa-report.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({failures:report.failures.length,targeted:report.targeted},null,2));
