@@ -19,6 +19,8 @@ const viewports=[
   {name:'desktop-1920',width:1920,height:1080},
   {name:'desktop-1440',width:1440,height:1000},
   {name:'tablet-1024',width:1024,height:900},
+  {name:'tablet-768',width:768,height:1024},
+  {name:'mobile-430',width:430,height:932},
   {name:'mobile-390',width:390,height:844},
 ];
 
@@ -109,7 +111,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const checks=[];
- for(const path of ['index.html','enterprise.html','professionals.html']){
+ for(const path of ['index.html','enterprise.html','professionals.html','company.html']){
    const page=await context.newPage();
    await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
    await page.waitForTimeout(120);
@@ -574,14 +576,14 @@ for(const vp of viewports){
  const page=await context.newPage();
  const checks={};
  await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
- checks.company={founder:await page.getByText('Shubhashish Banerjee',{exact:true}).count(),boundary:await page.getByText(/Previous professional experience informs/).count()};
+ checks.company={founder:await page.getByText('Shubhashish Banerjee',{exact:true}).count(),cofounder:await page.getByText('Neha Banerjee',{exact:true}).count(),philosophy:await page.getByText(/The Physics of Human Potential/).count(),partnership:await page.getByText(/A Partnership of Opposites/).count()};
  await page.goto(base+'/technical-notes.html',{waitUntil:'domcontentloaded',timeout:12000});
  checks.technical={notes:await page.locator('.cred-note').count(),guardrail:await page.getByText(/Developmental indicators/).count()};
  await page.goto(base+'/evidence-in-practice.html',{waitUntil:'domcontentloaded',timeout:12000});
  checks.evidence={blueprints:await page.locator('.cred-blueprint').count(),standard:await page.getByText(/Five questions before an outcome becomes marketing/).count()};
  await page.goto(base+'/trust-center.html',{waitUntil:'domcontentloaded',timeout:12000});
  checks.trust={providers:await page.locator('.cred-table tbody tr').count(),providerBoundary:await page.getByText(/Provider certifications are not presented as Syntropix certifications/).count()};
- const pass=checks.company.founder===1&&checks.company.boundary>=1&&checks.technical.notes===13&&checks.technical.guardrail>=1&&checks.evidence.blueprints===3&&checks.evidence.standard>=1&&checks.trust.providers>=5&&checks.trust.providerBoundary>=1;
+ const pass=checks.company.founder===1&&checks.company.cofounder===1&&checks.company.philosophy>=1&&checks.company.partnership>=1&&checks.technical.notes===13&&checks.technical.guardrail>=1&&checks.evidence.blueprints===3&&checks.evidence.standard>=1&&checks.trust.providers>=5&&checks.trust.providerBoundary>=1;
  report.targeted.credibilityLayer={checks,pass};
  if(!pass) report.failures.push({target:'credibilityLayer',checks});
  await context.close();
