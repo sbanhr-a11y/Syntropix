@@ -19,6 +19,8 @@ const viewports=[
   {name:'desktop-1920',width:1920,height:1080},
   {name:'desktop-1440',width:1440,height:1000},
   {name:'tablet-1024',width:1024,height:900},
+  {name:'tablet-768',width:768,height:1024},
+  {name:'mobile-430',width:430,height:932},
   {name:'mobile-390',width:390,height:844},
 ];
 
@@ -109,7 +111,7 @@ for(const vp of viewports){
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const checks=[];
- for(const path of ['index.html','enterprise.html','professionals.html']){
+ for(const path of ['index.html','enterprise.html','professionals.html','company.html']){
    const page=await context.newPage();
    await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
    await page.waitForTimeout(120);
