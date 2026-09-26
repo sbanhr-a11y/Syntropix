@@ -163,7 +163,9 @@ jobs:
           grep -q 'nav-products-menu' site-v5.js
           grep -q 'journey-flow' professionals.html
           grep -q 'Shubhashish Banerjee' company.html
-          grep -q 'Former VP HR' company.html
+          grep -q 'FOUNDER &amp; CHIEF ARCHITECT' company.html
+          grep -q 'Neha Banerjee' company.html
+          grep -q '>Our Story<' site-v5.js
           grep -q 'Case evidence,' evidence-in-practice.html
           grep -q 'Managerial Effectiveness Index' technical-notes.html
           grep -q 'DEVELOPMENTAL / EVIDENCE-BUILDING' technical-notes.html
