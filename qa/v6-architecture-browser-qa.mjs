@@ -121,7 +121,7 @@ for(const vp of viewports){
    const buttonVisible=await button.isVisible();
    const label=await button.getAttribute('aria-label');
    if(buttonVisible) await button.click();
-   await page.waitForTimeout(120);
+   await page.waitForTimeout(260);
    const afterNav=await nav.evaluate(el=>getComputedStyle(el).display);
    const box=await nav.boundingBox();
    const viewportPass=!!box && box.x>=-1 && box.x+box.width<=391;
