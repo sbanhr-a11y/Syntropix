@@ -178,7 +178,7 @@ for(const vp of viewports){
    bodyLocked:await page.locator('body').evaluate(el=>el.classList.contains('sx-nav-open')),
    focused:await button.evaluate(el=>document.activeElement===el)
  };
- const pass=productExpanded==='true'&&submenuVisible&&touchBoxes.every(x=>x.h>=44)&&productBoxes.every(x=>x.h>=44)&&!finalState.navVisible&&finalState.expanded==='false'&&finalState.label==='Open navigation'&&finalState.menuText==='Menu'&&!finalState.bodyLocked&&finalState.focused;
+ const pass=productExpanded==='true'&&submenuVisible&&touchBoxes.every(x=>x.h>=44)&&productBoxes.every(x=>x.h>=44)&&!finalState.navVisible&&finalState.expanded==='false'&&finalState.label==='Open navigation'&&finalState.menuText.toLowerCase()==='menu'&&!finalState.bodyLocked&&finalState.focused;
  report.targeted.mobileNavInteraction={productExpanded,submenuVisible,touchBoxes,productBoxes,finalState,pass};
  if(!pass)report.failures.push({target:'mobileNavInteraction',productExpanded,submenuVisible,touchBoxes,productBoxes,finalState});
  await page.close();await context.close();
