@@ -14,3 +14,43 @@
 @media(max-width:900px){.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{min-height:auto;border-radius:22px}.assessment-card .assessment-meta{flex-wrap:nowrap}.assessment-card .assessment-meta .meta-icon{min-width:0;flex:1 1 0;padding-left:7px;padding-right:7px;gap:5px}.assessment-card .assessment-meta .meta-value{font-size:11px}.assessment-card .assessment-meta .meta-value b{font-size:11px}.assessment-card .assessment-meta .meta-value small{font-size:9px}}@media(prefers-reduced-motion:reduce){.assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{transition:none}}
 /* Accessibility: category chips sit on dark assessment cards, so their labels must remain visibly light regardless of global .num overrides. */
 .assessment-catalogue-inline .assessment-card .num,.enterprise-grid .assessment-card .num{color:var(--card-chip-ink);opacity:1;text-shadow:none}
+
+
+/* RESPONSIVE PREMIUM UX v1 — unified Syntropix assessment language */
+.assessment-grid .assessment-card{--card-bg1:#101612;--card-bg2:#050806}
+.assessment-grid .assessment-card:nth-child(3n+1){--card-accent:#50C878;--card-chip-bg:#173a28;--card-chip-ink:#dff5e7}
+.assessment-grid .assessment-card:nth-child(3n+2){--card-accent:#9DC183;--card-chip-bg:#293827;--card-chip-ink:#e6f1df}
+.assessment-grid .assessment-card:nth-child(3n+3){--card-accent:#F7E7CE;--card-chip-bg:#3b3328;--card-chip-ink:#fff4df}
+.flagship-grid .executive-flagship{border-color:#9DC183;background:linear-gradient(145deg,#141c15 0%,#070b08 72%)}
+.flagship-grid .executive-flagship:before{background:#F7E7CE}
+
+@media(min-width:761px) and (max-width:1100px){
+ .assessment-catalogue-inline .assessment-grid,.enterprise-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important}
+ .assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{min-height:360px!important;padding:24px!important}
+ .assessment-catalogue-inline .assessment-card h3,.enterprise-grid .assessment-card h3{font-size:22px!important}
+ .assessment-card .assessment-meta{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ .assessment-card .assessment-meta .meta-icon{width:100%!important}
+}
+@media(max-width:760px){
+ .assessment-catalogue-inline{padding-top:30px!important}
+ .assessment-catalogue-inline .assessment-grid,.enterprise-grid{grid-template-columns:1fr!important;gap:12px!important}
+ .assessment-catalogue-inline .assessment-card,.enterprise-grid .assessment-card{
+   min-height:0!important;padding:20px!important;border-radius:18px!important;box-shadow:0 12px 28px rgba(0,0,0,.14)!important
+ }
+ .assessment-catalogue-inline .assessment-card:hover,.enterprise-grid .assessment-card:hover{transform:none!important}
+ .assessment-catalogue-inline .assessment-card .num,.enterprise-grid .assessment-card .num{margin-bottom:9px!important;padding:6px 9px!important;font-size:10px!important}
+ .assessment-catalogue-inline .assessment-card h3,.enterprise-grid .assessment-card h3{margin:8px 0!important;font-size:22px!important;line-height:1.08!important}
+ .assessment-catalogue-inline .assessment-card>p,.enterprise-grid .assessment-card>p{
+   margin:0!important;font-size:14px!important;line-height:1.55!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+ }
+ .assessment-card .assessment-meta{margin-top:16px!important;padding-top:14px!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+ .assessment-card .assessment-meta .meta-icon{height:38px!important;min-width:0!important;width:100%!important;padding:0 5px!important;gap:4px!important;border-radius:10px!important}
+ .assessment-card .assessment-meta .meta-icon svg{width:14px!important;height:14px!important}
+ .assessment-card .assessment-meta .meta-value b{font-size:10.5px!important}.assessment-card .assessment-meta .meta-value small{font-size:8.5px!important}
+ .assessment-commercial{padding-top:14px!important;gap:5px!important}
+ .assessment-price-line{padding-top:11px!important}.assessment-price-line strong{font-size:23px!important}
+ .assessment-saving-line{font-size:10px!important;gap:8px!important}
+ .assessment-card .btn{margin-top:14px!important;min-height:48px!important;width:100%!important;justify-content:center!important}
+ .flagship-grid{grid-template-columns:1fr!important;gap:12px!important}
+ .flagship-grid .flagship-card{min-height:0!important;padding:21px!important}
+}
