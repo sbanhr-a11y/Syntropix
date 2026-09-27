@@ -730,7 +730,7 @@ for(const vp of viewports){
    const cb=canvas?.getBoundingClientRect();
    return {canvas:!!canvas,canvasWidth:cb?.width||0,canvasHeight:cb?.height||0,portraits,names,facts};
  });
- const framePass=state.portraits.length===2&&state.portraits.every(x=>x.w>=200&&x.w<=230&&Math.abs(x.ratio-.8)<.03&&Math.abs(x.imgW-x.w)<2&&Math.abs(x.imgH-x.h)<2&&x.naturalWidth>=x.w);
+ const framePass=state.portraits.length===2&&state.portraits.every(x=>x.w>=190&&x.w<=202&&x.h>=238&&x.h<=252&&Math.abs(x.ratio-.8)<.03&&Math.abs(x.imgW-x.w)<2&&Math.abs(x.imgH-x.h)<2&&x.naturalWidth>=x.w);
  const hdNeha=state.portraits.some(x=>x.src.includes('our-story-neha-hd.webp')&&x.naturalWidth>=360);
  const pass=state.canvas&&state.canvasWidth>420&&state.canvasHeight>=300&&framePass&&hdNeha&&state.names.every(x=>x<=60);
  report.targeted.ourStoryPremiumComposition={...state,framePass,hdNeha,pass};
@@ -755,7 +755,7 @@ for(const vp of viewports){
      facts:fr?{x:fr.x,y:fr.y,w:fr.width,h:fr.height}:null
    };
  }));
- const pass=state.length===2&&state.every(x=>x.frame&&x.image&&x.name&&x.role&&x.facts&&x.frame.w<=122&&x.frame.h<=154&&Math.abs(x.frame.w/x.frame.h-.8)<.03&&Math.abs(x.image.w-x.frame.w)<2&&Math.abs(x.image.h-x.frame.h)<2&&x.name.x>x.frame.x+x.frame.w&&x.facts.y>x.frame.y+x.frame.h-2&&x.facts.w>340);
+ const pass=state.length===2&&state.every(x=>x.frame&&x.image&&x.name&&x.role&&x.facts&&x.frame.w>=104&&x.frame.w<=112&&x.frame.h>=131&&x.frame.h<=139&&Math.abs(x.frame.w/x.frame.h-.8)<.03&&Math.abs(x.image.w-x.frame.w)<2&&Math.abs(x.image.h-x.frame.h)<2&&x.name.x>x.frame.x+x.frame.w&&x.facts.y>x.frame.y+x.frame.h-2&&x.facts.w>340);
  report.targeted.ourStoryMobileIdentity={state,pass};
  if(!pass)report.failures.push({target:'ourStoryMobileIdentity',state});
  await page.close();await context.close();

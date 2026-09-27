@@ -312,3 +312,56 @@
  .story-portrait-frame,.story-person.reverse .story-portrait-frame{width:108px;max-width:108px}
  .story-person-intro h2{font-size:clamp(28px,8.2vw,34px)}
 }
+
+
+/* OUR STORY PORTRAIT COMPOSITION v2 — bounded editorial cards, source-aware crops */
+.story-people .story-portrait-frame,
+.story-people .story-person.reverse .story-portrait-frame{
+  box-sizing:border-box;
+  width:196px!important;
+  height:245px!important;
+  max-width:196px!important;
+  aspect-ratio:auto!important;
+  overflow:hidden!important;
+  align-self:start!important;
+}
+.story-people .story-portrait-frame img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  aspect-ratio:auto!important;
+  object-fit:cover!important;
+}
+.story-people .story-portrait-frame img.story-portrait-shubhashish{
+  object-position:50% 50%!important;
+}
+.story-people .story-portrait-frame img.story-portrait-neha{
+  object-position:50% 34%!important;
+}
+.story-people .story-person{
+  grid-template-columns:196px minmax(0,1fr);
+  column-gap:clamp(42px,5vw,72px);
+}
+.story-people .story-person.reverse{
+  grid-template-columns:minmax(0,1fr) 196px;
+}
+@media(min-width:701px) and (max-width:1100px){
+  .story-people .story-portrait-frame,
+  .story-people .story-person.reverse .story-portrait-frame{
+    width:168px!important;height:210px!important;max-width:168px!important;
+  }
+  .story-people .story-person{grid-template-columns:168px minmax(0,1fr);column-gap:32px}
+  .story-people .story-person.reverse{grid-template-columns:minmax(0,1fr) 168px}
+}
+@media(max-width:700px){
+  .story-people .story-person,
+  .story-people .story-person.reverse{
+    grid-template-columns:108px minmax(0,1fr);
+    column-gap:16px;
+  }
+  .story-people .story-portrait-frame,
+  .story-people .story-person.reverse .story-portrait-frame{
+    width:108px!important;height:135px!important;max-width:108px!important;
+  }
+}
