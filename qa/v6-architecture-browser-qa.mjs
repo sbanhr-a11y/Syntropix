@@ -664,6 +664,61 @@ for(const vp of viewports){
  await context.close();
 }
 
+
+// Targeted regression: Our Story motion is live and founder photography is proportionate.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(500);
+ const state=await page.evaluate(()=>{
+   const canvas=document.querySelector('.story-motion-canvas');
+   const portraits=[...document.querySelectorAll('.story-portrait-frame')].map(el=>el.getBoundingClientRect().width);
+   const names=[...document.querySelectorAll('.story-person-intro h2')].map(el=>parseFloat(getComputedStyle(el).fontSize));
+   return {canvasWidth:canvas?.width||0,canvasHeight:canvas?.height||0,portraits,names};
+ });
+ const pass=state.canvasWidth>300&&state.canvasHeight>200&&state.portraits.length===2&&state.portraits.every(x=>x<=270)&&state.names.every(x=>x<=58);
+ report.targeted.storyMotionAndPortraitScale={...state,pass};
+ if(!pass) report.failures.push({target:'storyMotionAndPortraitScale',...state});
+ await page.close();await context.close();
+}
+
+// Targeted regression: tablet assessment catalogue uses a true two-column composition.
+{
+ const context=await browser.newContext({viewport:{width:768,height:1024}});
+ const page=await context.newPage();
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(260);
+ const cards=page.locator('.assessment-catalogue-inline .assessment-card');
+ const count=await cards.count();
+ const boxes=[];
+ for(let i=0;i<Math.min(count,4);i++)boxes.push(await cards.nth(i).boundingBox());
+ const rows=boxes.filter(Boolean).map(b=>Math.round(b.y));
+ const uniqueRows=[...new Set(rows)];
+ const pass=boxes.length>=4&&uniqueRows.length<=2&&Math.abs(boxes[0].y-boxes[1].y)<4&&boxes[0].x<boxes[1].x;
+ report.targeted.tabletAssessmentComposition={count,boxes,pass};
+ if(!pass) report.failures.push({target:'tabletAssessmentComposition',count,boxes});
+ await page.close();await context.close();
+}
+
+// Targeted regression: mobile consolidates contact actions and transforms credibility tables into readable cards.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ await page.goto(base+'/trust-center.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(220);
+ const hubVisible=await page.locator('[data-contact-hub]').isVisible();
+ const legacyCallVisible=await page.locator('.call5').first().isVisible().catch(()=>false);
+ const legacyChatVisible=await page.locator('.chat5').first().isVisible().catch(()=>false);
+ const firstCell=page.locator('.cred-table tbody td').first();
+ const label=await firstCell.getAttribute('data-label');
+ const display=await firstCell.evaluate(el=>getComputedStyle(el).display);
+ const pass=hubVisible&&!legacyCallVisible&&!legacyChatVisible&&!!label&&display==='grid';
+ report.targeted.mobileContactAndTables={hubVisible,legacyCallVisible,legacyChatVisible,label,display,pass};
+ if(!pass) report.failures.push({target:'mobileContactAndTables',hubVisible,legacyCallVisible,legacyChatVisible,label,display});
+ await page.close();await context.close();
+}
+
 await browser.close();
 fs.writeFileSync('qa-output/qa-report.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({failures:report.failures.length,targeted:report.targeted},null,2));
