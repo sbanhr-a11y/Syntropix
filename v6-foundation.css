@@ -152,3 +152,84 @@ footer.sx-global-footer .sx-footer-enterprise-note{max-width:760px;margin:0 auto
 
 /* V6 ELITE REFINEMENT — readable card taxonomy labels */
 .v6-problem small,.v6-trust-card small,.v6-level small,.assessment-card .num,.card .num,.flagship-ribbon,.price-eyebrow{font-size:clamp(11.5px,.9vw,13px)!important;line-height:1.35!important;letter-spacing:.12em!important}
+
+
+/* PREMIUM RESPONSIVE EXPERIENCE v1 — tablet and mobile are deliberate layouts, not desktop reductions */
+.v5nav nav>a[aria-current="page"]{color:#fff;position:relative}
+.v5nav nav>a[aria-current="page"]:after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:2px;background:linear-gradient(90deg,var(--sx-champagne),var(--sx-emerald))}
+@media(min-width:761px) and (max-width:1100px){
+ .grid3,.grid6,.assessment-grid,.enterprise-grid,.flagship-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .flow{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .v5nav{min-height:68px}
+}
+@media(max-width:1100px){
+ body.sx-nav-open{overflow:hidden}
+ .v5nav{position:sticky;top:0;z-index:1500;background:rgba(7,9,8,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+ .v5nav.open nav{position:fixed!important;top:68px!important;left:12px!important;right:12px!important;bottom:12px!important;max-height:none!important;overflow:auto!important;padding:18px!important;border-radius:0 0 24px 24px!important;background:linear-gradient(180deg,rgba(10,14,11,.995),rgba(7,9,8,.995))!important;box-shadow:0 34px 90px rgba(0,0,0,.55)!important}
+ .v5nav.open nav:before{content:"EXPLORE SYNTROPIX";display:block;padding:6px 12px 12px;color:#7f8981;font:900 10px/1 ui-monospace,monospace;letter-spacing:.18em}
+ .v5nav.open nav>a,.v5nav.open .nav-products-trigger{min-height:52px!important;border-bottom:1px solid rgba(255,255,255,.055);font-size:17px!important;font-weight:760!important}
+ .v5nav.open nav>a[aria-current="page"]{color:var(--sx-champagne)!important}
+ .v5nav.open nav>a[aria-current="page"]:after{display:none}
+ .v5nav nav .nav-products-menu{padding:8px 0 10px 10px!important}
+ .v5nav nav .nav-product-link{min-height:58px;padding:11px 12px!important;border-left:1px solid rgba(214,184,120,.18);border-radius:0!important}
+ .v5nav nav .nav-product-link b{font-size:13px}.v5nav nav .nav-product-link small{font-size:11px}
+ .v5nav.open .menu5 .sx-menu-icon:before{top:6px;transform:rotate(45deg)}
+ .v5nav.open .menu5 .sx-menu-icon i{opacity:0}
+ .v5nav.open .menu5 .sx-menu-icon:after{top:6px;transform:rotate(-45deg)}
+}
+
+@media(max-width:760px){
+ :root{--sx-mobile-gutter:18px}
+ body{font-size:16px}
+ .v5nav{min-height:62px;padding-inline:var(--sx-mobile-gutter)!important}
+ .v5nav.open nav{top:62px!important;left:8px!important;right:8px!important;bottom:max(8px,env(safe-area-inset-bottom))!important;padding:14px!important}
+ .v5nav.open nav>a,.v5nav.open .nav-products-trigger{min-height:54px!important;font-size:18px!important}
+ .v5nav nav .nav-product-link{min-height:62px}
+ .v5nav nav .nav-product-link b{font-size:14px}.v5nav nav .nav-product-link small{font-size:11.5px;line-height:1.45}
+ .hero5,.section5{padding-left:var(--sx-mobile-gutter);padding-right:var(--sx-mobile-gutter)}
+ .kicker,.num,.index,.sx-eyebrow,.v6-beta-kicker{font-size:12px!important;letter-spacing:.14em!important}
+ .card p,.assessment-card>p,.section-lead,.hero5 p{font-size:16px;line-height:1.62}
+ .btn,.navcta,.cred-btn{min-height:48px}
+ a,button,input,select,textarea,summary{touch-action:manipulation}
+ .assessment-grid,.grid2,.grid3,.grid6,.flagship-grid,.enterprise-grid{grid-template-columns:1fr!important}
+ .flow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(160px,72vw);grid-template-columns:none!important;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;padding-bottom:8px;scrollbar-width:none}
+ .flow::-webkit-scrollbar{display:none}.flow article{scroll-snap-align:start}
+ .floating{bottom:max(12px,env(safe-area-inset-bottom));width:50px;height:48px;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.32)}
+ .call5{left:calc(50% - 54px)}.chat5{left:calc(50% + 4px);right:auto}
+ .call5,.chat5{border-width:1px}
+ .chatpanel{left:12px;right:12px;bottom:calc(72px + env(safe-area-inset-bottom));width:auto;max-height:min(72vh,620px);border-radius:22px}
+ .chat-messages{height:min(320px,38vh)}
+ .callpanel{left:12px;right:12px;bottom:calc(72px + env(safe-area-inset-bottom));width:auto}
+ footer.sx-global-footer{padding:34px var(--sx-mobile-gutter) calc(92px + env(safe-area-inset-bottom))}
+ footer.sx-global-footer .sx-footer-layout{align-items:stretch;text-align:left;gap:20px}
+ footer.sx-global-footer .sx-footer-left,footer.sx-global-footer .sx-footer-right{align-items:stretch;text-align:left}
+ footer.sx-global-footer .sx-footer-social{justify-content:flex-start;font-size:13px}
+ footer.sx-global-footer .sx-footer-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+ footer.sx-global-footer .sx-footer-nav a{min-height:46px;display:flex;align-items:center;padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12.5px}
+ footer.sx-global-footer .sx-footer-nav>span{display:none}
+ footer.sx-global-footer small{text-align:left}
+ .cred-table-wrap{overflow:visible;border:0}
+ .cred-table{min-width:0;background:transparent}
+ .cred-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+ .cred-table,.cred-table tbody,.cred-table tr,.cred-table td{display:block;width:100%}
+ .cred-table tr{margin:0 0 12px;padding:14px 16px;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:#0d110e}
+ .cred-table td{display:grid;grid-template-columns:minmax(92px,.42fr) minmax(0,1fr);gap:12px;padding:8px 0;border:0!important;font-size:13px}
+ .cred-table td:before{content:attr(data-label);color:#7f887f;font:850 9px/1.35 ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase}
+}
+
+@media(max-width:430px){
+ :root{--sx-mobile-gutter:16px}
+ .hero5 h1,.section5 h2{letter-spacing:-.04em}
+ footer.sx-global-footer .sx-footer-nav{grid-template-columns:1fr 1fr}
+ .cred-table td{grid-template-columns:1fr;gap:4px}
+}
+
+/* Mobile contact dock clearance: reserve a deliberate interaction lane above the safe area. */
+@media(max-width:760px){
+ body.v6-marketing .hero5{padding-bottom:calc(118px + env(safe-area-inset-bottom))!important}
+ body.sx-v6 .sx-hero{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+}
+
+@media(max-width:760px){
+ body.sx-hero-contact-defer .floating{display:none!important}
+}
