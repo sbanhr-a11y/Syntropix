@@ -116,7 +116,7 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: canonical mobile navigation must be consistent, explicit and stay inside the viewport.
+// Targeted regression: canonical mobile navigation must be consistent, explicit and occupy the intended full-height viewport sheet.
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const checks=[];
