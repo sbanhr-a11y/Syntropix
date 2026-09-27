@@ -27,6 +27,13 @@ const viewports=[
 fs.rmSync('qa-output',{recursive:true,force:true});
 fs.mkdirSync('qa-output/screenshots',{recursive:true});
 
+async function revealMobileContactDock(page){
+  await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+  await page.waitForTimeout(240);
+  const dock=page.locator('[data-chat]').first();
+  await dock.waitFor({state:'visible',timeout:4000});
+}
+
 async function revealForScreenshot(page){
   const reveals=page.locator('.sx-reveal');
   const count=await reveals.count();
@@ -162,6 +169,7 @@ for(const vp of viewports){
  await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})}));
  await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor TEST'},messages:[]})}));
  await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await revealMobileContactDock(page);
  await page.locator('[data-chat]').first().click();
  await page.waitForTimeout(120);
  const state=await page.locator('.chat-note').evaluate(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return {fontSize:parseFloat(s.fontSize),lineHeight:s.lineHeight,textAlign:s.textAlign,left:r.left,width:r.width}});
@@ -459,7 +467,7 @@ for(const vp of viewports){
  const page=await context.newPage();
  await page.route('https://call.whatsapp.com/**',async route=>route.fulfill({status:200,contentType:'text/html',body:'<html><body>call target</body></html>'}));
  await page.goto(base+'/solutions.html',{waitUntil:'domcontentloaded',timeout:12000});
- await page.waitForTimeout(120);
+ await revealMobileContactDock(page);
  const call=page.locator('[data-call]').first();
  const chat=page.locator('[data-chat]').first();
  const controlsVisible=await call.isVisible()&&await chat.isVisible();
@@ -508,6 +516,7 @@ for(const vp of viewports){
    return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor TEST'},messages:[]})});
  });
  await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await revealMobileContactDock(page);
  await page.locator('[data-chat]').first().click();
  await page.waitForTimeout(120);
  const panelVisible=await page.locator('#chat5').isVisible();
