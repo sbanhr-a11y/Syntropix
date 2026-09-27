@@ -48,7 +48,9 @@ async function revealForScreenshot(page){
       await new Promise(r=>setTimeout(r,55));
     }
     window.scrollTo(0,0);
-    await new Promise(r=>setTimeout(r,500));
+    await Promise.all([...document.images].map(img=>img.complete?Promise.resolve():new Promise(r=>{img.addEventListener('load',r,{once:true});img.addEventListener('error',r,{once:true})})));
+    await Promise.all([...document.images].map(img=>typeof img.decode==='function'?img.decode().catch(()=>{}):Promise.resolve()));
+    await new Promise(r=>setTimeout(r,350));
   });
 }
 
@@ -114,36 +116,72 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: canonical mobile navigation must be consistent and stay inside the viewport.
+// Targeted regression: canonical mobile navigation must be consistent, explicit and occupy the intended full-height viewport sheet.
 {
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const checks=[];
  for(const path of ['index.html','enterprise.html','professionals.html','company.html']){
    const page=await context.newPage();
    await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
-   await page.waitForTimeout(120);
+   await page.waitForTimeout(180);
    const button=page.locator('.menu5');
    const nav=page.locator('.v5nav nav');
    const beforeNav=await nav.evaluate(el=>getComputedStyle(el).display);
    const buttonVisible=await button.isVisible();
-   const label=await button.getAttribute('aria-label');
+   const beforeLabel=await button.getAttribute('aria-label');
+   const beforeExpanded=await button.getAttribute('aria-expanded');
    if(buttonVisible) await button.click();
-   await page.waitForTimeout(260);
+   await page.waitForTimeout(280);
    const afterNav=await nav.evaluate(el=>getComputedStyle(el).display);
    const box=await nav.boundingBox();
-   const viewportPass=!!box && box.x>=-1 && box.x+box.width<=391;
+   const viewportPass=!!box && box.x>=-1 && box.x+box.width<=391 && box.y>=60 && box.y<=64 && box.height>=760 && box.y+box.height<=845;
+   const afterLabel=await button.getAttribute('aria-label');
+   const afterExpanded=await button.getAttribute('aria-expanded');
+   const menuText=(await button.locator('.sx-menu-label').innerText()).trim();
+   const bodyLocked=await page.locator('body').evaluate(el=>el.classList.contains('sx-nav-open'));
    const iconState=await button.evaluate(el=>{
      const icon=el.querySelector('.sx-menu-icon'),mid=icon?.querySelector('i');
      const before=icon?getComputedStyle(icon,'::before'):null,after=icon?getComputedStyle(icon,'::after'):null,buttonStyle=getComputedStyle(el);
-     return {borderWidth:buttonStyle.borderTopWidth,borderStyle:buttonStyle.borderTopStyle,midOpacity:mid?getComputedStyle(mid).opacity:null,beforeTransform:before?.transform||null,afterTransform:after?.transform||null};
+     return {borderWidth:buttonStyle.borderTopWidth,midOpacity:mid?getComputedStyle(mid).opacity:null,beforeTransform:before?.transform||null,afterTransform:after?.transform||null};
    });
-   checks.push({path,buttonVisible,label,beforeNav,afterNav,box,viewportPass,iconState});
+   checks.push({path,buttonVisible,beforeLabel,beforeExpanded,afterLabel,afterExpanded,menuText,bodyLocked,beforeNav,afterNav,box,viewportPass,iconState});
    await page.close();
  }
- const pass=checks.every(x=>x.buttonVisible && x.label==='Open navigation' && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass && x.iconState.borderWidth==='0px' && x.iconState.midOpacity==='0' && x.iconState.beforeTransform!=='none' && x.iconState.afterTransform!=='none');
+ const pass=checks.every(x=>x.buttonVisible && x.beforeLabel==='Open navigation' && x.beforeExpanded==='false' && x.afterLabel==='Close navigation' && x.afterExpanded==='true' && x.menuText.toLowerCase()==='close' && x.bodyLocked && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass && x.iconState.borderWidth==='0px' && x.iconState.midOpacity==='0' && x.iconState.beforeTransform!=='none' && x.iconState.afterTransform!=='none');
  report.targeted.canonicalMobileNav={checks,pass};
  if(!pass) report.failures.push({target:'canonicalMobileNav',checks});
  await context.close();
+}
+
+// Targeted regression: mobile navigation supports product disclosure, large touch targets and Escape recovery.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
+ const page=await context.newPage();
+ await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(180);
+ const button=page.locator('.menu5');
+ await button.click();await page.waitForTimeout(220);
+ const trigger=page.locator('.nav-products-trigger');
+ const touchBoxes=await page.locator('.v5nav.open nav>a,.v5nav.open .nav-products-trigger').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height}}));
+ await trigger.click();await page.waitForTimeout(120);
+ const submenu=page.locator('.nav-products-menu');
+ const productExpanded=await trigger.getAttribute('aria-expanded');
+ const submenuVisible=await submenu.isVisible();
+ const productBoxes=await submenu.locator('.nav-product-link').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height}}));
+ await page.screenshot({path:'qa-output/screenshots/mobile-nav-open--390.png',fullPage:false});
+ await page.keyboard.press('Escape');await page.waitForTimeout(120);
+ const finalState={
+   navVisible:await page.locator('.v5nav nav').isVisible(),
+   expanded:await button.getAttribute('aria-expanded'),
+   label:await button.getAttribute('aria-label'),
+   menuText:(await button.locator('.sx-menu-label').innerText()).trim(),
+   bodyLocked:await page.locator('body').evaluate(el=>el.classList.contains('sx-nav-open')),
+   focused:await button.evaluate(el=>document.activeElement===el)
+ };
+ const pass=productExpanded==='true'&&submenuVisible&&touchBoxes.every(x=>x.h>=44)&&productBoxes.every(x=>x.h>=44)&&!finalState.navVisible&&finalState.expanded==='false'&&finalState.label==='Open navigation'&&finalState.menuText.toLowerCase()==='menu'&&!finalState.bodyLocked&&finalState.focused;
+ report.targeted.mobileNavInteraction={productExpanded,submenuVisible,touchBoxes,productBoxes,finalState,pass};
+ if(!pass)report.failures.push({target:'mobileNavInteraction',productExpanded,submenuVisible,touchBoxes,productBoxes,finalState});
+ await page.close();await context.close();
 }
 
 // Targeted regression: personal direct contact details are not exposed in enterprise page/footer.
@@ -683,14 +721,43 @@ for(const vp of viewports){
  await page.waitForTimeout(450);
  const state=await page.evaluate(()=>{
    const canvas=document.querySelector('#story-syntropy-canvas');
-   const portraits=[...document.querySelectorAll('.story-portrait-frame')].map(el=>({w:el.getBoundingClientRect().width,h:el.getBoundingClientRect().height}));
+   const portraits=[...document.querySelectorAll('.story-portrait-frame')].map(el=>{
+     const r=el.getBoundingClientRect(),img=el.querySelector('img'),ir=img?.getBoundingClientRect();
+     return {w:r.width,h:r.height,ratio:r.width/r.height,imgW:ir?.width||0,imgH:ir?.height||0,naturalWidth:img?.naturalWidth||0,src:img?.getAttribute('src')||''};
+   });
    const names=[...document.querySelectorAll('.story-person-intro h2')].map(el=>parseFloat(getComputedStyle(el).fontSize));
+   const facts=[...document.querySelectorAll('.story-facts')].map(el=>getComputedStyle(el).gridTemplateColumns);
    const cb=canvas?.getBoundingClientRect();
-   return {canvas:!!canvas,canvasWidth:cb?.width||0,canvasHeight:cb?.height||0,portraits,names};
+   return {canvas:!!canvas,canvasWidth:cb?.width||0,canvasHeight:cb?.height||0,portraits,names,facts};
  });
- const pass=state.canvas&&state.canvasWidth>420&&state.canvasHeight>=300&&state.portraits.length===2&&state.portraits.every(x=>x.w<=300&&x.w>=200)&&state.names.every(x=>x<=60);
- report.targeted.ourStoryPremiumComposition={...state,pass};
- if(!pass)report.failures.push({target:'ourStoryPremiumComposition',...state});
+ const framePass=state.portraits.length===2&&state.portraits.every(x=>x.w>=200&&x.w<=230&&Math.abs(x.ratio-.8)<.03&&Math.abs(x.imgW-x.w)<2&&Math.abs(x.imgH-x.h)<2&&x.naturalWidth>=x.w);
+ const hdNeha=state.portraits.some(x=>x.src.includes('our-story-neha-hd.webp')&&x.naturalWidth>=360);
+ const pass=state.canvas&&state.canvasWidth>420&&state.canvasHeight>=300&&framePass&&hdNeha&&state.names.every(x=>x<=60);
+ report.targeted.ourStoryPremiumComposition={...state,framePass,hdNeha,pass};
+ if(!pass)report.failures.push({target:'ourStoryPremiumComposition',...state,framePass,hdNeha});
+ await page.close();await context.close();
+}
+
+// Targeted regression: Our Story mobile identity blocks stay compact, aligned and undistorted.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:1});
+ const page=await context.newPage();
+ await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(350);
+ const state=await page.evaluate(()=>[...document.querySelectorAll('.story-person')].map(person=>{
+   const frame=person.querySelector('.story-portrait-frame'),img=frame?.querySelector('img'),name=person.querySelector('.story-person-intro h2'),role=person.querySelector('.story-role'),facts=person.querySelector('.story-facts');
+   const r=frame?.getBoundingClientRect(),ir=img?.getBoundingClientRect(),nr=name?.getBoundingClientRect(),rr=role?.getBoundingClientRect(),fr=facts?.getBoundingClientRect();
+   return {
+     frame:r?{x:r.x,y:r.y,w:r.width,h:r.height}:null,
+     image:ir?{w:ir.width,h:ir.height,naturalWidth:img.naturalWidth,src:img.getAttribute('src')}:null,
+     name:nr?{x:nr.x,y:nr.y,w:nr.width,h:nr.height}:null,
+     role:rr?{x:rr.x,y:rr.y,w:rr.width,h:rr.height}:null,
+     facts:fr?{x:fr.x,y:fr.y,w:fr.width,h:fr.height}:null
+   };
+ }));
+ const pass=state.length===2&&state.every(x=>x.frame&&x.image&&x.name&&x.role&&x.facts&&x.frame.w<=122&&x.frame.h<=154&&Math.abs(x.frame.w/x.frame.h-.8)<.03&&Math.abs(x.image.w-x.frame.w)<2&&Math.abs(x.image.h-x.frame.h)<2&&x.name.x>x.frame.x+x.frame.w&&x.facts.y>x.frame.y+x.frame.h-2&&x.facts.w>340);
+ report.targeted.ourStoryMobileIdentity={state,pass};
+ if(!pass)report.failures.push({target:'ourStoryMobileIdentity',state});
  await page.close();await context.close();
 }
 

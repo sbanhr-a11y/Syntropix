@@ -214,3 +214,101 @@
 @media(prefers-reduced-motion:reduce){
  #story-syntropy-canvas{opacity:.92}
 }
+
+
+/* MOBILE GOLD STANDARD v1 — leadership editorial composition */
+.story-people>.cred-shell{gap:clamp(76px,8vw,112px)}
+.story-person{
+  grid-template-columns:220px minmax(0,1fr);
+  grid-template-areas:"portrait intro" "body body";
+  column-gap:clamp(48px,6vw,82px);row-gap:30px;
+}
+.story-person.reverse{
+  grid-template-columns:minmax(0,1fr) 220px;
+  grid-template-areas:"intro portrait" "body body";
+}
+.story-portrait-frame,.story-person.reverse .story-portrait-frame{
+  width:220px;max-width:220px;aspect-ratio:4/5;align-self:start;
+}
+.story-portrait-frame img{
+  width:100%!important;height:100%!important;display:block;
+  aspect-ratio:4/5;object-fit:cover;
+  object-position:50% 40%;
+}
+.story-portrait-frame img.story-portrait-shubhashish{object-position:50% 44%}
+.story-portrait-frame img.story-portrait-neha{object-position:50% 38%}
+.story-person-intro{align-self:start;padding-top:4px}
+.story-person-intro h2{font-size:clamp(40px,4vw,56px);line-height:.96}
+.story-role{margin:12px 0 22px}
+.story-facts{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+  max-width:none;border-top:1px solid #d7d0c4;border-bottom:1px solid #d7d0c4;
+}
+.story-facts div{padding:14px 18px 15px 0;border-top:0}
+.story-facts div+div{padding-left:18px;border-left:1px solid #d7d0c4}
+.story-facts dt{margin-bottom:5px}
+.story-facts dd{font-size:13.5px;line-height:1.48}
+.story-person-body{
+  margin-top:4px;padding-top:28px;border-top:1px solid #ddd6ca;
+  gap:16px clamp(30px,4vw,52px);
+}
+.story-person-body>p{font-size:15.5px;line-height:1.72}
+.story-quote{margin-top:20px;padding:28px 34px 26px 42px}
+.story-quote p{font-size:clamp(20px,1.8vw,25px);line-height:1.5}
+
+@media(min-width:701px) and (max-width:1100px){
+ .story-person{grid-template-columns:184px minmax(0,1fr);grid-template-areas:"portrait intro" "body body";column-gap:34px}
+ .story-person.reverse{grid-template-columns:minmax(0,1fr) 184px;grid-template-areas:"intro portrait" "body body"}
+ .story-portrait-frame,.story-person.reverse .story-portrait-frame{width:184px;max-width:184px}
+ .story-facts{grid-template-columns:1fr}
+ .story-facts div,.story-facts div+div{padding:11px 0;border-left:0;border-top:1px solid #ddd6ca}
+ .story-facts div:first-child{border-top:0}
+}
+
+@media(max-width:700px){
+ .story-people>.cred-shell{gap:64px}
+ .story-people .story-section-index{margin-bottom:-4px}
+ .story-person,.story-person.reverse{
+   display:grid;grid-template-columns:120px minmax(0,1fr);
+   grid-template-areas:"portrait name" "portrait role" "facts facts" "body body";
+   column-gap:18px;row-gap:0;
+ }
+ .story-person-intro{display:contents}
+ .story-person-intro h2{
+   grid-area:name;align-self:end;margin:0 0 8px;
+   font-size:clamp(29px,8.4vw,36px);line-height:.98;letter-spacing:-.045em;
+ }
+ .story-role{
+   grid-area:role;align-self:start;margin:0;
+   font-size:9px;line-height:1.45;letter-spacing:.10em;
+ }
+ .story-portrait-frame,.story-person.reverse .story-portrait-frame{
+   grid-area:portrait;width:120px;max-width:120px;justify-self:start;
+ }
+ .story-portrait-frame:after{inset:7px -6px -6px 7px}
+ .story-facts{
+   grid-area:facts;grid-template-columns:1fr;margin-top:24px;
+   border-top:1px solid #d7d0c4;border-bottom:1px solid #d7d0c4;
+ }
+ .story-facts div,.story-facts div+div{
+   padding:11px 0;border-left:0;border-top:1px solid #ddd6ca;
+ }
+ .story-facts div:first-child{border-top:0}
+ .story-facts dd{font-size:13px;line-height:1.46}
+ .story-person-body{
+   grid-area:body;grid-template-columns:1fr;
+   margin-top:24px;padding-top:22px;gap:14px;border-top:1px solid #ddd6ca;
+ }
+ .story-person-body>p{font-size:15.5px;line-height:1.7}
+ .story-quote{
+   margin-top:12px;padding:25px 20px 22px 30px;border-left-width:3px;
+ }
+ .story-quote>span{left:12px;top:10px;font-size:48px}
+ .story-quote p{font-size:19px;line-height:1.48}
+}
+
+@media(max-width:430px){
+ .story-person,.story-person.reverse{grid-template-columns:108px minmax(0,1fr);column-gap:16px}
+ .story-portrait-frame,.story-person.reverse .story-portrait-frame{width:108px;max-width:108px}
+ .story-person-intro h2{font-size:clamp(28px,8.2vw,34px)}
+}
