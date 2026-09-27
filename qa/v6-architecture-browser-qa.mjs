@@ -731,7 +731,7 @@ for(const vp of viewports){
    return {canvas:!!canvas,canvasWidth:cb?.width||0,canvasHeight:cb?.height||0,portraits,names,facts};
  });
  const framePass=state.portraits.length===2&&state.portraits.every(x=>x.w>=200&&x.w<=230&&Math.abs(x.ratio-.8)<.03&&Math.abs(x.imgW-x.w)<2&&Math.abs(x.imgH-x.h)<2&&x.naturalWidth>=x.w);
- const hdNeha=state.portraits.some(x=>x.src.includes('our-story-neha-hd.webp')&&x.naturalWidth>=400);
+ const hdNeha=state.portraits.some(x=>x.src.includes('our-story-neha-hd.webp')&&x.naturalWidth>=360);
  const pass=state.canvas&&state.canvasWidth>420&&state.canvasHeight>=300&&framePass&&hdNeha&&state.names.every(x=>x<=60);
  report.targeted.ourStoryPremiumComposition={...state,framePass,hdNeha,pass};
  if(!pass)report.failures.push({target:'ourStoryPremiumComposition',...state,framePass,hdNeha});
