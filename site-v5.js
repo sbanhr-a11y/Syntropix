@@ -74,3 +74,60 @@ function init(){enhanceNav();enhanceTables();enhanceForms();enhancePortfolio();d
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,350)},{once:true}):(init(),setTimeout(init,350));
 window.addEventListener('pageshow',enhanceNav);
 })();
+
+;(()=>{'use strict';
+function syncGoldNav(nav){
+  const menu=nav.querySelector('.menu5'),panel=nav.querySelector('nav');if(!menu||!panel)return;
+  const open=nav.classList.contains('open');
+  menu.setAttribute('aria-expanded',String(open));
+  menu.setAttribute('aria-label',open?'Close navigation':'Open navigation');
+  const label=menu.querySelector('.sx-menu-label');if(label)label.textContent=open?'Close':'Menu';
+  if(!open){
+    const products=nav.querySelector('.nav-products');
+    products?.classList.remove('products-open');
+    products?.querySelector('.nav-products-trigger')?.setAttribute('aria-expanded','false');
+  }
+  document.body.classList.toggle('sx-nav-open',Boolean(document.querySelector('.v5nav.open')));
+}
+function installGoldNav(){
+  document.querySelectorAll('.v5nav').forEach((nav,i)=>{
+    const menu=nav.querySelector('.menu5'),panel=nav.querySelector('nav');if(!menu||!panel)return;
+    if(!panel.id)panel.id='sx-primary-nav-'+i;
+    menu.setAttribute('aria-controls',panel.id);
+    if(!menu.querySelector('.sx-menu-label'))menu.insertAdjacentHTML('beforeend','<span class="sx-menu-label">Menu</span>');
+    const products=nav.querySelector('.nav-products'),trigger=products?.querySelector('.nav-products-trigger'),sub=products?.querySelector('.nav-products-menu');
+    if(trigger&&sub){
+      if(!sub.id)sub.id='sx-product-nav-'+i;
+      trigger.setAttribute('aria-controls',sub.id);
+    }
+    if(!menu.dataset.goldNavBound){
+      menu.dataset.goldNavBound='1';
+      menu.addEventListener('click',()=>requestAnimationFrame(()=>syncGoldNav(nav)));
+      panel.addEventListener('click',e=>{
+        if(e.target.closest('a'))requestAnimationFrame(()=>syncGoldNav(nav));
+        if(e.target.closest('.nav-products-trigger'))requestAnimationFrame(()=>syncGoldNav(nav));
+      });
+    }
+    syncGoldNav(nav);
+  });
+}
+document.addEventListener('click',()=>requestAnimationFrame(()=>document.querySelectorAll('.v5nav').forEach(syncGoldNav)));
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  document.querySelectorAll('.v5nav.open').forEach(nav=>{
+    const menu=nav.querySelector('.menu5');
+    nav.classList.remove('open');
+    nav.querySelector('.nav-products')?.classList.remove('products-open');
+    syncGoldNav(nav);
+    menu?.focus();
+  });
+});
+const desktopMq=matchMedia('(min-width:1101px)');
+const closeOnDesktop=e=>{
+  if(!e.matches)return;
+  document.querySelectorAll('.v5nav.open').forEach(nav=>{nav.classList.remove('open');syncGoldNav(nav)});
+};
+desktopMq.addEventListener?.('change',closeOnDesktop);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installGoldNav);else installGoldNav();
+window.addEventListener('pageshow',installGoldNav);
+})();
