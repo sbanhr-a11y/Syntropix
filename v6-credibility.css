@@ -153,3 +153,44 @@
  .story-field{min-height:220px}.story-particles{inset:46px 22px 60px}.story-hero-lead{font-size:18px}
  .story-loop{grid-template-columns:1fr 1fr}.story-loop-return{font-size:10px}.story-person-intro h2{font-size:42px}.story-quote p{font-size:20px}
 }
+
+
+/* OUR STORY v2 — cinematic motion + balanced leadership portraits */
+.story-motion{position:relative;min-height:440px;border:1px solid rgba(247,231,206,.13);background:
+ radial-gradient(circle at 86% 52%,rgba(80,200,120,.11),transparent 34%),
+ linear-gradient(145deg,#07100b 0%,#030605 68%);overflow:hidden;isolation:isolate}
+.story-motion:before{content:"";position:absolute;inset:9% 5% 12%;background:
+ linear-gradient(90deg,transparent 0%,rgba(157,193,131,.025) 40%,rgba(80,200,120,.07) 100%);
+ clip-path:polygon(0 45%,20% 30%,62% 18%,100% 8%,100% 92%,62% 82%,20% 70%,0 55%);z-index:0}
+.story-motion-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.story-motion-overlay{position:absolute;inset:0;z-index:2;pointer-events:none}
+.story-motion-phase{position:absolute;padding:6px 9px;border:1px solid rgba(255,255,255,.07);background:rgba(6,10,7,.6);backdrop-filter:blur(8px);color:#7f8881;font:850 8px/1 ui-monospace,monospace;letter-spacing:.15em;opacity:.72}
+.story-motion-phase.phase-chaos{left:8%;top:17%}.story-motion-phase.phase-pattern{left:46%;top:48%;color:#9DC183}.story-motion-phase.phase-order{right:7%;top:16%;color:#F7E7CE}
+.story-field-labels{z-index:3}
+.story-person{grid-template-columns:minmax(190px,260px) minmax(0,1fr);gap:34px clamp(38px,6vw,82px)}
+.story-person.reverse{grid-template-columns:minmax(0,1fr) minmax(190px,260px)}
+.story-portrait-frame{max-width:250px;align-self:start}
+.story-person.reverse .story-portrait-frame{justify-self:end}
+.story-person-intro{align-self:center;padding-top:0}
+.story-person-intro h2{font-size:clamp(38px,3.8vw,56px);max-width:780px}
+.story-facts{max-width:760px}
+@media(max-width:900px){
+ .story-person,.story-person.reverse{grid-template-columns:210px minmax(0,1fr)}
+ .story-portrait-frame{max-width:210px}.story-person-intro h2{font-size:clamp(36px,6vw,48px)}
+ .story-motion{min-height:360px}
+}
+@media(max-width:700px){
+ .story-motion{min-height:280px}.story-motion-phase{display:none}
+ .story-person,.story-person.reverse{grid-template-columns:1fr;grid-template-areas:"portrait" "intro" "body"}
+ .story-portrait-frame,.story-person.reverse .story-portrait-frame{max-width:190px;justify-self:start}
+ .story-person-intro h2{font-size:38px}
+}
+@media(prefers-reduced-motion:reduce){
+ .story-motion:after{content:"";position:absolute;inset:18% 9% 22%;z-index:2;background:
+ radial-gradient(circle at 10% 44%,#F7E7CE 0 2px,transparent 2.5px),
+ radial-gradient(circle at 19% 30%,#9DC183 0 2px,transparent 2.5px),
+ radial-gradient(circle at 31% 60%,#50C878 0 2px,transparent 2.5px),
+ radial-gradient(circle at 74% 30%,#F7E7CE 0 2px,transparent 2.5px),
+ radial-gradient(circle at 82% 50%,#9DC183 0 2px,transparent 2.5px),
+ radial-gradient(circle at 91% 70%,#50C878 0 2px,transparent 2.5px);background-size:44px 44px}
+}
