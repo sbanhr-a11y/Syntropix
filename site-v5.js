@@ -82,7 +82,7 @@ function syncGoldNav(nav){
   menu.setAttribute('aria-expanded',String(open));
   menu.setAttribute('aria-label',open?'Close navigation':'Open navigation');
   const label=menu.querySelector('.sx-menu-label');if(label)label.textContent=open?'Close':'Menu';
-  if(!open){
+  if(!open&&matchMedia('(max-width:1100px)').matches){
     const products=nav.querySelector('.nav-products');
     products?.classList.remove('products-open');
     products?.querySelector('.nav-products-trigger')?.setAttribute('aria-expanded','false');
