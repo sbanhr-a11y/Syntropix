@@ -38,6 +38,17 @@ function cardKey(card){
  const a=card.querySelector('a[href*="assessment="]');if(!a)return '';
  try{return new URL(a.href,location.href).searchParams.get('assessment')||''}catch{return ''}
 }
+function deferMobileContactDock(){
+ const hero=document.querySelector('.sx-hero,.hero5');
+ if(!hero||!matchMedia('(max-width:760px)').matches){document.body.classList.remove('sx-hero-contact-defer');return}
+ const sync=()=>{const r=hero.getBoundingClientRect();document.body.classList.toggle('sx-hero-contact-defer',r.bottom>innerHeight-40&&r.top<innerHeight)};
+ sync();
+ if(!hero.dataset.contactDockObserver){
+   hero.dataset.contactDockObserver='1';
+   const io=new IntersectionObserver(sync,{threshold:[0,.05,.2,.5,1]});io.observe(hero);
+   addEventListener('scroll',sync,{passive:true});addEventListener('resize',sync,{passive:true});
+ }
+}
 function enhancePortfolio(){
  if(!document.body.classList.contains('v6-individual'))return;
  const section=document.querySelector('.assessment-catalogue-inline'),grid=section?.querySelector('.assessment-grid');if(!section||!grid)return;
@@ -59,7 +70,7 @@ function enhancePortfolio(){
  input.addEventListener('input',apply);
  const mo=new MutationObserver(apply);mo.observe(grid,{childList:true});apply();
 }
-function init(){enhanceNav();enhanceTables();enhanceForms();enhancePortfolio()}
+function init(){enhanceNav();enhanceTables();enhanceForms();enhancePortfolio();deferMobileContactDock()}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',()=>{init();setTimeout(init,350)},{once:true}):(init(),setTimeout(init,350));
 window.addEventListener('pageshow',enhanceNav);
 })();
