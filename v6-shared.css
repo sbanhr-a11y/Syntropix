@@ -175,3 +175,50 @@ body.v6-marketing .num,body.v6-marketing .kicker,body.v6-marketing .index{font-s
 .sx-report-plan{display:grid;gap:9px;margin-top:8px}.sx-report-plan div{padding:11px 12px;border-left:2px solid var(--sx-emerald);background:rgba(255,255,255,.025);font-size:12px;color:#c8cdc8}.sx-coach-bubble{margin-top:12px;padding:15px;border-radius:17px;background:linear-gradient(135deg,rgba(90,52,90,.22),rgba(102,119,168,.11));border:1px solid rgba(255,255,255,.07);font-size:13px;line-height:1.55;color:#d7dad5}.sx-report-shot .sx-shot-foot{display:block;margin-top:14px;color:var(--sx-champagne);font-size:10px;font-weight:850;letter-spacing:.08em}
 body.v6-marketing.v6-individual .journey-flow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;overflow-x:auto}.journey-flow article{min-width:132px}
 @media(max-width:900px){.sx-report-gallery-track{grid-template-columns:repeat(3,minmax(260px,1fr));overflow-x:auto;padding-bottom:6px}.sx-report-gallery-head{align-items:flex-start;flex-direction:column}}
+
+
+/* RESPONSIVE PREMIUM UX v1 — Organizations / Individuals */
+@media(min-width:761px) and (max-width:1100px){
+ body.v6-marketing .hero5{min-height:auto;padding-top:76px;padding-bottom:76px}
+ body.v6-marketing .hero5 h1{font-size:clamp(48px,7.2vw,68px)!important;max-width:900px}
+ body.v6-marketing .section5 h2{font-size:clamp(38px,5.6vw,54px)!important}
+ body.v6-marketing .grid3,body.v6-marketing .grid6{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ body.v6-marketing.v6-individual .journey-flow{grid-template-columns:repeat(4,minmax(0,1fr))!important;overflow:visible!important}
+ .sx-report-gallery-track{grid-template-columns:repeat(2,minmax(0,1fr))!important;overflow:visible!important}
+ .sx-report-shot:nth-child(3){grid-column:1/-1}
+ body.v6-marketing .signal-exec-shell{grid-template-columns:220px minmax(0,1fr)}
+ body.v6-marketing .signal-matrix{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ body.v6-marketing .hero5:before{right:-38%;top:-5%;width:115vw;opacity:.8}
+ body.v6-marketing .hero5:after{opacity:.55}
+ body.v6-marketing .hero5>p:not(.kicker){font-size:16px!important;line-height:1.62!important}
+ body.v6-marketing .section5.light .kicker{color:#5A4717}
+ body.v6-marketing .card:hover,body.v6-marketing .assessment-card:hover{transform:none!important}
+ body.v6-marketing .enterprise-note{padding:16px!important;border-radius:16px!important}
+ body.v6-marketing.v6-individual .journey-flow{
+   display:flex!important;overflow-x:auto!important;gap:10px!important;padding:0 0 10px!important;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch
+ }
+ body.v6-marketing.v6-individual .journey-flow article{flex:0 0 min(78vw,285px)!important;min-width:0!important;scroll-snap-align:start}
+ .sx-report-gallery{margin:28px 0 32px!important;padding:16px!important;border-radius:22px!important}
+ .sx-report-gallery-head{margin-bottom:14px!important}
+ .sx-report-gallery-head h3{font-size:28px!important}
+ .sx-report-gallery-head p{font-size:14px!important}
+ .sx-report-gallery-track{
+   display:flex!important;overflow-x:auto!important;gap:10px!important;padding-bottom:8px!important;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch
+ }
+ .sx-report-shot{flex:0 0 min(84vw,330px)!important;min-height:280px!important;padding:16px!important;scroll-snap-align:start;border-radius:18px!important}
+ .sx-report-score strong{font-size:38px!important}
+ body.v6-marketing.v6-org #conversation{padding-top:68px!important;padding-bottom:68px!important;gap:24px!important}
+ body.v6-marketing.v6-org #conversation .form5{padding:18px!important}
+ body.v6-marketing .signal-exec-shell{padding:10px!important;border-radius:22px!important}
+ body.v6-marketing .signal-exec-rail{
+   display:flex!important;overflow-x:auto!important;gap:6px!important;padding:10px!important;scroll-snap-type:x mandatory
+ }
+ body.v6-marketing .signal-brand{flex:0 0 100%;min-width:100%;margin:0!important}
+ body.v6-marketing .signal-exec-rail button{flex:0 0 164px;scroll-snap-align:start}
+ body.v6-marketing .signal-exec-canvas{padding:14px!important;border-radius:18px!important}
+ body.v6-marketing .signal-matrix{grid-template-columns:1fr!important}
+ body.v6-marketing .signal-matrix article{min-height:0!important;padding:17px!important}
+ body.v6-marketing .signal-output-row{padding:14px!important}
+}
