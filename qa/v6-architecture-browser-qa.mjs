@@ -133,7 +133,7 @@ for(const vp of viewports){
    checks.push({path,buttonVisible,label,beforeNav,afterNav,box,viewportPass,iconState});
    await page.close();
  }
- const pass=checks.every(x=>x.buttonVisible && x.label==='Open navigation' && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass && x.iconState.borderWidth==='0px' && x.iconState.midOpacity==='1' && (x.iconState.beforeTransform==='none'||x.iconState.beforeTransform==='matrix(1, 0, 0, 1, 0, 0)') && (x.iconState.afterTransform==='none'||x.iconState.afterTransform==='matrix(1, 0, 0, 1, 0, 0)'));
+ const pass=checks.every(x=>x.buttonVisible && x.label==='Open navigation' && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass && x.iconState.borderWidth==='0px' && x.iconState.midOpacity==='0' && x.iconState.beforeTransform!=='none' && x.iconState.afterTransform!=='none');
  report.targeted.canonicalMobileNav={checks,pass};
  if(!pass) report.failures.push({target:'canonicalMobileNav',checks});
  await context.close();
@@ -662,6 +662,80 @@ for(const vp of viewports){
  if(!pass) report.failures.push({target:'managerialEffectivenessDimensionMetadata',meta});
  await page.close();
  await context.close();
+}
+
+
+
+// Targeted regression: Our Story motion and leadership composition must stay premium and proportionate.
+{
+ const context=await browser.newContext({viewport:{width:1440,height:1000},deviceScaleFactor:1});
+ const page=await context.newPage();
+ await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(450);
+ const state=await page.evaluate(()=>{
+   const canvas=document.querySelector('#story-syntropy-canvas');
+   const portraits=[...document.querySelectorAll('.story-portrait-frame')].map(el=>({w:el.getBoundingClientRect().width,h:el.getBoundingClientRect().height}));
+   const names=[...document.querySelectorAll('.story-person-intro h2')].map(el=>parseFloat(getComputedStyle(el).fontSize));
+   const cb=canvas?.getBoundingClientRect();
+   return {canvas:!!canvas,canvasWidth:cb?.width||0,canvasHeight:cb?.height||0,portraits,names};
+ });
+ const pass=state.canvas&&state.canvasWidth>420&&state.canvasHeight>=300&&state.portraits.length===2&&state.portraits.every(x=>x.w<=300&&x.w>=200)&&state.names.every(x=>x<=60);
+ report.targeted.ourStoryPremiumComposition={...state,pass};
+ if(!pass)report.failures.push({target:'ourStoryPremiumComposition',...state});
+ await page.close();await context.close();
+}
+
+// Targeted regression: iPad portrait uses a true two-column assessment catalogue.
+{
+ const context=await browser.newContext({viewport:{width:768,height:1024}});
+ const page=await context.newPage();
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(650);
+ const cards=page.locator('.assessment-catalogue-inline .assessment-grid .assessment-card:not([hidden])');
+ const count=await cards.count();
+ const boxes=[];for(let i=0;i<Math.min(4,count);i++)boxes.push(await cards.nth(i).boundingBox());
+ const sameFirstRow=boxes.length>=2&&Math.abs(boxes[0].y-boxes[1].y)<4&&boxes[1].x>boxes[0].x;
+ const nav=await page.locator('.sx-portfolio-navigator').count();
+ const pass=count>=4&&sameFirstRow&&nav===1;
+ report.targeted.tabletAssessmentDiscovery={count,boxes,nav,pass};
+ if(!pass)report.failures.push({target:'tabletAssessmentDiscovery',count,boxes,nav});
+ await page.close();await context.close();
+}
+
+// Targeted regression: mobile assessment discovery filters the portfolio instead of forcing a full catalogue scroll.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ await page.goto(base+'/professionals.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(650);
+ const allBefore=await page.locator('.assessment-catalogue-inline .assessment-card:not([hidden])').count();
+ const thinking=page.locator('.sx-portfolio-filters button[data-filter="Thinking"]');
+ await thinking.click();await page.waitForTimeout(80);
+ const after=await page.locator('.assessment-catalogue-inline .assessment-card:not([hidden])').count();
+ const search=await page.locator('#sx-assessment-search').isVisible();
+ const pass=allBefore>=6&&after>=1&&after<allBefore&&search;
+ report.targeted.mobileAssessmentFilter={allBefore,after,search,pass};
+ if(!pass)report.failures.push({target:'mobileAssessmentFilter',allBefore,after,search});
+ await page.close();await context.close();
+}
+
+// Targeted regression: mobile contact controls form a centered safe-area dock and trust tables become labelled cards.
+{
+ const context=await browser.newContext({viewport:{width:390,height:844}});
+ const page=await context.newPage();
+ await page.goto(base+'/trust-center.html',{waitUntil:'domcontentloaded',timeout:12000});
+ await page.waitForTimeout(300);
+ const state=await page.evaluate(()=>{
+   const call=document.querySelector('.call5')?.getBoundingClientRect(),chat=document.querySelector('.chat5')?.getBoundingClientRect();
+   const td=document.querySelector('.cred-table tbody td'),s=td?getComputedStyle(td):null;
+   return {call,chat,tdDisplay:s?.display||null,label:td?.dataset.label||''};
+ });
+ const center=195;
+ const callCenter=state.call?state.call.x+state.call.width/2:0,chatCenter=state.chat?state.chat.x+state.chat.width/2:0;
+ const pass=!!state.call&&!!state.chat&&Math.abs(((callCenter+chatCenter)/2)-center)<18&&state.tdDisplay==='grid'&&state.label.length>0;
+ report.targeted.mobileContactAndTableCards={...state,pass};
+ if(!pass)report.failures.push({target:'mobileContactAndTableCards',...state});
+ await page.close();await context.close();
 }
 
 await browser.close();
