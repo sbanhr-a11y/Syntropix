@@ -48,7 +48,9 @@ async function revealForScreenshot(page){
       await new Promise(r=>setTimeout(r,55));
     }
     window.scrollTo(0,0);
-    await new Promise(r=>setTimeout(r,500));
+    await Promise.all([...document.images].map(img=>img.complete?Promise.resolve():new Promise(r=>{img.addEventListener('load',r,{once:true});img.addEventListener('error',r,{once:true})})));
+    await Promise.all([...document.images].map(img=>typeof img.decode==='function'?img.decode().catch(()=>{}):Promise.resolve()));
+    await new Promise(r=>setTimeout(r,350));
   });
 }
 
@@ -132,7 +134,7 @@ for(const vp of viewports){
    await page.waitForTimeout(280);
    const afterNav=await nav.evaluate(el=>getComputedStyle(el).display);
    const box=await nav.boundingBox();
-   const viewportPass=!!box && box.x>=-1 && box.x+box.width<=391 && box.y>=60 && box.y+box.height<=845;
+   const viewportPass=!!box && box.x>=-1 && box.x+box.width<=391 && box.y>=60 && box.y<=64 && box.height>=760 && box.y+box.height<=845;
    const afterLabel=await button.getAttribute('aria-label');
    const afterExpanded=await button.getAttribute('aria-expanded');
    const menuText=(await button.locator('.sx-menu-label').innerText()).trim();
@@ -145,7 +147,7 @@ for(const vp of viewports){
    checks.push({path,buttonVisible,beforeLabel,beforeExpanded,afterLabel,afterExpanded,menuText,bodyLocked,beforeNav,afterNav,box,viewportPass,iconState});
    await page.close();
  }
- const pass=checks.every(x=>x.buttonVisible && x.beforeLabel==='Open navigation' && x.beforeExpanded==='false' && x.afterLabel==='Close navigation' && x.afterExpanded==='true' && x.menuText==='Close' && x.bodyLocked && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass && x.iconState.borderWidth==='0px' && x.iconState.midOpacity==='0' && x.iconState.beforeTransform!=='none' && x.iconState.afterTransform!=='none');
+ const pass=checks.every(x=>x.buttonVisible && x.beforeLabel==='Open navigation' && x.beforeExpanded==='false' && x.afterLabel==='Close navigation' && x.afterExpanded==='true' && x.menuText.toLowerCase()==='close' && x.bodyLocked && x.beforeNav==='none' && x.afterNav!=='none' && x.viewportPass && x.iconState.borderWidth==='0px' && x.iconState.midOpacity==='0' && x.iconState.beforeTransform!=='none' && x.iconState.afterTransform!=='none');
  report.targeted.canonicalMobileNav={checks,pass};
  if(!pass) report.failures.push({target:'canonicalMobileNav',checks});
  await context.close();
