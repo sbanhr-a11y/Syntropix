@@ -223,3 +223,9 @@ footer.sx-global-footer .sx-footer-enterprise-note{max-width:760px;margin:0 auto
  footer.sx-global-footer .sx-footer-nav{grid-template-columns:1fr 1fr}
  .cred-table td{grid-template-columns:1fr;gap:4px}
 }
+
+/* Mobile contact dock clearance: reserve a deliberate interaction lane above the safe area. */
+@media(max-width:760px){
+ body.v6-marketing .hero5{padding-bottom:calc(118px + env(safe-area-inset-bottom))!important}
+ body.sx-v6 .sx-hero{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+}
