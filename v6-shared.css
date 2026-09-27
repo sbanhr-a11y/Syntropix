@@ -221,8 +221,8 @@ body.v6-marketing.v6-individual .journey-flow{display:grid;grid-template-columns
    outline:2px solid var(--sx-champagne);outline-offset:3px;
  }
  .v5nav.open nav{
-   position:fixed!important;left:0!important;right:0!important;bottom:0!important;
-   top:68px!important;max-width:none!important;max-height:none!important;
+   position:fixed!important;left:0!important;right:0!important;bottom:auto!important;
+   top:68px!important;height:calc(100dvh - 68px)!important;max-width:none!important;max-height:none!important;
    padding:18px 18px max(24px,env(safe-area-inset-bottom))!important;
    border:0!important;border-radius:0!important;
    background:rgba(7,9,8,.992)!important;
@@ -241,7 +241,7 @@ body.v6-marketing.v6-individual .journey-flow{display:grid;grid-template-columns
 }
 @media(max-width:760px){
  .v5nav{min-height:62px;padding-inline:16px!important}
- .v5nav.open nav{top:62px!important;padding-inline:16px!important}
+ .v5nav.open nav{top:62px!important;bottom:auto!important;height:calc(100dvh - 62px)!important;padding-inline:16px!important}
  .v5nav .menu5{min-width:70px;height:46px;padding-right:0}
  .v5nav.open nav>a,.v5nav.open .nav-products-trigger{min-height:50px!important;font-size:17px!important}
  .v5nav nav .nav-product-link{min-height:54px!important}
