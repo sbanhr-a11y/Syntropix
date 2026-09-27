@@ -49,7 +49,7 @@ function setupStoryMotion(){
    if(!particles.length)for(let i=0;i<count;i++)particles.push({x:seeded(i,1)*w*.42+w*.05,y:seeded(i,2)*h*.68+h*.14,vx:(seeded(i,3)-.5)*.55,vy:(seeded(i,4)-.5)*.55,size:1.2+seeded(i,5)*1.8,phase:seeded(i,6)*Math.PI*2});
  }
  function draw(now){
-   if(reduce.matches){ctx.clearRect(0,0,w,h);return}
+   if(reduce.matches){ctx.clearRect(0,0,w,h);raf=0;return}
    const t=(now-start)/1000,cycle=t%12;
    const order=cycle<3?0:cycle<7?Math.min(1,(cycle-3)/2):cycle<10?1:Math.max(0,1-(cycle-10)/2);
    const tg=targets();
