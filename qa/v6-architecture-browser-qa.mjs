@@ -162,7 +162,8 @@ for(const vp of viewports){
  await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})}));
  await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor TEST'},messages:[]})}));
  await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
- await page.locator('[data-chat]').first().click();
+ await page.locator('[data-contact-hub]').click();
+ await page.locator('[data-hub-chat]').click();
  await page.waitForTimeout(120);
  const state=await page.locator('.chat-note').evaluate(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return {fontSize:parseFloat(s.fontSize),lineHeight:s.lineHeight,textAlign:s.textAlign,left:r.left,width:r.width}});
  const pass=state.fontSize<=10&&state.textAlign==='left';
