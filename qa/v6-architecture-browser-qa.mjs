@@ -689,7 +689,7 @@ for(const vp of viewports){
    checks.push({path,...state});
    await page.close();
  }
- const pass=checks.every(x=>x.icon.includes('/favicon.png')&&x.shortcut.includes('/favicon.png')&&x.apple.includes('/favicon.png')&&x.footerText.includes('© 2026 Syntropix® – All rights reserved.'));
+ const pass=checks.every(x=>x.icon.includes('/favicon.png')&&x.shortcut.includes('/favicon.png')&&x.apple.includes('/favicon.png')&&x.footerText.includes('© 2026 Syntropix™ – All rights reserved.'));
  report.targeted.universalFooterBranding={checks,pass};
  if(!pass) report.failures.push({target:'universalFooterBranding',checks});
  await context.close();
