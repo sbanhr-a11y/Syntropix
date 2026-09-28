@@ -173,8 +173,8 @@ jobs:
           grep -q 'signInWithOtp' auth-passwordless.js
           grep -q 'shouldCreateUser:false' auth-passwordless.js
           grep -q 'syntropix.in' CNAME
-          grep -Eq 'SYNTROPIX<span( class="brand-registration")?>®</span>' index.html
-          grep -q 'Syntropix®' index.html
+          grep -Eq 'SYNTROPIX<span( class="brand-registration")?>™</span>' index.html
+          grep -q 'Syntropix™' index.html
           echo 'V6 Final Elite Syntropix artifact verification passed'
       - uses: actions/upload-pages-artifact@v4
         with:
