@@ -131,4 +131,3 @@ desktopMq.addEventListener?.('change',closeOnDesktop);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installGoldNav);else installGoldNav();
 window.addEventListener('pageshow',installGoldNav);
 })();
-;(()=>{function sxTrademarkMarkUniversal(){const w=document.createTreeWalker(document.documentElement,NodeFilter.SHOW_TEXT);const nodes=[];while(w.nextNode())if(w.currentNode.nodeValue&&w.currentNode.nodeValue.includes('®'))nodes.push(w.currentNode);nodes.forEach(n=>{n.nodeValue=n.nodeValue.replaceAll('®','™')});if(document.title.includes('®'))document.title=document.title.replaceAll('®','™')}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sxTrademarkMarkUniversal,{once:true});else sxTrademarkMarkUniversal()})();
