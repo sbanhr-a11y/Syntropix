@@ -274,3 +274,7 @@ footer.sx-global-footer .sx-footer-enterprise-note{max-width:760px;margin:0 auto
  .v5nav.open nav>a,.v5nav.open .nav-products-trigger{min-height:50px!important;font-size:17px!important}
  .v5nav nav .nav-product-link{min-height:54px!important}
 }
+
+/* Mobile auth is a navigation item; desktop retains the existing header action. */
+.v5nav nav .mobile-nav-auth{display:none}
+@media(max-width:1100px){.v5nav.open nav .mobile-nav-auth{display:flex!important;align-items:center;justify-content:center;min-height:48px!important;margin:12px 8px 4px;padding:12px 18px!important;border:1px solid #F7E7CE!important;border-radius:12px!important;background:#F7E7CE!important;color:#101610!important;font-weight:800!important;text-align:center!important;text-decoration:none!important}.v5nav.open nav .mobile-nav-auth:focus-visible{outline:3px solid #50C878;outline-offset:3px}}
