@@ -574,22 +574,25 @@ for(const vp of viewports){
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
- await page.waitForTimeout(180);
+ await page.waitForTimeout(500);
  const state=await page.evaluate(()=>{
    const hero=document.querySelector('.sx-hero');
    const copy=document.querySelector('.sx-hero-copy');
    const visual=document.querySelector('.sx-hero-visual');
-   const slab=document.querySelector('.sx-hero-slab');
-   const hb=hero?.getBoundingClientRect(),cb=copy?.getBoundingClientRect(),vb=visual?.getBoundingClientRect(),sb=slab?.getBoundingClientRect();
+   const hcs=document.querySelector('[data-syntropix-hcs]');
+   const canvas=hcs?.querySelector('canvas');
+   const hb=hero?.getBoundingClientRect(),cb=copy?.getBoundingClientRect(),vb=visual?.getBoundingClientRect(),hb3=hcs?.getBoundingClientRect(),canvasBox=canvas?.getBoundingClientRect();
    return {
      hero:hb?{width:hb.width,height:hb.height}:null,
      copy:cb?{left:cb.left,right:cb.right,width:cb.width}:null,
      visual:vb?{left:vb.left,right:vb.right,width:vb.width,height:vb.height}:null,
-     slab:sb?{width:sb.width,height:sb.height}:null,
-     display:visual?getComputedStyle(visual).display:null
+     hcs:hb3?{width:hb3.width,height:hb3.height}:null,
+     canvas:canvasBox?{width:canvasBox.width,height:canvasBox.height}:null,
+     display:visual?getComputedStyle(visual).display:null,
+     webglReady:!!window.THREE&&!!window.SyntropixHCS
    };
  });
- const pass=!!state.visual&&!!state.slab&&state.display!=='none'&&state.visual.width>380&&state.slab.width>190&&state.visual.left>state.copy.left;
+ const pass=!!state.visual&&!!state.hcs&&!!state.canvas&&state.display!=='none'&&state.visual.width>380&&state.hcs.width>380&&state.canvas.width>300&&state.webglReady&&state.visual.left>state.copy.left;
  report.targeted.homeHeroArchitecture={...state,pass};
  if(!pass) report.failures.push({target:'homeHeroArchitecture',...state});
  await context.close();
