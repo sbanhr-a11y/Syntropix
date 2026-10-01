@@ -7,7 +7,16 @@
 <meta name="description" content="Syntropix helps organizations and individuals understand capability, develop leaders and turn human insight into better workplace action."><script>
 (function(){
   var h=location.hash||'',q=location.search||'';
-  var recovery=/(^|[&#])type=recovery(&|$)/.test(h)||(/(^|[&#])access_token=/.test(h)&&/(^|[&#])refresh_token=/.test(h))||/(^|[?&])type=recovery(&|$)/.test(q);
+  var qs=new URLSearchParams(q),hs=new URLSearchParams(h.replace(/^#/,''));
+  var recovery=
+    hs.get('type')==='recovery'||
+    qs.get('type')==='recovery'||
+    (hs.has('access_token')&&hs.has('refresh_token'))||
+    qs.has('token_hash')||
+    hs.has('token_hash')||
+    qs.has('code')||
+    qs.get('error_code')==='otp_expired'||
+    qs.get('error_code')==='access_denied';
   if(recovery)location.replace('https://acdc-staging.syntropix.in/command/reset.html'+q+h);
 })();
 </script><meta property="og:title" content="Syntropix — Human Elevation Architecture"><meta property="og:description" content="Assessment intelligence, leadership development, 360° feedback, employee pulse check and simulation-based talent experiences—connected so insight leads to action."><meta property="og:url" content="https://syntropix.in/"><meta property="og:type" content="website">
