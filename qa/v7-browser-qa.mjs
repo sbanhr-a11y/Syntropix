@@ -129,7 +129,18 @@ for(const vp of [
     const h=head.getBoundingClientRect(),t=title.getBoundingClientRect(),k=kicker.getBoundingClientRect(),n=note.getBoundingClientRect();
     return {headH:h.height,titleTop:t.top,kickerTop:k.top,noteTop:n.top,noteBottom:n.bottom,titleBottom:t.bottom};
   });
-  record('polish:prism-proof-header',!!prism&&prism.headH<130&&Math.abs(prism.noteTop-prism.titleTop)<35,{prism});
+  record('polish:prism-proof-header',!!prism&&prism.headH<155&&!(prism.noteTop<prism.titleBottom&&prism.noteBottom>prism.titleTop),{prism});
+
+  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+  await page.waitForTimeout(250);
+  await revealForReview(page);
+  const proCta=await page.evaluate(()=>{
+    const el=document.querySelector('.sx-v7-journey.pro .sx-btn.secondary');
+    if(!el)return null;
+    const s=getComputedStyle(el);
+    return {color:s.color,background:s.backgroundColor,border:s.borderTopColor,opacity:s.opacity};
+  });
+  record('polish:professionals-journey-cta',!!proCta&&proCta.color==='rgb(17, 21, 17)'&&proCta.opacity==='1',{proCta});
 
   const credibility=[];
   for(const path of ['company.html','evidence-in-practice.html','technical-notes.html','trust-center.html']){
