@@ -27,11 +27,11 @@ body.v6-marketing.sx-v7-credibility{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-mut
 
 /* Product proof preview: compact one-line header on wide screens. */
 .sx-v7-credibility .cred-demo{border-radius:28px}
-.sx-v7-credibility .cred-demo-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);gap:30px;align-items:center}
-.sx-v7-credibility .cred-demo-head>div{display:flex;align-items:baseline;gap:18px;min-width:0}
+.sx-v7-credibility .cred-demo-head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:34px;align-items:start}
+.sx-v7-credibility .cred-demo-head>div{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:baseline;gap:18px;min-width:0}
 .sx-v7-credibility .cred-demo-head small{white-space:nowrap}
-.sx-v7-credibility .cred-demo-head h3{margin:0;font-size:clamp(28px,2.5vw,42px);line-height:1;letter-spacing:-.035em;white-space:nowrap}
-.sx-v7-credibility .cred-demo-head>p{margin:0;max-width:none;line-height:1.5}
+.sx-v7-credibility .cred-demo-head h3{margin:0;font-size:clamp(28px,2.5vw,42px);line-height:1;letter-spacing:-.035em;white-space:normal;max-width:720px}
+.sx-v7-credibility .cred-demo-head>p{margin:2px 0 0;max-width:520px;justify-self:end;line-height:1.5}
 .sx-v7-credibility .cred-demo-grid{gap:14px}
 .sx-v7-credibility .cred-demo-panel{border-radius:20px}
 
