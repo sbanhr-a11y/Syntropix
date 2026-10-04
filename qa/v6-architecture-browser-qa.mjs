@@ -174,9 +174,10 @@ for(const vp of viewports){
    bodyLocked:await page.locator('body').evaluate(el=>el.classList.contains('sx-nav-open')),
    focused:await button.evaluate(el=>document.activeElement===el)
  };
- const pass=productExpanded==='true'&&submenuVisible&&touchBoxes.every(x=>x.h>=44)&&productBoxes.every(x=>x.h>=44)&&!finalState.navVisible&&finalState.expanded==='false'&&finalState.label==='Open navigation'&&finalState.menuText.toLowerCase()==='menu'&&!finalState.bodyLocked&&finalState.focused;
- report.targeted.mobileNavInteraction={productExpanded,submenuVisible,touchBoxes,productBoxes,finalState,pass};
- if(!pass)report.failures.push({target:'mobileNavInteraction',productExpanded,submenuVisible,touchBoxes,productBoxes,finalState});
+ const expected=['How it works','Solutions','Organizations','Professionals','Company','Contact us','Sign in'];
+ const pass=touchBoxes.every(x=>x.h>=44)&&expected.every(x=>labels.includes(x))&&noLegacyProducts&&!finalState.navVisible&&finalState.expanded==='false'&&finalState.label==='Open navigation'&&finalState.menuText.toLowerCase()==='menu'&&!finalState.bodyLocked&&finalState.focused;
+ report.targeted.mobileNavInteraction={mode:'v7-flat-navigation',labels,noLegacyProducts,touchBoxes,finalState,pass};
+ if(!pass)report.failures.push({target:'mobileNavInteraction',labels,noLegacyProducts,touchBoxes,finalState});
  await page.close();await context.close();
 }
 
