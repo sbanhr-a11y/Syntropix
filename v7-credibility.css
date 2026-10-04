@@ -35,6 +35,16 @@ body.v6-marketing.sx-v7-credibility{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-mut
 .sx-v7-credibility .cred-demo-grid{gap:14px}
 .sx-v7-credibility .cred-demo-panel{border-radius:20px}
 
+
+/* Trust Centre provider register: executive summary first, detailed register on demand. */
+.sx-v7-credibility .cred-provider-register{margin-top:22px;border:1px solid var(--v7-line);border-radius:20px;background:#fff;overflow:hidden}
+.sx-v7-credibility .cred-provider-register>summary{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:62px;padding:0 22px;cursor:pointer;color:#111511;font-weight:750;list-style:none}
+.sx-v7-credibility .cred-provider-register>summary::-webkit-details-marker{display:none}
+.sx-v7-credibility .cred-provider-register>summary span{color:#8b6a2e;font-size:20px;transition:transform .2s ease}
+.sx-v7-credibility .cred-provider-register[open]>summary span{transform:rotate(90deg)}
+.sx-v7-credibility .cred-provider-register .cred-table-wrap{margin:0 18px 18px;border-radius:16px}
+.sx-v7-credibility .cred-provider-register .cred-disclaimer{padding:0 20px 20px}
+
 @media(max-width:1050px){
  .sx-v7-credibility .cred-head{grid-template-columns:1fr;gap:16px}
  .sx-v7-credibility .cred-demo-head{grid-template-columns:1fr;gap:14px}
