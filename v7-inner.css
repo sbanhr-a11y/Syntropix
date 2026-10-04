@@ -1,0 +1,24 @@
+/* Syntropix™ V7 — remaining public product / credibility pages.
+   Public marketing only; no Command, reviewer, assessment runtime or backend selectors. */
+body.v6-marketing.sx-v7-inner{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-gold:#d6b878;--v7-sage:#8fb8a2;--v7-line:rgba(16,19,16,.13)}
+.sx-v7-inner .hero5,.sx-v7-inner .v6-beta-hero{padding-top:clamp(96px,9vw,126px);padding-bottom:clamp(60px,6vw,86px)}
+.sx-v7-inner .hero5 h1,.sx-v7-inner .v6-beta-hero h1{max-width:980px;font-size:clamp(46px,5.7vw,80px);line-height:.96;letter-spacing:-.05em}
+.sx-v7-inner .hero5>p:not(.kicker),.sx-v7-inner .v6-beta-hero .lead{max-width:780px;font-size:clamp(17px,1.4vw,20px);line-height:1.7}
+.sx-v7-inner .section5,.sx-v7-inner .v6-beta-section,.sx-v7-inner .cred-section{padding-top:clamp(64px,7vw,96px);padding-bottom:clamp(64px,7vw,96px)}
+.sx-v7-inner .grid2,.sx-v7-inner .grid3,.sx-v7-inner .grid6,.sx-v7-inner .v6-problem-grid,.sx-v7-inner .cred-grid{gap:14px}
+.sx-v7-inner .card,.sx-v7-inner .v6-problem,.sx-v7-inner .cred-card,.sx-v7-inner .cred-doc{border-radius:20px}
+.sx-v7-inner .card,.sx-v7-inner .v6-problem,.sx-v7-inner .cred-card{min-height:250px;padding:26px}
+.sx-v7-inner .cred-demo,.sx-v7-inner .sx-report-gallery{border-radius:26px}
+.sx-v7-inner .cred-demo-grid{gap:14px}
+.sx-v7-inner .cred-demo-panel{border-radius:18px}
+.sx-v7-inner .v6-beta-head,.sx-v7-inner .cred-head{display:grid;grid-template-columns:minmax(190px,.68fr) minmax(0,1.32fr);gap:clamp(32px,7vw,96px);align-items:start}
+.sx-v7-inner .v6-beta-head h2,.sx-v7-inner .cred-head h2,.sx-v7-inner .section5>h2{font-size:clamp(36px,4.2vw,60px);line-height:1;letter-spacing:-.043em}
+.sx-v7-inner a:focus-visible,.sx-v7-inner button:focus-visible,.sx-v7-inner summary:focus-visible{outline:3px solid var(--v7-gold);outline-offset:3px}
+@media(max-width:900px){
+ .sx-v7-inner .v6-beta-head,.sx-v7-inner .cred-head{grid-template-columns:1fr;gap:16px}
+}
+@media(max-width:700px){
+ .sx-v7-inner .hero5,.sx-v7-inner .v6-beta-hero{padding-top:88px;padding-bottom:54px}
+ .sx-v7-inner .section5,.sx-v7-inner .v6-beta-section,.sx-v7-inner .cred-section{padding-top:58px;padding-bottom:58px}
+}
+@media(prefers-reduced-motion:reduce){.sx-v7-inner *{transition-duration:.001ms!important;animation-duration:.001ms!important;scroll-behavior:auto!important}}
