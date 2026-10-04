@@ -28,6 +28,17 @@ body.v6-marketing.sx-v7-solutions{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-muted
 .sx-v7-solutions .v7-secondary-callout a{display:inline-flex;margin-top:18px;color:var(--v7-gold);font-weight:750;text-decoration:none}
 .sx-v7-solutions .v7-secondary-callout a:focus-visible{outline:3px solid var(--v7-gold);outline-offset:4px;border-radius:6px}
 
+
+/* Existing Solutions markup receives the V7 decision-led treatment. */
+.sx-v7-solutions .v6-problem-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.sx-v7-solutions .v6-problem{position:relative;min-height:280px;padding:28px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:#0c110e;color:#f2f3ef;overflow:hidden}
+.sx-v7-solutions .v6-problem:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#d6b878,#8fb8a2)}
+.sx-v7-solutions .v6-problem small{color:#9ea69f;font-size:10px;font-weight:850;letter-spacing:.14em}
+.sx-v7-solutions .v6-problem h3{margin:34px 0 12px;font-size:clamp(26px,2.5vw,38px);line-height:1.03;letter-spacing:-.04em}
+.sx-v7-solutions .v6-problem p{margin:0;color:#aeb5ae;line-height:1.68}
+.sx-v7-solutions .v6-problem a{display:inline-flex;margin-top:24px;color:var(--v7-gold);font-weight:750;text-decoration:none}
+.sx-v7-solutions .v6-problem a:focus-visible{outline:3px solid var(--v7-gold);outline-offset:4px;border-radius:6px}
+
 /* Talent Solutions */
 .sx-v7-solutions .v7-talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .sx-v7-solutions .v7-talent-card{padding:28px;border-radius:22px;border:1px solid rgba(16,19,16,.11);background:#fff;color:#111511}
@@ -47,7 +58,7 @@ body.v6-marketing.sx-v7-solutions{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-muted
 .sx-v7-solutions .v7-integrity p{margin:0;color:#5d655e;line-height:1.65}
 
 @media(max-width:1100px){
- .sx-v7-solutions .v7-solution-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .sx-v7-solutions .v7-solution-grid,.sx-v7-solutions .v6-problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .sx-v7-solutions .v7-solution-card:last-child{grid-column:1/-1;min-height:250px}
  .sx-v7-solutions .v7-system-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
  .sx-v7-solutions .v7-hiring-assessments{grid-template-columns:1fr}
@@ -56,7 +67,7 @@ body.v6-marketing.sx-v7-solutions{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-muted
  .sx-v7-solutions .v6-beta-hero{padding-top:104px;padding-bottom:62px}
  .sx-v7-solutions .v6-beta-section{padding-top:64px;padding-bottom:64px}
  .sx-v7-solutions .v6-beta-head{grid-template-columns:1fr;gap:14px}
- .sx-v7-solutions .v7-solution-grid,.sx-v7-solutions .v7-talent-grid,.sx-v7-solutions .v7-integrity{grid-template-columns:1fr}
+ .sx-v7-solutions .v7-solution-grid,.sx-v7-solutions .v6-problem-grid,.sx-v7-solutions .v7-talent-grid,.sx-v7-solutions .v7-integrity{grid-template-columns:1fr}
  .sx-v7-solutions .v7-solution-card,.sx-v7-solutions .v7-solution-card:last-child{grid-column:auto;min-height:280px}
  .sx-v7-solutions .v7-system-strip{grid-template-columns:1fr 1fr}
  .sx-v7-solutions .v7-secondary-callout{grid-template-columns:1fr}
