@@ -158,7 +158,7 @@ jobs:
           grep -q 'sx-report-gallery' professionals.html
           grep -q 'sx-report-gallery' enterprise.html
           grep -q 'The Culture Compass' employee-experience.html
-          grep -q 'SECURE & RELIABLE / GLOBAL CAPABILITY' index.html
+          grep -q 'One connected human capability system' index.html
           grep -q 'nav-products-menu' site-v5.js
           ! grep -R -i -q 'employee listening' --include='*.html' .
           grep -q 'signal-exec-showcase' employee-experience.html
