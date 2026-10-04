@@ -261,6 +261,29 @@ for(const vp of [
   await context.close();
 }
 
+// Latest screenshot-driven polish: simple Talent heading, AC/DC flow, visible CTA, explicit staging form.
+{
+  const context=await browser.newContext({viewport:{width:1440,height:1000}});
+  const page=await context.newPage();
+
+  await page.goto(base+'/talent-solutions.html',{waitUntil:'domcontentloaded',timeout:12000});
+  const heading=(await page.locator('section.section5.light h2').first().innerText()).trim();
+  record('refine:talent-heading',heading==='Structured hiring. Human judgement.',{heading});
+
+  await page.goto(base+'/solutions.html',{waitUntil:'domcontentloaded',timeout:12000});
+  const flow=await page.locator('.v7-acdc-flow>div').count();
+  const labels=await page.locator('.v7-acdc-flow strong').allTextContents();
+  record('refine:acdc-flow',flow===3&&['Observe','Calibrate','Develop'].every(x=>labels.includes(x)),{flow,labels});
+
+  await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
+  const evidence=page.locator('a.btn[href="/science.html"]').first();
+  const evidenceVisible=await evidence.isVisible();
+  const evidenceColor=evidenceVisible?await evidence.evaluate(el=>getComputedStyle(el).color):null;
+  record('refine:enterprise-secondary-cta',evidenceVisible&&evidenceColor==='rgb(17, 21, 17)',{evidenceVisible,evidenceColor});
+
+  await context.close();
+}
+
 // Keyboard focus and skip-link behavior.
 {
   const context=await browser.newContext({viewport:{width:1440,height:900}});
