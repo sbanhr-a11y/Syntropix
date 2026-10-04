@@ -250,6 +250,17 @@ for(const vp of [
   await context.close();
 }
 
+// Latest visual-refinement acceptance.
+{
+  const context=await browser.newContext({viewport:{width:1440,height:1000}});
+  const page=await context.newPage();
+  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+  await page.waitForTimeout(220);
+  const hero=await page.locator('.sx-v7-hero').boundingBox();
+  record('refine:homepage-hero-density',!!hero&&hero.height<=700,{hero});
+  await context.close();
+}
+
 // Keyboard focus and skip-link behavior.
 {
   const context=await browser.newContext({viewport:{width:1440,height:900}});
