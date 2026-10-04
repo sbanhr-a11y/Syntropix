@@ -384,18 +384,26 @@ for(const vp of viewports){
  const page=await context.newPage();
  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
  const section=page.locator('[data-testimonial-carousel]');
- await section.scrollIntoViewIfNeeded();
- await page.waitForTimeout(150);
- const y1=await page.evaluate(()=>window.scrollY);
- const next=page.locator('[data-carousel-next]');
- const visible=await next.count()?await next.isVisible():false;
- if(visible){
-   await next.evaluate(el=>el.click());
-   await page.waitForTimeout(450);
+ const sectionCount=await section.count();
+ if(sectionCount){
+   await section.scrollIntoViewIfNeeded();
+   await page.waitForTimeout(150);
+   const y1=await page.evaluate(()=>window.scrollY);
+   const next=page.locator('[data-carousel-next]');
+   const visible=await next.count()?await next.isVisible():false;
+   if(visible){
+     await next.evaluate(el=>el.click());
+     await page.waitForTimeout(450);
+   }
+   const y2=await page.evaluate(()=>window.scrollY);
+   const controls=page.locator('.sx-carousel-controls');
+   const controlsStatic=await controls.count()?await controls.getAttribute('data-static'):null;
+   report.targeted.testimonialVerticalJump={mode:'carousel',before:y1,after:y2,delta:Math.abs(y2-y1),controlVisible:visible,controlsStatic,pass:Math.abs(y2-y1)<=2 && (visible || controlsStatic==='true')};
+ }else{
+   const quotes=page.locator('.sx-v7-quotes .sx-v7-quote');
+   const count=await quotes.count();
+   report.targeted.testimonialVerticalJump={mode:'v7-static-proof',quoteCount:count,pass:count>=2};
  }
- const y2=await page.evaluate(()=>window.scrollY);
- const controlsStatic=await page.locator('.sx-carousel-controls').getAttribute('data-static');
- report.targeted.testimonialVerticalJump={before:y1,after:y2,delta:Math.abs(y2-y1),controlVisible:visible,controlsStatic,pass:Math.abs(y2-y1)<=2 && (visible || controlsStatic==='true')};
  if(!report.targeted.testimonialVerticalJump.pass) report.failures.push({target:'testimonialVerticalJump',...report.targeted.testimonialVerticalJump});
  await context.close();
 }
