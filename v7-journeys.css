@@ -1,0 +1,53 @@
+/* Syntropix™ Website V7 — public journey refinement.
+   Scope is opt-in via body.sx-v7-journey; assessment/runtime and Command surfaces are excluded. */
+body.v6-marketing.sx-v7-journey{--v7-paper:#f3f1ea;--v7-ink:#111411;--v7-gold:#d6b878;--v7-sage:#8fb8a2;--v7-line:rgba(17,20,17,.14)}
+.sx-v7-journey .v5nav{backdrop-filter:blur(18px);background:rgba(7,9,8,.9)}
+.sx-v7-journey .v5nav nav a{min-height:44px;display:inline-flex;align-items:center}
+.sx-v7-journey .hero5{min-height:min(720px,84vh);display:grid;align-content:center;padding-top:clamp(116px,13vw,158px);padding-bottom:clamp(72px,9vw,110px)}
+.sx-v7-journey .hero5 .kicker{color:var(--v7-sage);letter-spacing:.18em}
+.sx-v7-journey .hero5 h1{max-width:940px;font-size:clamp(48px,6vw,82px);line-height:.96;letter-spacing:-.052em}
+.sx-v7-journey .hero5>p:not(.kicker){max-width:760px;font-size:clamp(17px,1.45vw,20px);line-height:1.7}
+.sx-v7-journey .hero5 .actions{margin-top:28px}
+.sx-v7-journey .hero5 .btn{min-height:46px}
+.sx-v7-journey .sx-v7-context{border-block:1px solid rgba(255,255,255,.1);background:#090c0a;color:#f2f3ef}
+.sx-v7-journey .sx-v7-context-inner{display:grid;grid-template-columns:1.1fr repeat(3,1fr);gap:0}
+.sx-v7-journey .sx-v7-context-inner>*{padding:22px clamp(16px,2vw,28px);border-right:1px solid rgba(255,255,255,.1)}
+.sx-v7-journey .sx-v7-context-inner>*:last-child{border-right:0}
+.sx-v7-journey .sx-v7-context-label{margin:0;color:var(--v7-gold);font-size:11px;font-weight:850;letter-spacing:.15em;text-transform:uppercase}
+.sx-v7-journey .sx-v7-context strong{display:block;margin-bottom:4px;font-size:14px}
+.sx-v7-journey .sx-v7-context span{display:block;color:#9da59e;font-size:12px;line-height:1.5}
+.sx-v7-journey .section5{padding-top:clamp(70px,8vw,112px);padding-bottom:clamp(70px,8vw,112px)}
+.sx-v7-journey .section5>.kicker,.sx-v7-journey .catalogue-heading>.kicker,.sx-v7-journey .finder-copy>.kicker{letter-spacing:.17em}
+.sx-v7-journey .section5>h2,.sx-v7-journey .catalogue-heading h2,.sx-v7-journey .finder-copy h2{font-size:clamp(36px,4.3vw,62px);line-height:1;letter-spacing:-.045em}
+.sx-v7-journey .grid3,.sx-v7-journey .assessment-grid{gap:14px}
+.sx-v7-journey .card,.sx-v7-journey .assessment-card{border-radius:22px}
+.sx-v7-journey .card{min-height:270px;padding:28px}
+.sx-v7-journey .card h3,.sx-v7-journey .assessment-card h3{letter-spacing:-.025em}
+.sx-v7-journey .cred-doc-grid{gap:12px}
+.sx-v7-journey .cred-doc{border-radius:18px}
+.sx-v7-journey .flow{gap:10px}
+.sx-v7-journey .flow article{min-height:112px;border-radius:16px}
+.sx-v7-journey .form5{max-width:980px}
+.sx-v7-journey .form5 input,.sx-v7-journey .form5 select,.sx-v7-journey .form5 textarea{min-height:48px}
+.sx-v7-journey .finder{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(34px,7vw,96px);align-items:start}
+.sx-v7-journey .finder-form{border-radius:24px}
+.sx-v7-journey .pricing-strip{gap:clamp(32px,6vw,86px)}
+.sx-v7-journey .price-panel{border-radius:24px}
+.sx-v7-journey .sx-report-gallery{border-radius:26px}
+.sx-v7-journey a:focus-visible,.sx-v7-journey button:focus-visible,.sx-v7-journey select:focus-visible,.sx-v7-journey input:focus-visible,.sx-v7-journey textarea:focus-visible{outline:3px solid var(--v7-gold);outline-offset:3px}
+@media(max-width:980px){
+ .sx-v7-journey .sx-v7-context-inner{grid-template-columns:1fr 1fr}
+ .sx-v7-journey .sx-v7-context-inner>*{border-bottom:1px solid rgba(255,255,255,.1)}
+ .sx-v7-journey .finder{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+ .sx-v7-journey .hero5{min-height:auto;padding-top:104px;padding-bottom:60px}
+ .sx-v7-journey .hero5 h1{font-size:clamp(44px,13.5vw,62px)}
+ .sx-v7-journey .sx-v7-context-inner{grid-template-columns:1fr}
+ .sx-v7-journey .sx-v7-context-inner>*{border-right:0}
+ .sx-v7-journey .section5{padding-top:64px;padding-bottom:64px}
+ .sx-v7-journey .card{min-height:auto;padding:22px}
+}
+@media(prefers-reduced-motion:reduce){
+ .sx-v7-journey *{scroll-behavior:auto!important;transition-duration:.001ms!important;animation-duration:.001ms!important}
+}
