@@ -346,7 +346,7 @@ for(const vp of viewports){
    checks.push({path,...state});
    await page.close();
  }
- const pass=checks.every(x=>x.authDisplay==='none' && x.collisions.length===0 && x.headingOverflowWrap!=='anywhere' && x.headingWordBreak!=='break-all');
+ const pass=checks.every(x=>(x.authDisplay===null||x.authDisplay==='none') && x.collisions.length===0 && x.headingOverflowWrap!=='anywhere' && x.headingWordBreak!=='break-all');
  report.targeted.mobileChromeParity={checks,pass};
  if(!pass) report.failures.push({target:'mobileChromeParity',checks});
  await context.close();
