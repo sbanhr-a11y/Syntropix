@@ -127,9 +127,10 @@ for(const vp of [
     const head=document.querySelector('.cred-demo-head'),title=head?.querySelector('h3'),kicker=head?.querySelector('small'),note=head?.querySelector(':scope > p');
     if(!head||!title||!kicker||!note)return null;
     const h=head.getBoundingClientRect(),t=title.getBoundingClientRect(),k=kicker.getBoundingClientRect(),n=note.getBoundingClientRect();
-    return {headH:h.height,titleTop:t.top,kickerTop:k.top,noteTop:n.top,noteBottom:n.bottom,titleBottom:t.bottom};
+    return {headH:h.height,titleTop:t.top,titleBottom:t.bottom,titleLeft:t.left,titleRight:t.right,kickerTop:k.top,noteTop:n.top,noteBottom:n.bottom,noteLeft:n.left,noteRight:n.right};
   });
-  record('polish:prism-proof-header',!!prism&&prism.headH<155&&!(prism.noteTop<prism.titleBottom&&prism.noteBottom>prism.titleTop),{prism});
+  const prismOverlap=!!prism&&(prism.titleLeft<prism.noteRight&&prism.titleRight>prism.noteLeft&&prism.titleTop<prism.noteBottom&&prism.titleBottom>prism.noteTop);
+  record('polish:prism-proof-header',!!prism&&prism.headH<155&&!prismOverlap,{prism,prismOverlap});
 
   await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
   await page.waitForTimeout(250);
