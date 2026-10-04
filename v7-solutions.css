@@ -1,0 +1,64 @@
+/* Syntropix™ V7 — Solutions and Talent Solutions.
+   Public marketing only. No Command, reviewer, assessment runtime or backend selectors. */
+body.v6-marketing.sx-v7-solutions{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-muted:#687068;--v7-gold:#d6b878;--v7-sage:#8fb8a2;--v7-line:rgba(16,19,16,.13);background:#070908}
+.sx-v7-solutions .v6-beta-hero{padding-top:clamp(118px,11vw,148px);padding-bottom:clamp(72px,8vw,108px)}
+.sx-v7-solutions .v6-beta-hero h1{max-width:980px;font-size:clamp(48px,6vw,84px);line-height:.96;letter-spacing:-.052em}
+.sx-v7-solutions .v6-beta-hero .lead{max-width:780px;font-size:clamp(17px,1.45vw,20px);line-height:1.72}
+.sx-v7-solutions .v6-beta-section{padding-top:clamp(72px,8vw,112px);padding-bottom:clamp(72px,8vw,112px)}
+.sx-v7-solutions .v6-beta-head{display:grid;grid-template-columns:minmax(190px,.66fr) minmax(0,1.34fr);gap:clamp(34px,7vw,100px);align-items:start;margin-bottom:42px}
+.sx-v7-solutions .v6-beta-head h2{font-size:clamp(38px,4.4vw,64px);line-height:1;letter-spacing:-.045em}
+.sx-v7-solutions .v7-solution-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.sx-v7-solutions .v7-solution-card{position:relative;display:flex;flex-direction:column;min-height:360px;padding:26px 24px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:#0c110e;color:#f2f3ef;text-decoration:none;overflow:hidden}
+.sx-v7-solutions .v7-solution-card:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--accent,#d6b878)}
+.sx-v7-solutions .v7-solution-card:nth-child(1){--accent:#d6b878}.sx-v7-solutions .v7-solution-card:nth-child(2){--accent:#8fb8a2}.sx-v7-solutions .v7-solution-card:nth-child(3){--accent:#6677a8}.sx-v7-solutions .v7-solution-card:nth-child(4){--accent:#5a345a}.sx-v7-solutions .v7-solution-card:nth-child(5){--accent:#2f8f6b}
+.sx-v7-solutions .v7-solution-card small{color:#9aa29b;font-size:10px;font-weight:850;letter-spacing:.14em}
+.sx-v7-solutions .v7-solution-card h3{margin:42px 0 12px;font-size:clamp(24px,2.2vw,34px);line-height:1.02;letter-spacing:-.04em}
+.sx-v7-solutions .v7-solution-card p{margin:0;color:#aeb5ae;font-size:14px;line-height:1.65}
+.sx-v7-solutions .v7-solution-card .v7-card-link{margin-top:auto;padding-top:26px;color:var(--v7-gold);font-weight:750;font-size:13px}
+.sx-v7-solutions .v7-solution-card:hover,.sx-v7-solutions .v7-solution-card:focus-visible{transform:translateY(-2px);border-color:rgba(214,184,120,.34);background:#101612}
+.sx-v7-solutions .v7-solution-card:focus-visible{outline:3px solid var(--v7-gold);outline-offset:3px}
+.sx-v7-solutions .v7-system-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.sx-v7-solutions .v7-system-step{padding:18px 16px;border-top:3px solid #d6b878;background:#fff;border-radius:0 0 16px 16px;min-height:126px}
+.sx-v7-solutions .v7-system-step b{display:block;color:#8b6a2e;font-size:10px;letter-spacing:.13em}
+.sx-v7-solutions .v7-system-step strong{display:block;margin-top:24px;color:#111511;font-size:15px}
+.sx-v7-solutions .v7-system-step span{display:block;margin-top:6px;color:#687068;font-size:12px;line-height:1.45}
+.sx-v7-solutions .v7-secondary-callout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(30px,7vw,96px);padding:clamp(28px,4vw,52px);border:1px solid rgba(255,255,255,.1);border-radius:26px;background:#0c110e}
+.sx-v7-solutions .v7-secondary-callout h3{margin:0;font-size:clamp(32px,3.7vw,52px);line-height:1;letter-spacing:-.045em}
+.sx-v7-solutions .v7-secondary-callout p{margin:0;color:#aeb5ae;line-height:1.7}
+.sx-v7-solutions .v7-secondary-callout a{display:inline-flex;margin-top:18px;color:var(--v7-gold);font-weight:750;text-decoration:none}
+.sx-v7-solutions .v7-secondary-callout a:focus-visible{outline:3px solid var(--v7-gold);outline-offset:4px;border-radius:6px}
+
+/* Talent Solutions */
+.sx-v7-solutions .v7-talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.sx-v7-solutions .v7-talent-card{padding:28px;border-radius:22px;border:1px solid rgba(16,19,16,.11);background:#fff;color:#111511}
+.sx-v7-solutions .v7-talent-card small{color:#8b6a2e;font-size:10px;font-weight:850;letter-spacing:.14em}
+.sx-v7-solutions .v7-talent-card h3{margin:28px 0 10px;font-size:clamp(25px,2.4vw,36px);line-height:1.03;letter-spacing:-.04em}
+.sx-v7-solutions .v7-talent-card p{color:#5d655e;line-height:1.65}
+.sx-v7-solutions .v7-hiring-assessments{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(34px,7vw,96px);align-items:start}
+.sx-v7-solutions .v7-hiring-assessments h2{font-size:clamp(40px,4.8vw,68px);line-height:.98;letter-spacing:-.05em}
+.sx-v7-solutions .v7-assessment-stack{display:grid;gap:12px}
+.sx-v7-solutions .v7-assessment-item{padding:24px;border:1px solid rgba(255,255,255,.11);border-radius:20px;background:#0c110e}
+.sx-v7-solutions .v7-assessment-item small{color:var(--v7-gold);font-size:10px;font-weight:850;letter-spacing:.14em}
+.sx-v7-solutions .v7-assessment-item h3{margin:10px 0 8px;color:#f3f4ef;font-size:25px}
+.sx-v7-solutions .v7-assessment-item p{margin:0;color:#aeb5ae;line-height:1.65}
+.sx-v7-solutions .v7-integrity{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sx-v7-solutions .v7-integrity article{padding:24px;border-top:3px solid #8fb8a2;background:#ede9df;color:#111511;border-radius:0 0 18px 18px}
+.sx-v7-solutions .v7-integrity h3{margin:20px 0 8px;font-size:24px}
+.sx-v7-solutions .v7-integrity p{margin:0;color:#5d655e;line-height:1.65}
+
+@media(max-width:1100px){
+ .sx-v7-solutions .v7-solution-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .sx-v7-solutions .v7-solution-card:last-child{grid-column:1/-1;min-height:250px}
+ .sx-v7-solutions .v7-system-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .sx-v7-solutions .v7-hiring-assessments{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+ .sx-v7-solutions .v6-beta-hero{padding-top:104px;padding-bottom:62px}
+ .sx-v7-solutions .v6-beta-section{padding-top:64px;padding-bottom:64px}
+ .sx-v7-solutions .v6-beta-head{grid-template-columns:1fr;gap:14px}
+ .sx-v7-solutions .v7-solution-grid,.sx-v7-solutions .v7-talent-grid,.sx-v7-solutions .v7-integrity{grid-template-columns:1fr}
+ .sx-v7-solutions .v7-solution-card,.sx-v7-solutions .v7-solution-card:last-child{grid-column:auto;min-height:280px}
+ .sx-v7-solutions .v7-system-strip{grid-template-columns:1fr 1fr}
+ .sx-v7-solutions .v7-secondary-callout{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.sx-v7-solutions *{transition:none!important;scroll-behavior:auto!important}}
