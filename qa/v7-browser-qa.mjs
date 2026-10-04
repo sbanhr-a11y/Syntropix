@@ -214,6 +214,42 @@ for(const vp of [
   await context.close();
 }
 
+// Homepage hero should remain intentionally compact on desktop/tablet.
+{
+  const context=await browser.newContext({viewport:{width:1440,height:1000}});
+  const page=await context.newPage();
+  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+  await page.waitForTimeout(220);
+  const state=await page.evaluate(()=>{const r=document.querySelector('.sx-v7-hero')?.getBoundingClientRect();return r?{height:r.height,top:r.top,bottom:r.bottom}:null});
+  record('polish:homepage-hero-density',!!state&&state.height<700,{state});
+  await context.close();
+}
+
+// Long catalogue disclosure controls should reduce initial density without removing assessment access.
+{
+  const context=await browser.newContext({viewport:{width:1440,height:1000}});
+  const page=await context.newPage();
+  const checks=[];
+  for(const [name,path] of [['professionals','professionals.html'],['organizations','enterprise.html']]){
+    await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+    await page.waitForTimeout(650);
+    const btn=page.locator('.v7-catalogue-toggle').first();
+    const count=await page.locator('.v7-catalogue-toggle').count();
+    let beforeHidden=null,afterVisible=null,expanded=null;
+    if(count){
+      const id=await btn.getAttribute('aria-controls');
+      beforeHidden=await page.locator('#'+id).evaluate(el=>el.hidden);
+      await btn.click();
+      await page.waitForTimeout(100);
+      afterVisible=await page.locator('#'+id).isVisible();
+      expanded=await btn.getAttribute('aria-expanded');
+    }
+    checks.push({name,count,beforeHidden,afterVisible,expanded,pass:count>=1&&beforeHidden===true&&afterVisible===true&&expanded==='true'});
+  }
+  record('polish:catalogue-disclosures',checks.every(x=>x.pass),{checks});
+  await context.close();
+}
+
 // Keyboard focus and skip-link behavior.
 {
   const context=await browser.newContext({viewport:{width:1440,height:900}});
