@@ -2,21 +2,6 @@ name: V7 public website safety QA
 on:
   pull_request:
     branches: ["main"]
-    paths:
-      - "index.html"
-      - "v7-*.css"
-      - "v7-*.js"
-      - "enterprise.html"
-      - "professionals.html"
-      - "solutions.html"
-      - "company.html"
-      - "science.html"
-      - "trust.html"
-      - "technical-notes.html"
-      - "trust-center.html"
-      - "qa/v7-**"
-      - "docs/WEBSITE_V7_**"
-      - ".github/workflows/v7-public-site-qa.yml"
 permissions:
   contents: read
 jobs:
