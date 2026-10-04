@@ -43,9 +43,9 @@ for(const vp of [
     acdcRuntimeLinks:document.querySelectorAll('a[href="/acdc-horizon.html"]').length
   }));
 
-  const expectedNav=['How it works','Solutions','Organizations','Professionals','Company'];
+  const expectedNav=['How it works','Solutions','Organizations','Professionals','Company','Contact us','Sign in'];
   const navPass=expectedNav.every(x=>state.navLinks.includes(x))&&!state.navLinks.includes('Individuals');
-  record(vp.name+':semantic-shell',state.h1===1&&state.main&&state.stages===7&&state.products===4&&state.journeys===2&&state.quotes>=2&&navPass,{state,navPass});
+  record(vp.name+':semantic-shell',state.h1===1&&state.main&&state.stages===7&&state.products===5&&state.journeys===2&&state.quotes>=2&&navPass,{state,navPass});
   record(vp.name+':horizontal-reflow',state.sw<=state.cw+2,{scrollWidth:state.sw,clientWidth:state.cw});
   record(vp.name+':console-clean',errors.length===0,{errors});
   record(vp.name+':public-acdc-boundary',state.acdcRuntimeLinks===0,{count:state.acdcRuntimeLinks});
