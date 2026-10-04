@@ -32,7 +32,14 @@ function refineLongCatalogues(){
   if(document.body.classList.contains('sx-v7-organizations')){
     [...document.querySelectorAll('section')].forEach(section=>{
       const h=[...section.querySelectorAll('h2')].find(x=>/Additional Syntropix assessment portfolio/i.test(x.textContent));
-      const grid=h?section.querySelector('.assessment-grid.enterprise-grid'):null;
+      let grid=null;
+      if(h){
+        let node=h.nextElementSibling;
+        while(node&&!grid){
+          if(node.matches&&node.matches('.assessment-grid.enterprise-grid'))grid=node;
+          node=node.nextElementSibling;
+        }
+      }
       if(h&&grid)makeDisclosure(section,grid,'Explore the additional assessment portfolio');
     });
   }
