@@ -77,6 +77,64 @@ for(const vp of [
   await context.close();
 }
 
+// User-observed polish regressions: homepage system cards, compact footer, Prism360 proof header and credibility pages.
+{
+  const context=await browser.newContext({viewport:{width:1440,height:1000}});
+  const page=await context.newPage();
+
+  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+  await page.waitForTimeout(450);
+  const system=await page.evaluate(()=>{
+    const cards=[...document.querySelectorAll('.sx-v7-stage')];
+    const rects=cards.map(x=>x.getBoundingClientRect());
+    const first=cards[0]?getComputedStyle(cards[0]):null;
+    return {
+      count:cards.length,
+      rows:new Set(rects.map(r=>Math.round(r.top))).size,
+      radius:first?.borderRadius||'',
+      background:first?.backgroundColor||'',
+      overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+    };
+  });
+  record('polish:homepage-system-cards',system.count===7&&system.rows===1&&parseFloat(system.radius)>=16&&system.overflow<=2,{system});
+
+  const footer=await page.evaluate(()=>{
+    const top=document.querySelector('.sx-global-footer .sx-footer-top');
+    const primary=document.querySelector('.sx-global-footer .sx-footer-primary');
+    const social=document.querySelector('.sx-global-footer .sx-footer-social');
+    if(!top||!primary||!social)return null;
+    const tb=top.getBoundingClientRect(),pb=primary.getBoundingClientRect(),sb=social.getBoundingClientRect();
+    return {topH:tb.height,primaryTop:pb.top,socialTop:sb.top,primaryBottom:pb.bottom,socialBottom:sb.bottom};
+  });
+  record('polish:footer-desktop-hierarchy',!!footer&&footer.topH<90&&Math.abs(footer.primaryTop-footer.socialTop)<20,{footer});
+
+  await page.goto(base+'/prism360.html',{waitUntil:'domcontentloaded',timeout:12000});
+  await page.waitForTimeout(220);
+  const prism=await page.evaluate(()=>{
+    const head=document.querySelector('.cred-demo-head'),title=head?.querySelector('h3'),kicker=head?.querySelector('small'),note=head?.querySelector(':scope > p');
+    if(!head||!title||!kicker||!note)return null;
+    const h=head.getBoundingClientRect(),t=title.getBoundingClientRect(),k=kicker.getBoundingClientRect(),n=note.getBoundingClientRect();
+    return {headH:h.height,titleTop:t.top,kickerTop:k.top,noteTop:n.top,noteBottom:n.bottom,titleBottom:t.bottom};
+  });
+  record('polish:prism-proof-header',!!prism&&prism.headH<130&&Math.abs(prism.noteTop-prism.titleTop)<35,{prism});
+
+  const credibility=[];
+  for(const path of ['company.html','evidence-in-practice.html','technical-notes.html','trust-center.html']){
+    await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+    await page.waitForTimeout(120);
+    const state=await page.evaluate(()=>({
+      sw:document.documentElement.scrollWidth,
+      cw:document.documentElement.clientWidth,
+      h1:document.querySelectorAll('h1').length,
+      v7:document.body.classList.contains('sx-v7-credibility'),
+      stylesheet:!!document.querySelector('link[href="/v7-credibility.css"]')
+    }));
+    credibility.push({path,...state,pass:state.sw<=state.cw+2&&state.h1===1&&state.v7&&state.stylesheet});
+  }
+  record('polish:credibility-inner-pages',credibility.every(x=>x.pass),{credibility});
+  await context.close();
+}
+
 // Keyboard focus and skip-link behavior.
 {
   const context=await browser.newContext({viewport:{width:1440,height:900}});
