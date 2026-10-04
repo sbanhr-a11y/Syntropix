@@ -7,6 +7,18 @@ const out={generatedAt:new Date().toISOString(),checks:[],failures:[]};
 fs.rmSync('qa-output-v7',{recursive:true,force:true});
 fs.mkdirSync('qa-output-v7/screenshots',{recursive:true});
 
+const revealForReview=async page=>{
+  await page.evaluate(async()=>{
+    const step=Math.max(500,Math.floor(innerHeight*.75));
+    for(let y=0;y<document.documentElement.scrollHeight;y+=step){
+      scrollTo(0,y);
+      await new Promise(r=>setTimeout(r,45));
+    }
+    scrollTo(0,0);
+  });
+  await page.waitForTimeout(180);
+};
+
 const record=(name,pass,detail={})=>{
   const row={name,pass,...detail}; out.checks.push(row); if(!pass)out.failures.push(row);
 };
@@ -72,6 +84,7 @@ for(const vp of [
   record(vp.name+':touch-targets',interactive.every(x=>x.h>=44),{interactive});
 
   if(vp.name==='desktop-1440'||vp.name==='mobile-390') {
+    await revealForReview(page);
     await page.screenshot({path:'qa-output-v7/screenshots/home--'+vp.name+'.png',fullPage:true});
   }
   await context.close();
@@ -133,6 +146,30 @@ for(const vp of [
   }
   record('polish:credibility-inner-pages',credibility.every(x=>x.pass),{credibility});
   await context.close();
+}
+
+
+// Visual-review evidence pack for key public journeys.
+{
+  const pages=[
+    ['company','company.html'],
+    ['organizations','enterprise.html'],
+    ['professionals','professionals.html'],
+    ['solutions','solutions.html'],
+    ['talent-solutions','talent-solutions.html'],
+    ['prism360','prism360.html']
+  ];
+  for(const vp of [{name:'desktop-1440',width:1440,height:1000},{name:'mobile-390',width:390,height:844}]){
+    const context=await browser.newContext({viewport:{width:vp.width,height:vp.height}});
+    const page=await context.newPage();
+    for(const [name,path] of pages){
+      await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+      await page.waitForTimeout(500);
+      await revealForReview(page);
+      await page.screenshot({path:'qa-output-v7/screenshots/'+name+'--'+vp.name+'.png',fullPage:true});
+    }
+    await context.close();
+  }
 }
 
 // Keyboard focus and skip-link behavior.
