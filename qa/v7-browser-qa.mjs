@@ -8,15 +8,15 @@ fs.rmSync('qa-output-v7',{recursive:true,force:true});
 fs.mkdirSync('qa-output-v7/screenshots',{recursive:true});
 
 const revealForReview=async page=>{
-  await page.evaluate(async()=>{
-    const step=Math.max(500,Math.floor(innerHeight*.75));
-    for(let y=0;y<document.documentElement.scrollHeight;y+=step){
-      scrollTo(0,y);
-      await new Promise(r=>setTimeout(r,45));
-    }
-    scrollTo(0,0);
-  });
-  await page.waitForTimeout(180);
+  const items=page.locator('.sx-reveal');
+  const count=await items.count();
+  for(let i=0;i<count;i++){
+    await items.nth(i).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(90);
+  }
+  await page.waitForTimeout(260);
+  await page.evaluate(()=>scrollTo(0,0));
+  await page.waitForTimeout(100);
 };
 
 const record=(name,pass,detail={})=>{
