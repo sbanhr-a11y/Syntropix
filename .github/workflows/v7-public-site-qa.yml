@@ -1,0 +1,17 @@
+name: V7 public website safety QA
+on:
+  pull_request:
+    branches: ["main"]
+permissions:
+  contents: read
+jobs:
+  source-and-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Protected-boundary guard
+        run: node qa/v7-protected-boundary.mjs origin/main HEAD
+      - name: Homepage V7 source QA
+        run: node qa/v7-source-qa.mjs

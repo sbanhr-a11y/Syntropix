@@ -100,7 +100,7 @@ jobs:
           grep -q '/v6-home.js' index.html
           ! grep -q '/corporate-humanist-v1.css' index.html
           ! grep -q '/corporate-humanist-v1.js' index.html
-          grep -q '>Individuals<' index.html
+          grep -Eq '>Individuals<|>Professionals<' index.html
           echo 'Homepage functional and audience contract verified'
       - name: Validate organization and individual journey contract
         shell: bash
@@ -122,7 +122,7 @@ jobs:
           grep -q '/assessment-suite-v2-catalogue.js' professionals.html
           grep -q '/consumer-insight-catalogue.js' professionals.html
           grep -q '/assessment-assignment-ui-v1.js' professionals.html
-          grep -q '<title>For Individuals | Syntropix</title>' professionals.html
+          grep -Eq '<title>For (Individuals|Professionals) \\| Syntropix</title>' professionals.html
           echo 'Organization and Individual journey contracts verified'
       - name: Validate full public V6 migration
         shell: bash
@@ -150,8 +150,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -q 'Proof should feel human.' index.html
-          grep -q 'data-testimonial-carousel' index.html
+          if grep -q 'class="sx-v6 sx-v7"' index.html; then
+            grep -q 'Built for development. Open to scrutiny.' index.html
+            grep -q 'sx-v7-quotes' index.html
+            grep -q 'The report is not the finish line.' index.html
+            grep -q 'id="how-it-works"' index.html
+            grep -q '/v7-home.css' index.html
+            grep -q '/v7-home.js' index.html
+          else
+            grep -q 'Proof should feel human.' index.html
+            grep -q 'data-testimonial-carousel' index.html
+          fi
           grep -q 'grid-auto-columns:calc((100% - 36px)/3)' v6-home.css
           grep -q 'Build your development plan' professionals.html
           grep -q 'A clear path from insight to applied change.' professionals.html
@@ -160,7 +169,11 @@ jobs:
           grep -q 'The Culture Compass' employee-experience.html
           grep -q 'The Culture Compass' enterprise.html
           ! grep -R -i -q 'employee listening' --include='*.html' .
-          grep -q 'SECURE & RELIABLE / GLOBAL CAPABILITY' index.html
+          if grep -q 'class="sx-v6 sx-v7"' index.html; then
+            grep -q 'One connected human capability system' index.html
+          else
+            grep -q 'SECURE & RELIABLE / GLOBAL CAPABILITY' index.html
+          fi
           grep -q 'nav-products-menu' site-v5.js
           grep -q 'journey-flow' professionals.html
           grep -q 'Shubhashish Banerjee' company.html
@@ -179,7 +192,11 @@ jobs:
           grep -q 'cred-demo' prism360.html
           grep -q 'cred-demo' employee-experience.html
           grep -q 'id="acdc"' solutions.html
-          grep -q 'VERIFY BEFORE YOU BUY' index.html
+          if grep -q 'class="sx-v6 sx-v7"' index.html; then
+            grep -q 'INSPECT THE FOUNDATIONS' index.html
+          else
+            grep -q 'VERIFY BEFORE YOU BUY' index.html
+          fi
           grep -q '/technical-notes.html' index.html
           grep -q '/trust-center.html' index.html
           grep -q 'ENTERPRISE BUYER CONFIDENCE' enterprise.html

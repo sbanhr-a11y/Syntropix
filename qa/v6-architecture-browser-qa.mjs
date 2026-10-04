@@ -153,21 +153,17 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: mobile navigation supports product disclosure, large touch targets and Escape recovery.
+// Targeted regression: mobile navigation uses the approved flat V7 architecture, large touch targets and Escape recovery.
 {
  const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
  const page=await context.newPage();
  await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
- await page.waitForTimeout(180);
+ await page.waitForTimeout(700);
  const button=page.locator('.menu5');
  await button.click();await page.waitForTimeout(220);
- const trigger=page.locator('.nav-products-trigger');
- const touchBoxes=await page.locator('.v5nav.open nav>a,.v5nav.open .nav-products-trigger').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height}}));
- await trigger.click();await page.waitForTimeout(120);
- const submenu=page.locator('.nav-products-menu');
- const productExpanded=await trigger.getAttribute('aria-expanded');
- const submenuVisible=await submenu.isVisible();
- const productBoxes=await submenu.locator('.nav-product-link').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height}}));
+ const touchBoxes=await page.locator('.v5nav.open nav>a').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height,text:el.textContent.trim()}}));
+ const labels=touchBoxes.map(x=>x.text);
+ const noLegacyProducts=await page.locator('.nav-products,.nav-products-trigger,.nav-products-menu').count()===0;
  await page.screenshot({path:'qa-output/screenshots/mobile-nav-open--390.png',fullPage:false});
  await page.keyboard.press('Escape');await page.waitForTimeout(120);
  const finalState={
@@ -178,9 +174,10 @@ for(const vp of viewports){
    bodyLocked:await page.locator('body').evaluate(el=>el.classList.contains('sx-nav-open')),
    focused:await button.evaluate(el=>document.activeElement===el)
  };
- const pass=productExpanded==='true'&&submenuVisible&&touchBoxes.every(x=>x.h>=44)&&productBoxes.every(x=>x.h>=44)&&!finalState.navVisible&&finalState.expanded==='false'&&finalState.label==='Open navigation'&&finalState.menuText.toLowerCase()==='menu'&&!finalState.bodyLocked&&finalState.focused;
- report.targeted.mobileNavInteraction={productExpanded,submenuVisible,touchBoxes,productBoxes,finalState,pass};
- if(!pass)report.failures.push({target:'mobileNavInteraction',productExpanded,submenuVisible,touchBoxes,productBoxes,finalState});
+ const expected=['How it works','Solutions','Organizations','Professionals','Company','Contact us','Sign in'];
+ const pass=touchBoxes.every(x=>x.h>=44)&&expected.every(x=>labels.includes(x))&&noLegacyProducts&&!finalState.navVisible&&finalState.expanded==='false'&&finalState.label==='Open navigation'&&finalState.menuText.toLowerCase()==='menu'&&!finalState.bodyLocked&&finalState.focused;
+ report.targeted.mobileNavInteraction={mode:'v7-flat-navigation',labels,noLegacyProducts,touchBoxes,finalState,pass};
+ if(!pass)report.failures.push({target:'mobileNavInteraction',labels,noLegacyProducts,touchBoxes,finalState});
  await page.close();await context.close();
 }
 
@@ -247,25 +244,33 @@ for(const vp of viewports){
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const isV7=await page.locator('body').evaluate(el=>el.classList.contains('sx-v7'));
  const group=page.locator('.nav-products');
  const menu=page.locator('.nav-products-menu');
- const before=await menu.evaluate(el=>getComputedStyle(el).display);
- await group.hover();
- await page.waitForTimeout(120);
- const during=await menu.evaluate(el=>getComputedStyle(el).display);
- await page.locator('main').hover({position:{x:10,y:10}});
- await page.waitForTimeout(140);
- const after=await menu.evaluate(el=>getComputedStyle(el).display);
- const links=await menu.locator('.nav-product-link').count();
- const trigger=page.locator('.nav-products-trigger');
- await trigger.focus();
- await trigger.press('Enter');
- await page.waitForTimeout(100);
- const keyboardOpen=await menu.evaluate(el=>getComputedStyle(el).display);
- await trigger.press('Enter');
- await page.waitForTimeout(100);
- const keyboardClosed=await menu.evaluate(el=>getComputedStyle(el).display);
- report.targeted.productDropdown={before,during,after,keyboardOpen,keyboardClosed,links,pass:before==='none'&&during!=='none'&&after==='none'&&keyboardOpen!=='none'&&keyboardClosed==='none'&&links>=8};
+ if(isV7){
+   const links=await page.locator('.v5nav nav>a').allTextContents();
+   const products=await group.count();
+   const pass=products===0&&['How it works','Solutions','Organizations','Professionals','Company'].every(x=>links.includes(x));
+   report.targeted.productDropdown={mode:'v7-flat-navigation',links,products,pass};
+ }else{
+   const before=await menu.evaluate(el=>getComputedStyle(el).display);
+   await group.hover();
+   await page.waitForTimeout(120);
+   const during=await menu.evaluate(el=>getComputedStyle(el).display);
+   await page.locator('main').hover({position:{x:10,y:10}});
+   await page.waitForTimeout(140);
+   const after=await menu.evaluate(el=>getComputedStyle(el).display);
+   const links=await menu.locator('.nav-product-link').count();
+   const trigger=page.locator('.nav-products-trigger');
+   await trigger.focus();
+   await trigger.press('Enter');
+   await page.waitForTimeout(100);
+   const keyboardOpen=await menu.evaluate(el=>getComputedStyle(el).display);
+   await trigger.press('Enter');
+   await page.waitForTimeout(100);
+   const keyboardClosed=await menu.evaluate(el=>getComputedStyle(el).display);
+   report.targeted.productDropdown={mode:'v6-product-dropdown',before,during,after,keyboardOpen,keyboardClosed,links,pass:before==='none'&&during!=='none'&&after==='none'&&keyboardOpen!=='none'&&keyboardClosed==='none'&&links>=8};
+ }
  if(!report.targeted.productDropdown.pass) report.failures.push({target:'productDropdown',...report.targeted.productDropdown});
  await context.close();
 }
@@ -341,7 +346,7 @@ for(const vp of viewports){
    checks.push({path,...state});
    await page.close();
  }
- const pass=checks.every(x=>x.authDisplay==='none' && x.collisions.length===0 && x.headingOverflowWrap!=='anywhere' && x.headingWordBreak!=='break-all');
+ const pass=checks.every(x=>(x.authDisplay===null||x.authDisplay==='none') && x.collisions.length===0 && x.headingOverflowWrap!=='anywhere' && x.headingWordBreak!=='break-all');
  report.targeted.mobileChromeParity={checks,pass};
  if(!pass) report.failures.push({target:'mobileChromeParity',checks});
  await context.close();
@@ -384,18 +389,26 @@ for(const vp of viewports){
  const page=await context.newPage();
  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
  const section=page.locator('[data-testimonial-carousel]');
- await section.scrollIntoViewIfNeeded();
- await page.waitForTimeout(150);
- const y1=await page.evaluate(()=>window.scrollY);
- const next=page.locator('[data-carousel-next]');
- const visible=await next.count()?await next.isVisible():false;
- if(visible){
-   await next.evaluate(el=>el.click());
-   await page.waitForTimeout(450);
+ const sectionCount=await section.count();
+ if(sectionCount){
+   await section.scrollIntoViewIfNeeded();
+   await page.waitForTimeout(150);
+   const y1=await page.evaluate(()=>window.scrollY);
+   const next=page.locator('[data-carousel-next]');
+   const visible=await next.count()?await next.isVisible():false;
+   if(visible){
+     await next.evaluate(el=>el.click());
+     await page.waitForTimeout(450);
+   }
+   const y2=await page.evaluate(()=>window.scrollY);
+   const controls=page.locator('.sx-carousel-controls');
+   const controlsStatic=await controls.count()?await controls.getAttribute('data-static'):null;
+   report.targeted.testimonialVerticalJump={mode:'carousel',before:y1,after:y2,delta:Math.abs(y2-y1),controlVisible:visible,controlsStatic,pass:Math.abs(y2-y1)<=2 && (visible || controlsStatic==='true')};
+ }else{
+   const quotes=page.locator('.sx-v7-quotes .sx-v7-quote');
+   const count=await quotes.count();
+   report.targeted.testimonialVerticalJump={mode:'v7-static-proof',quoteCount:count,pass:count>=2};
  }
- const y2=await page.evaluate(()=>window.scrollY);
- const controlsStatic=await page.locator('.sx-carousel-controls').getAttribute('data-static');
- report.targeted.testimonialVerticalJump={before:y1,after:y2,delta:Math.abs(y2-y1),controlVisible:visible,controlsStatic,pass:Math.abs(y2-y1)<=2 && (visible || controlsStatic==='true')};
  if(!report.targeted.testimonialVerticalJump.pass) report.failures.push({target:'testimonialVerticalJump',...report.targeted.testimonialVerticalJump});
  await context.close();
 }
@@ -828,7 +841,7 @@ for(const width of [375,390,768,1024,1440]){
  const mobile=width<=1100;
  if(mobile){
   await page.locator('.v5nav .menu5').click();
-  const link=page.locator('.v5nav nav [data-mobile-auth]');
+  const link=page.locator('.v5nav nav .v7-nav-auth');
   const visible=await link.isVisible(),label=await link.innerText(),href=await link.getAttribute('href');
   await link.focus();
   const keyboard=await link.evaluate(el=>document.activeElement===el);
@@ -838,15 +851,19 @@ for(const width of [375,390,768,1024,1440]){
   await page.evaluate(()=>localStorage.setItem('syntropix_user',JSON.stringify({role:'master',name:'Synthetic QA'})));
   await page.reload({waitUntil:'domcontentloaded'});await page.waitForTimeout(400);
   await page.locator('.v5nav .menu5').click();
-  const signed=page.locator('.v5nav nav [data-mobile-auth]');
+  const signed=page.locator('.v5nav nav .v7-nav-auth');
   const signedVisible=await signed.isVisible(),signedLabel=await signed.innerText(),signedHref=await signed.getAttribute('href');
   const signedPass=signedVisible&&signedLabel.trim()==='Open Command'&&signedHref==='https://syntropix-backend.onrender.com/command/';
   report.targeted['mobileSignedIn'+width]={signedVisible,signedLabel,signedHref,pass:signedPass};
   if(!signedPass)report.failures.push({target:'mobileSignedIn'+width,signedVisible,signedLabel,signedHref});
  }else{
-  const visible=await page.locator('.v5nav [data-auth]').isVisible();
-  report.targeted.desktopSignIn={visible,pass:visible};
-  if(!visible)report.failures.push({target:'desktopSignIn',visible});
+  const auth=page.locator('.v5nav nav .v7-nav-auth');
+  const visible=await auth.isVisible();
+  const legacy=await page.locator('.v5nav>[data-auth],.v5nav>.navcta').count();
+  const label=visible?await auth.innerText():'';
+  const pass=visible&&label.trim()==='Sign in'&&legacy===0;
+  report.targeted.desktopSignIn={visible,label,legacy,pass};
+  if(!pass)report.failures.push({target:'desktopSignIn',visible,label,legacy});
  }
  await page.close();await context.close();
 }
