@@ -67,8 +67,8 @@ body.sx-v7-professionals .flagship-heading{display:grid;grid-template-columns:mi
 body.sx-v7-professionals .flagship-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 body.sx-v7-professionals .flagship-card{min-height:470px;border-radius:24px}
 body.sx-v7-professionals .assessment-catalogue-inline{padding-top:clamp(58px,6.5vw,88px)}
-body.sx-v7-professionals .assessment-catalogue-inline .assessment-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-body.sx-v7-professionals .assessment-catalogue-inline .assessment-card{min-height:300px;padding:24px}
+body.sx-v7-professionals .assessment-catalogue-inline .assessment-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+body.sx-v7-professionals .assessment-catalogue-inline .assessment-card{min-height:280px;padding:22px}
 body.sx-v7-professionals .assessment-catalogue-inline .assessment-card h3{font-size:clamp(23px,2vw,31px)}
 body.sx-v7-professionals .assessment-catalogue-inline .assessment-card>p{font-size:14px;line-height:1.62}
 body.sx-v7-professionals .journey-flow{margin-top:30px}
@@ -81,6 +81,13 @@ body.sx-v7-organizations #solutions>.grid3 .card{min-height:250px}
 body.sx-v7-organizations #solutions>.grid3 .card:nth-child(1){grid-column:1/-1;min-height:210px;background:#f1eee6}
 body.sx-v7-organizations #solutions>.grid3 .card:nth-child(1) h3{font-size:clamp(30px,3vw,44px)}
 body.sx-v7-organizations #enterprise-assessments{background:#f3f1ea}
+
+body.sx-v7-organizations #enterprise-assessments>h2{color:#111511!important}
+body.sx-v7-organizations #enterprise-assessments>.kicker{color:#8b6a2e}
+body.sx-v7-organizations #enterprise-assessments>.section-lead{color:#555e56!important}
+body.sx-v7-organizations #enterprise-assessments .enterprise-note{color:#111511;background:#ebe7dc;border:1px solid rgba(17,20,17,.10)}
+body.sx-v7-organizations #enterprise-assessments .enterprise-note span{color:#5d655e}
+
 body.sx-v7-organizations #enterprise-assessments .assessment-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 body.sx-v7-organizations #enterprise-assessments .assessment-card{min-height:280px;padding:24px}
 body.sx-v7-organizations .cred-doc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
