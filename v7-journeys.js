@@ -26,7 +26,7 @@ function refineLongCatalogues(){
     [...document.querySelectorAll('section')].forEach(section=>{
       const h=[...section.querySelectorAll('h2')].find(x=>/Twelve assessments for different chapters of adult life|Go deeper on a specific pattern/i.test(x.textContent));
       const grid=h?section.querySelector('.assessment-grid'):null;
-      if(h&&grid)makeDisclosure(section,grid,'Browse focused development assessments');
+      if(h&&grid&&matchMedia('(min-width:1101px)').matches)makeDisclosure(section,grid,'Browse focused development assessments');
     });
   }
   if(document.body.classList.contains('sx-v7-organizations')){
