@@ -169,7 +169,8 @@ for(const vp of [
     ['professionals','professionals.html'],
     ['solutions','solutions.html'],
     ['talent-solutions','talent-solutions.html'],
-    ['prism360','prism360.html']
+    ['prism360','prism360.html'],
+    ['trust-center','trust-center.html']
   ];
   for(const vp of [{name:'desktop-1440',width:1440,height:1000},{name:'mobile-390',width:390,height:844}]){
     const context=await browser.newContext({viewport:{width:vp.width,height:vp.height}});
