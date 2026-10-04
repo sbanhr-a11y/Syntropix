@@ -5,6 +5,7 @@ function makeDisclosure(section,grid,label){
   const id='v7-grid-'+Math.random().toString(36).slice(2,8);
   grid.id=grid.id||id;
   grid.hidden=true;
+  grid.classList.add('v7-collapsed-grid');
   grid.dataset.v7Disclosure='1';
   const button=document.createElement('button');
   button.type='button';
