@@ -9,7 +9,7 @@ function closeNav(nav){
   if(label)label.textContent='Menu';
 }
 function refineHomepageNav(){
-  if(!document.body.classList.contains('sx-v7'))return;
+  if(!document.body.classList.contains('sx-v7')||document.body.classList.contains('sx-v7-nav'))return;
   document.querySelectorAll('.v5nav').forEach(nav=>{
     const panel=nav.querySelector('nav');
     if(!panel)return;
