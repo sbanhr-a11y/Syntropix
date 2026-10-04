@@ -841,7 +841,7 @@ for(const width of [375,390,768,1024,1440]){
  const mobile=width<=1100;
  if(mobile){
   await page.locator('.v5nav .menu5').click();
-  const link=page.locator('.v5nav nav [data-mobile-auth]');
+  const link=page.locator('.v5nav nav .v7-nav-auth');
   const visible=await link.isVisible(),label=await link.innerText(),href=await link.getAttribute('href');
   await link.focus();
   const keyboard=await link.evaluate(el=>document.activeElement===el);
@@ -851,15 +851,19 @@ for(const width of [375,390,768,1024,1440]){
   await page.evaluate(()=>localStorage.setItem('syntropix_user',JSON.stringify({role:'master',name:'Synthetic QA'})));
   await page.reload({waitUntil:'domcontentloaded'});await page.waitForTimeout(400);
   await page.locator('.v5nav .menu5').click();
-  const signed=page.locator('.v5nav nav [data-mobile-auth]');
+  const signed=page.locator('.v5nav nav .v7-nav-auth');
   const signedVisible=await signed.isVisible(),signedLabel=await signed.innerText(),signedHref=await signed.getAttribute('href');
   const signedPass=signedVisible&&signedLabel.trim()==='Open Command'&&signedHref==='https://syntropix-backend.onrender.com/command/';
   report.targeted['mobileSignedIn'+width]={signedVisible,signedLabel,signedHref,pass:signedPass};
   if(!signedPass)report.failures.push({target:'mobileSignedIn'+width,signedVisible,signedLabel,signedHref});
  }else{
-  const visible=await page.locator('.v5nav [data-auth]').isVisible();
-  report.targeted.desktopSignIn={visible,pass:visible};
-  if(!visible)report.failures.push({target:'desktopSignIn',visible});
+  const auth=page.locator('.v5nav nav .v7-nav-auth');
+  const visible=await auth.isVisible();
+  const legacy=await page.locator('.v5nav>[data-auth],.v5nav>.navcta').count();
+  const label=visible?await auth.innerText():'';
+  const pass=visible&&label.trim()==='Sign in'&&legacy===0;
+  report.targeted.desktopSignIn={visible,label,legacy,pass};
+  if(!pass)report.failures.push({target:'desktopSignIn',visible,label,legacy});
  }
  await page.close();await context.close();
 }
