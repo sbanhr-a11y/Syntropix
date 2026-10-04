@@ -108,3 +108,5 @@ body.sx-v7-organizations .section5>h2{max-width:980px}
 .v7-catalogue-toggle:hover,.v7-catalogue-toggle:focus-visible{border-color:#8b6a2e;background:#faf8f2}
 .v7-catalogue-toggle span:last-child{color:#8b6a2e;font-size:22px;font-weight:500}
 .v7-catalogue-toggle[aria-expanded="true"]{margin-bottom:22px}
+
+.v7-collapsed-grid[hidden]{display:none!important}
