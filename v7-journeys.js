@@ -1,4 +1,42 @@
 (()=>{'use strict';
+
+function makeDisclosure(section,grid,label){
+  if(!section||!grid||grid.dataset.v7Disclosure==='1')return;
+  const id='v7-grid-'+Math.random().toString(36).slice(2,8);
+  grid.id=grid.id||id;
+  grid.hidden=true;
+  grid.dataset.v7Disclosure='1';
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='v7-catalogue-toggle';
+  button.setAttribute('aria-expanded','false');
+  button.setAttribute('aria-controls',grid.id);
+  button.innerHTML='<span>'+label+'</span><span aria-hidden="true">＋</span>';
+  button.addEventListener('click',()=>{
+    const open=button.getAttribute('aria-expanded')==='true';
+    button.setAttribute('aria-expanded',String(!open));
+    grid.hidden=open;
+    button.lastElementChild.textContent=open?'＋':'−';
+  });
+  grid.before(button);
+}
+function refineLongCatalogues(){
+  if(document.body.classList.contains('sx-v7-professionals')){
+    [...document.querySelectorAll('section')].forEach(section=>{
+      const h=[...section.querySelectorAll('h2')].find(x=>/Twelve assessments for different chapters of adult life/i.test(x.textContent));
+      const grid=h?section.querySelector('.assessment-grid'):null;
+      if(h&&grid)makeDisclosure(section,grid,'Explore 12 additional adult-life assessments');
+    });
+  }
+  if(document.body.classList.contains('sx-v7-organizations')){
+    [...document.querySelectorAll('section')].forEach(section=>{
+      const h=[...section.querySelectorAll('h2')].find(x=>/Additional Syntropix assessment portfolio/i.test(x.textContent));
+      const grid=h?section.querySelector('.assessment-grid.enterprise-grid'):null;
+      if(h&&grid)makeDisclosure(section,grid,'Explore the additional assessment portfolio');
+    });
+  }
+}
+
 function refine(){
   if(!document.body.classList.contains('sx-v7-journey')||document.body.classList.contains('sx-v7-nav'))return;
   document.querySelectorAll('.v5nav').forEach(nav=>{
@@ -21,7 +59,7 @@ function refine(){
     panel.dataset.v7JourneyNav='1';
   });
 }
-const init=()=>{refine();requestAnimationFrame(refine);setTimeout(refine,120);setTimeout(refine,420)};
+const init=()=>{refine();refineLongCatalogues();requestAnimationFrame(()=>{refine();refineLongCatalogues()});setTimeout(()=>{refine();refineLongCatalogues()},120);setTimeout(()=>{refine();refineLongCatalogues()},420)};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 window.addEventListener('pageshow',init);
 })();
