@@ -164,7 +164,8 @@ jobs:
           grep -q 'signal-exec-showcase' employee-experience.html
           ! grep -q 'mailto:contact@syntropix.in' trust.html
           test -s solutions.html
-          grep -qi 'Start with the human problem' solutions.html
+          grep -qi 'One capability system' solutions.html
+          grep -qi 'Talent Solutions' solutions.html
           grep -q 'Relationship & Intimacy Blueprint' consumer-insight-suite.js
           grep -q 'Human–AI Collaboration Readiness Index' enterprise-system-suite.js
           grep -q 'Customer-Centric Decision Intelligence Index' enterprise-system-suite.js
