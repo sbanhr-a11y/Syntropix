@@ -12,7 +12,9 @@ function refineHomepageNav(){
   if(!document.body.classList.contains('sx-v7'))return;
   document.querySelectorAll('.v5nav').forEach(nav=>{
     const panel=nav.querySelector('nav');
-    if(!panel||panel.dataset.v7Nav==='1')return;
+    if(!panel)return;
+    const current=[...panel.querySelectorAll(':scope > a')].map(a=>a.textContent.trim());
+    if(current.includes('How it works')&&current.includes('Professionals')&&!panel.querySelector('.nav-products'))return;
 
     const org=[...panel.querySelectorAll(':scope > a')].find(a=>/Organizations/i.test(a.textContent));
     const pro=[...panel.querySelectorAll(':scope > a')].find(a=>/Individuals|Professionals/i.test(a.textContent));
@@ -38,7 +40,8 @@ function refineHomepageNav(){
 function init(){
   refineHomepageNav();
   requestAnimationFrame(refineHomepageNav);
-  setTimeout(refineHomepageNav,250);
+  setTimeout(refineHomepageNav,120);
+  setTimeout(refineHomepageNav,420);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 window.addEventListener('pageshow',init);
