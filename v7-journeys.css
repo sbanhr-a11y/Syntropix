@@ -51,3 +51,55 @@ body.v6-marketing.sx-v7-journey{--v7-paper:#f3f1ea;--v7-ink:#111411;--v7-gold:#d
 @media(prefers-reduced-motion:reduce){
  .sx-v7-journey *{scroll-behavior:auto!important;transition-duration:.001ms!important;animation-duration:.001ms!important}
 }
+
+/* V7 inner-journey refinement — Professionals and Organizations */
+body.sx-v7-professionals .hero5,body.sx-v7-organizations .hero5{min-height:min(620px,76vh);padding-top:clamp(88px,8vw,112px);padding-bottom:clamp(52px,5vw,74px)}
+body.sx-v7-professionals .section5,body.sx-v7-organizations .section5{padding-top:clamp(58px,6.5vw,88px);padding-bottom:clamp(58px,6.5vw,88px)}
+
+/* Professionals: make the page read as a guided journey rather than an inventory. */
+body.sx-v7-professionals .pricing-strip{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);align-items:start}
+body.sx-v7-professionals .price-panel{padding:24px 26px}
+body.sx-v7-professionals .finder{padding-top:clamp(52px,6vw,78px);padding-bottom:clamp(52px,6vw,78px)}
+body.sx-v7-professionals .finder-form{padding:26px}
+body.sx-v7-professionals .sx-report-gallery{margin-top:10px}
+body.sx-v7-professionals .flagship-assessments{background:#f1eee6}
+body.sx-v7-professionals .flagship-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:end;margin-bottom:30px}
+body.sx-v7-professionals .flagship-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+body.sx-v7-professionals .flagship-card{min-height:470px;border-radius:24px}
+body.sx-v7-professionals .assessment-catalogue-inline{padding-top:clamp(58px,6.5vw,88px)}
+body.sx-v7-professionals .assessment-catalogue-inline .assessment-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+body.sx-v7-professionals .assessment-catalogue-inline .assessment-card{min-height:300px;padding:24px}
+body.sx-v7-professionals .assessment-catalogue-inline .assessment-card h3{font-size:clamp(23px,2vw,31px)}
+body.sx-v7-professionals .assessment-catalogue-inline .assessment-card>p{font-size:14px;line-height:1.62}
+body.sx-v7-professionals .journey-flow{margin-top:30px}
+body.sx-v7-professionals .journey-flow article{min-height:128px;padding:22px}
+body.sx-v7-professionals .journey-flow article b{color:#8b6a2e}
+
+/* Organizations: reduce catalogue density and lead with decision architecture. */
+body.sx-v7-organizations #solutions>.grid3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+body.sx-v7-organizations #solutions>.grid3 .card{min-height:250px}
+body.sx-v7-organizations #solutions>.grid3 .card:nth-child(1){grid-column:1/-1;min-height:210px;background:#f1eee6}
+body.sx-v7-organizations #solutions>.grid3 .card:nth-child(1) h3{font-size:clamp(30px,3vw,44px)}
+body.sx-v7-organizations #enterprise-assessments{background:#f3f1ea}
+body.sx-v7-organizations #enterprise-assessments .assessment-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+body.sx-v7-organizations #enterprise-assessments .assessment-card{min-height:280px;padding:24px}
+body.sx-v7-organizations .cred-doc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+body.sx-v7-organizations .form5{border-radius:24px}
+body.sx-v7-organizations .section5>h2{max-width:980px}
+
+@media(max-width:1100px){
+ body.sx-v7-professionals .assessment-catalogue-inline .assessment-grid,
+ body.sx-v7-organizations #enterprise-assessments .assessment-grid,
+ body.sx-v7-organizations .cred-doc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ body.sx-v7-professionals .hero5,body.sx-v7-organizations .hero5{min-height:auto;padding-top:88px;padding-bottom:54px}
+ body.sx-v7-professionals .pricing-strip,
+ body.sx-v7-professionals .flagship-grid,
+ body.sx-v7-professionals .assessment-catalogue-inline .assessment-grid,
+ body.sx-v7-organizations #solutions>.grid3,
+ body.sx-v7-organizations #enterprise-assessments .assessment-grid,
+ body.sx-v7-organizations .cred-doc-grid{grid-template-columns:1fr}
+ body.sx-v7-organizations #solutions>.grid3 .card:nth-child(1){grid-column:auto}
+ body.sx-v7-professionals .flagship-heading{grid-template-columns:1fr}
+}
