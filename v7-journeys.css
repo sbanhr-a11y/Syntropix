@@ -1,3 +1,6 @@
+body.v6-marketing.sx-v7-organizations #enterprise-assessments .actions a.btn:not(.primary){color:#111511!important;border-color:rgba(17,21,17,.45)!important;background:transparent!important}
+body.v6-marketing.sx-v7-organizations #enterprise-assessments .actions a.btn:not(.primary):hover,
+body.v6-marketing.sx-v7-organizations #enterprise-assessments .actions a.btn:not(.primary):focus-visible{color:#111511!important;border-color:#8b6a2e!important;background:#fff!important}
 /* Syntropix™ Website V7 — public journey refinement.
    Scope is opt-in via body.sx-v7-journey; assessment/runtime and Command surfaces are excluded. */
 body.v6-marketing.sx-v7-journey{--v7-paper:#f3f1ea;--v7-ink:#111411;--v7-gold:#d6b878;--v7-sage:#8fb8a2;--v7-line:rgba(17,20,17,.14)}
