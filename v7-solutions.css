@@ -39,6 +39,15 @@ body.v6-marketing.sx-v7-solutions{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-muted
 .sx-v7-solutions .v6-problem a{display:inline-flex;margin-top:24px;color:var(--v7-gold);font-weight:750;text-decoration:none}
 .sx-v7-solutions .v6-problem a:focus-visible{outline:3px solid var(--v7-gold);outline-offset:4px;border-radius:6px}
 
+
+.sx-v7-solutions .v7-acdc-callout{grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);align-items:start}
+.sx-v7-solutions .v7-acdc-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch;margin-top:28px}
+.sx-v7-solutions .v7-acdc-flow>div{padding:18px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:#111713}
+.sx-v7-solutions .v7-acdc-flow b{display:block;color:var(--v7-gold);font-size:10px;letter-spacing:.14em}
+.sx-v7-solutions .v7-acdc-flow strong{display:block;margin-top:14px;color:#f4f3ee;font-size:18px}
+.sx-v7-solutions .v7-acdc-flow span{display:block;margin-top:7px;color:#aeb5ae;font-size:12px;line-height:1.5}
+.sx-v7-solutions .v7-acdc-flow>i{display:grid;place-items:center;color:var(--v7-gold);font-style:normal;font-size:24px}
+
 /* Talent Solutions */
 .sx-v7-solutions .v7-talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .sx-v7-solutions .v7-talent-card{padding:28px;border-radius:22px;border:1px solid rgba(16,19,16,.11);background:#fff;color:#111511}
@@ -70,6 +79,8 @@ body.v6-marketing.sx-v7-solutions{--v7-paper:#f3f1ea;--v7-ink:#101310;--v7-muted
  .sx-v7-solutions .v7-solution-grid,.sx-v7-solutions .v6-problem-grid,.sx-v7-solutions .v7-talent-grid,.sx-v7-solutions .v7-integrity{grid-template-columns:1fr}
  .sx-v7-solutions .v7-solution-card,.sx-v7-solutions .v7-solution-card:last-child{grid-column:auto;min-height:280px}
  .sx-v7-solutions .v7-system-strip{grid-template-columns:1fr 1fr}
- .sx-v7-solutions .v7-secondary-callout{grid-template-columns:1fr}
+ .sx-v7-solutions .v7-secondary-callout,.sx-v7-solutions .v7-acdc-callout{grid-template-columns:1fr}
+ .sx-v7-solutions .v7-acdc-flow{grid-template-columns:1fr}
+ .sx-v7-solutions .v7-acdc-flow>i{transform:rotate(90deg)}
 }
 @media(prefers-reduced-motion:reduce){.sx-v7-solutions *{transition:none!important;scroll-behavior:auto!important}}
