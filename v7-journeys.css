@@ -103,3 +103,8 @@ body.sx-v7-organizations .section5>h2{max-width:980px}
  body.sx-v7-organizations #solutions>.grid3 .card:nth-child(1){grid-column:auto}
  body.sx-v7-professionals .flagship-heading{grid-template-columns:1fr}
 }
+
+.v7-catalogue-toggle{width:100%;min-height:58px;margin:24px 0 18px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(17,20,17,.16);border-radius:16px;background:#fff;color:#111511;font:750 14px/1.3 inherit;text-align:left;cursor:pointer}
+.v7-catalogue-toggle:hover,.v7-catalogue-toggle:focus-visible{border-color:#8b6a2e;background:#faf8f2}
+.v7-catalogue-toggle span:last-child{color:#8b6a2e;font-size:22px;font-weight:500}
+.v7-catalogue-toggle[aria-expanded="true"]{margin-bottom:22px}
