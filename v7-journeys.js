@@ -1,6 +1,6 @@
 (()=>{'use strict';
 function refine(){
-  if(!document.body.classList.contains('sx-v7-journey'))return;
+  if(!document.body.classList.contains('sx-v7-journey')||document.body.classList.contains('sx-v7-nav'))return;
   document.querySelectorAll('.v5nav').forEach(nav=>{
     const panel=nav.querySelector('nav'); if(!panel)return;
     const current=[...panel.querySelectorAll(':scope > a')].map(a=>a.textContent.trim());
