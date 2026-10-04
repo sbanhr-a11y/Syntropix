@@ -115,6 +115,12 @@ body.sx-v7-organizations #solutions>.grid3 .card:nth-child(4) .num{color:#8b6a2e
 body.sx-v7-organizations #enterprise-assessments>.section-lead{max-width:840px}
 body.sx-v7-organizations .enterprise-note{border-radius:18px}
 
+
+body.sx-v7-organizations .section5.light .actions .btn:not(.primary){color:#111511!important;border-color:rgba(17,21,17,.45)!important;background:transparent!important}
+body.sx-v7-organizations .section5.light .actions .btn:not(.primary):hover,
+body.sx-v7-organizations .section5.light .actions .btn:not(.primary):focus-visible{color:#111511!important;border-color:#8b6a2e!important;background:#fff!important}
+body.sx-v7-organizations .form-status[data-staging="true"]{color:#8b6a2e;font-weight:700}
+
 @media(max-width:1100px){
  body.sx-v7-professionals .assessment-catalogue-inline .assessment-grid,
  body.sx-v7-professionals .journey-flow,
