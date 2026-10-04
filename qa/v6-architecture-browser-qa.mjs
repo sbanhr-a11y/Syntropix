@@ -153,21 +153,17 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: mobile navigation supports product disclosure, large touch targets and Escape recovery.
+// Targeted regression: mobile navigation uses the approved flat V7 architecture, large touch targets and Escape recovery.
 {
  const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
  const page=await context.newPage();
  await page.goto(base+'/company.html',{waitUntil:'domcontentloaded',timeout:12000});
- await page.waitForTimeout(180);
+ await page.waitForTimeout(700);
  const button=page.locator('.menu5');
  await button.click();await page.waitForTimeout(220);
- const trigger=page.locator('.nav-products-trigger');
- const touchBoxes=await page.locator('.v5nav.open nav>a,.v5nav.open .nav-products-trigger').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height}}));
- await trigger.click();await page.waitForTimeout(120);
- const submenu=page.locator('.nav-products-menu');
- const productExpanded=await trigger.getAttribute('aria-expanded');
- const submenuVisible=await submenu.isVisible();
- const productBoxes=await submenu.locator('.nav-product-link').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height}}));
+ const touchBoxes=await page.locator('.v5nav.open nav>a').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect();return {w:r.width,h:r.height,text:el.textContent.trim()}}));
+ const labels=touchBoxes.map(x=>x.text);
+ const noLegacyProducts=await page.locator('.nav-products,.nav-products-trigger,.nav-products-menu').count()===0;
  await page.screenshot({path:'qa-output/screenshots/mobile-nav-open--390.png',fullPage:false});
  await page.keyboard.press('Escape');await page.waitForTimeout(120);
  const finalState={
