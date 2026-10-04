@@ -247,25 +247,33 @@ for(const vp of viewports){
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
  await page.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:12000});
+ const isV7=await page.locator('body').evaluate(el=>el.classList.contains('sx-v7'));
  const group=page.locator('.nav-products');
  const menu=page.locator('.nav-products-menu');
- const before=await menu.evaluate(el=>getComputedStyle(el).display);
- await group.hover();
- await page.waitForTimeout(120);
- const during=await menu.evaluate(el=>getComputedStyle(el).display);
- await page.locator('main').hover({position:{x:10,y:10}});
- await page.waitForTimeout(140);
- const after=await menu.evaluate(el=>getComputedStyle(el).display);
- const links=await menu.locator('.nav-product-link').count();
- const trigger=page.locator('.nav-products-trigger');
- await trigger.focus();
- await trigger.press('Enter');
- await page.waitForTimeout(100);
- const keyboardOpen=await menu.evaluate(el=>getComputedStyle(el).display);
- await trigger.press('Enter');
- await page.waitForTimeout(100);
- const keyboardClosed=await menu.evaluate(el=>getComputedStyle(el).display);
- report.targeted.productDropdown={before,during,after,keyboardOpen,keyboardClosed,links,pass:before==='none'&&during!=='none'&&after==='none'&&keyboardOpen!=='none'&&keyboardClosed==='none'&&links>=8};
+ if(isV7){
+   const links=await page.locator('.v5nav nav>a').allTextContents();
+   const products=await group.count();
+   const pass=products===0&&['How it works','Solutions','Organizations','Professionals','Company'].every(x=>links.includes(x));
+   report.targeted.productDropdown={mode:'v7-flat-navigation',links,products,pass};
+ }else{
+   const before=await menu.evaluate(el=>getComputedStyle(el).display);
+   await group.hover();
+   await page.waitForTimeout(120);
+   const during=await menu.evaluate(el=>getComputedStyle(el).display);
+   await page.locator('main').hover({position:{x:10,y:10}});
+   await page.waitForTimeout(140);
+   const after=await menu.evaluate(el=>getComputedStyle(el).display);
+   const links=await menu.locator('.nav-product-link').count();
+   const trigger=page.locator('.nav-products-trigger');
+   await trigger.focus();
+   await trigger.press('Enter');
+   await page.waitForTimeout(100);
+   const keyboardOpen=await menu.evaluate(el=>getComputedStyle(el).display);
+   await trigger.press('Enter');
+   await page.waitForTimeout(100);
+   const keyboardClosed=await menu.evaluate(el=>getComputedStyle(el).display);
+   report.targeted.productDropdown={mode:'v6-product-dropdown',before,during,after,keyboardOpen,keyboardClosed,links,pass:before==='none'&&during!=='none'&&after==='none'&&keyboardOpen!=='none'&&keyboardClosed==='none'&&links>=8};
+ }
  if(!report.targeted.productDropdown.pass) report.failures.push({target:'productDropdown',...report.targeted.productDropdown});
  await context.close();
 }
