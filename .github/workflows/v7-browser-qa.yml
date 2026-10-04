@@ -1,0 +1,49 @@
+name: V7 browser accessibility and responsive QA
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "v7-home.css"
+      - "v7-home.js"
+      - "site-v5.js"
+      - "v6-home.css"
+      - "v6-shared.css"
+      - "qa/v7-browser-qa.mjs"
+      - ".github/workflows/v7-browser-qa.yml"
+permissions:
+  contents: read
+concurrency:
+  group: v7-browser-qa
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Chromium QA dependency
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start exact-branch static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/v7-http.log 2>&1 &
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/v7-http.log
+          exit 1
+      - name: Run V7 browser QA
+        run: node qa/v7-browser-qa.mjs
+      - name: Upload V7 QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-browser-qa
+          path: qa-output-v7/
+          retention-days: 14
