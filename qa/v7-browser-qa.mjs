@@ -170,7 +170,11 @@ for(const vp of [
     ['solutions','solutions.html'],
     ['talent-solutions','talent-solutions.html'],
     ['prism360','prism360.html'],
-    ['trust-center','trust-center.html']
+    ['trust-center','trust-center.html'],
+    ['manager-development','manager-development.html'],
+    ['employee-experience','employee-experience.html'],
+    ['science','science.html'],
+    ['trust','trust.html']
   ];
   for(const vp of [{name:'desktop-1440',width:1440,height:1000},{name:'mobile-390',width:390,height:844}]){
     const context=await browser.newContext({viewport:{width:vp.width,height:vp.height}});
@@ -183,6 +187,31 @@ for(const vp of [
     }
     await context.close();
   }
+}
+
+// Refined journey / inner-page density and hierarchy checks.
+{
+  const context=await browser.newContext({viewport:{width:1440,height:1000}});
+  const page=await context.newPage();
+  const checks=[];
+  for(const [name,path,bodyClass] of [
+    ['professionals','professionals.html','sx-v7-professionals'],
+    ['organizations','enterprise.html','sx-v7-organizations'],
+    ['manager-development','manager-development.html','sx-v7-inner'],
+    ['employee-experience','employee-experience.html','sx-v7-inner']
+  ]){
+    await page.goto(base+'/'+path,{waitUntil:'domcontentloaded',timeout:12000});
+    await page.waitForTimeout(220);
+    const state=await page.evaluate(cls=>({
+      classApplied:document.body.classList.contains(cls),
+      sw:document.documentElement.scrollWidth,
+      cw:document.documentElement.clientWidth,
+      hero:document.querySelector('.hero5,.v6-beta-hero')?.getBoundingClientRect().height||0
+    }),bodyClass);
+    checks.push({name,...state,pass:state.classApplied&&state.sw<=state.cw+2&&state.hero>0&&state.hero<760});
+  }
+  record('polish:journey-density',checks.every(x=>x.pass),{checks});
+  await context.close();
 }
 
 // Keyboard focus and skip-link behavior.
