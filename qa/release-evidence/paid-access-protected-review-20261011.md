@@ -38,3 +38,5 @@ Staging endpoint smoke must also pass: anonymous recovery denied, assessment and
 Production follow-up: confirm deployed frontend recovery assets and backend invalid/anonymous denial via read-only live smoke checks.
 
 Founder purchase-recovery notification checkpoint: use a single supported OTP email; never expose or redeem the one-time token in CI.
+
+Postfix production request: rerun purchase-bound magic-link issuance after backend approved-record lookup correction, commit 4e60046. Preserve the OTP for recipient.
