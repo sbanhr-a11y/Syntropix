@@ -36,3 +36,5 @@ This draft branch targets the governance proposal only, never production main. B
 Staging endpoint smoke must also pass: anonymous recovery denied, assessment and secure sign-in pages reachable.
 
 Production follow-up: confirm deployed frontend recovery assets and backend invalid/anonymous denial via read-only live smoke checks.
+
+Founder purchase-recovery notification checkpoint: use a single supported OTP email; never expose or redeem the one-time token in CI.
