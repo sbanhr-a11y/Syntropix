@@ -54,7 +54,7 @@ function showPurchaseRecovery(){
    const session=data?.session;
    if(!session?.access_token){
     const address=$('email').value.trim().toLowerCase();
-    if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(address))throw new Error('Enter the purchasing email address above to request a secure sign-in link.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address))throw new Error('Enter the purchasing email address above to request a secure sign-in link.');
     const response=await fetch(`${API}/payments/request-purchase-signin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:address,assessmentName:name})});
     if(!response.ok)throw new Error('Sign-in request is temporarily unavailable. Please try later.');
     note.textContent='If an approved purchase matches this email, a secure sign-in link will arrive. Open it to return here. Do not pay again.';return;
