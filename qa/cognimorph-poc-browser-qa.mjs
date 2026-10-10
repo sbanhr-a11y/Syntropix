@@ -27,7 +27,7 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.equal(await page.locator('#segmentDetails .segment').count(),4);
   assert.equal(await page.locator('#segmentDetails .segment .segment-application').count(),4);
   assert.equal(await page.locator('#segmentDetails .segment .segment-columns').count(),4);
-  assert.equal(await page.locator('.report-nav a').count(),9);
+  assert.equal(await page.locator('.report-nav a').count(),11);
   assert.equal(await page.locator('#dimensions article.metric').count(),4);
   assert.equal(await page.locator('#quickScores > div').count(),4);
   assert.equal(await page.locator('#responseBars .response-bar-row').count(),4);
