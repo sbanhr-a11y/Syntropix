@@ -37,6 +37,8 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.equal(await page.locator('#developmentPlan article').count(),3);
   assert.equal(await page.locator('#developmentPlan li').count(),12);
   assert.equal(await page.locator('#topography polygon.radar-value').count(),1);
+  const diagramBounds=await page.evaluate(()=>{const svg=document.getElementById('topography'),vb=svg.viewBox.baseVal;return[...svg.querySelectorAll('text')].map(t=>{const rect=t.getBBox();return {text:t.textContent,inside:rect.x>=vb.x-2&&rect.y>=vb.y-2&&rect.x+rect.width<=vb.x+vb.width+2&&rect.y+rect.height<=vb.y+vb.height+2}})});
+  assert(diagramBounds.every(x=>x.inside),'Clipped radar labels: '+JSON.stringify(diagramBounds.filter(x=>!x.inside)));
   assert.match(await page.locator('#overallIndex').innerText(),/^\d+(\.\d+)? \/ 100$/);
   await page.locator('#coachUnderstand').click();
   assert.match(await page.locator('#coachAnswer').innerText(),/Your scores summarize/);
@@ -44,7 +46,7 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.match(await page.locator('#coachAnswer').innerText(),/Example:/);
   await page.screenshot({path:'qa-output-cognimorph/desktop-report.png',fullPage:true});
   await page.emulateMedia({media:'print'});
-  const pdf=await page.pdf({format:'A4',printBackground:true,preferCSSPageSize:true});
+  const pdf=await page.pdf({format:'A4',printBackground:true,preferCSSPageSize:true,tagged:true,outline:true});
   assert(pdf.length>10000,'PDF unexpectedly small');
   await writeFile('qa-output-cognimorph/fictional-report.pdf',pdf);
   safe();await page.close();
