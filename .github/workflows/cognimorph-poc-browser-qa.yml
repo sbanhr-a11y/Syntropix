@@ -1,0 +1,46 @@
+name: Cognimorph isolated POC browser QA
+on:
+  push:
+    branches:
+      - review/cognimorph-human-report-poc-20261010
+    paths:
+      - "cognimorph-poc/**"
+      - "qa/cognimorph-poc-browser-qa.mjs"
+      - ".github/workflows/cognimorph-poc-browser-qa.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cognimorph-poc-browser-qa
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Playwright for isolated browser tests
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start local static preview server
+        run: |
+          python3 -m http.server 4179 --bind 127.0.0.1 --directory cognimorph-poc >/tmp/cognimorph-poc-http.log 2>&1 &
+          for i in {1..30}; do
+            curl -fsS http://127.0.0.1:4179/ >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/cognimorph-poc-http.log
+          exit 1
+      - name: Run Cognimorph end-to-end QA
+        run: node qa/cognimorph-poc-browser-qa.mjs
+      - name: Upload screenshots and generated synthetic PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cognimorph-poc-qa-evidence
+          path: qa-output-cognimorph/
+          retention-days: 14
