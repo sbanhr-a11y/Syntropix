@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0
       - name: Classify strictly scoped release
         id: scope
-        run: node qa/v7-release-classifier.mjs origin/main HEAD
+        run: node qa/v7-release-classifier.mjs origin/${{ github.base_ref }} HEAD
       - name: Public website protected-boundary guard
         if: steps.scope.outputs.mode == 'public'
         run: node qa/v7-protected-boundary.mjs origin/main HEAD
