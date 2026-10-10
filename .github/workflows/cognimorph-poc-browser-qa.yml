@@ -6,6 +6,7 @@ on:
     paths:
       - "cognimorph-poc/**"
       - "qa/cognimorph-poc-browser-qa.mjs"
+      - "qa/cognimorph-pdf-preflight.py"
       - ".github/workflows/cognimorph-poc-browser-qa.yml"
   workflow_dispatch:
 permissions:
@@ -37,6 +38,10 @@ jobs:
           exit 1
       - name: Run Cognimorph end-to-end QA
         run: node qa/cognimorph-poc-browser-qa.mjs
+      - name: PDF font, content and clipping preflight
+        run: |
+          python3 -m pip install --quiet pymupdf==1.26.4
+          python3 qa/cognimorph-pdf-preflight.py qa-output-cognimorph/fictional-report.pdf
       - name: Upload screenshots and generated synthetic PDF
         if: always()
         uses: actions/upload-artifact@v4
