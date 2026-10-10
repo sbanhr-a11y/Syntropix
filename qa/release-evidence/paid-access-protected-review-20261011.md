@@ -34,3 +34,5 @@ Stop immediately on unexpected production API/website mismatch or failed review 
 This draft branch targets the governance proposal only, never production main. Browser and delivered-report end-to-end proof is still required before promotion.
 
 Staging endpoint smoke must also pass: anonymous recovery denied, assessment and secure sign-in pages reachable.
+
+Production follow-up: confirm deployed frontend recovery assets and backend invalid/anonymous denial via read-only live smoke checks.
