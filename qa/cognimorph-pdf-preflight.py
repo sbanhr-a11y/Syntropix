@@ -10,8 +10,8 @@ import fitz
 file = sys.argv[1] if len(sys.argv) > 1 else "qa-output-cognimorph/fictional-report.pdf"
 pdf = fitz.open(file)
 issues=[]
-if not (7 <= len(pdf) <= 12):
-    issues.append(f"Unexpected {len(pdf)} pages; expected 7-12 for current test scenario")
+if not (9 <= len(pdf) <= 17):
+    issues.append(f"Unexpected {len(pdf)} pages; expected 9-17 for current test scenario")
 body_sizes=Counter()
 for n,page in enumerate(pdf,1):
     pagewords=page.get_text("words")
@@ -42,7 +42,8 @@ text="\n".join(page.get_text() for page in pdf)
 for phrase in ["Your Cognimorph report","Learning through change",
                "Learning after setbacks","Handling pressure","Using feedback",
                "Your 30–60–90 day development plan","What this report can and cannot tell you",
-               "How the response indexes are calculated","Why the numbers need careful interpretation"]:
+               "How the response indexes are calculated","Why the numbers need careful interpretation",
+               "CONFIDENTIAL","Mindset","Thanks for the Feedback","Atomic Habits"]:
     if phrase not in text:
         issues.append(f"Missing expected content: {phrase}")
 if body_sizes["11pt"] < body_sizes["other"]*1.5:
