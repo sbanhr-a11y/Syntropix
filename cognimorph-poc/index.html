@@ -441,12 +441,48 @@ main{width:100%;max-width:none;padding:0}
 #results .connection-moments p{font-size:11pt!important;margin:5pt 0 0!important}
 #results #report-plan{break-before:page!important;page-break-before:always!important}
 }
+
+/* Spacing and print link semantics */
+#results .report-top{margin:0 0 22px!important;row-gap:22px}
+#results .report-top>.panel{margin-bottom:0!important}
+#results .dimension-overview{margin-top:0!important}
+#results .quick-read a{color:#F7E7CE!important;text-decoration:underline;text-underline-offset:3px}
+.session-timer{position:sticky;top:8px;z-index:5;padding:15px 18px;margin:20px 0 14px;background:#14281b;border:1px solid #9DC183;border-left:4px solid #50C878;border-radius:12px;color:#F7E7CE}
+.session-timer strong{font-size:18px;display:block}
+.session-timer output{font-variant-numeric:tabular-nums;font-weight:800}
+.session-timer p{font-size:14px;line-height:1.45;margin:7px 0 0;color:#dfe8dc}
+#sessionNotice{padding:14px 17px;border-radius:9px;border-left:4px solid #ef640f;background:#2a2018;color:#F7E7CE}
+#results .final-brand span{display:block;font-size:13px;letter-spacing:.07em;color:#9DC183}
+#results .final-message h2{margin:10px 0 8px}
+#results .final-contact{border-top:1px solid #618a69;padding:15px 0 0}
+#results .final-contact p{margin:5px auto}
+#results .coaching-offer{background:#1c3523;border:1px solid #9DC183;border-radius:12px;padding:17px;margin:18px auto;max-width:620px}
+#results .coaching-offer p{font-size:14px}
+@media print{
+  #results .quick-read a{display:none!important}
+  #results .report-top{margin:0 0 12pt!important;row-gap:12pt!important}
+  #results .dimension-overview{margin-top:0!important}
+  #sessionTimer,.session-timer,#sessionNotice{display:none!important}
+  #results .report-final{grid-template-rows:auto 1fr auto!important;align-content:stretch!important;justify-items:stretch!important;text-align:center!important;gap:0!important;padding:20mm 15mm!important}
+  #results .final-brand{justify-self:stretch!important;border-bottom:1pt solid #9DC183!important;padding:0 0 11mm!important}
+  #results .final-brand strong{display:block!important;font-size:25pt!important}
+  #results .final-brand span{font-size:9pt!important;color:#376b47!important;margin-top:7pt!important}
+  #results .final-message{align-self:center!important;max-width:140mm!important;margin:auto!important}
+  #results .final-message h2{font-size:20pt!important;margin:9pt 0!important}
+  #results .final-message p{font-size:11pt!important;line-height:1.5!important}
+  #results .coaching-offer{background:#f1f7ef!important;color:#17211a!important;border:1pt solid #9DC183!important;border-radius:7pt!important;padding:12pt 16pt!important;margin:12pt 0!important}
+  #results .coaching-offer strong{font-size:13pt!important;color:#17211a!important}
+  #results .coaching-offer p{font-size:10.5pt!important;margin-top:6pt!important}
+  #results .final-contact{align-self:end!important;justify-self:stretch!important;border-top:1pt solid #9DC183!important;padding-top:11mm!important}
+  #results .final-contact p{font-size:11pt!important;margin:4pt 0!important;color:#17211a!important}
+  #results .final-contact small{font-size:8.5pt!important;display:block!important;margin-top:10pt!important}
+}
 </style></head><body>
 <a class="skip-link" href="#results">Skip to the report</a>
 <main>
 <header><div class="brand">SYNTROPIX™</div><span class="tag">RESEARCH POC · ISOLATED SYNTHETIC PREVIEW</span></header>
 <div class="notice" role="note">This is an isolated POC: you can explore the revised wording and a fictional completed report. No account, payment, contact details, research consent, or real participant data is collected. Responses stay in this browser page's memory and are cleared on refresh.</div>
-<section id="intro"><h1>How do you respond when work changes?</h1><p>Everyone learns, handles setbacks, feels pressure, and receives feedback differently. Cognimorph invites you to reflect on how you usually respond in these situations.</p><p>The 20 statements take about 10 minutes. Choose the response closest to your usual experience. There are no right or wrong answers.</p><p class="small">This developmental self-report is not a diagnosis, measure of intelligence, employment recommendation, or validated comparison with other people. Seven statements (11, 13, 14, 16, 17, 18 and 19) have simpler candidate wording in this preview. These are not yet scientifically cleared replacements for the original questionnaire.</p>
+<section id="intro"><p id="sessionNotice" role="status" aria-live="polite" hidden></p><h1>How do you respond when work changes?</h1><p>Everyone learns, handles setbacks, feels pressure, and receives feedback differently. Cognimorph invites you to reflect on how you usually respond in these situations.</p><p>The 20 statements take about 10 minutes. Choose the response closest to your usual experience. There are no right or wrong answers.</p><p class="small">This developmental self-report is not a diagnosis, measure of intelligence, employment recommendation, or validated comparison with other people. Seven statements (11, 13, 14, 16, 17, 18 and 19) have simpler candidate wording in this preview. These are not yet scientifically cleared replacements for the original questionnaire.</p>
 <div class="actions"><button class="primary" id="start" type="button">Explore the questions →</button><button class="secondary" id="demo" type="button">View a fictional completed report</button></div></section>
 <section id="questionsView" hidden><h1>Reflect on your usual experience</h1><p class="small">1 = strongly disagree · 2 = disagree · 3 = slightly disagree · 4 = slightly agree · 5 = agree · 6 = strongly agree. Choose one response for each statement.</p><p class="hint">Seven statements show proposed simpler wording for comprehension testing. They are not yet part of the released questionnaire.</p><div class="session-timer" id="sessionTimer" role="timer" aria-label="Time remaining in your three-hour assessment session">
 <strong><span aria-hidden="true">◷</span> Time remaining: <output id="timeRemaining">03:00:00</output></strong>
