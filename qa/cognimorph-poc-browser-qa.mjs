@@ -36,6 +36,7 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   const diagramBounds=await page.evaluate(()=>{const svg=document.getElementById('topography'),vb=svg.viewBox.baseVal;return[...svg.querySelectorAll('text')].map(t=>{const rect=t.getBBox();return {text:t.textContent,inside:rect.x>=vb.x-2&&rect.y>=vb.y-2&&rect.x+rect.width<=vb.x+vb.width+2&&rect.y+rect.height<=vb.y+vb.height+2}})});
   assert(diagramBounds.every(x=>x.inside),'Clipped radar labels: '+JSON.stringify(diagramBounds.filter(x=>!x.inside)));
   assert.match(await page.locator('#overallIndex').innerText(),/^\d+(\.\d+)? \/ 100$/);
+  assert.match(await page.locator('#summary').innerText(),/four response indexes range from 76 to 80/,'Small-score differences must not be framed as validated ability ranks');
   await page.locator('#coachUnderstand').click();
   assert.match(await page.locator('#coachAnswer').innerText(),/Your scores summarize/);
   await page.locator('#coachExample').click();
