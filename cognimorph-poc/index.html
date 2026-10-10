@@ -429,9 +429,9 @@ function report(){
 var r=calculate(),ranked=cfg.keys.map(function(k){return{key:k,score:r.dims[k],title:texts[k][0]}}).sort(function(a,b){return b.score-a.score});
 var top=ranked[0],focus=ranked[ranked.length-1];
 $('overallIndex').textContent=r.overall+' / 100';
-$('summary').textContent='Your answers were relatively higher for '+top.title.toLowerCase()+' ('+top.score+'/100) and lower for '+focus.title.toLowerCase()+' ('+focus.score+'/100). This is a starting point for reflection, not a judgement of your abilities. Think about examples from your own work before drawing conclusions.';
+$('summary').textContent='Your four response indexes range from '+focus.score+' to '+top.score+' out of 100. Those numbers are close together in this example. The questionnaire does not establish whether a difference of '+(top.score-focus.score)+' points matters in everyday life. Rather than ranking your abilities, consider a recent situation involving learning, setbacks, pressure or feedback. Which experience would you most like to understand?';
 $('topologyStory').textContent='The highest and lowest response indexes differ by '+(top.score-focus.score)+' points. This shows variation in how you answered, but it does not prove that one ability is stronger than another. Your responses may also depend on your current work setting and recent experiences.';
-$('nextStep').textContent='Start by exploring '+focus.title.toLowerCase()+'. The next 90 days are a chance to notice situations, try one small action and use feedback from real life. Each stage includes practical activities.';
+$('nextStep').textContent='This fictional plan uses '+focus.title.toLowerCase()+' as an example topic, not because it is a proven weakness. In your own report, choose the area that matters to your current situation. Over 90 days, notice real experiences, try one action, and reflect on what changes.';
 $('reportContext').textContent='Your answers have been scored using the original six-point method. Seven questions use simpler candidate wording in this preview, so these POC results must not be compared with any official historical scores.';
 var metrics=$('quickScores'),dimHost=$('dimensions'),details=$('segmentDetails');metrics.replaceChildren();dimHost.replaceChildren();details.replaceChildren();
 cfg.keys.forEach(function(k){
