@@ -1,0 +1,28 @@
+name: Universal Paid Assessment Access Contract
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'qa/universal-paid-access-contract.cjs'
+      - '.github/workflows/universal-paid-access-contract.yml'
+      - 'assessment-runtime-v3.js'
+      - 'assessment-registry-v3.js'
+permissions: {contents: read}
+jobs:
+  catalog-recovery-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+        with:
+          path: site
+      - name: Checkout backend for exact current API contract
+        uses: actions/checkout@v4
+        with:
+          repository: sbanhr-a11y/syntropix-backend
+          ref: main
+          path: site/backend
+      - name: Verify all 10 assessment recovery mappings and protections
+        run: |
+          cd site
+          node qa/universal-paid-access-contract.cjs
