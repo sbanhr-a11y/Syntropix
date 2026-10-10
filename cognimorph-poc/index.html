@@ -258,6 +258,51 @@ main{width:100%;max-width:none;padding:0}
   #results .report-content>.small:last-child{display:none!important}
   #results .report-section-heading + .panel{break-before:auto!important}
 }
+
+/* Cognimorph participant-report upgrade · accessible, restrained visual semantics */
+#results .report-page-title{font-size:clamp(28px,2.4vw,38px);line-height:1.2;letter-spacing:-.025em}
+#results .score-display{font-size:clamp(38px,3vw,54px)}
+#results h2{font-size:clamp(21px,1.55vw,27px)}
+#results h3{font-size:20px}
+#results .report-top>.panel{min-height:0}
+#results .mini-metrics strong{font-size:clamp(24px,1.9vw,30px)}
+#results .report-section-heading{margin-top:24px}
+#results .topology-wrap svg{width:min(100%,450px)}
+#results .response-bars{display:grid;gap:14px;margin:22px 0}
+#results .response-bar-row{background:#17221b;border-left:3px solid #50C878;border-radius:9px;padding:12px 16px}
+#results .response-bar-row:nth-child(2){border-left-color:#9DC183}
+#results .response-bar-row:nth-child(3){border-left-color:#F7E7CE}
+#results .response-bar-row:nth-child(4){border-left-color:#66a987}
+#results .response-bar-label{display:flex;justify-content:space-between;gap:14px;font-size:16px;align-items:baseline}
+#results .response-bar-label strong{color:#F7E7CE}
+#results .response-bar-track{background:#344439;height:10px;border-radius:8px;overflow:hidden;margin:9px 0}
+#results .response-bar-fill{height:100%;display:block;border-radius:8px;background:#50C878}
+#results [data-area=ERAE]{background:#9DC183}
+#results [data-area=CTAP]{background:#F7E7CE}
+#results [data-area=FRUP]{background:#66a987}
+#results .response-bar-explanation{font-size:14px!important;line-height:1.5!important;color:#d7e0d5;margin:6px 0 0}
+#results .radar-heading{margin-top:24px;padding-top:18px;border-top:1px solid #3e5443}
+#results .dimension-overview{background:#121b15}
+#results .dimension-overview>p{max-width:90ch}
+#results #developmentFocus,#results #ratingNote{display:block;width:100%;background:#111b14;color:#F7E7CE;border:1px solid #65836a;border-radius:9px;padding:10px 13px;font:inherit;margin:10px 0 20px}
+#results #developmentFocus{max-width:460px;min-height:44px}
+#results .star-rating{font-size:27px;background:transparent;color:#91a291;border:1px solid #56735b;border-radius:8px;min-width:48px;min-height:48px;margin:0 4px 8px 0}
+#results .star-rating.selected{color:#F7E7CE;background:#27402c;border-color:#9DC183}
+#results .rating-group button:focus-visible,#results select:focus-visible,#results textarea:focus-visible{outline:3px solid #50C878;outline-offset:3px}
+#results .report-feedback{border-color:#576f5b}
+#results #downloadStatus{font-size:14px;color:#c9dcc9}
+@media(max-width:720px){#results .report-page-title{font-size:28px}#results .response-bar-label{font-size:14px}#results .topology-wrap svg{width:100%}}
+@media print{
+ #results .report-page-title{font-size:24pt!important}
+ #results .response-bar-row{background:#fff!important;border:1px solid #9daf9f!important;border-left:3pt solid #50C878!important;padding:8pt 11pt!important;break-inside:avoid!important}
+ #results .response-bar-label strong,#results .response-bar-label span{color:#17211a!important;font-size:11pt!important}
+ #results .response-bar-track{background:#e8eee7!important;height:8pt!important}
+ #results .response-bar-fill{background:#5c9870!important}
+ #results .response-bar-explanation{font-size:10pt!important;color:#17211a!important}
+ #results .report-feedback,#results #report-feedback-heading,#results #downloadStatus{display:none!important}
+ #results .radar-heading{font-size:14pt!important}
+ #results .topology-wrap svg{width:100%!important}
+}
 </style></head><body>
 <a class="skip-link" href="#results">Skip to the report</a>
 <main>
@@ -268,7 +313,7 @@ main{width:100%;max-width:none;padding:0}
 <section id="questionsView" hidden><h1>Reflect on your usual experience</h1><p class="small">1 = strongly disagree · 2 = disagree · 3 = slightly disagree · 4 = slightly agree · 5 = agree · 6 = strongly agree. Choose one response for each statement.</p><p class="hint">Seven statements show proposed simpler wording for comprehension testing. They are not yet part of the released questionnaire.</p><p id="progressText" aria-live="polite"></p><div class="progress" aria-hidden="true"><div id="progressBar" style="width:0%"></div></div><div id="items"></div><div class="actions"><button class="primary" id="finish" type="button" disabled>See my reflection report →</button><button class="secondary" id="reset" type="button">Start again</button></div></section>
 <section id="results" hidden aria-label="Cognimorph reflection report">
 <p class="subtitle">Syntropix™ / Cognimorph Index / Evidence-building POC</p>
-<h1 class="report-page-title">Your Cognimorph Development Report</h1>
+<h1 class="report-page-title">Your Cognimorph report</h1>
 <p id="reportContext">An evidence-aware look at your answers, with practical examples and ways to grow.</p>
 
 <div class="report-layout"><nav class="report-nav" aria-label="Report sections"><p class="report-nav-title">Your report</p>
@@ -283,16 +328,16 @@ main{width:100%;max-width:none;padding:0}
   <article class="panel"><span class="subtitle">Overall response index</span><div id="overallIndex" class="score-display">—</div><p>This is an average of your responses, shown on a 0–100 scale. It is not a percentile, ability test or performance rating.</p><span class="pill">Descriptive self-report only</span></article>
   <article class="panel"><span class="subtitle">Profile summary</span><h2>What stands out in your answers</h2><p id="summary"></p><p class="small">Differences between dimensions should not be treated as proven differences in ability.</p></article>
 </div>
-<div class="panel"><h2>Your profile at a glance</h2><div id="quickScores" class="mini-metrics"></div></div>
-<div id="report-map" class="report-section-heading"><h2>Profile map</h2><span>02 / 08</span></div><div class="panel"><h2>Your four-part profile map</h2>
+<div class="panel dimension-overview"><h2>Your profile at a glance</h2><p id="glanceNarrative">These four areas describe different kinds of workplace experiences. Use the scores to start reflection, not to rank your abilities.</p><div id="quickScores" class="mini-metrics"></div></div>
+<div id="report-map" class="report-section-heading"><h2>Your response pattern</h2><span>02 / 08</span></div><div class="panel"><h2>Four areas, side by side</h2><p>Each bar summarizes your scored answers to five questions. These are response indexes, not test results against other people or percentages of capability.</p><div id="responseBars" class="response-bars" role="group" aria-label="Four scored response indexes"></div><h3 class="radar-heading">Your four-part profile map</h3>
 <div class="topology-wrap"><svg id="topography" viewBox="0 0 700 470" role="img" aria-labelledby="topoTitle topoDesc">
 <title id="topoTitle">Four-area response profile</title><desc id="topoDesc">A visual map of your responses across learning, setbacks, pressure and feedback. The individual scores also appear in the table below.</desc></svg>
-<div class="legend"><strong>How to read this picture</strong><p>The shape connects your four response indexes. A wider area means you agreed more strongly with statements in that area after reverse scoring.</p><span>Not a brain image, norm or test of intelligence</span></div></div></div>
+<div class="legend"><strong>How to read this picture</strong><p>The middle represents the low end of the response scale. Each green point shows the scored answers for one area. The line simply connects the points; it is not a test of intelligence or job performance.</p><p id="mapInterpretation">Interpret the shape alongside the bars and a recent situation from your life.</p><span>Every point is a response index, not a fixed trait.</span></div></div></div>
 <div id="report-areas" class="report-section-heading"><h2>Four areas to explore</h2><span>03 / 08</span></div><p>Each area includes five questionnaire statements. These explanations are examples for reflection, not descriptions of your actual behaviour.</p>
 <div id="dimensions" class="grid"></div>
 <div class="report-section-heading"><h2>A deeper conversation about each area</h2><span>04 / 08</span></div><div id="segmentDetails" aria-label="Detailed explanations with real-life examples"></div>
 <div id="report-connections" class="report-section-heading"><h2>Connecting the dots</h2><span>05 / 08</span></div><div class="panel"><h2>Connecting your responses</h2><p id="topologyStory"></p><p>Imagine a week when a team project changes suddenly. You may need to learn something new, adjust after a mistake, choose priorities under pressure and hear feedback. These four experiences can overlap. The profile does not tell us which action you will take; it gives you questions to explore using real events.</p></div>
-<div id="report-plan" class="report-section-heading"><h2>Your development journey</h2><span>06 / 08</span></div><div class="panel"><h2>Your 30–60–90 day development plan</h2><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div></div>
+<div id="report-plan" class="report-section-heading"><h2>Your development journey</h2><span>06 / 08</span></div><div class="panel"><h2>Your 30–60–90 day development plan</h2><label for="developmentFocus">Choose an area you want to explore</label><select id="developmentFocus" aria-label="Area to practise"><option value="ALOR">Learning through change</option><option value="ERAE">Learning after setbacks</option><option value="CTAP">Handling pressure</option><option value="FRUP">Using feedback</option></select><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div></div>
 <div id="report-coach" class="report-section-heading"><h2>Coaching support</h2><span>07 / 08</span></div><div class="panel"><h2>AI Coach — guided support</h2><p>In the complete Syntropix assessment, this section is intended to support questions about your profile and your development actions. <strong>The POC does not connect to the live AI Coach or send your answers anywhere.</strong></p>
 <p class="small">Below is an offline sample of the sort of developmental guidance a coach could provide. It is a scripted demonstration, not live AI advice.</p>
 <div class="coach-control"><button id="coachUnderstand" type="button">Help me understand my profile</button><button id="coachExample" type="button">Show a real-life example</button><button id="coachAction" type="button">Suggest a practice activity</button></div><div id="coachAnswer" aria-live="polite">Choose a prompt above to see an example response.</div>
@@ -305,7 +350,7 @@ main{width:100%;max-width:none;padding:0}
 <h3>What happens after this report?</h3>
 <p>Choose one situation that matters to you. Notice what happened, try a realistic change, and ask for a specific observation from someone you trust. You can return to these reflections over time without treating a target number as proof of personal growth. This POC does not use your answers for hiring decisions, does not connect to a live AI service, and does not submit your responses to the production backend.</p>
 </div>
-<div id="report-actions" class="actions"><button class="primary" id="print" type="button">Print or save detailed report as PDF</button><button class="secondary" id="again" type="button">Explore again</button></div>
+<div class="report-section-heading" id="report-feedback-heading"><h2>Your next step</h2><span>OPTIONAL</span></div><div class="panel report-feedback"><h3>What will you try next?</h3><p>Pick one action that matters to you. This preview does not collect or save personal notes.</p><h3>How useful was this report?</h3><div id="ratingGroup" class="rating-group" role="group" aria-label="Rate report usefulness, from 1 to 5 stars"></div><label for="ratingNote">What would make the report clearer? (optional)</label><textarea id="ratingNote" rows="3" maxlength="300" placeholder="Your comment stays on this page and is cleared on refresh."></textarea><div class="actions"><button id="rateSubmit" class="secondary" type="button" disabled>Record sample feedback</button></div><p id="ratingStatus" role="status" aria-live="polite">Rating is optional and never required to download.</p></div><div id="report-actions" class="actions"><button class="primary" id="print" type="button">Save sample as PDF</button><button class="secondary" id="again" type="button">Explore again</button></div><p id="downloadStatus" role="status" aria-live="polite"></p>
 <p class="small">Browser print-to-PDF preview: charts and text are included, but this is not the finished production PDF service.</p>
 </div></div></section>
 <footer>Syntropix™ Cognimorph POC · Synthetic data only · No network submissions, external analytics, checkout, AI, or user authentication.</footer>
@@ -432,6 +477,48 @@ var stages=[
 var host=$('developmentPlan');host.replaceChildren();
 stages.forEach(function(stage){var card=el('article','');addText(card,'h3','',stage[0]);var list=el('ol');stage[1].forEach(function(task){addText(list,'li','',task)});card.appendChild(list);host.appendChild(card)});
 }
+
+/* Premium participant view: explanatory scores, choice-led plan and offline-only rating. */
+var selectedRating=0;
+function renderResponseBars(dims){
+ var host=$('responseBars');host.replaceChildren();
+ cfg.keys.forEach(function(key,index){
+  var wrap=el('div','response-bar-row');
+  var label=el('div','response-bar-label'),title=el('strong','',texts[key][0]),value=el('span','',dims[key]+' / 100');
+  label.appendChild(title);label.appendChild(value);wrap.appendChild(label);
+  var track=el('div','response-bar-track'),fill=el('span','response-bar-fill');
+  fill.style.width=dims[key]+'%';fill.setAttribute('aria-hidden','true');fill.setAttribute('data-area',key);track.appendChild(fill);wrap.appendChild(track);
+  var expl=el('p','response-bar-explanation',texts[key][1]);wrap.appendChild(expl);host.appendChild(wrap);
+ });
+}
+function renderRating(){
+ var host=$('ratingGroup');host.replaceChildren();
+ for(var n=1;n<=5;n++){(function(value){
+  var b=el('button','star-rating','★');
+  b.type='button';b.setAttribute('aria-label',value+' out of 5 stars');
+  b.setAttribute('aria-pressed',String(selectedRating===value));b.setAttribute('data-rating',value);
+  b.addEventListener('click',function(){
+    selectedRating=value;
+    host.querySelectorAll('button').forEach(function(x){
+      x.setAttribute('aria-pressed',String(Number(x.dataset.rating)===value));
+      x.classList.toggle('selected',Number(x.dataset.rating)<=value)
+    });
+    $('rateSubmit').disabled=false;$('ratingStatus').textContent=value+' out of five selected. Optional feedback stays only in this page.';
+  });
+  host.appendChild(b)
+ })(n)}
+ $('rateSubmit').disabled=true;
+ $('ratingStatus').textContent='Rating is optional and never required to download.';
+}
+$('rateSubmit').addEventListener('click',function(){
+ if(!selectedRating)return;
+ $('ratingStatus').textContent='Thank you for previewing this feature. No feedback has been transmitted or stored.';
+});
+$('developmentFocus').addEventListener('change',function(){
+ fillPlan(this.value);
+ $('nextStep').textContent='You chose '+texts[this.value][0].toLowerCase()+'. This plan is a practice suggestion, not a judgement about your ability. Start with a real situation, try one useful change, and reflect on what happens.';
+});
+
 function report(){
 var r=calculate(),ranked=cfg.keys.map(function(k){return{key:k,score:r.dims[k],title:texts[k][0]}}).sort(function(a,b){return b.score-a.score});
 var top=ranked[0],focus=ranked[ranked.length-1];
@@ -441,24 +528,27 @@ $('topologyStory').textContent='The highest and lowest response indexes differ b
 $('nextStep').textContent='This fictional plan uses '+focus.title.toLowerCase()+' as an example topic, not because it is a proven weakness. In your own report, choose the area that matters to your current situation. Over 90 days, notice real experiences, try one action, and reflect on what changes.';
 $('reportContext').textContent='Your answers have been scored using the original six-point method. Seven questions use simpler candidate wording in this preview, so these POC results must not be compared with any official historical scores.';
 var metrics=$('quickScores'),dimHost=$('dimensions'),details=$('segmentDetails');metrics.replaceChildren();dimHost.replaceChildren();details.replaceChildren();
+$('glanceNarrative').textContent='These numbers summarize how you answered statements about learning, setbacks, pressure and feedback. Here they fall between '+focus.score+' and '+top.score+' out of 100. Their closeness is a reason to look at real situations rather than name a best or weakest area.';
+$('mapInterpretation').textContent='Your map looks fairly even: the four indexes vary by '+(top.score-focus.score)+' points. A close shape does not prove equal skill; think of one time you faced change, an error, pressure or feedback and consider what influenced your reaction.';
+renderResponseBars(r.dims);renderRating();
 cfg.keys.forEach(function(k){
 var metric=el('div','');addText(metric,'strong','',r.dims[k]+'/100');addText(metric,'span','small',texts[k][0]);metrics.appendChild(metric);
 var card=el('article','metric');addText(card,'h3','',texts[k][0]);addText(card,'strong','',r.dims[k]+' / 100');
 var meter=el('meter');meter.min=0;meter.max=100;meter.value=r.dims[k];meter.setAttribute('aria-label',texts[k][0]+' response index');card.appendChild(meter);addText(card,'p','',texts[k][1]);dimHost.appendChild(card);
 details.appendChild(makeSegment(k,r.dims[k]));
 });
-plotRadar(r);fillPlan(focus.key);
+plotRadar(r);$('developmentFocus').value='FRUP';fillPlan('FRUP');
 $('coachUnderstand').onclick=function(){setCoach(focus.key,'understand')};
 $('coachExample').onclick=function(){setCoach(focus.key,'example')};
 $('coachAction').onclick=function(){setCoach(focus.key,'action')};
 $('coachAnswer').textContent='Choose a prompt above to see an offline example. Live AI Coach is not connected in this preview.';
 show('results');
 }
-function reset(){responses={};draw();show('intro')}
+function reset(){responses={};selectedRating=0;const field=$('ratingNote');if(field)field.value='';draw();show('intro')}
 $('start').addEventListener('click',function(){draw();show('questionsView')});
 $('demo').addEventListener('click',function(){responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
 $('finish').addEventListener('click',function(){if(Object.keys(responses).length===20)report()});
 $('reset').addEventListener('click',reset);$('again').addEventListener('click',reset);
-$('print').addEventListener('click',function(){window.print()});
+$('print').addEventListener('click',function(){$('downloadStatus').textContent='Opening print options. Choose Save as PDF in your browser; no report is uploaded.';window.print()});
 })();
 </script></body></html>
