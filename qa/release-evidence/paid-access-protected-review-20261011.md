@@ -29,3 +29,6 @@ Website changes on PR #93 are confined to `assessment-runtime-v3.js` and `auth-p
 Stop immediately on unexpected production API/website mismatch or failed review regression. Revert the public website to its preceding SHA, roll back payment route backend to its preceding SHA, validate Reviewer Programme/Command health, and communicate status. Preserve the purchaser's approved payment and audit history.
 
 **Never request repayment.** The real CogniMorph payment is approved but live access remains pending rollout.
+
+## Release gate checkpoint (2026-10-11)
+Governance PR #94 merged as SHA `2058b26e9957495fc4415636f6b10dad83757c2a`. Isolated integration PR #95 passed canonical assessment runtime, revised V7 app-runtime, and live staging anonymous-denial/entrypoint smoke checks. Do not deploy without browser/report UAT and rollback readiness.
