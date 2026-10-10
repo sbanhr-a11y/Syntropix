@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'qa/validate-protected-runtime-release.mjs'
+      - 'qa/attest-protected-runtime-github.mjs'
       - 'governance/protected-runtime-release-policy-v1.md'
       - '.github/workflows/protected-runtime-policy-qa.yml'
 jobs:
@@ -17,6 +18,10 @@ jobs:
         run: |
           set -euo pipefail
           node --check qa/validate-protected-runtime-release.mjs
+          node --check qa/attest-protected-runtime-github.mjs
+          if node qa/attest-protected-runtime-github.mjs sbanhr-a11y/Syntropix 93 0000000000000000000000000000000000000000; then
+            echo 'Missing-token review attestation unexpectedly passed' >&2; exit 1
+          fi
           if node qa/validate-protected-runtime-release.mjs; then
             echo 'Missing-manifest test unexpectedly passed' >&2; exit 1
           fi
