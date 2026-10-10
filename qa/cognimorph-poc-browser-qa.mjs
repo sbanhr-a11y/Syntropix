@@ -1,0 +1,103 @@
+import assert from 'node:assert/strict';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { chromium } from 'playwright';
+
+const base='http://127.0.0.1:4179';
+await mkdir('qa-output-cognimorph',{recursive:true});
+const browser=await chromium.launch({headless:true});
+const records=[];
+async function scenario(name,fn){
+  try{await fn();records.push({scenario:name,status:'PASS'});console.log('PASS',name)}
+  catch(error){records.push({scenario:name,status:'FAIL',message:error.message});console.error('FAIL',name,error);process.exitCode=1}
+}
+function assertNoNetwork(page){
+  const requests=[];
+  page.on('request',request=>{if(!request.url().startsWith(base+'/'))requests.push(request.url())});
+  return ()=>assert.deepEqual(requests,[],'Unexpected outbound network request(s)');
+}
+await scenario('Fictional report: 4 segments, profile topology, score cards, 90-day activities and local coaching',async()=>{
+  const page=await browser.newPage({viewport:{width:1440,height:900}});
+  const safe=assertNoNetwork(page);
+  await page.goto(base+'/',{waitUntil:'networkidle'});
+  assert.equal(await page.locator('#intro h1').innerText(),'How do you respond when work changes?');
+  await page.getByRole('button',{name:'View a fictional completed report'}).click();
+  assert.equal(await page.locator('#results').isVisible(),true);
+  assert.equal(await page.locator('#segmentDetails .segment').count(),4);
+  assert.equal(await page.locator('#dimensions article.metric').count(),4);
+  assert.equal(await page.locator('#quickScores > div').count(),4);
+  assert.equal(await page.locator('#developmentPlan article').count(),3);
+  assert.equal(await page.locator('#developmentPlan li').count(),12);
+  assert.equal(await page.locator('#topography polygon.radar-value').count(),1);
+  assert.match(await page.locator('#overallIndex').innerText(),/^\d+(\.\d+)? \/ 100$/);
+  await page.locator('#coachUnderstand').click();
+  assert.match(await page.locator('#coachAnswer').innerText(),/Your scores summarize/);
+  await page.locator('#coachExample').click();
+  assert.match(await page.locator('#coachAnswer').innerText(),/Example:/);
+  await page.screenshot({path:'qa-output-cognimorph/desktop-report.png',fullPage:true});
+  await page.emulateMedia({media:'print'});
+  const pdf=await page.pdf({format:'A4',printBackground:true,preferCSSPageSize:true});
+  assert(pdf.length>10000,'PDF unexpectedly small');
+  await writeFile('qa-output-cognimorph/fictional-report.pdf',pdf);
+  safe();await page.close();
+});
+await scenario('Questionnaire: seven accessible candidate items and complete-response gate',async()=>{
+  const page=await browser.newPage({viewport:{width:1280,height:850}});
+  const safe=assertNoNetwork(page);
+  await page.goto(base+'/',{waitUntil:'networkidle'});
+  await page.getByRole('button',{name:/Explore the questions/}).click();
+  assert.equal(await page.locator('.question').count(),20);
+  const candidates={
+    11:'When work suddenly gets busy or confusing, I decide what needs my attention first.',
+    13:'When someone says my work needs to improve, I can listen without feeling like a failure.',
+    14:'When someone questions my plan, my first reaction is to defend it.',
+    16:'I sometimes reject useful advice because I do not like how it was given.',
+    17:'I believe that hard work and not giving up help me grow in my career.',
+    18:'When a plan I worked on fails, I look at what went wrong without blaming people.',
+    19:'When my work is judged under pressure, I try to see it as a problem I can work through.'
+  };
+  for(const [n,statement] of Object.entries(candidates)){
+    assert((await page.locator('.question').nth(Number(n)-1).innerText()).includes(statement));
+  }
+  assert(await page.locator('#finish').isDisabled());
+  for(let i=0;i<20;i++){
+    const question=page.locator('.question').nth(i);
+    await question.locator('.scale button').nth(i%6).click();
+    assert.equal(await question.locator('[aria-pressed="true"]').count(),1);
+  }
+  assert(await page.locator('#finish').isEnabled());
+  assert.match(await page.locator('#progressText').innerText(),/20 of 20/);
+  await page.locator('#finish').click();
+  assert.equal(await page.locator('#results').isVisible(),true);
+  assert.equal(await page.locator('#segmentDetails .segment').count(),4);
+  safe();await page.close();
+});
+await scenario('Mobile layout: 375px and 768px width report without horizontal overflow',async()=>{
+  for(const width of [375,768]){
+    const page=await browser.newPage({viewport:{width,height:820},isMobile:width===375,hasTouch:width===375});
+    await page.goto(base+'/',{waitUntil:'networkidle'});
+    await page.locator('#demo').click();
+    assert.equal(await page.locator('#results').isVisible(),true);
+    const geometry=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,viewport:window.innerWidth}));
+    assert(geometry.scrollWidth<=geometry.viewport+2,JSON.stringify({width,...geometry}));
+    await page.screenshot({path:'qa-output-cognimorph/mobile-'+width+'.png',fullPage:true});
+    await page.close();
+  }
+});
+await scenario('Privacy: refresh clears responses; keyboard buttons work',async()=>{
+  const page=await browser.newPage();
+  await page.goto(base+'/',{waitUntil:'networkidle'});
+  await page.locator('#start').focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#questionsView').isVisible(),true);
+  await page.locator('.question').first().locator('button').first().focus();
+  await page.keyboard.press('Space');
+  assert.equal(await page.locator('.question').first().locator('[aria-pressed="true"]').count(),1);
+  await page.reload({waitUntil:'networkidle'});
+  assert.equal(await page.locator('#intro').isVisible(),true);
+  await page.locator('#start').click();
+  assert.match(await page.locator('#progressText').innerText(),/0 of 20/);
+  await page.close();
+});
+await writeFile('qa-output-cognimorph/results.json',JSON.stringify(records,null,2));
+await browser.close();
+if(records.some(x=>x.status!=='PASS'))process.exitCode=1;
