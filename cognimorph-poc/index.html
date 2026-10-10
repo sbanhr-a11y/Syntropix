@@ -196,7 +196,12 @@ main{width:100%;max-width:none;padding:0}
 
 /* Self-contained, ink-efficient A4 editorial renderer. Never inherit dark web cards. */
 @media print{
-  @page{size:A4;margin:13mm 14mm 15mm}
+  @page{
+    size:A4;margin:16mm 14mm 17mm;
+    @top-right{content:"COGNIMORPH · DEVELOPMENT REPORT";font:8pt Arial,Helvetica,sans-serif;color:#486c51}
+    @bottom-left{content:"SYNTROPIX™ · DEVELOPMENTAL SELF-REPORT";font:8pt Arial,Helvetica,sans-serif;color:#486c51}
+    @bottom-right{content:"PAGE " counter(page);font:8pt Arial,Helvetica,sans-serif;color:#486c51}
+  }
   :root{color-scheme:light!important}
   *,*::before,*::after{box-shadow:none!important;text-shadow:none!important}
   html,body{background:#fff!important;color:#17211a!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11pt!important;line-height:1.45!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
