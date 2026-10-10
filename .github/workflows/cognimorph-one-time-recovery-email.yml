@@ -1,0 +1,25 @@
+name: One-time CogniMorph Customer Recovery Email
+on:
+  pull_request:
+    types: [ready_for_review]
+    branches:
+      - governance/protected-runtime-release-policy-20261011
+permissions: {contents: read}
+jobs:
+  approved-purchaser-mail:
+    if: github.event.pull_request.number == 95
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Request one-time verified purchase sign-in
+        shell: bash
+        run: |
+          set -euo pipefail
+          code=$(curl --retry 2 --retry-delay 2 --max-time 60 -sS \
+            -o /tmp/request-result.json -w '%{http_code}' \
+            -H 'Content-Type: application/json' \
+            --data '{"email":"sb@syntropix.in","assessmentName":"CogniMorph Index"}' \
+            https://syntropix-backend.onrender.com/api/payments/request-purchase-signin)
+          test "$code" = 200
+          node -e "const r=JSON.parse(require('fs').readFileSync('/tmp/request-result.json','utf8'));if(r.status!=='success')process.exit(2)"
+          echo 'One-time purchaser recovery sign-in request accepted. Check recipient mailbox for delivery.'
