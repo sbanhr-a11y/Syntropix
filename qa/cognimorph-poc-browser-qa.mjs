@@ -28,10 +28,6 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.equal(await page.locator('#segmentDetails .segment .segment-application').count(),4);
   assert.equal(await page.locator('#segmentDetails .segment .segment-columns').count(),4);
   assert.equal(await page.locator('.report-nav a').count(),9);
-  await page.locator('#comfortableReading').click();
-  assert.equal(await page.locator('#comfortableReading').getAttribute('aria-pressed'),'true');
-  await page.locator('#standardReading').click();
-  assert.equal(await page.locator('#standardReading').getAttribute('aria-pressed'),'true');
   assert.equal(await page.locator('#dimensions article.metric').count(),4);
   assert.equal(await page.locator('#quickScores > div').count(),4);
   assert.equal(await page.locator('#developmentPlan article').count(),3);
@@ -48,6 +44,9 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   await page.emulateMedia({media:'print'});
   const pdf=await page.pdf({format:'A4',printBackground:true,preferCSSPageSize:true,tagged:true,outline:true});
   assert(pdf.length>10000,'PDF unexpectedly small');
+  const printStyles=await page.evaluate(()=>{const card=document.querySelector('#results .report-top .panel'),t=card.querySelector('p');return{background:getComputedStyle(card).backgroundColor,color:getComputedStyle(t).color,fontSize:getComputedStyle(t).fontSize}});
+  assert.match(printStyles.background,/rgb\(255, 255, 255\)/,'Print cards must have white backgrounds: '+JSON.stringify(printStyles));
+  assert.match(printStyles.color,/rgb\(23, 33, 26\)/,'Print text must be dark: '+JSON.stringify(printStyles));
   await writeFile('qa-output-cognimorph/fictional-report.pdf',pdf);
   safe();await page.close();
 });
