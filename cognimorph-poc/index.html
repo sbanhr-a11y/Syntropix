@@ -58,6 +58,10 @@ footer{border-top:1px solid #334735;margin-top:44px;padding-top:20px;font-size:1
 @media(max-width:460px){.report-top,.mini-metrics{grid-template-columns:1fr 1fr}.topology-wrap svg{width:100%}}
 @media print{.report-top,.mini-metrics,.plan-grid{grid-template-columns:repeat(2,1fr)}.segment,.plan-grid article{background:white!important;color:#111!important;break-inside:avoid}.segment .scenario,#coachAnswer{background:white!important;color:#111!important}.segment .prompt,.subtitle{color:#222!important}svg{max-width:100%}svg text{fill:#111!important}svg polygon{stroke:#333!important}svg .radar-value{fill:#777!important;fill-opacity:.25!important}.coach-control{display:none}.score-display{color:#111!important}}
 
+.skip-link{position:absolute;left:12px;top:-100px;background:#F7E7CE;color:#000;z-index:999;padding:10px 18px;border-radius:8px;font-weight:750}
+.skip-link:focus{top:12px}
+.notice[hidden]{display:none!important}
+#results [id]{scroll-margin-top:24px}
 /* Syntropix Cognimorph editorial report system — laptop, iPad, mobile, print */
 :root{--content-line:70ch;--panel:#101512;--outline:#425748}
 html{scroll-behavior:smooth;scroll-padding-top:24px}
@@ -173,6 +177,7 @@ main{width:100%;max-width:none;padding:0}
 #results .plan-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style></head><body>
+<a class="skip-link" href="#results">Skip to the report</a>
 <main>
 <header><div class="brand">SYNTROPIX™</div><span class="tag">RESEARCH POC · ISOLATED SYNTHETIC PREVIEW</span></header>
 <div class="notice" role="note">This is an isolated POC: you can explore the revised wording and a fictional completed report. No account, payment, contact details, research consent, or real participant data is collected. Responses stay in this browser page's memory and are cleared on refresh.</div>
@@ -226,7 +231,7 @@ if(!cfg||cfg.questions.length!==20){$('intro').innerHTML='<h1>Preview unavailabl
 var responses={};
 var texts={ALOR:['Learning through change','How you describe taking on unfamiliar tasks and learning from experience.'],ERAE:['Learning after setbacks','How you describe responding to mistakes and trying a different approach.'],CTAP:['Handling pressure','How you describe choosing your next step when work becomes demanding.'],FRUP:['Using feedback','How you describe listening to criticism and deciding what to change.']};
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function show(view){['intro','questionsView','results'].forEach(function(id){$(id).hidden=id!==view});window.scrollTo(0,0)}
+function show(view){var note=document.querySelector("main > .notice");if(note)note.hidden=view==="results";['intro','questionsView','results'].forEach(function(id){$(id).hidden=id!==view});window.scrollTo(0,0)}
 function progress(){var n=Object.keys(responses).length;$('progressText').textContent=n+' of 20 statements answered';$('progressBar').style.width=(n/20*100)+'%';$('finish').disabled=n!==20}
 function draw(){var host=$('items');host.replaceChildren();cfg.questions.forEach(function(q,index){var article=document.createElement('article');article.className='question';var label=document.createElement('p');label.className='question-title';label.id='q-label-'+q.id;label.textContent=(index+1)+'. '+q.text;var scale=document.createElement('div');scale.className='scale';scale.setAttribute('role','group');scale.setAttribute('aria-labelledby',label.id);for(var n=1;n<=6;n++){var button=document.createElement('button');button.type='button';button.textContent=String(n);button.dataset.value=String(n);button.setAttribute('aria-label','Response '+n+' of 6');button.setAttribute('aria-pressed','false');button.addEventListener('click',(function(item,value,container){return function(){responses[item.id]=value;container.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(Number(b.dataset.value)===value))});progress()}})(q,n,scale));scale.appendChild(button)}article.appendChild(label);article.appendChild(scale);host.appendChild(article)});progress()}
 function calculate(){var sums={},counts={},total=0;cfg.keys.forEach(function(k){sums[k]=0;counts[k]=0});cfg.questions.forEach(function(q){var raw=responses[q.id],v=q.rev?7-raw:raw;sums[q.dim]+=v;counts[q.dim]++;total+=v});var dimensions={};cfg.keys.forEach(function(k){dimensions[k]=Math.round(((sums[k]/counts[k]-1)/5)*100)});return{overall:Math.round((((total/cfg.questions.length)-1)/5)*1000)/10,dims:dimensions}}
