@@ -31,6 +31,14 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.equal(await page.locator('#dimensions article.metric').count(),4);
   assert.equal(await page.locator('#quickScores > div').count(),4);
   assert.equal(await page.locator('#responseBars .response-bar-row').count(),4);
+  assert.match(await page.locator('#quickReadText').innerText(),/Your responses range from/);
+  assert.equal(await page.locator('#segmentDetails .self-check').count(),4);
+  await page.locator('#segmentDetails .segment').first().locator('.reflection-choice').nth(1).click();
+  assert.match(await page.locator('#segmentDetails .segment').first().locator('.reflection-status').innerText(),/Nothing was saved or sent/);
+  assert.equal(await page.locator('.resource-card').count(),4);
+  assert.equal(await page.locator('.next-assessment-grid article').count(),3);
+  assert.equal(await page.locator('.report-cover').count(),1);
+  assert.equal(await page.locator('.report-final').count(),1);
   assert.match(await page.locator('#glanceNarrative').innerText(),/These numbers summarize/);
   assert.match(await page.locator('#mapInterpretation').innerText(),/map looks fairly even/);
   assert.equal(await page.locator('#ratingGroup button').count(),5);
