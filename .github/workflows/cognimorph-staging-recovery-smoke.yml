@@ -1,0 +1,31 @@
+name: CogniMorph Staging Recovery Smoke
+on:
+  pull_request:
+    branches:
+      - governance/protected-runtime-release-policy-20261011
+permissions: {contents: read}
+jobs:
+  staging-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Anonymous redemption must be denied
+        shell: bash
+        run: |
+          set -euo pipefail
+          status=$(curl --retry 2 --retry-delay 3 -sS -o /tmp/recovery.json -w '%{http_code}' --max-time 45 \
+            -H 'content-type: application/json' \
+            -d '{"assessmentName":"CogniMorph Index"}' \
+            https://syntropix-backend-1.onrender.com/api/payments/recover-purchase)
+          echo "Anonymous recovery status: $status"
+          test "$status" = 401
+          node -e "const f=require('fs'),d=JSON.parse(f.readFileSync('/tmp/recovery.json'));if(d.status!=='error')process.exit(2)"
+      - name: Staging assessment and sign-in pages are reachable
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in '/assessment-runtime-v3.html?assessment=cognimorph' '/signin.html'; do
+            status=$(curl --retry 2 --retry-delay 3 -L -sS -o /dev/null -w '%{http_code}' --max-time 45 "https://syntropix-v7-staging.onrender.com$path")
+            echo "$path: $status"
+            test "$status" = 200
+          done

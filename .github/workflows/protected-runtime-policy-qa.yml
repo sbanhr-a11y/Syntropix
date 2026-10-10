@@ -1,0 +1,36 @@
+name: Protected Runtime Policy Validator QA
+on:
+  pull_request:
+    paths:
+      - 'qa/validate-protected-runtime-release.mjs'
+      - 'qa/attest-protected-runtime-github.mjs'
+      - 'governance/protected-runtime-release-policy-v1.md'
+      - '.github/workflows/protected-runtime-policy-qa.yml'
+jobs:
+  validator-negative-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Syntax and fail-closed negative checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check qa/validate-protected-runtime-release.mjs
+          node --check qa/attest-protected-runtime-github.mjs
+          if node qa/attest-protected-runtime-github.mjs sbanhr-a11y/Syntropix 93 0000000000000000000000000000000000000000; then
+            echo 'Missing-token review attestation unexpectedly passed' >&2; exit 1
+          fi
+          if node qa/validate-protected-runtime-release.mjs; then
+            echo 'Missing-manifest test unexpectedly passed' >&2; exit 1
+          fi
+          printf '%s\n' '{"release_type":"protected_assessment_runtime","commit_sha":"0000000000000000000000000000000000000000","allowed_paths":["assessment-runtime-v3.js","auth-passwordless.js"],"founder_approval_reference":"unauthorized","security_review_reference":"unauthorized","browser_report_test_reference":"unauthorized","rollback_reference":"unauthorized","author_login":"same","reviewer_login":"same","reviewer_decision":"approved","browser_report_decision":"passed"}' > /tmp/invalid-release.json
+          if node qa/validate-protected-runtime-release.mjs /tmp/invalid-release.json origin/main HEAD; then
+            echo 'Mismatched SHA unexpectedly passed' >&2; exit 1
+          fi
+          printf '%s\\n' '{"release_type":"protected_assessment_runtime","commit_sha":"0000000000000000000000000000000000000000","allowed_paths":["assessment-runtime-v3.js","auth-passwordless.js"],"author_login":"owner","reviewer_login":"owner","approval_source":"github_verified_reviews","approval_verified":true,"required_check_runs":[{"conclusion":"success"}],"founder_approval_reference":"self","security_review_reference":"self","browser_report_test_reference":"self","rollback_reference":"self","reviewer_decision":"approved","browser_report_decision":"passed"}' > /tmp/self-approved.json
+          if node qa/validate-protected-runtime-release.mjs /tmp/self-approved.json origin/main HEAD; then
+            echo 'Self-approved or stale evidence unexpectedly passed' >&2; exit 1
+          fi
+          echo 'Fail-closed validation smoke PASS'

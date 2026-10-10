@@ -1,7 +1,7 @@
 name: V7 public website safety QA
 on:
   pull_request:
-    branches: ["main"]
+    branches: ["main", "governance/protected-runtime-release-policy-20261011"]
 permissions:
   contents: read
 jobs:
@@ -11,7 +11,25 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Protected-boundary guard
+      - name: Classify strictly scoped release
+        id: scope
+        run: node qa/v7-release-classifier.mjs origin/${{ github.base_ref }} HEAD
+      - name: Public website protected-boundary guard
+        if: steps.scope.outputs.mode == 'public'
         run: node qa/v7-protected-boundary.mjs origin/main HEAD
+      - name: Protected assessment runtime release verification
+        if: steps.scope.outputs.mode == 'runtime'
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check assessment-runtime-v3.js
+          node --check auth-passwordless.js
+          test -s qa/release-evidence/paid-access-protected-review-20261011.md
+          grep -q 'payments/recover-purchase' assessment-runtime-v3.js
+          grep -q 'verifyOtp' auth-passwordless.js
+          grep -q 'shouldCreateUser:false' auth-passwordless.js
+          grep -q 'TestLab' assessment-runtime-v3.js
+          node qa/v7-source-qa.mjs
       - name: Homepage V7 source QA
+        if: steps.scope.outputs.mode == 'public'
         run: node qa/v7-source-qa.mjs
