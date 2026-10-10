@@ -64,6 +64,16 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.match(await page.locator('#coachAnswer').innerText(),/Example:/);
   await page.screenshot({path:'qa-output-cognimorph/desktop-report.png',fullPage:true});
   await page.emulateMedia({media:'print'});
+  assert.equal(await page.locator('#printAllPlans .print-plan-section').count(),4,'All four print pathways must be present');
+  assert.equal(await page.locator('#printAllPlans .plan-grid article').count(),12,'All twelve staged plan cards required');
+  assert.equal(await page.locator('#printAllPlans .plan-grid li').count(),48,'Four activities per stage for all four dimensions required');
+  assert.equal(await page.locator('#report-coach').isVisible(),false,'AI Coach heading must not print');
+  assert.equal(await page.locator('#coachAnswer').isVisible(),false,'Interactive coaching must not print');
+  assert.equal(await page.locator('#developmentPlan').isVisible(),false,'Selected-only plan must not print');
+  assert.equal(await page.locator('#developmentFocus').isVisible(),false,'Dropdown must not print');
+  const coverBox=await page.locator('.report-cover').boundingBox(),endBox=await page.locator('.report-final').boundingBox();
+  assert(coverBox?.height>600&&endBox?.height>600,'Cover and closing panels should occupy distinct print pages');
+
   const pdf=await page.pdf({format:'A4',printBackground:true,preferCSSPageSize:true,tagged:true,outline:true});
   assert(pdf.length>10000,'PDF unexpectedly small');
   const printStyles=await page.evaluate(()=>{const card=document.querySelector('#results .report-top .panel'),t=card.querySelector('p');return{background:getComputedStyle(card).backgroundColor,color:getComputedStyle(t).color,fontSize:getComputedStyle(t).fontSize}});
