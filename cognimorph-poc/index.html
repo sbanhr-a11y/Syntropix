@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Syntropix™ | Cognimorph POC Preview</title>
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<style>
+:root{color-scheme:dark;--black:#000;--cream:#F7E7CE;--sage:#9DC183;--green:#50C878;--orange:#ef640f;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--black);color:var(--white);font:16px/1.6 system-ui,Arial,sans-serif}
+main{max-width:980px;margin:0 auto;padding:22px 18px 80px}
+header{padding:14px 0 18px;border-bottom:1px solid var(--orange);display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.brand{font-weight:800;letter-spacing:.12em;color:var(--cream)}.tag{font-size:12px;border:1px solid var(--sage);color:var(--sage);padding:4px 10px;border-radius:30px}
+h1{font-size:clamp(28px,5vw,46px);line-height:1.16;color:var(--cream)}h2{font-size:24px;color:var(--cream);line-height:1.3}h3{font-size:18px;color:var(--cream)}
+p{margin:10px 0 17px;color:#E7E7E7}.small,.hint{font-size:14px;color:#CDCECA}
+.panel{background:#141715;border:1px solid #405145;border-radius:18px;padding:24px;margin:18px 0}
+.notice{border-left:3px solid var(--orange);padding:10px 16px;background:#171310;color:var(--cream);margin:18px 0}
+button{font:inherit;cursor:pointer}button.primary{border:0;border-radius:12px;background:var(--cream);color:#101510;font-weight:800;padding:13px 22px}
+button.secondary{border:1px solid var(--sage);border-radius:12px;background:transparent;color:var(--cream);padding:12px 17px}
+button:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.question{padding:23px 0;border-top:1px solid #354539}
+.question-title{font-size:17px;margin:0 0 12px;color:white}
+.scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.scale button{min-height:47px;border:1px solid #69786b;border-radius:10px;background:#0a0f0b;color:#fff}
+.scale button[aria-pressed=true]{background:var(--sage);color:#000;font-weight:900;border-color:var(--green)}
+.progress{width:100%;height:8px;border-radius:8px;background:#273229;margin:18px 0}.progress div{height:100%;background:var(--green);border-radius:8px;transition:width .15s}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.metric{border:1px solid #45574a;border-radius:14px;padding:18px;background:#101810}
+.metric strong{font-size:30px;color:var(--sage)}.metric h3{margin:0}
+meter{width:100%;height:12px;display:block;margin:12px 0;color:var(--green)}.pill{display:inline-block;background:#1c2b20;color:var(--sage);padding:4px 9px;border-radius:12px;font-size:12px}
+#results[hidden],#questionsView[hidden],#intro[hidden]{display:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+footer{border-top:1px solid #334735;margin-top:44px;padding-top:20px;font-size:12px;color:#b5c1b6}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.panel{padding:16px}.scale{gap:5px}.scale button{min-height:45px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{body{background:#fff;color:#111;font:11pt/1.5 Arial,sans-serif}main{max-width:none;padding:0}header,footer,.actions,#intro,#questionsView,.notice,.tag{display:none!important}#results{display:block!important}.panel,.metric{background:#fff;color:#111;border:1px solid #aaa;break-inside:avoid}h1,h2,h3,.metric h3,.metric strong{color:#111}p,.small,.hint{color:#222}.grid{grid-template-columns:1fr 1fr}.pill{color:#222;background:#eee}meter{display:none}}
+
+.report-top{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.score-display{font-size:46px;font-weight:800;color:var(--cream);line-height:1.15}
+.topology-wrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:center}
+.topology-wrap svg{max-width:100%;width:440px;height:auto}
+.legend{font-size:14px;max-width:240px}
+.legend span{display:block;margin:6px 0;color:var(--sage)}
+.segment{padding:22px;margin:20px 0;border:1px solid #405145;background:#111713;border-radius:16px;break-inside:avoid}
+.segment h3{font-size:24px}
+.segment p{max-width:75ch}
+.segment .scenario{padding:14px 18px;border-left:3px solid var(--green);background:#1b241e;border-radius:4px}
+.segment .prompt{border-top:1px solid #425547;padding-top:12px;color:var(--cream)}
+.mini-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.mini-metrics div{background:#151e18;border:1px solid #405145;padding:15px 12px;border-radius:12px}
+.mini-metrics strong{font-size:26px;color:var(--sage);display:block}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.plan-grid article{border:1px solid #405145;border-radius:12px;background:#111713;padding:16px}
+.plan-grid ol{padding-left:20px}.plan-grid li{margin:8px 0}
+.coach-control{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.coach-control button{border:1px solid var(--sage);background:#1b281f;color:var(--cream);padding:9px 13px;border-radius:9px}
+#coachAnswer{padding:15px;background:#152019;border-left:3px solid var(--green);min-height:78px}
+.subtitle{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--sage)}
+.report-page-title{border-bottom:1px solid #425345;padding-bottom:10px}
+@media(max-width:720px){.report-top,.mini-metrics,.plan-grid{grid-template-columns:1fr 1fr}.plan-grid{grid-template-columns:1fr}}
+@media(max-width:460px){.report-top,.mini-metrics{grid-template-columns:1fr 1fr}.topology-wrap svg{width:100%}}
+@media print{.report-top,.mini-metrics,.plan-grid{grid-template-columns:repeat(2,1fr)}.segment,.plan-grid article{background:white!important;color:#111!important;break-inside:avoid}.segment .scenario,#coachAnswer{background:white!important;color:#111!important}.segment .prompt,.subtitle{color:#222!important}svg{max-width:100%}svg text{fill:#111!important}svg polygon{stroke:#333!important}svg .radar-value{fill:#777!important;fill-opacity:.25!important}.coach-control{display:none}.score-display{color:#111!important}}
+
+.skip-link{position:absolute;left:12px;top:-100px;background:#F7E7CE;color:#000;z-index:999;padding:10px 18px;border-radius:8px;font-weight:750}
+.skip-link:focus{top:12px}
+.notice[hidden]{display:none!important}
+#results [id]{scroll-margin-top:24px}
+/* Syntropix Cognimorph editorial report system — laptop, iPad, mobile, print */
+:root{--content-line:70ch;--panel:#101512;--outline:#425748}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased}
+main{width:min(calc(100% - 72px),1580px);max-width:none;padding:28px 0 90px}
+header{padding:10px 0 23px}
+.brand{font-size:20px;letter-spacing:.13em}
+.tag{font-weight:700;letter-spacing:.025em}
+#intro,#questionsView{max-width:920px;margin:0 auto}
+#results{max-width:none}
+#results .report-page-title{font-size:clamp(35px,3.6vw,62px);letter-spacing:-.038em;margin:16px 0 12px;max-width:1200px}
+#reportContext{font-size:17px;max-width:86ch;margin:12px 0 24px}
+#results h2{font-size:clamp(22px,1.8vw,31px);letter-spacing:-.018em}
+#results h3{letter-spacing:-.01em}
+#results .panel{background:var(--panel);border:1px solid var(--outline);border-radius:18px;padding:clamp(22px,2.1vw,34px);margin:0 0 20px}
+#results p{line-height:1.8}
+#results .subtitle{font-size:12px;font-weight:750;letter-spacing:.11em;color:var(--sage)}
+#results .report-top{grid-template-columns:minmax(290px,.8fr) minmax(340px,1.2fr);gap:20px}
+#results .report-top .panel{margin:0;min-height:240px}
+#results .score-display{font-size:clamp(48px,4.6vw,84px);letter-spacing:-.045em;line-height:1.02;margin:15px 0}
+#results .mini-metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#results .mini-metrics div{min-width:0;padding:18px;background:#19221c;border-color:#536a59}
+#results .mini-metrics strong{font-size:clamp(27px,2.4vw,40px);letter-spacing:-.03em}
+#results .mini-metrics span{color:var(--cream)}
+#results .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#results .metric{min-width:0;padding:21px 17px;background:#141c17;border-color:#465c4c}
+#results .metric strong{font-size:clamp(25px,2vw,36px)}
+#results .metric h3{line-height:1.35}
+#results .metric p{font-size:14px;line-height:1.65}
+#results .topology-wrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(240px,.8fr);gap:16px}
+#results .topology-wrap svg{width:min(100%,580px);justify-self:center}
+#results .legend{max-width:40ch;font-size:16px}
+#results .legend strong{color:var(--cream);font-size:19px}
+.report-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:clamp(24px,3.5vw,64px);align-items:start}
+.report-content{min-width:0}
+.report-nav{position:sticky;top:22px;border:1px solid #425747;background:#101512;padding:20px 12px;border-radius:16px}
+.report-nav-title{margin:0 0 12px 10px;font-size:12px;color:var(--sage);letter-spacing:.11em;text-transform:uppercase;font-weight:800}
+.report-nav a{display:block;padding:10px 12px;color:#e9eee7;text-decoration:none;border-radius:8px;font-size:14px;line-height:1.45}
+.report-nav a:hover,.report-nav a:focus-visible{color:#000;background:var(--sage);outline-offset:2px}
+.report-nav-note{font-size:12px;line-height:1.6;color:#c9d3c9;margin:14px 10px 0}
+.report-nav .download-link{margin-top:12px;border:1px solid #617460;color:var(--cream)}
+.report-section-heading{display:flex;justify-content:space-between;gap:12px;align-items:end;border-bottom:1px solid #476149;margin:30px 0 16px;padding-bottom:12px}
+.report-section-heading h2{margin:0}
+.report-section-heading span{font-size:12px;color:var(--sage)}
+#results .segment{margin:0 0 23px;padding:clamp(24px,2.7vw,44px);background:linear-gradient(145deg,#151b17,#0d120f);border:1px solid #4a5e4d;border-radius:18px}
+#results .segment h3{font-size:clamp(23px,1.8vw,31px);margin:12px 0}
+#results .segment p{max-width:74ch}
+#results .segment .scenario{background:#1d2820;border-left:3px solid var(--green);padding:20px 24px}
+#results .segment .scenario p{margin-bottom:0}
+.segment-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0}
+.segment-column{background:#18221b;border:1px solid #3f5544;padding:17px 19px;border-radius:13px}
+.segment-column h4{color:var(--cream);margin:0 0 7px;font-size:17px}
+.segment-column p{font-size:14px;margin:0}
+.segment-application{margin:20px 0;padding:19px 22px;border:1px solid #55715d;border-radius:13px;background:#142018}
+.segment-application h4{margin:0 0 7px;color:var(--sage);font-size:16px}
+#results .plan-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#results .plan-grid article{background:#162018;padding:19px;min-width:0}
+#results .plan-grid li{line-height:1.6;font-size:14px}
+#results #coachAnswer{font-size:16px;line-height:1.75;background:#18251b}
+#results .coach-control button{min-height:44px}
+.report-reference{font-size:13px;color:#c6cfc6;margin:20px 0;padding:16px;border-top:1px solid #405546}
+.readability-tools{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 24px}
+.readability-tools button{border:1px solid #678069;color:var(--cream);background:#17201a;border-radius:9px;padding:8px 14px;min-height:44px}
+.readability-tools button[aria-pressed=true]{background:var(--sage);color:#000}
+.report-easy-reading .segment p,.report-easy-reading .panel p{font-size:18px;line-height:1.95}
+.report-easy-reading .segment{max-width:900px}
+.question p{max-width:75ch}
+@media(min-width:1500px){#results .report-top{gap:24px}#results .panel{margin-bottom:24px}}
+@media(max-width:1080px){
+main{width:min(calc(100% - 42px),1080px)}
+.report-layout{grid-template-columns:1fr;gap:20px}
+.report-nav{position:static;display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:12px}
+.report-nav-title,.report-nav-note{display:none}
+.report-nav a{font-size:13px;padding:8px 10px}
+#results .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#results .mini-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+#results .topology-wrap{grid-template-columns:1fr}
+#results .legend{max-width:65ch}
+}
+@media(max-width:720px){
+main{width:calc(100% - 30px);padding:12px 0 45px}
+header{gap:8px}.brand{font-size:16px}.tag{font-size:10px}
+#results .report-page-title{font-size:clamp(31px,8vw,44px)}
+#results .report-top,#results .grid,#results .plan-grid,.segment-columns{grid-template-columns:1fr}
+#results .report-top .panel{min-height:0}
+#results .panel{padding:19px}
+#results .segment{padding:19px}
+#results .score-display{font-size:56px}
+#results .topology-wrap svg{max-width:100%;height:auto}
+#results .legend{font-size:14px}
+#results .report-nav{gap:2px}
+#results .report-nav a{font-size:12px}
+#results .report-section-heading{align-items:start;flex-direction:column;gap:4px}
+}
+@media(max-width:360px){
+#results .mini-metrics{grid-template-columns:1fr}
+.scale{gap:4px}.scale button{min-height:44px}
+}
+@media print{
+@page{size:A4;margin:15mm 13mm}
+main{width:100%;max-width:none;padding:0}
+.report-layout{display:block}
+.report-nav,.readability-tools{display:none!important}
+#results .report-page-title{font-size:27pt}
+#results .report-top{grid-template-columns:1fr 1fr}
+#results .grid{grid-template-columns:1fr 1fr}
+#results .mini-metrics{grid-template-columns:repeat(4,1fr)}
+#results .panel,#results .segment{padding:12px!important;margin-bottom:12px!important}
+#results .segment,.report-top,.topology-wrap,.segment-columns,.segment-application{break-inside:avoid}
+#results .segment .scenario,#results .segment-column,#results .segment-application,#results .plan-grid article{background:#fff!important;color:#111!important}
+#results .segment .scenario p,#results .segment-column p,#results .segment-application p,#results .report-reference{color:#222!important}
+#results .segment h3,#results .segment h4,#results .segment-column h4{color:#111!important}
+#results .plan-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+/* Report system v3: one accessible body-text rhythm, one grid and print-specific surfaces. */
+#results {font-size:16px;line-height:1.65}
+#results p,#results .small,#results .hint,#results .metric p,#results .segment-column p,#results .plan-grid li,#results .legend,#results #coachAnswer,#results .report-nav a{font-size:16px;line-height:1.65}
+#results .subtitle,#results .report-section-heading span{font-size:13px;line-height:1.5}
+#results h2{font-size:clamp(23px,1.8vw,29px)}
+#results h3{font-size:21px}
+#results .panel,#results .segment,#results .metric,#results .segment-column,#results .segment-application,#results .plan-grid article{box-shadow:none}
+#results .panel{padding:24px}
+#results .metric,#results .segment-column,#results .segment-application,#results .plan-grid article{padding:20px}
+#results .segment{padding:28px}
+#results .report-top{align-items:stretch}
+#results .report-top>.panel{height:100%}
+#results .grid>.metric{height:100%}
+#results .mini-metrics>div{height:100%}
+#results .report-section-heading{margin-top:28px}
+@media(max-width:720px){#results .panel,#results .segment{padding:20px}#results .grid{grid-template-columns:1fr}}
+
+/* Self-contained, ink-efficient A4 editorial renderer. Never inherit dark web cards. */
+@media print{
+  @page{
+    size:A4;margin:16mm 14mm 17mm;
+    @top-right{content:"COGNIMORPH · DEVELOPMENT REPORT";font:8pt Arial,Helvetica,sans-serif;color:#486c51}
+    @bottom-left{content:"SYNTROPIX™ · DEVELOPMENTAL SELF-REPORT";font:8pt Arial,Helvetica,sans-serif;color:#486c51}
+    @bottom-right{content:"PAGE " counter(page);font:8pt Arial,Helvetica,sans-serif;color:#486c51}
+  }
+  :root{color-scheme:light!important}
+  *,*::before,*::after{box-shadow:none!important;text-shadow:none!important}
+  html,body{background:#fff!important;color:#17211a!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11pt!important;line-height:1.45!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  header,footer,.notice,.report-nav,.readability-tools,.actions,#intro,#questionsView{display:none!important}
+  main,#results,.report-layout,.report-content{background:#fff!important;color:#17211a!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:block!important}
+  #results p,#results .small,#results .hint,#results .metric p,#results .segment p,#results .segment-column p,#results .plan-grid li,#results .legend,#results #coachAnswer,#results .report-reference{font-size:11pt!important;line-height:1.45!important;letter-spacing:normal!important;color:#17211a!important}
+  #results h1,#results h2,#results h3,#results h4,#results strong,#results span,#results .subtitle,#results .pill,#results .score-display,#results .metric strong,#results .mini-metrics strong{color:#17211a!important;text-shadow:none!important}
+  #results .subtitle{font-size:9pt!important;letter-spacing:.04em!important;font-weight:700!important}
+  #results .report-page-title{font-size:24pt!important;line-height:1.13!important;margin:0 0 8pt!important;break-after:avoid!important}
+  #results h2{font-size:17pt!important;line-height:1.25!important;margin:0 0 9pt!important;break-after:avoid!important}
+  #results h3{font-size:14pt!important;line-height:1.25!important;margin:8pt 0!important;break-after:avoid!important}
+  #results h4{font-size:11pt!important;margin:0 0 5pt!important;break-after:avoid!important}
+  #results p{margin:0 0 8pt!important;orphans:3;widows:3}
+  #reportContext{margin-bottom:15pt!important}
+  #results .report-section-heading{display:flex!important;align-items:center!important;margin:16pt 0 9pt!important;padding:0 0 5pt!important;border-bottom:1pt solid #9DC183!important;break-after:avoid-page!important;page-break-after:avoid!important}
+  #results .report-section-heading span{font-size:9pt!important;color:#3a6543!important}
+  #results .panel,#results .segment,#results .metric,#results .mini-metrics>div,#results .segment-column,#results .segment-application,#results .plan-grid article,#results #coachAnswer{background:#fff!important;color:#17211a!important;border:1px solid #bcc9be!important;border-radius:7pt!important}
+  #results .panel{padding:13pt!important;margin:0 0 10pt!important;break-inside:auto!important;min-height:0!important}
+  #results .report-top{display:grid!important;grid-template-columns:1fr 1fr!important;gap:9pt!important;margin:0 0 10pt!important;break-inside:avoid-page!important}
+  #results .report-top>.panel{margin:0!important;min-height:0!important}
+  #results .score-display{font-size:30pt!important;line-height:1.05!important;margin:9pt 0!important}
+  #results .pill{background:#edf3ec!important;border:1px solid #bcc9be!important;padding:3pt 7pt!important;display:inline-block!important;color:#25492f!important}
+  #results .mini-metrics{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8pt!important}
+  #results .mini-metrics>div{padding:9pt!important}
+  #results .mini-metrics strong{font-size:20pt!important;line-height:1.1!important}
+  #results .mini-metrics span{font-size:10pt!important;line-height:1.3!important}
+  #results .topology-wrap{display:grid!important;grid-template-columns:minmax(0,1.4fr) minmax(0,.8fr)!important;align-items:center!important;gap:8pt!important;break-inside:avoid-page!important}
+  #results .topology-wrap svg{width:100%!important;max-height:235pt!important}
+  #results .topology-wrap svg text{fill:#17211a!important}
+  #results .legend{max-width:none!important}
+  #results .grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8pt!important}
+  #results .metric{padding:10pt!important;break-inside:avoid-page!important}
+  #results .metric h3{font-size:12pt!important}
+  #results .metric strong{font-size:20pt!important}
+  #results .metric meter{display:none!important}
+  #results #segmentDetails{display:block!important}
+  #results .segment{display:block!important;background:#fff!important;border:1px solid #bac9bd!important;padding:14pt!important;margin:0 0 13pt!important;break-inside:auto!important;page-break-inside:auto!important}
+  #results .segment>.subtitle,#results .segment>h3:first-of-type{break-after:avoid-page!important}
+  #results .segment .scenario{padding:10pt 12pt!important;margin:9pt 0!important;background:#f2f7f1!important;border:1px solid #c2d4c1!important;border-left:3pt solid #50C878!important;border-radius:4pt!important;break-inside:avoid-page!important}
+  #results .segment-application{padding:10pt 12pt!important;margin:9pt 0!important;background:#f7f9f5!important;break-inside:avoid-page!important}
+  #results .segment-columns{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8pt!important;margin:9pt 0!important;break-inside:avoid-page!important}
+  #results .segment-column{padding:9pt!important;break-inside:avoid-page!important}
+  #results .segment-column h4{font-size:11pt!important}
+  #results .segment .prompt{padding-top:7pt!important;border-top:1pt solid #a3b8a6!important}
+  #results .plan-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8pt!important;break-inside:avoid-page!important}
+  #results .plan-grid article{padding:10pt!important;min-width:0!important;break-inside:avoid-page!important}
+  #results .plan-grid h3{font-size:12pt!important}
+  #results .plan-grid ol{padding-left:16pt!important}
+  #results .plan-grid li{padding:0!important;margin:0 0 6pt!important}
+  #results .coach-control{display:none!important}
+  #results #coachAnswer{background:#f2f7f1!important;padding:10pt!important;break-inside:avoid-page!important}
+  #results .report-reference{background:#fff!important}
+  #results #report-actions{display:none!important}
+  #results .report-content>.small:last-child{display:none!important}
+  #results .report-section-heading + .panel{break-before:auto!important}
+}
+
+/* Cognimorph participant-report upgrade · accessible, restrained visual semantics */
+#results .report-page-title{font-size:clamp(28px,2.4vw,38px);line-height:1.2;letter-spacing:-.025em}
+#results .score-display{font-size:clamp(38px,3vw,54px)}
+#results h2{font-size:clamp(21px,1.55vw,27px)}
+#results h3{font-size:20px}
+#results .report-top>.panel{min-height:0}
+#results .mini-metrics strong{font-size:clamp(24px,1.9vw,30px)}
+#results .report-section-heading{margin-top:24px}
+#results .topology-wrap svg{width:min(100%,450px)}
+#results .response-bars{display:grid;gap:14px;margin:22px 0}
+#results .response-bar-row{background:#17221b;border-left:3px solid #50C878;border-radius:9px;padding:12px 16px}
+#results .response-bar-row:nth-child(2){border-left-color:#9DC183}
+#results .response-bar-row:nth-child(3){border-left-color:#F7E7CE}
+#results .response-bar-row:nth-child(4){border-left-color:#66a987}
+#results .response-bar-label{display:flex;justify-content:space-between;gap:14px;font-size:16px;align-items:baseline}
+#results .response-bar-label strong{color:#F7E7CE}
+#results .response-bar-track{background:#344439;height:10px;border-radius:8px;overflow:hidden;margin:9px 0}
+#results .response-bar-fill{height:100%;display:block;border-radius:8px;background:#50C878}
+#results [data-area=ERAE]{background:#9DC183}
+#results [data-area=CTAP]{background:#F7E7CE}
+#results [data-area=FRUP]{background:#66a987}
+#results .response-bar-explanation{font-size:14px!important;line-height:1.5!important;color:#d7e0d5;margin:6px 0 0}
+#results .radar-heading{margin-top:24px;padding-top:18px;border-top:1px solid #3e5443}
+#results .dimension-overview{background:#121b15}
+#results .dimension-overview>p{max-width:90ch}
+#results #developmentFocus,#results #ratingNote{display:block;width:100%;background:#111b14;color:#F7E7CE;border:1px solid #65836a;border-radius:9px;padding:10px 13px;font:inherit;margin:10px 0 20px}
+#results #developmentFocus{max-width:460px;min-height:44px}
+#results .star-rating{font-size:27px;background:transparent;color:#91a291;border:1px solid #56735b;border-radius:8px;min-width:48px;min-height:48px;margin:0 4px 8px 0}
+#results .star-rating.selected{color:#F7E7CE;background:#27402c;border-color:#9DC183}
+#results .rating-group button:focus-visible,#results select:focus-visible,#results textarea:focus-visible{outline:3px solid #50C878;outline-offset:3px}
+#results .report-feedback{border-color:#576f5b}
+#results #downloadStatus{font-size:14px;color:#c9dcc9}
+@media(max-width:720px){#results .report-page-title{font-size:28px}#results .response-bar-label{font-size:14px}#results .topology-wrap svg{width:100%}}
+@media print{
+ #results .report-page-title{font-size:24pt!important}
+ #results .response-bar-row{background:#fff!important;border:1px solid #9daf9f!important;border-left:3pt solid #50C878!important;padding:8pt 11pt!important;break-inside:avoid!important}
+ #results .response-bar-label strong,#results .response-bar-label span{color:#17211a!important;font-size:11pt!important}
+ #results .response-bar-track{background:#e8eee7!important;height:8pt!important}
+ #results .response-bar-fill{background:#5c9870!important}
+ #results .response-bar-explanation{font-size:10pt!important;color:#17211a!important}
+ #results .report-feedback,#results #report-feedback-heading,#results #downloadStatus{display:none!important}
+ #results .radar-heading{font-size:14pt!important}
+ #results .topology-wrap svg{width:100%!important}
+}
+
+/* Cognimorph V4 — value-first editorial and participant-owned reflection */
+#results{font-size:15px;line-height:1.6}
+#results p,#results .panel p,#results .segment p,#results .legend,#results #coachAnswer{font-size:15px;line-height:1.62}
+#results .report-page-title{font-size:clamp(28px,2.4vw,37px)}
+#results h2{font-size:clamp(21px,1.55vw,26px)}
+#results h3{font-size:19px}
+#results .score-display{font-size:clamp(38px,3.2vw,54px)}
+#results .report-top{grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);gap:20px;align-items:stretch}
+#results .report-top>.panel{height:100%;margin:0!important}
+#results .report-section-heading{margin-top:22px}
+#results .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
+#results .metric{display:grid;grid-template-rows:minmax(66px,auto) 44px 16px 1fr;gap:9px;padding:18px!important}
+#results .metric h3,#results .metric strong,#results .metric p{margin:0!important}
+#results .metric h3{font-size:18px;line-height:1.3}
+#results .metric strong{font-size:29px}
+#results .metric meter{height:12px;margin:0}
+#results .metric p{font-size:14px}
+#results .topology-wrap{grid-template-columns:minmax(0,1.7fr) minmax(250px,1fr)}
+#results .topology-wrap svg{width:min(100%,595px);max-height:440px}
+#results .quick-read{border-color:#7c9d83;background:linear-gradient(125deg,#1c3022,#111d16)}
+#results .quick-read .eyebrow,#results .resource-card .eyebrow{font-size:12px;letter-spacing:.07em;color:#9DC183;font-weight:800}
+#results .quick-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:16px 0}
+#results .quick-steps>div{display:grid;gap:4px;background:#25402c;border:1px solid #567e61;border-radius:9px;padding:13px}
+#results .quick-steps span{font-size:13px}
+#results .quick-read a{color:#F7E7CE;font-weight:700}
+#results .interpretive-frame{background:#1d3425;border-left:3px solid #50C878;padding:15px 18px;margin:17px 0;border-radius:6px}
+#results .self-check{background:#18281c;border:1px solid #64866e;border-radius:12px;padding:17px;margin:16px 0}
+#results .self-check-options{display:flex;gap:8px;flex-wrap:wrap}
+#results .reflection-choice{padding:9px 14px;min-height:44px;border:1px solid #9DC183;border-radius:10px;background:#223e29;color:#F7E7CE}
+#results .reflection-choice[aria-pressed=true]{background:#9DC183;color:#000;outline:2px solid #50C878;outline-offset:2px}
+#results .reflection-status{font-size:13px}
+#results .resource-grid,#results .next-assessment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 20px}
+#results .resource-card,#results .next-assessment-grid article{padding:19px;background:#17281d;border:1px solid #62826a;border-radius:12px}
+#results .resource-card:nth-child(even){background:#222e22;border-color:#9DC183}
+#results .next-assessment-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#results #report-coach+.panel{background:linear-gradient(120deg,#153e25,#183820 60%,#14271a);border:2px solid #50C878}
+#results #coachAnswer{background:#24472f;border-left:4px solid #50C878}
+#results .report-cover{display:none}
+#results .report-final{padding:36px 24px;background:linear-gradient(125deg,#152f1e,#121d16);border:1px solid #9DC183;border-radius:14px;text-align:center;margin-top:25px}
+#results .report-final strong{font-size:24px;letter-spacing:.1em;color:#F7E7CE}
+#results .report-final p{max-width:60ch;margin:12px auto}
+@media(max-width:1080px){#results .grid{grid-template-columns:repeat(2,minmax(0,1fr))}#results .topology-wrap{grid-template-columns:1fr}}
+@media(max-width:700px){#results .report-top,#results .grid,#results .quick-steps,#results .resource-grid,#results .next-assessment-grid{grid-template-columns:1fr}#results .metric{grid-template-rows:auto auto auto auto}#results .topology-wrap svg{width:100%}}
+@media print{
+#results .report-cover{display:flex!important;flex-direction:column!important;min-height:245mm!important;break-after:page!important;page-break-after:always!important;padding:14mm 8mm!important;color:#17211a!important;border-top:3pt solid #9DC183!important}
+#results .cover-brand{display:flex!important;justify-content:space-between!important;gap:12pt!important;font-size:11pt!important}
+#results .cover-brand strong{font-size:19pt!important}
+#results .cover-head{margin:auto 0!important}
+#results .cover-head h2{font-size:27pt!important;max-width:145mm!important}
+#results .cover-meta{display:grid!important;gap:12pt!important;border-top:1pt solid #9DC183!important;padding-top:14pt!important}
+#results .cover-meta div{display:flex!important;justify-content:space-between!important;gap:20pt!important}
+#results .cover-meta dd{margin:0!important}
+#results .cover-confidential{font-size:9pt!important}
+#results .quick-read{background:#eef5ef!important;border:1pt solid #9DC183!important}
+#results .quick-steps{grid-template-columns:repeat(3,1fr)!important}
+#results .quick-steps>div,#results .interpretive-frame,#results .self-check{background:#edf4ed!important;color:#17211a!important}
+#results .self-check-options{display:none!important}
+#results .resource-grid{grid-template-columns:repeat(2,1fr)!important}
+#results .resource-card,#results .next-assessment-grid article{background:#fff!important;color:#17211a!important;border:1pt solid #bac9be!important;padding:10pt!important;break-inside:avoid!important}
+#results .next-assessment-grid{grid-template-columns:repeat(3,1fr)!important}
+#results #report-coach+.panel,#results #coachAnswer{background:#f1f7f1!important;color:#17211a!important}
+#results .report-final{display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:225mm!important;page-break-before:always!important;break-before:page!important;background:#fff!important;color:#17211a!important;border:0!important;text-align:center!important}
+#results .report-final strong{font-size:26pt!important;color:#17211a!important}
+}
+
+/* PDF editorial V5: separate reading composition from interactive controls. */
+#printAllPlans,.print-plan-lead{display:none}
+@media print{
+  #results #report-coach,#results #report-coach+.panel,
+  #developmentFocus,#developmentFocus+*,#report-plan label[for="developmentFocus"],
+  #developmentPlan,#nextStep,
+  #ratingGroup,#ratingNote,#ratingStatus,#rateSubmit,
+  .self-check,.coach-control{display:none!important}
+  #results #developmentPlan{display:none!important}
+  #results #report-plan+.panel label[for="developmentFocus"]{display:none!important}
+  #results #developmentFocus{display:none!important}
+  #printAllPlans,.print-plan-lead{display:block!important}
+  #results .print-plan-lead{font-size:11pt!important;margin:8pt 0 12pt!important}
+  #printAllPlans .print-plan-section{display:block!important;break-before:page!important;page-break-before:always!important;margin:0!important;padding:0!important}
+  #printAllPlans .print-plan-section:first-child{break-before:auto!important;page-break-before:auto!important}
+  #printAllPlans .print-plan-section:first-child .plan-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  #printAllPlans .print-plan-section:first-child .plan-grid article:last-child{grid-column:auto!important}
+  #printAllPlans .print-plan-section>h3{font-size:16pt!important;line-height:1.25!important;color:#183c29!important;border-bottom:1pt solid #9DC183!important;padding-bottom:7pt!important;margin:0 0 9pt!important}
+  #printAllPlans .print-plan-intro{font-size:11pt!important;max-width:none!important;margin:0 0 12pt!important}
+  #printAllPlans .plan-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10pt!important;break-inside:auto!important}
+  #printAllPlans .plan-grid article{padding:13pt!important;background:#f8faf7!important;border:1pt solid #c3d1c4!important;border-radius:6pt!important;break-inside:avoid-page!important}
+  #printAllPlans .plan-grid article:last-child{grid-column:1/-1}
+  #printAllPlans .plan-grid h3{font-size:12pt!important}
+  #printAllPlans .plan-grid li{font-size:11pt!important}
+  #report-plan+.panel{break-inside:auto!important}
+  #results .report-cover{
+    box-sizing:border-box!important;position:relative!important;display:grid!important;grid-template-rows:auto 1fr auto auto!important;
+    min-height:0!important;height:242mm!important;max-height:242mm!important;
+    padding:15mm 11mm!important;background:#fff!important;border:0!important;
+    border-top:3mm solid #9DC183!important;break-after:page!important;
+    page-break-after:always!important;color:#17211a!important;
+  }
+  #results .cover-brand{display:flex!important;align-items:center!important;justify-content:space-between!important;border-bottom:1pt solid #c4d1c4!important;padding-bottom:11mm!important;gap:10mm!important}
+  #results .cover-brand{font-size:11pt!important;letter-spacing:.08em!important;font-weight:750!important}
+  #results .cover-head{align-self:center!important;margin:0!important;padding:0!important;max-width:150mm!important}
+  #results .cover-head>p:first-child{font-size:10pt!important;color:#376b47!important;font-weight:700!important;letter-spacing:.09em!important}
+  #results .cover-head h2{font-size:28pt!important;line-height:1.2!important;color:#17211a!important;margin:9mm 0 8mm!important}
+  #results .cover-head p{font-size:12pt!important;color:#38513e!important}
+  #results .cover-meta{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8mm!important;padding:8mm 0!important;border-top:1pt solid #9DC183!important}
+  #results .cover-meta div{display:block!important}
+  #results .cover-meta dt{color:#376b47!important;text-transform:uppercase!important;font-size:9pt!important;letter-spacing:.05em!important}
+  #results .cover-meta dd{color:#17211a!important;font-size:11pt!important;margin:4pt 0 0!important}
+  #results .cover-confidential{border-top:1pt solid #9DC183!important;padding-top:7mm!important;font-size:9.5pt!important;line-height:1.45!important}
+  #results .report-final{
+    box-sizing:border-box!important;position:relative!important;display:grid!important;align-content:center!important;
+    justify-items:center!important;gap:9mm!important;
+    min-height:0!important;height:240mm!important;max-height:240mm!important;
+    padding:24mm 16mm!important;border:0!important;background:#fff!important;
+    border-top:3mm solid #9DC183!important;border-bottom:1.5mm solid #9DC183!important;
+    margin:0!important;break-before:page!important;page-break-before:always!important;
+    text-align:center!important;color:#17211a!important;
+  }
+  #results .report-final strong{font-size:27pt!important;line-height:1.2!important;color:#17211a!important;letter-spacing:.11em!important}
+  #results .report-final p{font-size:13pt!important;line-height:1.5!important;margin:0!important;max-width:135mm!important}
+  #results .report-final small{font-size:9pt!important;color:#376b47!important}
+  #results .report-content>.small:last-child{display:none!important}
+}
+
+/* Keep the narrative bridge useful in print and avoid orphan development headings. */
+#results .connection-moments{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:17px 0}
+#results .connection-moments>div{padding:16px;border:1px solid #64866e;border-radius:11px;background:#1d3123}
+#results .connection-moments strong{color:#F7E7CE;font-size:15px}
+#results .connection-moments p{margin:8px 0 0}
+#results .connection-close{border-top:1px solid #58745e;padding-top:12px}
+@media(max-width:700px){#results .connection-moments{grid-template-columns:1fr}}
+@media print{
+#results .connection-moments{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9pt!important}
+#results .connection-moments>div{background:#f3f8f2!important;border:1pt solid #c1d0c3!important;padding:10pt!important;break-inside:avoid!important}
+#results .connection-moments strong{color:#17211a!important;font-size:11pt!important}
+#results .connection-moments p{font-size:11pt!important;margin:5pt 0 0!important}
+#results #report-plan{break-before:page!important;page-break-before:always!important}
+}
+
+/* Spacing and print link semantics */
+#results .report-top{margin:0 0 22px!important;row-gap:22px}
+#results .report-top>.panel{margin-bottom:0!important}
+#results .dimension-overview{margin-top:0!important}
+#results .quick-read a{color:#F7E7CE!important;text-decoration:underline;text-underline-offset:3px}
+.session-timer{position:sticky;top:8px;z-index:5;padding:15px 18px;margin:20px 0 14px;background:#14281b;border:1px solid #9DC183;border-left:4px solid #50C878;border-radius:12px;color:#F7E7CE}
+.session-timer strong{font-size:18px;display:block}
+.session-timer output{font-variant-numeric:tabular-nums;font-weight:800}
+.session-timer p{font-size:14px;line-height:1.45;margin:7px 0 0;color:#dfe8dc}
+#sessionNotice{padding:14px 17px;border-radius:9px;border-left:4px solid #ef640f;background:#2a2018;color:#F7E7CE}
+#results .final-brand span{display:block;font-size:13px;letter-spacing:.07em;color:#9DC183}
+#results .final-message h2{margin:10px 0 8px}
+#results .final-contact{border-top:1px solid #618a69;padding:15px 0 0}
+#results .final-contact p{margin:5px auto}
+#results .coaching-offer{background:#1c3523;border:1px solid #9DC183;border-radius:12px;padding:17px;margin:18px auto;max-width:620px}
+#results .coaching-offer p{font-size:14px}
+@media print{
+  #results .quick-read a{display:none!important}
+  #results .report-top{margin:0 0 12pt!important;row-gap:12pt!important}
+  #results .dimension-overview{margin-top:0!important}
+  #sessionTimer,.session-timer,#sessionNotice{display:none!important}
+  #results .report-final{grid-template-rows:auto 1fr auto!important;align-content:stretch!important;justify-items:stretch!important;text-align:center!important;gap:0!important;padding:20mm 15mm!important}
+  #results .final-brand{justify-self:stretch!important;border-bottom:1pt solid #9DC183!important;padding:0 0 11mm!important}
+  #results .final-brand strong{display:block!important;font-size:25pt!important}
+  #results .final-brand span{font-size:9pt!important;color:#376b47!important;margin-top:7pt!important}
+  #results .final-message{align-self:center!important;max-width:140mm!important;margin:auto!important}
+  #results .final-message h2{font-size:20pt!important;margin:9pt 0!important}
+  #results .final-message p{font-size:11pt!important;line-height:1.5!important}
+  #results .coaching-offer{background:#f1f7ef!important;color:#17211a!important;border:1pt solid #9DC183!important;border-radius:7pt!important;padding:12pt 16pt!important;margin:12pt 0!important}
+  #results .coaching-offer strong{font-size:13pt!important;color:#17211a!important}
+  #results .coaching-offer p{font-size:10.5pt!important;margin-top:6pt!important}
+  #results .final-contact{align-self:end!important;justify-self:stretch!important;border-top:1pt solid #9DC183!important;padding-top:11mm!important}
+  #results .final-contact p{font-size:11pt!important;margin:4pt 0!important;color:#17211a!important}
+  #results .final-contact p strong{font-size:12pt!important;letter-spacing:normal!important;font-weight:700!important}
+  #results .final-contact small{font-size:8.5pt!important;display:block!important;margin-top:10pt!important}
+}
+</style></head><body>
+<a class="skip-link" href="#results">Skip to the report</a>
+<main>
+<header><div class="brand">SYNTROPIX™</div><span class="tag">RESEARCH POC · ISOLATED SYNTHETIC PREVIEW</span></header>
+<div class="notice" role="note">This is an isolated POC: you can explore the revised wording and a fictional completed report. No account, payment, contact details, research consent, or real participant data is collected. Responses stay in this browser page's memory and are cleared on refresh.</div>
+<section id="intro"><p id="sessionNotice" role="status" aria-live="polite" hidden></p><h1>How do you respond when work changes?</h1><p>Everyone learns, handles setbacks, feels pressure, and receives feedback differently. Cognimorph invites you to reflect on how you usually respond in these situations.</p><p>The 20 statements take about 10 minutes. Choose the response closest to your usual experience. There are no right or wrong answers.</p><p class="small">This developmental self-report is not a diagnosis, measure of intelligence, employment recommendation, or validated comparison with other people. Seven statements (11, 13, 14, 16, 17, 18 and 19) have simpler candidate wording in this preview. These are not yet scientifically cleared replacements for the original questionnaire.</p>
+<div class="actions"><button class="primary" id="start" type="button">Explore the questions →</button><button class="secondary" id="demo" type="button">View a fictional completed report</button></div></section>
+<section id="questionsView" hidden><h1>Reflect on your usual experience</h1><p class="small">1 = strongly disagree · 2 = disagree · 3 = slightly disagree · 4 = slightly agree · 5 = agree · 6 = strongly agree. Choose one response for each statement.</p><p class="hint">Seven statements show proposed simpler wording for comprehension testing. They are not yet part of the released questionnaire.</p><div class="session-timer" id="sessionTimer" role="timer" aria-label="Time remaining in your three-hour assessment session">
+<strong><span aria-hidden="true">◷</span> Time remaining: <output id="timeRemaining">03:00:00</output></strong>
+<p>Your assessment session lasts up to three hours from when you begin. If the time runs out, the unfinished POC responses are cleared and the assessment must be restarted. This research preview does not save answers across a refresh, so refreshing also starts a new session.</p>
+</div><p id="progressText" aria-live="polite"></p><div class="progress" aria-hidden="true"><div id="progressBar" style="width:0%"></div></div><div id="items"></div><div class="actions"><button class="primary" id="finish" type="button" disabled>See my reflection report →</button><button class="secondary" id="reset" type="button">Start again</button></div></section>
+<section id="results" hidden aria-label="Cognimorph reflection report">
+<section class="report-cover" aria-labelledby="coverTitle"><div class="cover-brand">SYNTROPIX™ <span>COGNIMORPH DEVELOPMENT REPORT</span></div><div class="cover-head"><p>YOUR DEVELOPMENTAL REFLECTION</p><h2 id="coverTitle">Understanding how you respond when life and work change</h2><p>A guide to learning, setbacks, pressure and feedback.</p></div><dl class="cover-meta"><div><dt>Prepared for</dt><dd>Fictional participant · POC</dd></div><div><dt>Assessment</dt><dd>Cognimorph Index</dd></div><div><dt>Report version</dt><dd>CMI-POC V4</dd></div></dl><p class="cover-confidential">CONFIDENTIAL — Intended for developmental reflection and authorized discussion. Not for clinical, hiring, or other consequential decisions. No real participant data is collected in this demonstration.</p></section>
+<p class="subtitle">Syntropix™ / Cognimorph Index / Evidence-building POC</p>
+<h1 class="report-page-title">Your Cognimorph report</h1>
+<p id="reportContext">An evidence-aware look at your answers, with practical examples and ways to grow.</p><div class="panel quick-read" id="quickRead"><p class="eyebrow">START HERE · A TWO-MINUTE READ</p><h2>What might you learn about yourself?</h2><p id="quickReadText">Start with a real situation. Your scores are a doorway to reflection, not a verdict.</p><div class="quick-steps"><div><strong>Recognize</strong><span>Recall a recent situation</span></div><div><strong>Reflect</strong><span>What helped or held you back?</span></div><div><strong>Try</strong><span>Choose one next step</span></div></div><a href="#report-areas">Explore the four areas ↓</a></div>
+
+<div class="report-layout"><nav class="report-nav" aria-label="Report sections"><p class="report-nav-title">Your report</p>
+<a href="#report-summary">01 · Your overview</a><a href="#report-map">02 · Profile map</a>
+<a href="#report-areas">03 · Four areas</a><a href="#segmentDetails">04 · Detailed insights</a>
+<a href="#report-connections">05 · What it means together</a><a href="#report-plan">06 · Action plan</a>
+<a href="#report-coach">07 · Coaching support</a><a href="#report-method">08 · How to use this report</a><a href="#report-resources">Books &amp; cases</a><a href="#report-next">Explore next</a>
+<p class="report-nav-note">A guided conversation about your experiences, not a judgement of your potential.</p>
+<a class="download-link" href="#report-actions">↓ Save report</a></nav><div class="report-content">
+<div id="report-summary" class="report-section-heading"><h2>Your overview</h2><span>01 / 07</span></div>
+<div class="report-top">
+  <article class="panel"><span class="subtitle">Overall response index</span><div id="overallIndex" class="score-display">—</div><p>This is an average of your responses, shown on a 0–100 scale. It is not a percentile, ability test or performance rating.</p><span class="pill">Descriptive self-report only</span></article>
+  <article class="panel"><span class="subtitle">Profile summary</span><h2>What stands out in your answers</h2><p id="summary"></p><p class="small">Differences between dimensions should not be treated as proven differences in ability.</p></article>
+</div>
+<div class="panel dimension-overview"><h2>Your profile at a glance</h2><p id="glanceNarrative">These four areas describe different kinds of workplace experiences. Use the scores to start reflection, not to rank your abilities.</p><div id="quickScores" class="mini-metrics"></div></div>
+<div id="report-map" class="report-section-heading"><h2>Your response pattern</h2><span>02 / 07</span></div><div class="panel"><h2>Four areas, side by side</h2><p>Each bar summarizes your scored answers to five questions. These are response indexes, not test results against other people or percentages of capability.</p><div id="responseBars" class="response-bars" role="group" aria-label="Four scored response indexes"></div><h3 class="radar-heading">Your four-part profile map</h3>
+<div class="topology-wrap"><svg id="topography" viewBox="0 0 700 470" role="img" aria-labelledby="topoTitle topoDesc">
+<title id="topoTitle">Four-area response profile</title><desc id="topoDesc">A visual map of your responses across learning, setbacks, pressure and feedback. The individual scores also appear in the table below.</desc></svg>
+<div class="legend"><strong>How to read this picture</strong><p>The middle represents the low end of the response scale. Each green point shows the scored answers for one area. The line simply connects the points; it is not a test of intelligence or job performance.</p><p id="mapInterpretation">Interpret the shape alongside the bars and a recent situation from your life.</p><span>Every point is a response index, not a fixed trait.</span></div></div></div>
+<div class="report-section-heading"><h2>A deeper conversation about each area</h2><span>03 / 07</span></div><p class="section-intro">Use these examples to explore your own life. They are possible situations, not observations about what you have done.</p><div id="segmentDetails" aria-label="Detailed explanations with real-life examples"></div>
+<div id="report-connections" class="report-section-heading"><h2>Connecting the dots</h2><span>04 / 07</span></div><div class="panel"><h2>Connecting your responses</h2><p id="topologyStory"></p><p>Imagine a week when a team project changes suddenly. You may need to learn something new, adjust after a mistake, choose priorities under pressure and hear feedback. These four experiences can overlap. The profile does not tell us which action you will take; it gives you questions to explore using real events.</p>
+<div class="connection-moments" aria-label="Four moments in a typical changing work week">
+ <div><strong>01 · A new task arrives</strong><p>What would help you ask questions and learn the unfamiliar steps?</p></div>
+ <div><strong>02 · Something goes wrong</strong><p>How could you correct the mistake without judging yourself too quickly?</p></div>
+ <div><strong>03 · Deadlines compete</strong><p>Which responsibility matters first, and where might you need support?</p></div>
+ <div><strong>04 · Someone gives feedback</strong><p>What can you learn from the comment, and what deserves a respectful challenge?</p></div>
+</div><p class="connection-close">Try recalling one real week. Which moment felt most familiar? The next pages offer all four development pathways so you can decide what matters.</p></div>
+<div id="report-plan" class="report-section-heading"><h2>Your development journey</h2><span>05 / 07</span></div><div class="panel"><h2>Your 30–60–90 day development plan</h2><label for="developmentFocus">Choose an area you want to explore</label><select id="developmentFocus" aria-label="Area to practise"><option value="ALOR">Learning through change</option><option value="ERAE">Learning after setbacks</option><option value="CTAP">Handling pressure</option><option value="FRUP">Using feedback</option></select><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div><p class="print-plan-lead">The complete report includes the learning plan for all four areas. Choose whichever area is most relevant to your own experience.</p><div id="printAllPlans" aria-label="Complete development plans for all four response areas"></div></div>
+<div id="report-coach" class="report-section-heading"><h2>Coaching support</h2><span>06 / 07</span></div><div class="panel"><h2>AI Coach — guided support</h2><p>In the complete Syntropix assessment, this section is intended to support questions about your profile and your development actions. <strong>The POC does not connect to the live AI Coach or send your answers anywhere.</strong></p>
+<p class="small">Below is an offline sample of the sort of developmental guidance a coach could provide. It is a scripted demonstration, not live AI advice.</p>
+<div class="coach-control"><button id="coachUnderstand" type="button">Help me understand my profile</button><button id="coachExample" type="button">Show a real-life example</button><button id="coachAction" type="button">Suggest a practice activity</button></div><div id="coachAnswer" aria-live="polite">Choose a prompt above to see an example response.</div>
+</div>
+<div id="report-resources" class="report-section-heading"><h2>Books and learning cases</h2><span>OPTIONAL</span></div><div class="resource-grid"><article class="resource-card"><p class="eyebrow">BOOK · LEARNING</p><h3>Mindset</h3><p>Carol S. Dweck</p><p>A perspective on learning and challenge—not validation of your score.</p></article><article class="resource-card"><p class="eyebrow">BOOK · FEEDBACK</p><h3>Thanks for the Feedback</h3><p>Douglas Stone and Sheila Heen</p><p>Questions and approaches for working with difficult feedback.</p></article><article class="resource-card"><p class="eyebrow">BOOK · PRACTICE</p><h3>Atomic Habits</h3><p>James Clear</p><p>Ideas for building small, repeatable changes.</p></article><article class="resource-card"><p class="eyebrow">ILLUSTRATIVE WORKPLACE CASE</p><h3>When a project changes overnight</h3><p>A fictional learning scenario connecting change, pressure and feedback; not a published research study.</p></article></div><div id="report-method" class="report-section-heading"><h2>About your results</h2><span>07 / 07</span></div><div class="panel"><h2>What this report can and cannot tell you</h2><p>The scores come from five self-report statements per area and summarize how you chose to answer. This instrument is under scientific development. Its reliability, population norms, fairness and accuracy for individual decisions have not been established.</p><p>The examples and action steps are educational illustrations. They should be checked against your work context, what you have actually experienced and the observations of people who know your work. Do not use this report for hiring, medical conclusions or fixed labels about a person.</p>
+<h3>How the response indexes are calculated</h3>
+<p>Cognimorph currently uses 20 statements, grouped into four areas with five statements each. You choose one of six agreement options. Eight statements are scored in the opposite direction so that the different responses can be summarized consistently. The results are transformed to a 0–100 response index, where the number describes the answers you selected; it is not a percentage of ability.</p>
+<h3>Why the numbers need careful interpretation</h3>
+<p>Two scores that look different are not necessarily evidence of different abilities. The assessment has not yet established reference norms, individual-level precision or validated score thresholds. A meaningful interpretation would also consider what happened in real situations, how others experienced those situations and whether work circumstances helped or hindered your response.</p>
+<h3>What happens after this report?</h3>
+<p>Choose one situation that matters to you. Notice what happened, try a realistic change, and ask for a specific observation from someone you trust. You can return to these reflections over time without treating a target number as proof of personal growth. This POC does not use your answers for hiring decisions, does not connect to a live AI service, and does not submit your responses to the production backend.</p>
+</div>
+<div id="report-next" class="report-section-heading"><h2>Explore what comes next</h2><span>OPTIONAL PATHWAYS</span></div><div class="panel"><p>These are possible learning paths, not results of a diagnostic decision rule. Confirm the availability and validation status of any assessment before use.</p><div class="next-assessment-grid"><article><h3>Coachability Quotient</h3><p>Explore how you approach learning opportunities and advice.</p></article><article><h3>Prism360</h3><p>Compare self-perception with feedback from colleagues.</p></article><article><h3>Developmental coaching</h3><p>Examine real experiences and choose your next action.</p></article></div></div><div class="report-section-heading" id="report-feedback-heading"><h2>Your next step</h2><span>OPTIONAL</span></div><div class="panel report-feedback"><h3>What will you try next?</h3><p>Pick one action that matters to you. This preview does not collect or save personal notes.</p><h3>How useful was this report?</h3><div id="ratingGroup" class="rating-group" role="group" aria-label="Rate report usefulness, from 1 to 5 stars"></div><label for="ratingNote">What would make the report clearer? (optional)</label><textarea id="ratingNote" rows="3" maxlength="300" placeholder="Your comment stays on this page and is cleared on refresh."></textarea><div class="actions"><button id="rateSubmit" class="secondary" type="button" disabled>Record sample feedback</button></div><p id="ratingStatus" role="status" aria-live="polite">Rating is optional and never required to download.</p></div><div id="report-actions" class="actions"><button class="primary" id="print" type="button">Save sample as PDF</button><button class="secondary" id="again" type="button">Explore again</button></div><p id="downloadStatus" role="status" aria-live="polite"></p>
+<p class="small">Browser print-to-PDF preview: charts and text are included, but this is not the finished production PDF service.</p><div class="report-final">
+<div class="final-brand"><strong>SYNTROPIX™</strong><span>HUMAN ELEVATION ARCHITECTURE</span></div>
+<div class="final-message"><p>Thoughtful evidence. Meaningful reflection. Human growth.</p><h2>Continue your development journey</h2><p>Your report is a beginning, not a conclusion. Discuss one real challenge and translate what you've learned into action.</p>
+<div class="coaching-offer"><strong>Explore a 1:1 developmental coaching session</strong><p>A guided conversation to reflect on real work and life situations, set a practical goal and plan your next steps. Available subject to consultation and confirmation; no booking or payment is completed through this POC.</p></div></div>
+<div class="final-contact"><p><strong>www.syntropix.in</strong></p><p>contact@syntropix.in</p><small>CONFIDENTIAL · COGNIMORPH DEVELOPMENT REPORT · SYNTHETIC POC</small></div></div>
+</div></div></section>
+<footer>Syntropix™ Cognimorph POC · Synthetic data only · No network submissions, external analytics, checkout, AI, or user authentication.</footer>
+</main>
+<script src="./cognimorph-registry.js"></script>
+<script>
+(function(){
+'use strict';
+var cfg=window.SyntropixAssessmentRegistryV3&&window.SyntropixAssessmentRegistryV3.bank['CogniMorph Index'];
+var $=function(id){return document.getElementById(id)};
+if(!cfg||cfg.questions.length!==20){$('intro').innerHTML='<h1>Preview unavailable</h1><p>The approved instrument registry could not be loaded.</p>';return}
+var responses={};
+var SESSION_LIMIT_MS=3*60*60*1000,sessionStartedAt=null,sessionTicker=null;
+var texts={ALOR:['Learning through change','How you describe taking on unfamiliar tasks and learning from experience.'],ERAE:['Learning after setbacks','How you describe responding to mistakes and trying a different approach.'],CTAP:['Handling pressure','How you describe choosing your next step when work becomes demanding.'],FRUP:['Using feedback','How you describe listening to criticism and deciding what to change.']};
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function show(view){if(view==='results')document.title='Syntropix™ | Cognimorph Development Report · POC';else document.title='Syntropix™ | Cognimorph POC Preview';var note=document.querySelector("main > .notice");if(note)note.hidden=view==="results";['intro','questionsView','results'].forEach(function(id){$(id).hidden=id!==view});window.scrollTo(0,0)}
+function clockLabel(milliseconds){
+ var seconds=Math.max(0,Math.ceil(milliseconds/1000)),h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),sec=seconds%60;
+ return [h,m,sec].map(function(x){return String(x).padStart(2,'0')}).join(':');
+}
+function stopSessionClock(){if(sessionTicker!==null){clearInterval(sessionTicker);sessionTicker=null}sessionStartedAt=null}
+function updateSessionClock(){
+ if(sessionStartedAt===null)return;
+ var left=SESSION_LIMIT_MS-(Date.now()-sessionStartedAt);
+ if(left<=0){
+  stopSessionClock();responses={};draw();show('intro');
+  $('sessionNotice').textContent='Your three-hour assessment session ended. Unfinished answers were cleared. Select Explore the questions to begin again.';
+  $('sessionNotice').hidden=false;return;
+ }
+ $('timeRemaining').textContent=clockLabel(left);
+}
+function startSessionClock(){
+ stopSessionClock();sessionStartedAt=Date.now();$('timeRemaining').textContent='03:00:00';
+ sessionTicker=setInterval(updateSessionClock,1000);updateSessionClock();
+}
+function progress(){var n=Object.keys(responses).length;$('progressText').textContent=n+' of 20 statements answered';$('progressBar').style.width=(n/20*100)+'%';$('finish').disabled=n!==20}
+function draw(){var host=$('items');host.replaceChildren();cfg.questions.forEach(function(q,index){var article=document.createElement('article');article.className='question';var label=document.createElement('p');label.className='question-title';label.id='q-label-'+q.id;label.textContent=(index+1)+'. '+q.text;var scale=document.createElement('div');scale.className='scale';scale.setAttribute('role','group');scale.setAttribute('aria-labelledby',label.id);for(var n=1;n<=6;n++){var button=document.createElement('button');button.type='button';button.textContent=String(n);button.dataset.value=String(n);button.setAttribute('aria-label','Response '+n+' of 6');button.setAttribute('aria-pressed','false');button.addEventListener('click',(function(item,value,container){return function(){responses[item.id]=value;container.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(Number(b.dataset.value)===value))});progress()}})(q,n,scale));scale.appendChild(button)}article.appendChild(label);article.appendChild(scale);host.appendChild(article)});progress()}
+function calculate(){var sums={},counts={},total=0;cfg.keys.forEach(function(k){sums[k]=0;counts[k]=0});cfg.questions.forEach(function(q){var raw=responses[q.id],v=q.rev?7-raw:raw;sums[q.dim]+=v;counts[q.dim]++;total+=v});var dimensions={};cfg.keys.forEach(function(k){dimensions[k]=Math.round(((sums[k]/counts[k]-1)/5)*100)});return{overall:Math.round((((total/cfg.questions.length)-1)/5)*1000)/10,dims:dimensions}}
+
+var stories={
+ALOR:{
+question:"What happens when you need to learn something you do not yet know?",
+meaning:"This area explores the way you say you approach learning when work asks you to do something unfamiliar. It includes your willingness to try difficult tasks and how you think about improving through effort.",
+situation:"Your manager asks you to use a tool you have never used. You could spend an hour trying its basic features, ask someone to show you, or stay with the familiar way of working. The useful question is not which choice looks best, but what helps you learn and what stops you.",
+whenHigher:"If you agreed more with these statements, you may see yourself as someone who is ready to try new things and keep learning. Think about a recent task: did you also have enough time, help and a safe place to practise?",
+whenLower:"If you agreed less, that does not mean you cannot learn. Perhaps recent workloads, poor support, or fear of making a visible mistake make unfamiliar tasks harder to approach.",
+experiment:"Pick one small work task that feels unfamiliar. Try it for 20 minutes, ask one question and record what became easier.",
+reflection:"Where have you learned something difficult before? What made it possible, and what would help you again?",
+watch:"Look for whether you attempt unfamiliar tasks and seek help when needed; do not judge yourself by speed alone."
+},
+ERAE:{
+question:"How do you respond when something you worked on goes wrong?",
+meaning:"This area looks at how you describe learning after a mistake or setback. Its statements touch on taking responsibility, noticing what went wrong and moving towards a useful next step.",
+situation:"You send an important presentation with an error. You may feel embarrassed or worried, which is normal. You could correct it, explain what happened, check how the error slipped through and make a small change so it is less likely to happen again.",
+whenHigher:"If you agreed more with these statements, you may believe that mistakes can teach you something. Think about whether you also ask for help and acknowledge circumstances outside your control.",
+whenLower:"If you agreed less, a mistake may feel harder to move past right now. That could be connected to the consequences of errors at work, not just to your own habits.",
+experiment:"After a small setback, note one fact about what happened, one thing you could change, and one way to get support.",
+reflection:"Think of one mistake that eventually helped you learn. How long did it take to feel ready to try again?",
+watch:"Notice whether your next response becomes more useful over time, even if discomfort still appears."
+},
+CTAP:{
+question:"What helps you think clearly when there is a lot of pressure?",
+meaning:"This area explores how you describe reacting when work is urgent, difficult or uncertain. It includes making choices, checking what support is available and responding to pressure.",
+situation:"Two urgent requests arrive just before a deadline. Rather than trying to solve everything at once, you might identify which task matters first, speak to someone about what can wait and take the next manageable step.",
+whenHigher:"If you agreed more with these statements, you may feel you can find a useful next step under pressure. Remember that even skilled people need rest, time, information and help.",
+whenLower:"If you agreed less, this may reflect current stress, unclear priorities or work demands that are genuinely too high. It is not evidence of a personal weakness or a health condition.",
+experiment:"When the next busy moment arrives, pause, write down the two most important tasks and ask what support is available.",
+reflection:"Which pressures are within your control? Which require changes from the people or system around you?",
+watch:"Notice whether you can identify priorities and ask for help, rather than expecting yourself to remain calm all the time."
+},
+FRUP:{
+question:"How do you respond when someone questions your work?",
+meaning:"This area looks at how you describe handling comments about your work, including criticism that is hard to hear. It asks whether you can consider useful points and decide what, if anything, to change.",
+situation:"A colleague says your plan misses an important risk. You might feel defensive at first. A useful next step could be to ask for an example, check whether the point is fair and explain your view calmly. You do not have to agree with every criticism.",
+whenHigher:"If you agreed more, you may see yourself as willing to consider feedback and adjust your plans. Explore what happens when the feedback feels unfair or is delivered badly.",
+whenLower:"If you agreed less, receiving feedback may sometimes feel difficult. That could depend on trust, timing or the way the message is given, and does not define how open you are as a person.",
+experiment:"Ask someone you trust for one specific suggestion about a recent piece of work. Repeat back what you heard before deciding whether to act on it.",
+reflection:"When was feedback helpful, and when was it not? What was different about those situations?",
+watch:"Look for whether you ask questions, separate useful points from unfair ones and make changes when there is a good reason."
+}
+};
+function el(tag,cls,txt){var node=document.createElement(tag);if(cls)node.className=cls;if(txt!==undefined)node.textContent=txt;return node}
+function addText(host,tag,cls,txt){var node=el(tag,cls,txt);host.appendChild(node);return node}
+function plotRadar(result){
+var svg=$('topography'),ns='http://www.w3.org/2000/svg';while(svg.lastChild)svg.removeChild(svg.lastChild);
+function element(tag,attrs,content){var e=document.createElementNS(ns,tag);Object.keys(attrs).forEach(function(key){e.setAttribute(key,attrs[key])});if(content!==undefined)e.textContent=content;svg.appendChild(e);return e}
+element('title',{id:'topoTitle'},'Four-area response profile');
+element('desc',{id:'topoDesc'},'Response indexes for '+cfg.keys.map(function(k){return texts[k][0]+' '+result.dims[k]+' out of 100'}).join(', ')+'. This is a visual summary of answers, not a validated benchmark.');
+var cx=350,cy=228,max=132;
+function point(i,r){var angle=(-Math.PI/2)+i*Math.PI/2;return [cx+Math.cos(angle)*r,cy+Math.sin(angle)*r]}
+[.25,.5,.75,1].forEach(function(frac){var pts=cfg.keys.map(function(k,i){return point(i,max*frac).join(',')}).join(' ');element('polygon',{points:pts,fill:'none',stroke:'#667768','stroke-width':'1'});});
+cfg.keys.forEach(function(k,i){var end=point(i,max);element('line',{x1:cx,y1:cy,x2:end[0],y2:end[1],stroke:'#718274','stroke-width':'1'});
+var outer=point(i,max+39),anchor=i===1?'start':i===3?'end':'middle';element('text',{x:outer[0],y:outer[1],fill:'#F7E7CE','text-anchor':anchor,'font-size':'12','font-family':'system-ui'},texts[k][0]);});
+var outline=cfg.keys.map(function(k,i){return point(i,max*result.dims[k]/100).join(',')}).join(' ');
+element('polygon',{class:'radar-value',points:outline,fill:'#50C878','fill-opacity':'0.23',stroke:'#9DC183','stroke-width':'3'});
+cfg.keys.forEach(function(k,i){var p=point(i,max*result.dims[k]/100);element('circle',{cx:p[0],cy:p[1],r:'5',fill:'#50C878',stroke:'#fff','stroke-width':'1'});});
+}
+var segmentExtensions={"ALOR":{"life":"Imagine you have to learn to use a new banking app, help your child with an unfamiliar school topic, or understand a new rule. You might first feel unsure. Learning is not proved by feeling confident at the start; it often begins with trying, making a small mistake, and asking someone to explain the part you missed.","corporate":"A team moves to a new planning system. One employee watches a ten-minute demonstration and tests a sample task. Another needs a colleague to walk through it twice. Both may learn well. What matters is whether each person finds a way to practise, check understanding and use the new skill over time.","observed":"In the best case, you can describe a specific unfamiliar task you tried, the help you used and one thing you can now do differently. A less helpful pattern would be avoiding the task simply because you could not do it perfectly on the first attempt. That is a situation to explore, not a label.","context":"Access to training, time, language, supportive managers and a safe place to ask questions all affect how readily someone tries new tasks. A lower response index can reflect those circumstances. It is worth asking whether the workplace allows learning, not just whether the individual wants to learn."},"ERAE":{"life":"Suppose you miss an appointment or accidentally pay a bill late. Feeling annoyed is understandable. After that first reaction, you might set a reminder, check how the mistake happened, and make an adjustment. You do not have to feel good about a mistake to learn something from it.","corporate":"A proposal is sent with an outdated number. The project leader alerts the client, corrects the information, and meets the team to review how the number was checked. The conversation focuses on what the group can improve while still being clear about who owns the next steps.","observed":"Useful signs include acknowledging what happened, taking proportionate responsibility, making a correction and checking whether the change helped. An unhelpful assumption would be that one bad decision means someone is generally incapable. One event rarely tells us enough to support that conclusion.","context":"A mistake in a psychologically safe team may be easier to discuss than the same mistake in a workplace where people are punished for speaking up. Recovery also depends on how serious the error was and whether you have enough time or support to correct it. Consider these conditions before judging your response."},"CTAP":{"life":"Picture a morning when the internet stops working, a family member needs help, and you must leave for an appointment. The challenge is not to stay perfectly calm. You might choose what matters first, ask for help with one task and accept that something less important will need to wait.","corporate":"A customer escalates an issue while the team is close to a delivery deadline. The manager confirms the immediate risk, identifies who can investigate, agrees on a clear update time and protects the team from competing requests. Pressure has not vanished, but the next steps are easier to see.","observed":"A useful response may be to name the main problem, choose one next step, communicate constraints and request support. The absence of visible stress is not proof of skill; people can be effective while worried. Conversely, feeling overwhelmed in an impossible workload is not evidence that a person lacks capability.","context":"Workload, shift patterns, uncertainty, previous experiences and available support change what pressure feels like. If demands are unreasonable, the right improvement may involve better planning or more resources rather than telling an individual to cope harder."},"FRUP":{"life":"Someone tells you a meal you cooked is too salty. You might feel irritated because you put effort into it. You can still ask which part tasted wrong, decide whether the comment is fair and adjust the next time. You do not need to agree with every opinion.","corporate":"During a project review, a colleague says a presentation leaves out an important customer risk. The presenter asks for an example, checks the data and updates the slide where needed. If the criticism is inaccurate, they explain their reasoning respectfully. Listening does not mean surrendering sound judgement.","observed":"Look for whether you ask a clarifying question, identify a useful point and choose a response that fits the evidence. Immediate agreement can be just as unhelpful as immediate rejection. A helpful conversation allows room to disagree, particularly when feedback is vague, unfair or poorly informed.","context":"Feedback can be easier to hear from someone you trust who gives specific, respectful examples. It can be harder when power differences or previous conflict are involved. Whether feedback is useful depends on its quality, not only on the receiver's willingness to listen."}};
+function makeSegment(key,score){
+var data=stories[key],host=el('article','segment');host.dataset.dimension=key;addText(host,'p','subtitle','DETAILED VIEW · '+texts[key][0]);
+addText(host,'h3','',data.question);addText(host,'p','',data.meaning);
+var scoreLine=addText(host,'p','',score+' out of 100 is your response index for this area. It is not a percentage of ability.');
+scoreLine.style.color='#9DC183';
+var x=segmentExtensions[key];
+var scenario=el('div','scenario');addText(scenario,'strong','','A simple, everyday example');addText(scenario,'p','',x.life);host.appendChild(scenario);
+var atWork=el('div','segment-application');addText(atWork,'h4','','How it could show up at work');addText(atWork,'p','',x.corporate);host.appendChild(atWork);
+var frame=el('div','interpretive-frame');addText(frame,'strong','','What your responses can tell you');addText(frame,'p','', 'Your '+score+'/100 response index summarizes five statements about '+texts[key][0].toLowerCase()+'. It is not '+score+'% of an ability or proof of how you behave. Check the possibilities below against a recent real situation.');host.appendChild(frame);addText(host,'h3','','What your answers might be telling you');
+addText(host,'p','',data.whenHigher);addText(host,'p','',data.whenLower);
+var columns=el('div','segment-columns'),left=el('div','segment-column'),right=el('div','segment-column');
+addText(left,'h4','','What to look for in real life');addText(left,'p','',x.observed);
+addText(right,'h4','','What the situation can change');addText(right,'p','',x.context);
+columns.appendChild(left);columns.appendChild(right);host.appendChild(columns);
+addText(host,'h3','','A small step you can practise');addText(host,'p','',data.experiment);
+addText(host,'p','prompt','For your own reflection: '+data.reflection);
+var check=el('div','self-check');addText(check,'strong','','Does this example feel familiar?');addText(check,'p','', 'Only you can decide whether it fits. These responses stay in this page.');
+var opts=el('div','self-check-options'),status=el('p','reflection-status','Optional: choose an answer to reflect.');
+['Often','Sometimes','Not really','Not sure yet'].forEach(function(choice){var b=el('button','reflection-choice',choice);b.type='button';b.setAttribute('aria-pressed','false');b.onclick=function(){opts.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});status.textContent='You selected '+choice+'. Nothing was saved or sent.'};opts.appendChild(b)});
+check.appendChild(opts);status.setAttribute('role','status');check.appendChild(status);host.appendChild(check);
+addText(host,'p','small','Evidence to look for: '+data.watch);
+addText(host,'p','small','Important: These are illustrations, not verified observations of your behaviour. Compare them with examples from your own life.');
+return host;
+}
+function setCoach(k,kind){
+var d=stories[k],answer='';
+if(kind==='understand')answer='Your scores summarize which statements you agreed with more or less. For '+texts[k][0].toLowerCase()+', think of a recent situation and check whether your response was similar. The score itself does not explain why you acted that way.';
+if(kind==='example')answer='Example: '+d.situation+' What would you do first? What might another person notice?';
+if(kind==='action')answer='Try this: '+d.experiment+' Then reflect: '+d.reflection;
+$('coachAnswer').textContent=answer;
+}
+
+function buildPlanStages(focus){
+ var name=texts[focus][0].toLowerCase();
+ var tailored={
+ ALOR:["Choose an unfamiliar but low-risk task and note what feels unclear.","Try one new approach for 15 minutes, keeping track of questions.","Ask a trusted person to demonstrate one tricky step.","Record what became easier and what still needs support."],
+ ERAE:["Think of a small setback you can discuss safely and name the facts.","Separate what was in your control from what was not.","Make one proportionate correction and ask for support if useful.","Record what you learned without describing yourself as a failure."],
+ CTAP:["Notice one busy moment and write down the competing demands.","Identify the two tasks that matter most.","Ask which deadline or expectation can realistically move.","Observe what happened after priorities became clearer."],
+ FRUP:["Ask a trusted person for one specific comment on recent work.","Repeat what you heard before deciding how to respond.","Separate helpful information from the way it was delivered.","Choose one practical adjustment or explain calmly why you disagree."]
+ };
+ return [
+ ['Days 1–30 · Notice',tailored[focus]],
+ ['Days 31–60 · Practise',[
+ 'Choose one realistic action related to '+name+'.',
+ 'Try it in at least three appropriate situations.',
+ 'Record what happened, including factors outside your control.',
+ 'Ask for one specific observation from someone you trust.']],
+ ['Days 61–90 · Learn and adjust',[
+ 'Compare recent experiences with what you noticed in month one.',
+ 'Identify one condition that helped and one that held you back.',
+ 'Adapt your approach to suit a different real-life situation.',
+ 'Choose a new small learning goal without chasing a target score.']]
+ ];
+}
+function appendPlanStages(host,focus){
+ var stages=buildPlanStages(focus);
+ stages.forEach(function(stage){var card=el('article','');addText(card,'h3','',stage[0]);var list=el('ol');stage[1].forEach(function(task){addText(list,'li','',task)});card.appendChild(list);host.appendChild(card)});
+}
+function fillPlan(focus){
+ var host=$('developmentPlan');host.replaceChildren();appendPlanStages(host,focus);
+}
+function renderCompletePrintPlans(){
+ var host=$('printAllPlans');host.replaceChildren();
+ cfg.keys.forEach(function(key){
+  var section=el('section','print-plan-section');section.setAttribute('data-plan-area',key);
+  addText(section,'h3','',texts[key][0]);
+  addText(section,'p','print-plan-intro','Your '+texts[key][0].toLowerCase()+' pathway includes practical ideas for noticing, practising and reflecting. This plan is educational, not a diagnosis or a ranking of capabilities.');
+  var grid=el('div','plan-grid');appendPlanStages(grid,key);section.appendChild(grid);host.appendChild(section);
+ });
+}
+
+/* Premium participant view: explanatory scores, choice-led plan and offline-only rating. */
+var selectedRating=0;
+function renderResponseBars(dims){
+ var host=$('responseBars');host.replaceChildren();
+ cfg.keys.forEach(function(key,index){
+  var wrap=el('div','response-bar-row');
+  var label=el('div','response-bar-label'),title=el('strong','',texts[key][0]),value=el('span','',dims[key]+' / 100');
+  label.appendChild(title);label.appendChild(value);wrap.appendChild(label);
+  var track=el('div','response-bar-track'),fill=el('span','response-bar-fill');
+  fill.style.width=dims[key]+'%';fill.setAttribute('aria-hidden','true');fill.setAttribute('data-area',key);track.appendChild(fill);wrap.appendChild(track);
+  var expl=el('p','response-bar-explanation',texts[key][1]);wrap.appendChild(expl);host.appendChild(wrap);
+ });
+}
+function renderRating(){
+ var host=$('ratingGroup');host.replaceChildren();
+ for(var n=1;n<=5;n++){(function(value){
+  var b=el('button','star-rating','★');
+  b.type='button';b.setAttribute('aria-label',value+' out of 5 stars');
+  b.setAttribute('aria-pressed',String(selectedRating===value));b.setAttribute('data-rating',value);
+  b.addEventListener('click',function(){
+    selectedRating=value;
+    host.querySelectorAll('button').forEach(function(x){
+      x.setAttribute('aria-pressed',String(Number(x.dataset.rating)===value));
+      x.classList.toggle('selected',Number(x.dataset.rating)<=value)
+    });
+    $('rateSubmit').disabled=false;$('ratingStatus').textContent=value+' out of five selected. Optional feedback stays only in this page.';
+  });
+  host.appendChild(b)
+ })(n)}
+ $('rateSubmit').disabled=true;
+ $('ratingStatus').textContent='Rating is optional and never required to download.';
+}
+$('rateSubmit').addEventListener('click',function(){
+ if(!selectedRating)return;
+ $('ratingStatus').textContent='Thank you for previewing this feature. No feedback has been transmitted or stored.';
+});
+$('developmentFocus').addEventListener('change',function(){
+ fillPlan(this.value);
+ $('nextStep').textContent='You chose '+texts[this.value][0].toLowerCase()+'. This plan is a practice suggestion, not a judgement about your ability. Start with a real situation, try one useful change, and reflect on what happens.';
+});
+
+function report(){
+var r=calculate(),ranked=cfg.keys.map(function(k){return{key:k,score:r.dims[k],title:texts[k][0]}}).sort(function(a,b){return b.score-a.score});
+var top=ranked[0],focus=ranked[ranked.length-1];
+$('quickReadText').textContent='Your responses range from '+focus.score+' to '+top.score+' across the four areas. These numbers cannot tell us whether you are better at one than another. Think of a recent experience: what happened, how did you respond, what helped, and what would you try next time?';
+$('overallIndex').textContent=r.overall+' / 100';
+$('summary').textContent='Your four response indexes range from '+focus.score+' to '+top.score+' out of 100. Those numbers are close together in this example. The questionnaire does not establish whether a difference of '+(top.score-focus.score)+' points matters in everyday life. Rather than ranking your abilities, consider a recent situation involving learning, setbacks, pressure or feedback. Which experience would you most like to understand?';
+$('topologyStory').textContent='The highest and lowest response indexes differ by '+(top.score-focus.score)+' points. This shows variation in how you answered, but it does not prove that one ability is stronger than another. Your responses may also depend on your current work setting and recent experiences.';
+$('nextStep').textContent='This fictional plan uses '+focus.title.toLowerCase()+' as an example topic, not because it is a proven weakness. In your own report, choose the area that matters to your current situation. Over 90 days, notice real experiences, try one action, and reflect on what changes.';
+$('reportContext').textContent='Your answers have been scored using the original six-point method. Seven questions use simpler candidate wording in this preview, so these POC results must not be compared with any official historical scores.';
+var metrics=$('quickScores'),details=$('segmentDetails');metrics.replaceChildren();details.replaceChildren();
+$('glanceNarrative').textContent='These numbers summarize how you answered statements about learning, setbacks, pressure and feedback. Here they fall between '+focus.score+' and '+top.score+' out of 100. Their closeness is a reason to look at real situations rather than name a best or weakest area.';
+$('mapInterpretation').textContent='Your map looks fairly even: the four indexes vary by '+(top.score-focus.score)+' points. A close shape does not prove equal skill; think of one time you faced change, an error, pressure or feedback and consider what influenced your reaction.';
+renderResponseBars(r.dims);renderRating();renderCompletePrintPlans();
+cfg.keys.forEach(function(k){
+var metric=el('div','');addText(metric,'strong','',r.dims[k]+'/100');addText(metric,'span','small',texts[k][0]);metrics.appendChild(metric);
+details.appendChild(makeSegment(k,r.dims[k]));
+});
+plotRadar(r);$('developmentFocus').value='FRUP';fillPlan('FRUP');
+$('coachUnderstand').onclick=function(){setCoach(focus.key,'understand')};
+$('coachExample').onclick=function(){setCoach(focus.key,'example')};
+$('coachAction').onclick=function(){setCoach(focus.key,'action')};
+$('coachAnswer').textContent='Choose a prompt above to see an offline example. Live AI Coach is not connected in this preview.';
+show('results');
+}
+function reset(){stopSessionClock();responses={};selectedRating=0;const field=$('ratingNote');if(field)field.value='';draw();show('intro')}
+$('start').addEventListener('click',function(){$('sessionNotice').hidden=true;responses={};draw();startSessionClock();show('questionsView')});
+$('demo').addEventListener('click',function(){stopSessionClock();responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
+$('finish').addEventListener('click',function(){if(sessionStartedAt!==null&&Date.now()-sessionStartedAt>=SESSION_LIMIT_MS){updateSessionClock();return}if(Object.keys(responses).length===20){stopSessionClock();report()}});
+$('reset').addEventListener('click',reset);$('again').addEventListener('click',reset);
+$('print').addEventListener('click',function(){$('downloadStatus').textContent='Opening print options. Choose Save as PDF in your browser; no report is uploaded.';window.print()});
+})();
+</script></body></html>
