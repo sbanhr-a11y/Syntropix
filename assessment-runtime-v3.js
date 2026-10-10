@@ -50,12 +50,12 @@ function showPurchaseRecovery(){
   button.disabled=true;note.textContent='Verifying your previous purchase…';
   try{
    const sb=window.__syntropixRuntimeSb||(window.supabase?.createClient&&window.supabase.createClient('https://jjcjqspkpqxypvingvqs.supabase.co','sb_publishable_XMPdRDuG3Rm4Tx2_pC_p8A_bYHu2XaS',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}));
-   const {data}=sb?await sb.auth.getSession():{data:null};
+   const {data}=sb?await Promise.race([sb.auth.getSession(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('Sign-in verification timed out. Refresh the page, then reopen the latest secure email link.')),12000))]):{data:null};
    const session=data?.session;
    if(!session?.access_token){
     const address=$('email').value.trim().toLowerCase();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address))throw new Error('Enter the purchasing email address above to request a secure sign-in link.');
-    const response=await fetch(`${API}/payments/request-purchase-signin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:address,assessmentName:name})});
+    const response=await fetch(`${API}/payments/request-purchase-signin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:address,assessmentName:name}),signal:AbortSignal.timeout(20000)});
     if(!response.ok)throw new Error('Sign-in request is temporarily unavailable. Please try later.');
     note.textContent='If an approved purchase matches this email, a secure sign-in link will arrive. Open it to return here. Do not pay again.';return;
    }
@@ -64,11 +64,12 @@ function showPurchaseRecovery(){
    if(entered&&entered!==verifiedEmail)throw new Error('The email on this form differs from your signed-in account. Use the email you paid with.');
    if(!$('name').value.trim())throw new Error('Please enter your name before starting.');
    if(!$('privacy').checked)throw new Error('Please accept the Privacy Policy before starting.');
-   const response=await fetch(`${API}/payments/recover-purchase`,{method:'POST',headers:{'Authorization':`Bearer ${session.access_token}`,'Content-Type':'application/json'},body:JSON.stringify({assessmentName:name})});
+   note.textContent='Checking your approved payment…';
+   const response=await fetch(`${API}/payments/recover-purchase`,{method:'POST',headers:{'Authorization':`Bearer ${session.access_token}`,'Content-Type':'application/json'},body:JSON.stringify({assessmentName:name}),signal:AbortSignal.timeout(20000)});
    const result=await response.json();if(!response.ok||result.status!=='success'||!result.entitlementToken)throw new Error(result.message||'Could not restore purchase.');
    if(result.sessionToken)localStorage.setItem('syntropix_token',result.sessionToken);
    note.textContent='Purchase confirmed. Opening your assessment…';begin(result.entitlementToken);
-  }catch(error){note.textContent=error.message||'Unable to verify purchase. Contact support; do not pay again.'}finally{button.disabled=false}
+  }catch(error){note.textContent=error.name==='TimeoutError'||error.name==='AbortError'?'The recovery service took too long. Refresh the page and try again. Your payment remains approved.':error.message||'Unable to verify purchase. Contact support; do not pay again.'}finally{button.disabled=false}
  };
 }
 if(!window.__syntropixTestLab?.active)showPurchaseRecovery();async function initAccess(){const s=await getSession();if(!s?.token){$('signin').textContent='Sign in';$('signin').onclick=()=>location.href='/signin.html?returnTo='+encodeURIComponent(location.pathname+location.search);return}$('signin').textContent='Signed in';if(!$('email').value&&(s.email||u?.email))$('email').value=s.email||u.email;try{const r=await fetch(`${API}/payments/access-status`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${s.token}`},body:JSON.stringify({token:s.token,assessmentName:name,email:profile().email||s.email||u?.email||''})}),d=await r.json();if(d.status==='success'&&d.authorized&&!$('authorized-access')){const b=document.createElement('button');b.id='authorized-access';b.className='primary authorized-access';b.type='button';b.textContent='Start test assessment →';$('payment').appendChild(b);b.onclick=async()=>{const err=validate();if(err)return setError(err);b.disabled=true;b.textContent='Authorizing…';try{const session=await getSession(),rr=await fetch(`${API}/payments/grant-bypass`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${session?.token||''}`},body:JSON.stringify({token:session?.token,email:profile().email||session?.email||u?.email||'',assessmentName:name})}),x=await rr.json();if(x.status!=='success'||!x.entitlementToken)throw new Error(x.message||'Authorized access was denied.');if(x.sessionToken)localStorage.setItem('syntropix_token',x.sessionToken);begin(x.entitlementToken)}catch(e){setError(e.message);b.disabled=false;b.textContent='Start test assessment →'}}}}catch(e){console.warn('Authorized access check unavailable',e);setError('Signed in, but test access could not be verified. Please refresh once or sign in again.')}}if(!window.__syntropixTestLab?.active)initAccess();
