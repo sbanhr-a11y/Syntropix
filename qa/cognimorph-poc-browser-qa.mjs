@@ -24,6 +24,13 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   await page.getByRole('button',{name:'View a fictional completed report'}).click(); console.log('DIAGNOSTIC after demo',await page.evaluate(()=>({hidden:document.getElementById('results').hidden,html:document.getElementById('results').outerHTML.slice(0,100),score:document.getElementById('overallIndex').textContent})));
   assert.equal(await page.locator('#results').isVisible(),true);
   assert.equal(await page.locator('#segmentDetails .segment').count(),4);
+  assert.equal(await page.locator('#segmentDetails .segment .segment-application').count(),4);
+  assert.equal(await page.locator('#segmentDetails .segment .segment-columns').count(),4);
+  assert.equal(await page.locator('.report-nav a').count(),9);
+  await page.locator('#comfortableReading').click();
+  assert.equal(await page.locator('#comfortableReading').getAttribute('aria-pressed'),'true');
+  await page.locator('#standardReading').click();
+  assert.equal(await page.locator('#standardReading').getAttribute('aria-pressed'),'true');
   assert.equal(await page.locator('#dimensions article.metric').count(),4);
   assert.equal(await page.locator('#quickScores > div').count(),4);
   assert.equal(await page.locator('#developmentPlan article').count(),3);
@@ -73,14 +80,15 @@ await scenario('Questionnaire: seven accessible candidate items and complete-res
   safe();await page.close();
 });
 await scenario('Mobile layout: 375px and 768px width report without horizontal overflow',async()=>{
-  for(const width of [375,768]){
-    const page=await browser.newPage({viewport:{width,height:820},isMobile:width===375,hasTouch:width===375});
+  for(const width of [320,375,768,1024,1366,1600]){
+    const page=await browser.newPage({viewport:{width,height:820},isMobile:width<=375,hasTouch:width<=375});
     await page.goto(base+'/',{waitUntil:'networkidle'});
     await page.locator('#demo').click();
     assert.equal(await page.locator('#results').isVisible(),true);
     const geometry=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,viewport:window.innerWidth}));
     assert(geometry.scrollWidth<=geometry.viewport+2,JSON.stringify({width,...geometry}));
-    await page.screenshot({path:'qa-output-cognimorph/mobile-'+width+'.png',fullPage:true});
+    if(width>=1366){const bounds=await page.evaluate(()=>{const m=document.querySelector('main').getBoundingClientRect();return{width:m.width,viewport:window.innerWidth}});assert(bounds.width>=width*.83,'Desktop container leaves excessive empty margins: '+JSON.stringify(bounds));}
+    await page.screenshot({path:'qa-output-cognimorph/layout-'+width+'.png',fullPage:true});
     await page.close();
   }
 });
