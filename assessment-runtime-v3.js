@@ -52,7 +52,13 @@ function showPurchaseRecovery(){
    const sb=window.__syntropixRuntimeSb||(window.supabase?.createClient&&window.supabase.createClient('https://jjcjqspkpqxypvingvqs.supabase.co','sb_publishable_XMPdRDuG3Rm4Tx2_pC_p8A_bYHu2XaS',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}));
    const {data}=sb?await sb.auth.getSession():{data:null};
    const session=data?.session;
-   if(!session?.access_token){note.textContent='Sign in with the same email used for payment to recover your purchase.';location.href='/signin.html?returnTo='+encodeURIComponent(location.pathname+location.search);return}
+   if(!session?.access_token){
+    const address=$('email').value.trim().toLowerCase();
+    if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(address))throw new Error('Enter the purchasing email address above to request a secure sign-in link.');
+    const response=await fetch(`${API}/payments/request-purchase-signin`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:address,assessmentName:name})});
+    if(!response.ok)throw new Error('Sign-in request is temporarily unavailable. Please try later.');
+    note.textContent='If an approved purchase matches this email, a secure sign-in link will arrive. Open it to return here. Do not pay again.';return;
+   }
    const verifiedEmail=(session.user?.email||'').toLowerCase();
    const entered=$('email').value.trim().toLowerCase();
    if(entered&&entered!==verifiedEmail)throw new Error('The email on this form differs from your signed-in account. Use the email you paid with.');
