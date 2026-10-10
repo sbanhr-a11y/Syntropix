@@ -39,7 +39,7 @@ for n,page in enumerate(pdf,1):
     if bottom < page.rect.height*.48:
         issues.append(f"Page {n} uses less than 48% of printable height (last text y={bottom:.0f})")
 text="\n".join(page.get_text() for page in pdf)
-for phrase in ["Your Cognimorph Development Report","Learning through change",
+for phrase in ["Your Cognimorph report","Learning through change",
                "Learning after setbacks","Handling pressure","Using feedback",
                "Your 30–60–90 day development plan","What this report can and cannot tell you",
                "How the response indexes are calculated","Why the numbers need careful interpretation"]:
