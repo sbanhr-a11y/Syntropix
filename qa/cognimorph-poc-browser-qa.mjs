@@ -82,6 +82,25 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   await writeFile('qa-output-cognimorph/fictional-report.pdf',pdf);
   safe();await page.close();
 });
+await scenario('3-hour assessment timer: visible start, countdown, expiry and cleared responses',async()=>{
+ const page=await browser.newPage({viewport:{width:1280,height:850}});observeErrors(page);
+ await page.clock.install();
+ await page.goto(base+'/',{waitUntil:'networkidle'});
+ assert.equal(await page.locator('#questionsView').isVisible(),false);
+ await page.getByRole('button',{name:/Explore the questions/}).click();
+ assert.equal(await page.locator('#sessionTimer').isVisible(),true);
+ assert.equal(await page.locator('#timeRemaining').innerText(),'03:00:00');
+ await page.locator('.question').first().locator('button').first().click();
+ await page.clock.fastForward(3600*1000);
+ assert.match(await page.locator('#timeRemaining').innerText(),/^02:00:/);
+ await page.clock.fastForward(2*3600*1000+2000);
+ assert.equal(await page.locator('#intro').isVisible(),true);
+ assert.match(await page.locator('#sessionNotice').innerText(),/three-hour assessment session ended/);
+ await page.getByRole('button',{name:/Explore the questions/}).click();
+ assert.equal(await page.locator('#progressText').innerText(),'0 of 20 statements answered');
+ assert.equal(await page.locator('#timeRemaining').innerText(),'03:00:00');
+ await page.close();
+});
 await scenario('Questionnaire: seven accessible candidate items and complete-response gate',async()=>{
   const page=await browser.newPage({viewport:{width:1280,height:850}});
   const safe=assertNoNetwork(page);observeErrors(page);
