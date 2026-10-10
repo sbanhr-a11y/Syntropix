@@ -35,6 +35,9 @@ for(const [login,rev] of latest){
  if(['admin','maintain','write'].includes(permission.permission))approved=true;
 }
 if(!approved)fail('no current independent authorized approval for exact commit');
+// Check-runs are additional evidence, never permission to bypass a failing V7 guard.
+// The application-runtime path remains blocked until branch protection establishes
+// a separately mandatory trusted control accepted by the repository owner.
 const statuses=await get('/commits/'+expectedSha+'/check-runs?per_page=100');
 if(statuses.total_count>100)fail('check-run pagination incomplete');
 const required=['V7 public website safety QA','Canonical Assessment Runtime Safety Gate','Public Repository Research IP Guard'];
