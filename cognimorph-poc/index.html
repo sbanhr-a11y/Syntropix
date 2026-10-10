@@ -57,6 +57,121 @@ footer{border-top:1px solid #334735;margin-top:44px;padding-top:20px;font-size:1
 @media(max-width:720px){.report-top,.mini-metrics,.plan-grid{grid-template-columns:1fr 1fr}.plan-grid{grid-template-columns:1fr}}
 @media(max-width:460px){.report-top,.mini-metrics{grid-template-columns:1fr 1fr}.topology-wrap svg{width:100%}}
 @media print{.report-top,.mini-metrics,.plan-grid{grid-template-columns:repeat(2,1fr)}.segment,.plan-grid article{background:white!important;color:#111!important;break-inside:avoid}.segment .scenario,#coachAnswer{background:white!important;color:#111!important}.segment .prompt,.subtitle{color:#222!important}svg{max-width:100%}svg text{fill:#111!important}svg polygon{stroke:#333!important}svg .radar-value{fill:#777!important;fill-opacity:.25!important}.coach-control{display:none}.score-display{color:#111!important}}
+
+/* Syntropix Cognimorph editorial report system — laptop, iPad, mobile, print */
+:root{--content-line:70ch;--panel:#101512;--outline:#425748}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased}
+main{width:min(calc(100% - 72px),1580px);max-width:none;padding:28px 0 90px}
+header{padding:10px 0 23px}
+.brand{font-size:20px;letter-spacing:.13em}
+.tag{font-weight:700;letter-spacing:.025em}
+#intro,#questionsView{max-width:920px;margin:0 auto}
+#results{max-width:none}
+#results .report-page-title{font-size:clamp(35px,3.6vw,62px);letter-spacing:-.038em;margin:16px 0 12px;max-width:1200px}
+#reportContext{font-size:17px;max-width:86ch;margin:12px 0 24px}
+#results h2{font-size:clamp(22px,1.8vw,31px);letter-spacing:-.018em}
+#results h3{letter-spacing:-.01em}
+#results .panel{background:var(--panel);border:1px solid var(--outline);border-radius:18px;padding:clamp(22px,2.1vw,34px);margin:0 0 20px}
+#results p{line-height:1.8}
+#results .subtitle{font-size:12px;font-weight:750;letter-spacing:.11em;color:var(--sage)}
+#results .report-top{grid-template-columns:minmax(290px,.8fr) minmax(340px,1.2fr);gap:20px}
+#results .report-top .panel{margin:0;min-height:240px}
+#results .score-display{font-size:clamp(48px,4.6vw,84px);letter-spacing:-.045em;line-height:1.02;margin:15px 0}
+#results .mini-metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#results .mini-metrics div{min-width:0;padding:18px;background:#19221c;border-color:#536a59}
+#results .mini-metrics strong{font-size:clamp(27px,2.4vw,40px);letter-spacing:-.03em}
+#results .mini-metrics span{color:var(--cream)}
+#results .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#results .metric{min-width:0;padding:21px 17px;background:#141c17;border-color:#465c4c}
+#results .metric strong{font-size:clamp(25px,2vw,36px)}
+#results .metric h3{line-height:1.35}
+#results .metric p{font-size:14px;line-height:1.65}
+#results .topology-wrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(240px,.8fr);gap:16px}
+#results .topology-wrap svg{width:min(100%,580px);justify-self:center}
+#results .legend{max-width:40ch;font-size:16px}
+#results .legend strong{color:var(--cream);font-size:19px}
+.report-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:clamp(24px,3.5vw,64px);align-items:start}
+.report-content{min-width:0}
+.report-nav{position:sticky;top:22px;border:1px solid #425747;background:#101512;padding:20px 12px;border-radius:16px}
+.report-nav-title{margin:0 0 12px 10px;font-size:12px;color:var(--sage);letter-spacing:.11em;text-transform:uppercase;font-weight:800}
+.report-nav a{display:block;padding:10px 12px;color:#e9eee7;text-decoration:none;border-radius:8px;font-size:14px;line-height:1.45}
+.report-nav a:hover,.report-nav a:focus-visible{color:#000;background:var(--sage);outline-offset:2px}
+.report-nav-note{font-size:12px;line-height:1.6;color:#c9d3c9;margin:14px 10px 0}
+.report-nav .download-link{margin-top:12px;border:1px solid #617460;color:var(--cream)}
+.report-section-heading{display:flex;justify-content:space-between;gap:12px;align-items:end;border-bottom:1px solid #476149;margin:30px 0 16px;padding-bottom:12px}
+.report-section-heading h2{margin:0}
+.report-section-heading span{font-size:12px;color:var(--sage)}
+#results .segment{margin:0 0 23px;padding:clamp(24px,2.7vw,44px);background:linear-gradient(145deg,#151b17,#0d120f);border:1px solid #4a5e4d;border-radius:18px}
+#results .segment h3{font-size:clamp(23px,1.8vw,31px);margin:12px 0}
+#results .segment p{max-width:74ch}
+#results .segment .scenario{background:#1d2820;border-left:3px solid var(--green);padding:20px 24px}
+#results .segment .scenario p{margin-bottom:0}
+.segment-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0}
+.segment-column{background:#18221b;border:1px solid #3f5544;padding:17px 19px;border-radius:13px}
+.segment-column h4{color:var(--cream);margin:0 0 7px;font-size:17px}
+.segment-column p{font-size:14px;margin:0}
+.segment-application{margin:20px 0;padding:19px 22px;border:1px solid #55715d;border-radius:13px;background:#142018}
+.segment-application h4{margin:0 0 7px;color:var(--sage);font-size:16px}
+#results .plan-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#results .plan-grid article{background:#162018;padding:19px;min-width:0}
+#results .plan-grid li{line-height:1.6;font-size:14px}
+#results #coachAnswer{font-size:16px;line-height:1.75;background:#18251b}
+#results .coach-control button{min-height:44px}
+.report-reference{font-size:13px;color:#c6cfc6;margin:20px 0;padding:16px;border-top:1px solid #405546}
+.readability-tools{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 24px}
+.readability-tools button{border:1px solid #678069;color:var(--cream);background:#17201a;border-radius:9px;padding:8px 14px;min-height:44px}
+.readability-tools button[aria-pressed=true]{background:var(--sage);color:#000}
+.report-easy-reading .segment p,.report-easy-reading .panel p{font-size:18px;line-height:1.95}
+.report-easy-reading .segment{max-width:900px}
+.question p{max-width:75ch}
+@media(min-width:1500px){#results .report-top{gap:24px}#results .panel{margin-bottom:24px}}
+@media(max-width:1080px){
+main{width:min(calc(100% - 42px),1080px)}
+.report-layout{grid-template-columns:1fr;gap:20px}
+.report-nav{position:static;display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:12px}
+.report-nav-title,.report-nav-note{display:none}
+.report-nav a{font-size:13px;padding:8px 10px}
+#results .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#results .mini-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+#results .topology-wrap{grid-template-columns:1fr}
+#results .legend{max-width:65ch}
+}
+@media(max-width:720px){
+main{width:calc(100% - 30px);padding:12px 0 45px}
+header{gap:8px}.brand{font-size:16px}.tag{font-size:10px}
+#results .report-page-title{font-size:clamp(31px,8vw,44px)}
+#results .report-top,#results .grid,#results .plan-grid,.segment-columns{grid-template-columns:1fr}
+#results .report-top .panel{min-height:0}
+#results .panel{padding:19px}
+#results .segment{padding:19px}
+#results .score-display{font-size:56px}
+#results .topology-wrap svg{max-width:100%;height:auto}
+#results .legend{font-size:14px}
+#results .report-nav{gap:2px}
+#results .report-nav a{font-size:12px}
+#results .report-section-heading{align-items:start;flex-direction:column;gap:4px}
+}
+@media(max-width:360px){
+#results .mini-metrics{grid-template-columns:1fr}
+.scale{gap:4px}.scale button{min-height:44px}
+}
+@media print{
+@page{size:A4;margin:15mm 13mm}
+main{width:100%;max-width:none;padding:0}
+.report-layout{display:block}
+.report-nav,.readability-tools{display:none!important}
+#results .report-page-title{font-size:27pt}
+#results .report-top{grid-template-columns:1fr 1fr}
+#results .grid{grid-template-columns:1fr 1fr}
+#results .mini-metrics{grid-template-columns:repeat(4,1fr)}
+#results .panel,#results .segment{padding:12px!important;margin-bottom:12px!important}
+#results .segment,.report-top,.topology-wrap,.segment-columns,.segment-application{break-inside:avoid}
+#results .segment .scenario,#results .segment-column,#results .segment-application,#results .plan-grid article{background:#fff!important;color:#111!important}
+#results .segment .scenario p,#results .segment-column p,#results .segment-application p,#results .report-reference{color:#222!important}
+#results .segment h3,#results .segment h4,#results .segment-column h4{color:#111!important}
+#results .plan-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 </style></head><body>
 <main>
 <header><div class="brand">SYNTROPIX™</div><span class="tag">RESEARCH POC · ISOLATED SYNTHETIC PREVIEW</span></header>
@@ -68,28 +183,37 @@ footer{border-top:1px solid #334735;margin-top:44px;padding-top:20px;font-size:1
 <p class="subtitle">Syntropix™ / Cognimorph Index / Evidence-building POC</p>
 <h1 class="report-page-title">Your Cognimorph Development Report</h1>
 <p id="reportContext">An evidence-aware look at your answers, with practical examples and ways to grow.</p>
+<div class="readability-tools" aria-label="Reading preferences"><button type="button" id="comfortableReading" aria-pressed="false">Larger reading text</button><button type="button" id="standardReading" aria-pressed="true">Standard text</button></div>
+<div class="report-layout"><nav class="report-nav" aria-label="Report sections"><p class="report-nav-title">Your report</p>
+<a href="#report-summary">01 · Your overview</a><a href="#report-map">02 · Profile map</a>
+<a href="#report-areas">03 · Four areas</a><a href="#segmentDetails">04 · Detailed insights</a>
+<a href="#report-connections">05 · What it means together</a><a href="#report-plan">06 · Action plan</a>
+<a href="#report-coach">07 · Coaching support</a><a href="#report-method">08 · How to use this report</a>
+<p class="report-nav-note">A guided conversation about your experiences, not a judgement of your potential.</p>
+<a class="download-link" href="#report-actions">↓ Save report</a></nav><div class="report-content">
+<div id="report-summary" class="report-section-heading"><h2>Your overview</h2><span>01 / 08</span></div>
 <div class="report-top">
   <article class="panel"><span class="subtitle">Overall response index</span><div id="overallIndex" class="score-display">—</div><p>This is an average of your responses, shown on a 0–100 scale. It is not a percentile, ability test or performance rating.</p><span class="pill">Descriptive self-report only</span></article>
   <article class="panel"><span class="subtitle">Profile summary</span><h2>What stands out in your answers</h2><p id="summary"></p><p class="small">Differences between dimensions should not be treated as proven differences in ability.</p></article>
 </div>
 <div class="panel"><h2>Your profile at a glance</h2><div id="quickScores" class="mini-metrics"></div></div>
-<div class="panel"><h2>Your four-part profile map</h2>
+<div id="report-map" class="report-section-heading"><h2>Profile map</h2><span>02 / 08</span></div><div class="panel"><h2>Your four-part profile map</h2>
 <div class="topology-wrap"><svg id="topography" viewBox="0 0 520 440" role="img" aria-labelledby="topoTitle topoDesc">
 <title id="topoTitle">Four-area response profile</title><desc id="topoDesc">A visual map of your responses across learning, setbacks, pressure and feedback. The individual scores also appear in the table below.</desc></svg>
 <div class="legend"><strong>How to read this picture</strong><p>The shape connects your four response indexes. A wider area means you agreed more strongly with statements in that area after reverse scoring.</p><span>Not a brain image, norm or test of intelligence</span></div></div></div>
-<h2>Four areas to explore</h2><p>Each area includes five questionnaire statements. These explanations are examples for reflection, not descriptions of your actual behaviour.</p>
+<div id="report-areas" class="report-section-heading"><h2>Four areas to explore</h2><span>03 / 08</span></div><p>Each area includes five questionnaire statements. These explanations are examples for reflection, not descriptions of your actual behaviour.</p>
 <div id="dimensions" class="grid"></div>
-<div id="segmentDetails" aria-label="Detailed explanations with real-life examples"></div>
-<div class="panel"><h2>Connecting your responses</h2><p id="topologyStory"></p><p>Imagine a week when a team project changes suddenly. You may need to learn something new, adjust after a mistake, choose priorities under pressure and hear feedback. These four experiences can overlap. The profile does not tell us which action you will take; it gives you questions to explore using real events.</p></div>
-<div class="panel"><h2>Your 30–60–90 day development plan</h2><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div></div>
-<div class="panel"><h2>AI Coach — guided support</h2><p>In the complete Syntropix assessment, this section is intended to support questions about your profile and your development actions. <strong>The POC does not connect to the live AI Coach or send your answers anywhere.</strong></p>
+<div class="report-section-heading"><h2>A deeper conversation about each area</h2><span>04 / 08</span></div><div id="segmentDetails" aria-label="Detailed explanations with real-life examples"></div>
+<div id="report-connections" class="report-section-heading"><h2>Connecting the dots</h2><span>05 / 08</span></div><div class="panel"><h2>Connecting your responses</h2><p id="topologyStory"></p><p>Imagine a week when a team project changes suddenly. You may need to learn something new, adjust after a mistake, choose priorities under pressure and hear feedback. These four experiences can overlap. The profile does not tell us which action you will take; it gives you questions to explore using real events.</p></div>
+<div id="report-plan" class="report-section-heading"><h2>Your development journey</h2><span>06 / 08</span></div><div class="panel"><h2>Your 30–60–90 day development plan</h2><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div></div>
+<div id="report-coach" class="report-section-heading"><h2>Coaching support</h2><span>07 / 08</span></div><div class="panel"><h2>AI Coach — guided support</h2><p>In the complete Syntropix assessment, this section is intended to support questions about your profile and your development actions. <strong>The POC does not connect to the live AI Coach or send your answers anywhere.</strong></p>
 <p class="small">Below is an offline sample of the sort of developmental guidance a coach could provide. It is a scripted demonstration, not live AI advice.</p>
 <div class="coach-control"><button id="coachUnderstand" type="button">Help me understand my profile</button><button id="coachExample" type="button">Show a real-life example</button><button id="coachAction" type="button">Suggest a practice activity</button></div><div id="coachAnswer" aria-live="polite">Choose a prompt above to see an example response.</div>
 </div>
-<div class="panel"><h2>What this report can and cannot tell you</h2><p>The scores come from five self-report statements per area and summarize how you chose to answer. This instrument is under scientific development. Its reliability, population norms, fairness and accuracy for individual decisions have not been established.</p><p>The examples and action steps are educational illustrations. They should be checked against your work context, what you have actually experienced and the observations of people who know your work. Do not use this report for hiring, medical conclusions or fixed labels about a person.</p></div>
-<div class="actions"><button class="primary" id="print" type="button">Print or save detailed report as PDF</button><button class="secondary" id="again" type="button">Explore again</button></div>
+<div id="report-method" class="report-section-heading"><h2>About your results</h2><span>08 / 08</span></div><div class="panel"><h2>What this report can and cannot tell you</h2><p>The scores come from five self-report statements per area and summarize how you chose to answer. This instrument is under scientific development. Its reliability, population norms, fairness and accuracy for individual decisions have not been established.</p><p>The examples and action steps are educational illustrations. They should be checked against your work context, what you have actually experienced and the observations of people who know your work. Do not use this report for hiring, medical conclusions or fixed labels about a person.</p></div>
+<div id="report-actions" class="actions"><button class="primary" id="print" type="button">Print or save detailed report as PDF</button><button class="secondary" id="again" type="button">Explore again</button></div>
 <p class="small">Browser print-to-PDF preview: charts and text are included, but this is not the finished production PDF service.</p>
-</section>
+</div></div></section>
 <footer>Syntropix™ Cognimorph POC · Synthetic data only · No network submissions, external analytics, checkout, AI, or user authentication.</footer>
 </main>
 <script src="./cognimorph-registry.js"></script>
@@ -233,6 +357,8 @@ $('start').addEventListener('click',function(){draw();show('questionsView')});
 $('demo').addEventListener('click',function(){responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
 $('finish').addEventListener('click',function(){if(Object.keys(responses).length===20)report()});
 $('reset').addEventListener('click',reset);$('again').addEventListener('click',reset);
+$('comfortableReading').addEventListener('click',function(){$('results').classList.add('report-easy-reading');this.setAttribute('aria-pressed','true');$('standardReading').setAttribute('aria-pressed','false')});
+$('standardReading').addEventListener('click',function(){$('results').classList.remove('report-easy-reading');this.setAttribute('aria-pressed','true');$('comfortableReading').setAttribute('aria-pressed','false')});
 $('print').addEventListener('click',function(){window.print()});
 })();
 </script></body></html>
