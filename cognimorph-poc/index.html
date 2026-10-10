@@ -303,6 +303,71 @@ main{width:100%;max-width:none;padding:0}
  #results .radar-heading{font-size:14pt!important}
  #results .topology-wrap svg{width:100%!important}
 }
+
+/* Cognimorph V4 — value-first editorial and participant-owned reflection */
+#results{font-size:15px;line-height:1.6}
+#results p,#results .panel p,#results .segment p,#results .legend,#results #coachAnswer{font-size:15px;line-height:1.62}
+#results .report-page-title{font-size:clamp(28px,2.4vw,37px)}
+#results h2{font-size:clamp(21px,1.55vw,26px)}
+#results h3{font-size:19px}
+#results .score-display{font-size:clamp(38px,3.2vw,54px)}
+#results .report-top{grid-template-columns:minmax(0,.43fr) minmax(0,.57fr);gap:20px;align-items:stretch}
+#results .report-top>.panel{height:100%;margin:0!important}
+#results .report-section-heading{margin-top:22px}
+#results .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
+#results .metric{display:grid;grid-template-rows:minmax(66px,auto) 44px 16px 1fr;gap:9px;padding:18px!important}
+#results .metric h3,#results .metric strong,#results .metric p{margin:0!important}
+#results .metric h3{font-size:18px;line-height:1.3}
+#results .metric strong{font-size:29px}
+#results .metric meter{height:12px;margin:0}
+#results .metric p{font-size:14px}
+#results .topology-wrap{grid-template-columns:minmax(0,1.7fr) minmax(250px,1fr)}
+#results .topology-wrap svg{width:min(100%,595px);max-height:440px}
+#results .quick-read{border-color:#7c9d83;background:linear-gradient(125deg,#1c3022,#111d16)}
+#results .quick-read .eyebrow,#results .resource-card .eyebrow{font-size:12px;letter-spacing:.07em;color:#9DC183;font-weight:800}
+#results .quick-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:16px 0}
+#results .quick-steps>div{display:grid;gap:4px;background:#25402c;border:1px solid #567e61;border-radius:9px;padding:13px}
+#results .quick-steps span{font-size:13px}
+#results .quick-read a{color:#F7E7CE;font-weight:700}
+#results .interpretive-frame{background:#1d3425;border-left:3px solid #50C878;padding:15px 18px;margin:17px 0;border-radius:6px}
+#results .self-check{background:#18281c;border:1px solid #64866e;border-radius:12px;padding:17px;margin:16px 0}
+#results .self-check-options{display:flex;gap:8px;flex-wrap:wrap}
+#results .reflection-choice{padding:9px 14px;min-height:44px;border:1px solid #9DC183;border-radius:10px;background:#223e29;color:#F7E7CE}
+#results .reflection-choice[aria-pressed=true]{background:#9DC183;color:#000;outline:2px solid #50C878;outline-offset:2px}
+#results .reflection-status{font-size:13px}
+#results .resource-grid,#results .next-assessment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 20px}
+#results .resource-card,#results .next-assessment-grid article{padding:19px;background:#17281d;border:1px solid #62826a;border-radius:12px}
+#results .resource-card:nth-child(even){background:#222e22;border-color:#9DC183}
+#results .next-assessment-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+#results #report-coach+.panel{background:linear-gradient(120deg,#153e25,#183820 60%,#14271a);border:2px solid #50C878}
+#results #coachAnswer{background:#24472f;border-left:4px solid #50C878}
+#results .report-cover{display:none}
+#results .report-final{padding:36px 24px;background:linear-gradient(125deg,#152f1e,#121d16);border:1px solid #9DC183;border-radius:14px;text-align:center;margin-top:25px}
+#results .report-final strong{font-size:24px;letter-spacing:.1em;color:#F7E7CE}
+#results .report-final p{max-width:60ch;margin:12px auto}
+@media(max-width:1080px){#results .grid{grid-template-columns:repeat(2,minmax(0,1fr))}#results .topology-wrap{grid-template-columns:1fr}}
+@media(max-width:700px){#results .report-top,#results .grid,#results .quick-steps,#results .resource-grid,#results .next-assessment-grid{grid-template-columns:1fr}#results .metric{grid-template-rows:auto auto auto auto}#results .topology-wrap svg{width:100%}}
+@media print{
+#results .report-cover{display:flex!important;flex-direction:column!important;min-height:245mm!important;break-after:page!important;page-break-after:always!important;padding:14mm 8mm!important;color:#17211a!important;border-top:3pt solid #9DC183!important}
+#results .cover-brand{display:flex!important;justify-content:space-between!important;gap:12pt!important;font-size:11pt!important}
+#results .cover-brand strong{font-size:19pt!important}
+#results .cover-head{margin:auto 0!important}
+#results .cover-head h2{font-size:27pt!important;max-width:145mm!important}
+#results .cover-meta{display:grid!important;gap:12pt!important;border-top:1pt solid #9DC183!important;padding-top:14pt!important}
+#results .cover-meta div{display:flex!important;justify-content:space-between!important;gap:20pt!important}
+#results .cover-meta dd{margin:0!important}
+#results .cover-confidential{font-size:9pt!important}
+#results .quick-read{background:#eef5ef!important;border:1pt solid #9DC183!important}
+#results .quick-steps{grid-template-columns:repeat(3,1fr)!important}
+#results .quick-steps>div,#results .interpretive-frame,#results .self-check{background:#edf4ed!important;color:#17211a!important}
+#results .self-check-options{display:none!important}
+#results .resource-grid{grid-template-columns:repeat(2,1fr)!important}
+#results .resource-card,#results .next-assessment-grid article{background:#fff!important;color:#17211a!important;border:1pt solid #bac9be!important;padding:10pt!important;break-inside:avoid!important}
+#results .next-assessment-grid{grid-template-columns:repeat(3,1fr)!important}
+#results #report-coach+.panel,#results #coachAnswer{background:#f1f7f1!important;color:#17211a!important}
+#results .report-final{display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:225mm!important;page-break-before:always!important;break-before:page!important;background:#fff!important;color:#17211a!important;border:0!important;text-align:center!important}
+#results .report-final strong{font-size:26pt!important;color:#17211a!important}
+}
 </style></head><body>
 <a class="skip-link" href="#results">Skip to the report</a>
 <main>
