@@ -43,13 +43,14 @@ for phrase in ["Your Cognimorph report","Learning through change",
                "Learning after setbacks","Handling pressure","Using feedback",
                "Your 30–60–90 day development plan","What this report can and cannot tell you",
                "How the response indexes are calculated","Why the numbers need careful interpretation",
-               "CONFIDENTIAL","Mindset","Thanks for the Feedback","Atomic Habits"]:
+               "CONFIDENTIAL","Mindset","Thanks for the Feedback","Atomic Habits",
+               "www.syntropix.in","contact@syntropix.in","1:1 developmental coaching session"]:
     if phrase not in text:
         issues.append(f"Missing expected content: {phrase}")
 for i,area in enumerate(["Learning through change","Learning after setbacks","Handling pressure","Using feedback"]):
     # The PDF must show each heading at least once in the complete printed development plans.
     if text.count(area)<3: issues.append(f"Insufficient repeated development coverage for {area}")
-for forbidden in ["AI Coach — guided support","Choose a prompt above to see an offline example","Choose an area you want to explore"]:
+for forbidden in ["AI Coach — guided support","Choose a prompt above to see an offline example","Choose an area you want to explore","Explore the four areas"]:
     if forbidden in text: issues.append(f"Interactive-only content found in PDF: {forbidden}")
 # Each printed development pathway must be a coherent self-contained page, not an orphan stage.
 for area in ["Learning through change","Learning after setbacks","Handling pressure","Using feedback"]:
