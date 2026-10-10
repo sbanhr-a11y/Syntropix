@@ -16,12 +16,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: site
-      - name: Checkout backend for exact current API contract
-        uses: actions/checkout@v4
-        with:
-          repository: sbanhr-a11y/syntropix-backend
-          ref: main
-          path: site/backend
       - name: Verify all 10 assessment recovery mappings and protections
         run: |
           cd site
