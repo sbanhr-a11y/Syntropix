@@ -176,6 +176,83 @@ main{width:100%;max-width:none;padding:0}
 #results .segment h3,#results .segment h4,#results .segment-column h4{color:#111!important}
 #results .plan-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+/* Report system v3: one accessible body-text rhythm, one grid and print-specific surfaces. */
+#results {font-size:16px;line-height:1.65}
+#results p,#results .small,#results .hint,#results .metric p,#results .segment-column p,#results .plan-grid li,#results .legend,#results #coachAnswer,#results .report-nav a{font-size:16px;line-height:1.65}
+#results .subtitle,#results .report-section-heading span{font-size:13px;line-height:1.5}
+#results h2{font-size:clamp(23px,1.8vw,29px)}
+#results h3{font-size:21px}
+#results .panel,#results .segment,#results .metric,#results .segment-column,#results .segment-application,#results .plan-grid article{box-shadow:none}
+#results .panel{padding:24px}
+#results .metric,#results .segment-column,#results .segment-application,#results .plan-grid article{padding:20px}
+#results .segment{padding:28px}
+#results .report-top{align-items:stretch}
+#results .report-top>.panel{height:100%}
+#results .grid>.metric{height:100%}
+#results .mini-metrics>div{height:100%}
+#results .report-section-heading{margin-top:28px}
+@media(max-width:720px){#results .panel,#results .segment{padding:20px}#results .grid{grid-template-columns:1fr}}
+
+/* Self-contained, ink-efficient A4 editorial renderer. Never inherit dark web cards. */
+@media print{
+  @page{size:A4;margin:13mm 14mm 15mm}
+  :root{color-scheme:light!important}
+  *,*::before,*::after{box-shadow:none!important;text-shadow:none!important}
+  html,body{background:#fff!important;color:#17211a!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11pt!important;line-height:1.45!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  header,footer,.notice,.report-nav,.readability-tools,.actions,#intro,#questionsView{display:none!important}
+  main,#results,.report-layout,.report-content{background:#fff!important;color:#17211a!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:block!important}
+  #results p,#results .small,#results .hint,#results .metric p,#results .segment p,#results .segment-column p,#results .plan-grid li,#results .legend,#results #coachAnswer,#results .report-reference{font-size:11pt!important;line-height:1.45!important;letter-spacing:normal!important;color:#17211a!important}
+  #results h1,#results h2,#results h3,#results h4,#results strong,#results span,#results .subtitle,#results .pill,#results .score-display,#results .metric strong,#results .mini-metrics strong{color:#17211a!important;text-shadow:none!important}
+  #results .subtitle{font-size:9pt!important;letter-spacing:.04em!important;font-weight:700!important}
+  #results .report-page-title{font-size:24pt!important;line-height:1.13!important;margin:0 0 8pt!important;break-after:avoid!important}
+  #results h2{font-size:17pt!important;line-height:1.25!important;margin:0 0 9pt!important;break-after:avoid!important}
+  #results h3{font-size:14pt!important;line-height:1.25!important;margin:8pt 0!important;break-after:avoid!important}
+  #results h4{font-size:11pt!important;margin:0 0 5pt!important;break-after:avoid!important}
+  #results p{margin:0 0 8pt!important;orphans:3;widows:3}
+  #reportContext{margin-bottom:15pt!important}
+  #results .report-section-heading{display:flex!important;align-items:center!important;margin:16pt 0 9pt!important;padding:0 0 5pt!important;border-bottom:1pt solid #9DC183!important;break-after:avoid-page!important;page-break-after:avoid!important}
+  #results .report-section-heading span{font-size:9pt!important;color:#3a6543!important}
+  #results .panel,#results .segment,#results .metric,#results .mini-metrics>div,#results .segment-column,#results .segment-application,#results .plan-grid article,#results #coachAnswer{background:#fff!important;color:#17211a!important;border:1px solid #bcc9be!important;border-radius:7pt!important}
+  #results .panel{padding:13pt!important;margin:0 0 10pt!important;break-inside:auto!important;min-height:0!important}
+  #results .report-top{display:grid!important;grid-template-columns:1fr 1fr!important;gap:9pt!important;margin:0 0 10pt!important;break-inside:avoid-page!important}
+  #results .report-top>.panel{margin:0!important;min-height:0!important}
+  #results .score-display{font-size:30pt!important;line-height:1.05!important;margin:9pt 0!important}
+  #results .pill{background:#edf3ec!important;border:1px solid #bcc9be!important;padding:3pt 7pt!important;display:inline-block!important;color:#25492f!important}
+  #results .mini-metrics{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8pt!important}
+  #results .mini-metrics>div{padding:9pt!important}
+  #results .mini-metrics strong{font-size:20pt!important;line-height:1.1!important}
+  #results .mini-metrics span{font-size:10pt!important;line-height:1.3!important}
+  #results .topology-wrap{display:grid!important;grid-template-columns:minmax(0,1.4fr) minmax(0,.8fr)!important;align-items:center!important;gap:8pt!important;break-inside:avoid-page!important}
+  #results .topology-wrap svg{width:100%!important;max-height:235pt!important}
+  #results .topology-wrap svg text{fill:#17211a!important}
+  #results .legend{max-width:none!important}
+  #results .grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8pt!important}
+  #results .metric{padding:10pt!important;break-inside:avoid-page!important}
+  #results .metric h3{font-size:12pt!important}
+  #results .metric strong{font-size:20pt!important}
+  #results .metric meter{display:none!important}
+  #results #segmentDetails{display:block!important}
+  #results .segment{display:block!important;background:#fff!important;border:1px solid #bac9bd!important;padding:14pt!important;margin:0 0 13pt!important;break-inside:auto!important;page-break-inside:auto!important}
+  #results .segment>.subtitle,#results .segment>h3:first-of-type{break-after:avoid-page!important}
+  #results .segment .scenario{padding:10pt 12pt!important;margin:9pt 0!important;background:#f2f7f1!important;border:1px solid #c2d4c1!important;border-left:3pt solid #50C878!important;border-radius:4pt!important;break-inside:avoid-page!important}
+  #results .segment-application{padding:10pt 12pt!important;margin:9pt 0!important;background:#f7f9f5!important;break-inside:avoid-page!important}
+  #results .segment-columns{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8pt!important;margin:9pt 0!important;break-inside:avoid-page!important}
+  #results .segment-column{padding:9pt!important;break-inside:avoid-page!important}
+  #results .segment-column h4{font-size:11pt!important}
+  #results .segment .prompt{padding-top:7pt!important;border-top:1pt solid #a3b8a6!important}
+  #results .plan-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8pt!important;break-inside:avoid-page!important}
+  #results .plan-grid article{padding:10pt!important;min-width:0!important;break-inside:avoid-page!important}
+  #results .plan-grid h3{font-size:12pt!important}
+  #results .plan-grid ol{padding-left:16pt!important}
+  #results .plan-grid li{padding:0!important;margin:0 0 6pt!important}
+  #results .coach-control{display:none!important}
+  #results #coachAnswer{background:#f2f7f1!important;padding:10pt!important;break-inside:avoid-page!important}
+  #results .report-reference{background:#fff!important}
+  #results #report-actions{display:none!important}
+  #results .report-content>.small:last-child{display:none!important}
+  #results .report-section-heading + .panel{break-before:auto!important}
+}
 </style></head><body>
 <a class="skip-link" href="#results">Skip to the report</a>
 <main>
@@ -188,7 +265,7 @@ main{width:100%;max-width:none;padding:0}
 <p class="subtitle">Syntropix™ / Cognimorph Index / Evidence-building POC</p>
 <h1 class="report-page-title">Your Cognimorph Development Report</h1>
 <p id="reportContext">An evidence-aware look at your answers, with practical examples and ways to grow.</p>
-<div class="readability-tools" aria-label="Reading preferences"><button type="button" id="comfortableReading" aria-pressed="false">Larger reading text</button><button type="button" id="standardReading" aria-pressed="true">Standard text</button></div>
+
 <div class="report-layout"><nav class="report-nav" aria-label="Report sections"><p class="report-nav-title">Your report</p>
 <a href="#report-summary">01 · Your overview</a><a href="#report-map">02 · Profile map</a>
 <a href="#report-areas">03 · Four areas</a><a href="#segmentDetails">04 · Detailed insights</a>
@@ -370,8 +447,6 @@ $('start').addEventListener('click',function(){draw();show('questionsView')});
 $('demo').addEventListener('click',function(){responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
 $('finish').addEventListener('click',function(){if(Object.keys(responses).length===20)report()});
 $('reset').addEventListener('click',reset);$('again').addEventListener('click',reset);
-$('comfortableReading').addEventListener('click',function(){$('results').classList.add('report-easy-reading');this.setAttribute('aria-pressed','true');$('standardReading').setAttribute('aria-pressed','false')});
-$('standardReading').addEventListener('click',function(){$('results').classList.remove('report-easy-reading');this.setAttribute('aria-pressed','true');$('comfortableReading').setAttribute('aria-pressed','false')});
 $('print').addEventListener('click',function(){window.print()});
 })();
 </script></body></html>
