@@ -30,6 +30,19 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.equal(await page.locator('.report-nav a').count(),9);
   assert.equal(await page.locator('#dimensions article.metric').count(),4);
   assert.equal(await page.locator('#quickScores > div').count(),4);
+  assert.equal(await page.locator('#responseBars .response-bar-row').count(),4);
+  assert.match(await page.locator('#glanceNarrative').innerText(),/These numbers summarize/);
+  assert.match(await page.locator('#mapInterpretation').innerText(),/map looks fairly even/);
+  assert.equal(await page.locator('#ratingGroup button').count(),5);
+  assert(await page.locator('#rateSubmit').isDisabled());
+  await page.locator('#ratingGroup button[data-rating="4"]').click();
+  assert.equal(await page.locator('#ratingGroup [aria-pressed="true"]').count(),1);
+  await page.locator('#rateSubmit').click();
+  assert.match(await page.locator('#ratingStatus').innerText(),/No feedback has been transmitted/);
+  await page.locator('#developmentFocus').selectOption('CTAP');
+  assert.match(await page.locator('#nextStep').innerText(),/handling pressure/i);
+  assert.match(await page.locator('#developmentPlan').innerText(),/handling pressure/i);
+
   assert.equal(await page.locator('#developmentPlan article').count(),3);
   assert.equal(await page.locator('#developmentPlan li').count(),12);
   assert.equal(await page.locator('#topography polygon.radar-value').count(),1);
