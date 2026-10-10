@@ -28,7 +28,8 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.equal(await page.locator('#segmentDetails .segment .segment-application').count(),4);
   assert.equal(await page.locator('#segmentDetails .segment .segment-columns').count(),4);
   assert.equal(await page.locator('.report-nav a').count(),11);
-  assert.equal(await page.locator('#dimensions article.metric').count(),4);
+  assert.equal(await page.locator('#report-areas, #dimensions').count(),0,'Duplicated lower four-area section must be removed');
+  assert.equal(await page.locator('#quickScores > div').count(),4,'The original four-area overview is retained');
   assert.equal(await page.locator('#quickScores > div').count(),4);
   assert.equal(await page.locator('#responseBars .response-bar-row').count(),4);
   assert.match(await page.locator('#quickReadText').innerText(),/Your responses range from/);
