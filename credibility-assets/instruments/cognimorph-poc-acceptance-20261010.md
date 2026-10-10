@@ -27,3 +27,12 @@ Status: DRAFT / source-only checks passed / browser and PDF gates OPEN.
 
 ## Exit criteria
 Pass automated browser/mobile scenarios, report/PDF parity checks, RLS/privacy and telemetry review, independent scientific sign-off, and an isolated staging deploy verification. Preserve current reviewer assignments, report records and Command access. Production promotion remains separately authorized only after all gates.
+
+## Isolated preview release checkpoint — 2026-10-10
+- Isolated static Render service created: `syntropix-cognimorph-poc-isolated` / `srv-db4r1gajnfac7387m2ig`.
+- Service source branch: `review/cognimorph-human-report-poc-20261010`; publish directory: `cognimorph-poc`; auto-deploy: OFF. This is a separate site, not an edit to the existing staging or production services.
+- Render initial deploy `dep-db4r1gijnfac7387m3t0` status: **live** (2026-10-10T03:28:14Z).
+- URL provided by Render: https://syntropix-cognimorph-poc-isolated.onrender.com/ . External HTTP fetch/browser navigation could not be verified from current environment due to connectivity restrictions; do not mark end-to-end browser QA as passed.
+- Preview contains only `index.html` and `cognimorph-registry.js` with the original 20 items, no public site scripts, no live API requests, no login, no checkout, no analytics, no participant PII fields. Browser memory only, refresh clears responses.
+- Source tests: inline preview JavaScript syntax and preview registry JavaScript syntax PASS; 20 unique item IDs PASS; 8 reverse-keyed items verified; no external scripts or API traffic in preview source PASS; print-save output uses browser print, not backend PDF.
+- Preview must remain demonstration-only. This does not establish staging backend integration, PDF parity, or scientific validity. Existing PR #92 remains draft and may NOT merge into `main`.
