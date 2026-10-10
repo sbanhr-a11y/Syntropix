@@ -1,7 +1,7 @@
 name: One-time CogniMorph Customer Recovery Email
 on:
   pull_request:
-    types: [ready_for_review]
+    types: [synchronize]
     branches:
       - governance/protected-runtime-release-policy-20261011
 permissions: {contents: read}
