@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import AxeBuilder from '@axe-core/playwright';
 
 const base='http://127.0.0.1:4179';
 await mkdir('qa-output-cognimorph',{recursive:true});
@@ -106,6 +107,23 @@ await scenario('Privacy: refresh clears responses; keyboard buttons work',async(
   await page.locator('#start').click();
   assert.match(await page.locator('#progressText').innerText(),/0 of 20/);
   await page.close();
+});
+await scenario('Automated WCAG accessibility: questionnaire and report at desktop and mobile',async()=>{
+  for(const viewport of [{width:1440,height:900},{width:375,height:812}]){
+    const page=await browser.newPage({viewport});
+    await page.goto(base+'/',{waitUntil:'networkidle'});
+    await page.locator('#start').click();
+    const quiz=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+    const badQuiz=quiz.violations.filter(v=>['critical','serious'].includes(v.impact));
+    await page.locator('#reset').click();
+    await page.locator('#demo').click();
+    const report=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+    const badReport=report.violations.filter(v=>['critical','serious'].includes(v.impact));
+    await writeFile('qa-output-cognimorph/axe-'+viewport.width+'.json',JSON.stringify({quiz:quiz.violations,report:report.violations},null,2));
+    assert.equal(badQuiz.length,0,'Questionnaire serious/critical a11y issues: '+JSON.stringify(badQuiz.map(x=>({id:x.id,targets:x.nodes.map(n=>n.target)}))));
+    assert.equal(badReport.length,0,'Report serious/critical a11y issues: '+JSON.stringify(badReport.map(x=>({id:x.id,targets:x.nodes.map(n=>n.target)}))));
+    await page.close();
+  }
 });
 await writeFile('qa-output-cognimorph/results.json',JSON.stringify(records,null,2));
 await browser.close();
