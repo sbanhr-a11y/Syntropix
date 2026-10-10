@@ -1,7 +1,7 @@
 name: V7 public website safety QA
 on:
   pull_request:
-    branches: ["main"]
+    branches: ["main", "governance/protected-runtime-release-policy-20261011"]
 permissions:
   contents: read
 jobs:
