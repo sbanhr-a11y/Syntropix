@@ -403,7 +403,7 @@ main{width:100%;max-width:none;padding:0}
 <div id="dimensions" class="grid"></div>
 <div class="report-section-heading"><h2>A deeper conversation about each area</h2><span>04 / 08</span></div><p class="section-intro">Use these examples to explore your own life. They are possible situations, not observations about what you have done.</p><div id="segmentDetails" aria-label="Detailed explanations with real-life examples"></div>
 <div id="report-connections" class="report-section-heading"><h2>Connecting the dots</h2><span>05 / 08</span></div><div class="panel"><h2>Connecting your responses</h2><p id="topologyStory"></p><p>Imagine a week when a team project changes suddenly. You may need to learn something new, adjust after a mistake, choose priorities under pressure and hear feedback. These four experiences can overlap. The profile does not tell us which action you will take; it gives you questions to explore using real events.</p></div>
-<div id="report-plan" class="report-section-heading"><h2>Your development journey</h2><span>06 / 08</span></div><div class="panel"><h2>Your 30–60–90 day development plan</h2><label for="developmentFocus">Choose an area you want to explore</label><select id="developmentFocus" aria-label="Area to practise"><option value="ALOR">Learning through change</option><option value="ERAE">Learning after setbacks</option><option value="CTAP">Handling pressure</option><option value="FRUP">Using feedback</option></select><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div></div>
+<div id="report-plan" class="report-section-heading"><h2>Your development journey</h2><span>06 / 08</span></div><div class="panel"><h2>Your 30–60–90 day development plan</h2><label for="developmentFocus">Choose an area you want to explore</label><select id="developmentFocus" aria-label="Area to practise"><option value="ALOR">Learning through change</option><option value="ERAE">Learning after setbacks</option><option value="CTAP">Handling pressure</option><option value="FRUP">Using feedback</option></select><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div><p class="print-plan-lead">The complete report includes the learning plan for all four areas. Choose whichever area is most relevant to your own experience.</p><div id="printAllPlans" aria-label="Complete development plans for all four response areas"></div></div>
 <div id="report-coach" class="report-section-heading"><h2>Coaching support</h2><span>07 / 08</span></div><div class="panel"><h2>AI Coach — guided support</h2><p>In the complete Syntropix assessment, this section is intended to support questions about your profile and your development actions. <strong>The POC does not connect to the live AI Coach or send your answers anywhere.</strong></p>
 <p class="small">Below is an offline sample of the sort of developmental guidance a coach could provide. It is a scripted demonstration, not live AI advice.</p>
 <div class="coach-control"><button id="coachUnderstand" type="button">Help me understand my profile</button><button id="coachExample" type="button">Show a real-life example</button><button id="coachAction" type="button">Suggest a practice activity</button></div><div id="coachAnswer" aria-live="polite">Choose a prompt above to see an example response.</div>
@@ -526,26 +526,44 @@ if(kind==='example')answer='Example: '+d.situation+' What would you do first? Wh
 if(kind==='action')answer='Try this: '+d.experiment+' Then reflect: '+d.reflection;
 $('coachAnswer').textContent=answer;
 }
+
+function buildPlanStages(focus){
+ var name=texts[focus][0].toLowerCase();
+ var tailored={
+ ALOR:["Choose an unfamiliar but low-risk task and note what feels unclear.","Try one new approach for 15 minutes, keeping track of questions.","Ask a trusted person to demonstrate one tricky step.","Record what became easier and what still needs support."],
+ ERAE:["Think of a small setback you can discuss safely and name the facts.","Separate what was in your control from what was not.","Make one proportionate correction and ask for support if useful.","Record what you learned without describing yourself as a failure."],
+ CTAP:["Notice one busy moment and write down the competing demands.","Identify the two tasks that matter most.","Ask which deadline or expectation can realistically move.","Observe what happened after priorities became clearer."],
+ FRUP:["Ask a trusted person for one specific comment on recent work.","Repeat what you heard before deciding how to respond.","Separate helpful information from the way it was delivered.","Choose one practical adjustment or explain calmly why you disagree."]
+ };
+ return [
+ ['Days 1–30 · Notice',tailored[focus]],
+ ['Days 31–60 · Practise',[
+ 'Choose one realistic action related to '+name+'.',
+ 'Try it in at least three appropriate situations.',
+ 'Record what happened, including factors outside your control.',
+ 'Ask for one specific observation from someone you trust.']],
+ ['Days 61–90 · Learn and adjust',[
+ 'Compare recent experiences with what you noticed in month one.',
+ 'Identify one condition that helped and one that held you back.',
+ 'Adapt your approach to suit a different real-life situation.',
+ 'Choose a new small learning goal without chasing a target score.']]
+ ];
+}
+function appendPlanStages(host,focus){
+ var stages=buildPlanStages(focus);
+ stages.forEach(function(stage){var card=el('article','');addText(card,'h3','',stage[0]);var list=el('ol');stage[1].forEach(function(task){addText(list,'li','',task)});card.appendChild(list);host.appendChild(card)});
+}
 function fillPlan(focus){
-var stages=[
-['Days 1–30 · Notice',[
-'Choose one everyday work situation connected to '+texts[focus][0].toLowerCase()+'.',
-'Write down what happened and what you did on at least three occasions.',
-'Identify what made things easier or harder.',
-'Discuss one example with a trusted colleague or coach.']],
-['Days 31–60 · Practise',[
-'Choose one small behaviour you want to try next time.',
-'Practise it in at least three appropriate situations.',
-'Write down the result, including anything that surprised you.',
-'Ask for one specific observation from someone involved.']],
-['Days 61–90 · Learn and adjust',[
-'Look back at the examples from your first month.',
-'Identify when your new response helped and when it did not.',
-'Adjust your practice to fit different situations.',
-'Choose your next small learning goal without chasing a target score.']]
-];
-var host=$('developmentPlan');host.replaceChildren();
-stages.forEach(function(stage){var card=el('article','');addText(card,'h3','',stage[0]);var list=el('ol');stage[1].forEach(function(task){addText(list,'li','',task)});card.appendChild(list);host.appendChild(card)});
+ var host=$('developmentPlan');host.replaceChildren();appendPlanStages(host,focus);
+}
+function renderCompletePrintPlans(){
+ var host=$('printAllPlans');host.replaceChildren();
+ cfg.keys.forEach(function(key){
+  var section=el('section','print-plan-section');section.setAttribute('data-plan-area',key);
+  addText(section,'h3','',texts[key][0]);
+  addText(section,'p','print-plan-intro','Your '+texts[key][0].toLowerCase()+' pathway includes practical ideas for noticing, practising and reflecting. This plan is educational, not a diagnosis or a ranking of capabilities.');
+  var grid=el('div','plan-grid');appendPlanStages(grid,key);section.appendChild(grid);host.appendChild(section);
+ });
 }
 
 /* Premium participant view: explanatory scores, choice-led plan and offline-only rating. */
@@ -601,7 +619,7 @@ $('reportContext').textContent='Your answers have been scored using the original
 var metrics=$('quickScores'),dimHost=$('dimensions'),details=$('segmentDetails');metrics.replaceChildren();dimHost.replaceChildren();details.replaceChildren();
 $('glanceNarrative').textContent='These numbers summarize how you answered statements about learning, setbacks, pressure and feedback. Here they fall between '+focus.score+' and '+top.score+' out of 100. Their closeness is a reason to look at real situations rather than name a best or weakest area.';
 $('mapInterpretation').textContent='Your map looks fairly even: the four indexes vary by '+(top.score-focus.score)+' points. A close shape does not prove equal skill; think of one time you faced change, an error, pressure or feedback and consider what influenced your reaction.';
-renderResponseBars(r.dims);renderRating();
+renderResponseBars(r.dims);renderRating();renderCompletePrintPlans();
 cfg.keys.forEach(function(k){
 var metric=el('div','');addText(metric,'strong','',r.dims[k]+'/100');addText(metric,'span','small',texts[k][0]);metrics.appendChild(metric);
 var card=el('article','metric');addText(card,'h3','',texts[k][0]);addText(card,'strong','',r.dims[k]+' / 100');
