@@ -21,7 +21,11 @@ if(!Array.isArray(manifest.allowed_paths)||manifest.allowed_paths.length!==2||ma
 if(changed.some(p=>!allowed.has(p)))fail('unexpected changed path');
 if(!changed.length)fail('no protected runtime changes');
 if(!manifest.founder_approval_reference||!manifest.security_review_reference||!manifest.browser_report_test_reference||!manifest.rollback_reference)fail('missing evidence references');
+if(!/^[a-zA-Z0-9-]{1,39}$/.test(manifest.author_login||'')||!/^[a-zA-Z0-9-]{1,39}$/.test(manifest.reviewer_login||''))fail('invalid GitHub reviewer identity');
 if(manifest.author_login===manifest.reviewer_login)fail('reviewer must be distinct from author');
+if(manifest.approval_source!=='github_verified_reviews')fail('unverified approval provenance');
+if(!Array.isArray(manifest.required_check_runs)||!manifest.required_check_runs.length||manifest.required_check_runs.some(x=>x.conclusion!=='success'))fail('required check evidence incomplete');
+if(manifest.approval_verified!==true)fail('reviewer approval has not been independently verified');
 if(manifest.reviewer_decision!=='approved')fail('security review not approved');
 if(manifest.browser_report_decision!=='passed')fail('browser/report UAT not passed');
 console.log('PROTECTED RELEASE: evidence PASS (still requires repository branch protection and mandatory existing checks)');
