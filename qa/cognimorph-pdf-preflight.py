@@ -51,6 +51,10 @@ for i,area in enumerate(["Learning through change","Learning after setbacks","Ha
     if text.count(area)<3: issues.append(f"Insufficient repeated development coverage for {area}")
 for forbidden in ["AI Coach — guided support","Choose a prompt above to see an offline example","Choose an area you want to explore"]:
     if forbidden in text: issues.append(f"Interactive-only content found in PDF: {forbidden}")
+# Each printed development pathway must be a coherent self-contained page, not an orphan stage.
+for area in ["Learning through change","Learning after setbacks","Handling pressure","Using feedback"]:
+    if not any(area in page.get_text() and all(phase in page.get_text() for phase in ["Days 1–30", "Days 31–60", "Days 61–90"]) for page in pdf):
+        issues.append(f"Development plan split into orphan stages or missing: {area}")
 if body_sizes["11pt"] < body_sizes["other"]*1.5:
     issues.append(f"Too much inconsistent body text: {dict(body_sizes)}")
 print(f"PDF QA: pages={len(pdf)}, body-text spans={dict(body_sizes)}, issues={len(issues)}")
