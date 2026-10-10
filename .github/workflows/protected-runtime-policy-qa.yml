@@ -1,0 +1,27 @@
+name: Protected Runtime Policy Validator QA
+on:
+  pull_request:
+    paths:
+      - 'qa/validate-protected-runtime-release.mjs'
+      - 'governance/protected-runtime-release-policy-v1.md'
+      - '.github/workflows/protected-runtime-policy-qa.yml'
+jobs:
+  validator-negative-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Syntax and fail-closed negative checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check qa/validate-protected-runtime-release.mjs
+          if node qa/validate-protected-runtime-release.mjs; then
+            echo 'Missing-manifest test unexpectedly passed' >&2; exit 1
+          fi
+          printf '%s\n' '{"release_type":"protected_assessment_runtime","commit_sha":"0000000000000000000000000000000000000000","allowed_paths":["assessment-runtime-v3.js","auth-passwordless.js"],"founder_approval_reference":"unauthorized","security_review_reference":"unauthorized","browser_report_test_reference":"unauthorized","rollback_reference":"unauthorized","author_login":"same","reviewer_login":"same","reviewer_decision":"approved","browser_report_decision":"passed"}' > /tmp/invalid-release.json
+          if node qa/validate-protected-runtime-release.mjs /tmp/invalid-release.json origin/main HEAD; then
+            echo 'Mismatched SHA unexpectedly passed' >&2; exit 1
+          fi
+          echo 'Fail-closed validation smoke PASS'
