@@ -106,7 +106,128 @@ function show(view){['intro','questionsView','results'].forEach(function(id){$(i
 function progress(){var n=Object.keys(responses).length;$('progressText').textContent=n+' of 20 statements answered';$('progressBar').style.width=(n/20*100)+'%';$('finish').disabled=n!==20}
 function draw(){var host=$('items');host.replaceChildren();cfg.questions.forEach(function(q,index){var article=document.createElement('article');article.className='question';var label=document.createElement('p');label.className='question-title';label.id='q-label-'+q.id;label.textContent=(index+1)+'. '+q.text;var scale=document.createElement('div');scale.className='scale';scale.setAttribute('role','group');scale.setAttribute('aria-labelledby',label.id);for(var n=1;n<=6;n++){var button=document.createElement('button');button.type='button';button.textContent=String(n);button.dataset.value=String(n);button.setAttribute('aria-label','Response '+n+' of 6');button.setAttribute('aria-pressed','false');button.addEventListener('click',(function(item,value,container){return function(){responses[item.id]=value;container.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(Number(b.dataset.value)===value))});progress()}})(q,n,scale));scale.appendChild(button)}article.appendChild(label);article.appendChild(scale);host.appendChild(article)});progress()}
 function calculate(){var sums={},counts={},total=0;cfg.keys.forEach(function(k){sums[k]=0;counts[k]=0});cfg.questions.forEach(function(q){var raw=responses[q.id],v=q.rev?7-raw:raw;sums[q.dim]+=v;counts[q.dim]++;total+=v});var dimensions={};cfg.keys.forEach(function(k){dimensions[k]=Math.round(((sums[k]/counts[k]-1)/5)*100)});return{overall:Math.round((((total/cfg.questions.length)-1)/5)*1000)/10,dims:dimensions}}
-function report(){var r=calculate(),ranked=cfg.keys.map(function(k){return{key:k,score:r.dims[k],title:texts[k][0]}}).sort(function(a,b){return b.score-a.score});$('summary').textContent='Your answers were relatively higher for '+ranked[0].title.toLowerCase()+' and relatively lower for '+ranked[ranked.length-1].title.toLowerCase()+'. These are patterns in how you described yourself today. Think of a real situation to explore what may have shaped your response.';$('nextStep').textContent='You could explore '+ranked[ranked.length-1].title.toLowerCase()+'. What was happening the last time you faced a challenge in this area? Choose one action you would like to try next time.';var host=$('dimensions');host.replaceChildren();cfg.keys.forEach(function(k){var card=document.createElement('article');card.className='metric';var h=document.createElement('h3');h.textContent=texts[k][0];var score=document.createElement('strong');score.textContent=r.dims[k]+' / 100';var meter=document.createElement('meter');meter.min=0;meter.max=100;meter.value=r.dims[k];meter.setAttribute('aria-label',texts[k][0]+' response index');var p=document.createElement('p');p.textContent=texts[k][1];card.appendChild(h);card.appendChild(score);card.appendChild(meter);card.appendChild(p);host.appendChild(card)});show('results')}
+
+var stories={
+ALOR:{
+question:"What happens when you need to learn something you do not yet know?",
+meaning:"This area explores the way you say you approach learning when work asks you to do something unfamiliar. It includes your willingness to try difficult tasks and how you think about improving through effort.",
+situation:"Your manager asks you to use a tool you have never used. You could spend an hour trying its basic features, ask someone to show you, or stay with the familiar way of working. The useful question is not which choice looks best, but what helps you learn and what stops you.",
+whenHigher:"If you agreed more with these statements, you may see yourself as someone who is ready to try new things and keep learning. Think about a recent task: did you also have enough time, help and a safe place to practise?",
+whenLower:"If you agreed less, that does not mean you cannot learn. Perhaps recent workloads, poor support, or fear of making a visible mistake make unfamiliar tasks harder to approach.",
+experiment:"Pick one small work task that feels unfamiliar. Try it for 20 minutes, ask one question and record what became easier.",
+reflection:"Where have you learned something difficult before? What made it possible, and what would help you again?",
+watch:"Look for whether you attempt unfamiliar tasks and seek help when needed; do not judge yourself by speed alone."
+},
+ERAE:{
+question:"How do you respond when something you worked on goes wrong?",
+meaning:"This area looks at how you describe learning after a mistake or setback. Its statements touch on taking responsibility, noticing what went wrong and moving towards a useful next step.",
+situation:"You send an important presentation with an error. You may feel embarrassed or worried, which is normal. You could correct it, explain what happened, check how the error slipped through and make a small change so it is less likely to happen again.",
+whenHigher:"If you agreed more with these statements, you may believe that mistakes can teach you something. Think about whether you also ask for help and acknowledge circumstances outside your control.",
+whenLower:"If you agreed less, a mistake may feel harder to move past right now. That could be connected to the consequences of errors at work, not just to your own habits.",
+experiment:"After a small setback, note one fact about what happened, one thing you could change, and one way to get support.",
+reflection:"Think of one mistake that eventually helped you learn. How long did it take to feel ready to try again?",
+watch:"Notice whether your next response becomes more useful over time, even if discomfort still appears."
+},
+CTAP:{
+question:"What helps you think clearly when there is a lot of pressure?",
+meaning:"This area explores how you describe reacting when work is urgent, difficult or uncertain. It includes making choices, checking what support is available and responding to pressure.",
+situation:"Two urgent requests arrive just before a deadline. Rather than trying to solve everything at once, you might identify which task matters first, speak to someone about what can wait and take the next manageable step.",
+whenHigher:"If you agreed more with these statements, you may feel you can find a useful next step under pressure. Remember that even skilled people need rest, time, information and help.",
+whenLower:"If you agreed less, this may reflect current stress, unclear priorities or work demands that are genuinely too high. It is not evidence of a personal weakness or a health condition.",
+experiment:"When the next busy moment arrives, pause, write down the two most important tasks and ask what support is available.",
+reflection:"Which pressures are within your control? Which require changes from the people or system around you?",
+watch:"Notice whether you can identify priorities and ask for help, rather than expecting yourself to remain calm all the time."
+},
+FRUP:{
+question:"How do you respond when someone questions your work?",
+meaning:"This area looks at how you describe handling comments about your work, including criticism that is hard to hear. It asks whether you can consider useful points and decide what, if anything, to change.",
+situation:"A colleague says your plan misses an important risk. You might feel defensive at first. A useful next step could be to ask for an example, check whether the point is fair and explain your view calmly. You do not have to agree with every criticism.",
+whenHigher:"If you agreed more, you may see yourself as willing to consider feedback and adjust your plans. Explore what happens when the feedback feels unfair or is delivered badly.",
+whenLower:"If you agreed less, receiving feedback may sometimes feel difficult. That could depend on trust, timing or the way the message is given, and does not define how open you are as a person.",
+experiment:"Ask someone you trust for one specific suggestion about a recent piece of work. Repeat back what you heard before deciding whether to act on it.",
+reflection:"When was feedback helpful, and when was it not? What was different about those situations?",
+watch:"Look for whether you ask questions, separate useful points from unfair ones and make changes when there is a good reason."
+}
+};
+function el(tag,cls,txt){var node=document.createElement(tag);if(cls)node.className=cls;if(txt!==undefined)node.textContent=txt;return node}
+function addText(host,tag,cls,txt){var node=el(tag,cls,txt);host.appendChild(node);return node}
+function plotRadar(result){
+var svg=$('topography'),ns='http://www.w3.org/2000/svg';while(svg.lastChild)svg.removeChild(svg.lastChild);
+function element(tag,attrs,content){var e=document.createElementNS(ns,tag);Object.keys(attrs).forEach(function(key){e.setAttribute(key,attrs[key])});if(content!==undefined)e.textContent=content;svg.appendChild(e);return e}
+element('title',{id:'topoTitle'},'Four-area response profile');
+element('desc',{id:'topoDesc'},'Response indexes for '+cfg.keys.map(function(k){return texts[k][0]+' '+result.dims[k]+' out of 100'}).join(', ')+'. This is a visual summary of answers, not a validated benchmark.');
+var cx=260,cy=207,max=128;
+function point(i,r){var angle=(-Math.PI/2)+i*Math.PI/2;return [cx+Math.cos(angle)*r,cy+Math.sin(angle)*r]}
+[.25,.5,.75,1].forEach(function(frac){var pts=cfg.keys.map(function(k,i){return point(i,max*frac).join(',')}).join(' ');element('polygon',{points:pts,fill:'none',stroke:'#667768','stroke-width':'1'});});
+cfg.keys.forEach(function(k,i){var end=point(i,max);element('line',{x1:cx,y1:cy,x2:end[0],y2:end[1],stroke:'#718274','stroke-width':'1'});
+var outer=point(i,max+32),anchor=i===1?'start':i===3?'end':'middle';element('text',{x:outer[0],y:outer[1],fill:'#F7E7CE','text-anchor':anchor,'font-size':'12','font-family':'system-ui'},texts[k][0]);});
+var outline=cfg.keys.map(function(k,i){return point(i,max*result.dims[k]/100).join(',')}).join(' ');
+element('polygon',{class:'radar-value',points:outline,fill:'#50C878','fill-opacity':'0.23',stroke:'#9DC183','stroke-width':'3'});
+cfg.keys.forEach(function(k,i){var p=point(i,max*result.dims[k]/100);element('circle',{cx:p[0],cy:p[1],r:'5',fill:'#50C878',stroke:'#fff','stroke-width':'1'});});
+}
+function makeSegment(key,score){
+var data=stories[key],host=el('article','segment');addText(host,'p','subtitle','DETAILED VIEW · '+texts[key][0]);
+addText(host,'h3','',data.question);addText(host,'p','',data.meaning);
+var scoreLine=addText(host,'p','',score+' out of 100 is your response index for this area. It is not a percentage of ability.');
+scoreLine.style.color='#9DC183';
+var scenario=el('div','scenario');addText(scenario,'strong','','Example from everyday work');addText(scenario,'p','',data.situation);host.appendChild(scenario);
+addText(host,'h3','','How to think about your answers');
+addText(host,'p','',data.whenHigher);addText(host,'p','',data.whenLower);
+addText(host,'h3','','Something you can try');addText(host,'p','',data.experiment);
+addText(host,'p','prompt','A question to ask yourself: '+data.reflection);
+addText(host,'p','small','Watch for real-life evidence: '+data.watch);
+return host;
+}
+function setCoach(k,kind){
+var d=stories[k],answer='';
+if(kind==='understand')answer='Your scores summarize which statements you agreed with more or less. For '+texts[k][0].toLowerCase()+', think of a recent situation and check whether your response was similar. The score itself does not explain why you acted that way.';
+if(kind==='example')answer='Example: '+d.situation+' What would you do first? What might another person notice?';
+if(kind==='action')answer='Try this: '+d.experiment+' Then reflect: '+d.reflection;
+$('coachAnswer').textContent=answer;
+}
+function fillPlan(focus){
+var stages=[
+['Days 1–30 · Notice',[
+'Choose one everyday work situation connected to '+texts[focus].toLowerCase()+'.',
+'Write down what happened and what you did on at least three occasions.',
+'Identify what made things easier or harder.',
+'Discuss one example with a trusted colleague or coach.']],
+['Days 31–60 · Practise',[
+'Choose one small behaviour you want to try next time.',
+'Practise it in at least three appropriate situations.',
+'Write down the result, including anything that surprised you.',
+'Ask for one specific observation from someone involved.']],
+['Days 61–90 · Learn and adjust',[
+'Look back at the examples from your first month.',
+'Identify when your new response helped and when it did not.',
+'Adjust your practice to fit different situations.',
+'Choose your next small learning goal without chasing a target score.']]
+];
+var host=$('developmentPlan');host.replaceChildren();
+stages.forEach(function(stage){var card=el('article','');addText(card,'h3','',stage[0]);var list=el('ol');stage[1].forEach(function(task){addText(list,'li','',task)});card.appendChild(list);host.appendChild(card)});
+}
+function report(){
+var r=calculate(),ranked=cfg.keys.map(function(k){return{key:k,score:r.dims[k],title:texts[k][0]}}).sort(function(a,b){return b.score-a.score});
+var top=ranked[0],focus=ranked[ranked.length-1];
+$('overallIndex').textContent=r.overall+' / 100';
+$('summary').textContent='Your answers were relatively higher for '+top.title.toLowerCase()+' ('+top.score+'/100) and lower for '+focus.title.toLowerCase()+' ('+focus.score+'/100). This is a starting point for reflection, not a judgement of your abilities. Think about examples from your own work before drawing conclusions.';
+$('topologyStory').textContent='The highest and lowest response indexes differ by '+(top.score-focus.score)+' points. This shows variation in how you answered, but it does not prove that one ability is stronger than another. Your responses may also depend on your current work setting and recent experiences.';
+$('nextStep').textContent='Start by exploring '+focus.title.toLowerCase()+'. The next 90 days are a chance to notice situations, try one small action and use feedback from real life. Each stage includes practical activities.';
+$('reportContext').textContent='Your answers have been scored using the original six-point method. Seven questions use simpler candidate wording in this preview, so these POC results must not be compared with any official historical scores.';
+var metrics=$('quickScores'),dimHost=$('dimensions'),details=$('segmentDetails');metrics.replaceChildren();dimHost.replaceChildren();details.replaceChildren();
+cfg.keys.forEach(function(k){
+var metric=el('div','');addText(metric,'strong','',r.dims[k]+'/100');addText(metric,'span','small',texts[k][0]);metrics.appendChild(metric);
+var card=el('article','metric');addText(card,'h3','',texts[k][0]);addText(card,'strong','',r.dims[k]+' / 100');
+var meter=el('meter');meter.min=0;meter.max=100;meter.value=r.dims[k];meter.setAttribute('aria-label',texts[k][0]+' response index');card.appendChild(meter);addText(card,'p','',texts[k][1]);dimHost.appendChild(card);
+details.appendChild(makeSegment(k,r.dims[k]));
+});
+plotRadar(r);fillPlan(focus.key);
+$('coachUnderstand').onclick=function(){setCoach(focus.key,'understand')};
+$('coachExample').onclick=function(){setCoach(focus.key,'example')};
+$('coachAction').onclick=function(){setCoach(focus.key,'action')};
+$('coachAnswer').textContent='Choose a prompt above to see an offline example. Live AI Coach is not connected in this preview.';
+show('results');
+}
 function reset(){responses={};draw();show('intro')}
 $('start').addEventListener('click',function(){draw();show('questionsView')});
 $('demo').addEventListener('click',function(){responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
