@@ -426,6 +426,21 @@ main{width:100%;max-width:none;padding:0}
   #results .report-final small{font-size:9pt!important;color:#376b47!important}
   #results .report-content>.small:last-child{display:none!important}
 }
+
+/* Keep the narrative bridge useful in print and avoid orphan development headings. */
+#results .connection-moments{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:17px 0}
+#results .connection-moments>div{padding:16px;border:1px solid #64866e;border-radius:11px;background:#1d3123}
+#results .connection-moments strong{color:#F7E7CE;font-size:15px}
+#results .connection-moments p{margin:8px 0 0}
+#results .connection-close{border-top:1px solid #58745e;padding-top:12px}
+@media(max-width:700px){#results .connection-moments{grid-template-columns:1fr}}
+@media print{
+#results .connection-moments{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9pt!important}
+#results .connection-moments>div{background:#f3f8f2!important;border:1pt solid #c1d0c3!important;padding:10pt!important;break-inside:avoid!important}
+#results .connection-moments strong{color:#17211a!important;font-size:11pt!important}
+#results .connection-moments p{font-size:11pt!important;margin:5pt 0 0!important}
+#results #report-plan{break-before:page!important;page-break-before:always!important}
+}
 </style></head><body>
 <a class="skip-link" href="#results">Skip to the report</a>
 <main>
@@ -460,7 +475,13 @@ main{width:100%;max-width:none;padding:0}
 <div id="report-areas" class="report-section-heading"><h2>Four areas to explore</h2><span>03 / 08</span></div><p>Each area includes five questionnaire statements. These explanations are examples for reflection, not descriptions of your actual behaviour.</p>
 <div id="dimensions" class="grid"></div>
 <div class="report-section-heading"><h2>A deeper conversation about each area</h2><span>04 / 08</span></div><p class="section-intro">Use these examples to explore your own life. They are possible situations, not observations about what you have done.</p><div id="segmentDetails" aria-label="Detailed explanations with real-life examples"></div>
-<div id="report-connections" class="report-section-heading"><h2>Connecting the dots</h2><span>05 / 08</span></div><div class="panel"><h2>Connecting your responses</h2><p id="topologyStory"></p><p>Imagine a week when a team project changes suddenly. You may need to learn something new, adjust after a mistake, choose priorities under pressure and hear feedback. These four experiences can overlap. The profile does not tell us which action you will take; it gives you questions to explore using real events.</p></div>
+<div id="report-connections" class="report-section-heading"><h2>Connecting the dots</h2><span>05 / 08</span></div><div class="panel"><h2>Connecting your responses</h2><p id="topologyStory"></p><p>Imagine a week when a team project changes suddenly. You may need to learn something new, adjust after a mistake, choose priorities under pressure and hear feedback. These four experiences can overlap. The profile does not tell us which action you will take; it gives you questions to explore using real events.</p>
+<div class="connection-moments" aria-label="Four moments in a typical changing work week">
+ <div><strong>01 · A new task arrives</strong><p>What would help you ask questions and learn the unfamiliar steps?</p></div>
+ <div><strong>02 · Something goes wrong</strong><p>How could you correct the mistake without judging yourself too quickly?</p></div>
+ <div><strong>03 · Deadlines compete</strong><p>Which responsibility matters first, and where might you need support?</p></div>
+ <div><strong>04 · Someone gives feedback</strong><p>What can you learn from the comment, and what deserves a respectful challenge?</p></div>
+</div><p class="connection-close">Try recalling one real week. Which moment felt most familiar? The next pages offer all four development pathways so you can decide what matters.</p></div>
 <div id="report-plan" class="report-section-heading"><h2>Your development journey</h2><span>06 / 08</span></div><div class="panel"><h2>Your 30–60–90 day development plan</h2><label for="developmentFocus">Choose an area you want to explore</label><select id="developmentFocus" aria-label="Area to practise"><option value="ALOR">Learning through change</option><option value="ERAE">Learning after setbacks</option><option value="CTAP">Handling pressure</option><option value="FRUP">Using feedback</option></select><p id="nextStep"></p><div id="developmentPlan" class="plan-grid"></div><p class="print-plan-lead">The complete report includes the learning plan for all four areas. Choose whichever area is most relevant to your own experience.</p><div id="printAllPlans" aria-label="Complete development plans for all four response areas"></div></div>
 <div id="report-coach" class="report-section-heading"><h2>Coaching support</h2><span>07 / 08</span></div><div class="panel"><h2>AI Coach — guided support</h2><p>In the complete Syntropix assessment, this section is intended to support questions about your profile and your development actions. <strong>The POC does not connect to the live AI Coach or send your answers anywhere.</strong></p>
 <p class="small">Below is an offline sample of the sort of developmental guidance a coach could provide. It is a scripted demonstration, not live AI advice.</p>
