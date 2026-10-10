@@ -368,6 +368,58 @@ main{width:100%;max-width:none;padding:0}
 #results .report-final{display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:225mm!important;page-break-before:always!important;break-before:page!important;background:#fff!important;color:#17211a!important;border:0!important;text-align:center!important}
 #results .report-final strong{font-size:26pt!important;color:#17211a!important}
 }
+
+/* PDF editorial V5: separate reading composition from interactive controls. */
+#printAllPlans,.print-plan-lead{display:none}
+@media print{
+  #report-coach,#report-coach+.panel,
+  #developmentFocus,#developmentFocus+*,#report-plan label[for="developmentFocus"],
+  #developmentPlan,#nextStep,
+  #ratingGroup,#ratingNote,#ratingStatus,#rateSubmit,
+  .self-check,.coach-control{display:none!important}
+  #printAllPlans,.print-plan-lead{display:block!important}
+  #results .print-plan-lead{font-size:11pt!important;margin:8pt 0 12pt!important}
+  #printAllPlans .print-plan-section{display:block!important;break-before:page!important;page-break-before:always!important;margin:0!important;padding:0!important}
+  #printAllPlans .print-plan-section>h3{font-size:16pt!important;line-height:1.25!important;color:#183c29!important;border-bottom:1pt solid #9DC183!important;padding-bottom:7pt!important;margin:0 0 9pt!important}
+  #printAllPlans .print-plan-intro{font-size:11pt!important;max-width:none!important;margin:0 0 12pt!important}
+  #printAllPlans .plan-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10pt!important;break-inside:auto!important}
+  #printAllPlans .plan-grid article{padding:13pt!important;background:#f8faf7!important;border:1pt solid #c3d1c4!important;border-radius:6pt!important;break-inside:avoid-page!important}
+  #printAllPlans .plan-grid article:last-child{grid-column:1/-1}
+  #printAllPlans .plan-grid h3{font-size:12pt!important}
+  #printAllPlans .plan-grid li{font-size:11pt!important}
+  #report-plan+.panel{break-inside:auto!important}
+  #results .report-cover{
+    box-sizing:border-box!important;position:relative!important;display:grid!important;grid-template-rows:auto 1fr auto auto!important;
+    min-height:0!important;height:242mm!important;max-height:242mm!important;
+    padding:15mm 11mm!important;background:#fff!important;border:0!important;
+    border-top:3mm solid #9DC183!important;break-after:page!important;
+    page-break-after:always!important;color:#17211a!important;
+  }
+  #results .cover-brand{display:flex!important;align-items:center!important;justify-content:space-between!important;border-bottom:1pt solid #c4d1c4!important;padding-bottom:11mm!important;gap:10mm!important}
+  #results .cover-brand{font-size:11pt!important;letter-spacing:.08em!important;font-weight:750!important}
+  #results .cover-head{align-self:center!important;margin:0!important;padding:0!important;max-width:150mm!important}
+  #results .cover-head>p:first-child{font-size:10pt!important;color:#376b47!important;font-weight:700!important;letter-spacing:.09em!important}
+  #results .cover-head h2{font-size:28pt!important;line-height:1.2!important;color:#17211a!important;margin:9mm 0 8mm!important}
+  #results .cover-head p{font-size:12pt!important;color:#38513e!important}
+  #results .cover-meta{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8mm!important;padding:8mm 0!important;border-top:1pt solid #9DC183!important}
+  #results .cover-meta div{display:block!important}
+  #results .cover-meta dt{color:#376b47!important;text-transform:uppercase!important;font-size:9pt!important;letter-spacing:.05em!important}
+  #results .cover-meta dd{color:#17211a!important;font-size:11pt!important;margin:4pt 0 0!important}
+  #results .cover-confidential{border-top:1pt solid #9DC183!important;padding-top:7mm!important;font-size:9.5pt!important;line-height:1.45!important}
+  #results .report-final{
+    box-sizing:border-box!important;position:relative!important;display:grid!important;align-content:center!important;
+    justify-items:center!important;gap:9mm!important;
+    min-height:0!important;height:240mm!important;max-height:240mm!important;
+    padding:24mm 16mm!important;border:0!important;background:#fff!important;
+    border-top:3mm solid #9DC183!important;border-bottom:1.5mm solid #9DC183!important;
+    margin:0!important;break-before:page!important;page-break-before:always!important;
+    text-align:center!important;color:#17211a!important;
+  }
+  #results .report-final strong{font-size:27pt!important;line-height:1.2!important;color:#17211a!important;letter-spacing:.11em!important}
+  #results .report-final p{font-size:13pt!important;line-height:1.5!important;margin:0!important;max-width:135mm!important}
+  #results .report-final small{font-size:9pt!important;color:#376b47!important}
+  #results .report-content>.small:last-child{display:none!important}
+}
 </style></head><body>
 <a class="skip-link" href="#results">Skip to the report</a>
 <main>
