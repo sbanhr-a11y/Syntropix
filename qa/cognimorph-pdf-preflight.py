@@ -10,8 +10,8 @@ import fitz
 file = sys.argv[1] if len(sys.argv) > 1 else "qa-output-cognimorph/fictional-report.pdf"
 pdf = fitz.open(file)
 issues=[]
-if not (9 <= len(pdf) <= 17):
-    issues.append(f"Unexpected {len(pdf)} pages; expected 9-17 for current test scenario")
+if not (12 <= len(pdf) <= 25):
+    issues.append(f"Unexpected {len(pdf)} pages; expected 12-25 for current test scenario")
 body_sizes=Counter()
 for n,page in enumerate(pdf,1):
     pagewords=page.get_text("words")
@@ -46,6 +46,11 @@ for phrase in ["Your Cognimorph report","Learning through change",
                "CONFIDENTIAL","Mindset","Thanks for the Feedback","Atomic Habits"]:
     if phrase not in text:
         issues.append(f"Missing expected content: {phrase}")
+for i,area in enumerate(["Learning through change","Learning after setbacks","Handling pressure","Using feedback"]):
+    # The PDF must show each heading at least once in the complete printed development plans.
+    if text.count(area)<3: issues.append(f"Insufficient repeated development coverage for {area}")
+for forbidden in ["AI Coach — guided support","Choose a prompt above to see an offline example","Choose an area you want to explore"]:
+    if forbidden in text: issues.append(f"Interactive-only content found in PDF: {forbidden}")
 if body_sizes["11pt"] < body_sizes["other"]*1.5:
     issues.append(f"Too much inconsistent body text: {dict(body_sizes)}")
 print(f"PDF QA: pages={len(pdf)}, body-text spans={dict(body_sizes)}, issues={len(issues)}")
