@@ -103,3 +103,14 @@
 .referral-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
 .referral-actions{justify-content:flex-start}
 @media(max-width:700px){.referral-fields{grid-template-columns:1fr}}
+
+/* Cognimorph POC: non-normative visual language; affects only its report. */
+.cognimorph-report .score-meter i.signal-neutral,
+.cognimorph-report .signal-neutral .metric-scale i b{background:linear-gradient(90deg,#9DC183,#50C878)}
+.cognimorph-report .metric.diagnostic.signal-neutral{border-color:#415146}
+.cognimorph-report .metric.diagnostic.signal-neutral:hover{border-color:#9DC183}
+.cognimorph-report .score-hero .overall-score-card{border-color:#9DC183}
+.cognimorph-report .metric-scale small{text-transform:none;letter-spacing:0;font-family:inherit;font-size:11px;font-weight:600}
+.scale [aria-pressed="true"]{outline:2px solid #9DC183;outline-offset:2px}
+.scale button:focus-visible{outline:3px solid #50C878;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.cognimorph-report .diagnostic,.cognimorph-report .score-meter i,.cognimorph-report .metric-scale i b{transition:none}}
