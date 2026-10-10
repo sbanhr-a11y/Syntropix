@@ -29,3 +29,6 @@ Website changes on PR #93 are confined to `assessment-runtime-v3.js` and `auth-p
 Stop immediately on unexpected production API/website mismatch or failed review regression. Revert the public website to its preceding SHA, roll back payment route backend to its preceding SHA, validate Reviewer Programme/Command health, and communicate status. Preserve the purchaser's approved payment and audit history.
 
 **Never request repayment.** The real CogniMorph payment is approved but live access remains pending rollout.
+
+## Isolated integration QA
+This draft branch targets the governance proposal only, never production main. Browser and delivered-report end-to-end proof is still required before promotion.
