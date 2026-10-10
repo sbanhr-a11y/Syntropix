@@ -448,7 +448,10 @@ main{width:100%;max-width:none;padding:0}
 <div class="notice" role="note">This is an isolated POC: you can explore the revised wording and a fictional completed report. No account, payment, contact details, research consent, or real participant data is collected. Responses stay in this browser page's memory and are cleared on refresh.</div>
 <section id="intro"><h1>How do you respond when work changes?</h1><p>Everyone learns, handles setbacks, feels pressure, and receives feedback differently. Cognimorph invites you to reflect on how you usually respond in these situations.</p><p>The 20 statements take about 10 minutes. Choose the response closest to your usual experience. There are no right or wrong answers.</p><p class="small">This developmental self-report is not a diagnosis, measure of intelligence, employment recommendation, or validated comparison with other people. Seven statements (11, 13, 14, 16, 17, 18 and 19) have simpler candidate wording in this preview. These are not yet scientifically cleared replacements for the original questionnaire.</p>
 <div class="actions"><button class="primary" id="start" type="button">Explore the questions →</button><button class="secondary" id="demo" type="button">View a fictional completed report</button></div></section>
-<section id="questionsView" hidden><h1>Reflect on your usual experience</h1><p class="small">1 = strongly disagree · 2 = disagree · 3 = slightly disagree · 4 = slightly agree · 5 = agree · 6 = strongly agree. Choose one response for each statement.</p><p class="hint">Seven statements show proposed simpler wording for comprehension testing. They are not yet part of the released questionnaire.</p><p id="progressText" aria-live="polite"></p><div class="progress" aria-hidden="true"><div id="progressBar" style="width:0%"></div></div><div id="items"></div><div class="actions"><button class="primary" id="finish" type="button" disabled>See my reflection report →</button><button class="secondary" id="reset" type="button">Start again</button></div></section>
+<section id="questionsView" hidden><h1>Reflect on your usual experience</h1><p class="small">1 = strongly disagree · 2 = disagree · 3 = slightly disagree · 4 = slightly agree · 5 = agree · 6 = strongly agree. Choose one response for each statement.</p><p class="hint">Seven statements show proposed simpler wording for comprehension testing. They are not yet part of the released questionnaire.</p><div class="session-timer" id="sessionTimer" role="timer" aria-label="Time remaining in your three-hour assessment session">
+<strong><span aria-hidden="true">◷</span> Time remaining: <output id="timeRemaining">03:00:00</output></strong>
+<p>Your assessment session lasts up to three hours from when you begin. If the time runs out, the unfinished POC responses are cleared and the assessment must be restarted. This research preview does not save answers across a refresh, so refreshing also starts a new session.</p>
+</div><p id="progressText" aria-live="polite"></p><div class="progress" aria-hidden="true"><div id="progressBar" style="width:0%"></div></div><div id="items"></div><div class="actions"><button class="primary" id="finish" type="button" disabled>See my reflection report →</button><button class="secondary" id="reset" type="button">Start again</button></div></section>
 <section id="results" hidden aria-label="Cognimorph reflection report">
 <section class="report-cover" aria-labelledby="coverTitle"><div class="cover-brand">SYNTROPIX™ <span>COGNIMORPH DEVELOPMENT REPORT</span></div><div class="cover-head"><p>YOUR DEVELOPMENTAL REFLECTION</p><h2 id="coverTitle">Understanding how you respond when life and work change</h2><p>A guide to learning, setbacks, pressure and feedback.</p></div><dl class="cover-meta"><div><dt>Prepared for</dt><dd>Fictional participant · POC</dd></div><div><dt>Assessment</dt><dd>Cognimorph Index</dd></div><div><dt>Report version</dt><dd>CMI-POC V4</dd></div></dl><p class="cover-confidential">CONFIDENTIAL — Intended for developmental reflection and authorized discussion. Not for clinical, hiring, or other consequential decisions. No real participant data is collected in this demonstration.</p></section>
 <p class="subtitle">Syntropix™ / Cognimorph Index / Evidence-building POC</p>
@@ -496,7 +499,11 @@ main{width:100%;max-width:none;padding:0}
 <p>Choose one situation that matters to you. Notice what happened, try a realistic change, and ask for a specific observation from someone you trust. You can return to these reflections over time without treating a target number as proof of personal growth. This POC does not use your answers for hiring decisions, does not connect to a live AI service, and does not submit your responses to the production backend.</p>
 </div>
 <div id="report-next" class="report-section-heading"><h2>Explore what comes next</h2><span>OPTIONAL PATHWAYS</span></div><div class="panel"><p>These are possible learning paths, not results of a diagnostic decision rule. Confirm the availability and validation status of any assessment before use.</p><div class="next-assessment-grid"><article><h3>Coachability Quotient</h3><p>Explore how you approach learning opportunities and advice.</p></article><article><h3>Prism360</h3><p>Compare self-perception with feedback from colleagues.</p></article><article><h3>Developmental coaching</h3><p>Examine real experiences and choose your next action.</p></article></div></div><div class="report-section-heading" id="report-feedback-heading"><h2>Your next step</h2><span>OPTIONAL</span></div><div class="panel report-feedback"><h3>What will you try next?</h3><p>Pick one action that matters to you. This preview does not collect or save personal notes.</p><h3>How useful was this report?</h3><div id="ratingGroup" class="rating-group" role="group" aria-label="Rate report usefulness, from 1 to 5 stars"></div><label for="ratingNote">What would make the report clearer? (optional)</label><textarea id="ratingNote" rows="3" maxlength="300" placeholder="Your comment stays on this page and is cleared on refresh."></textarea><div class="actions"><button id="rateSubmit" class="secondary" type="button" disabled>Record sample feedback</button></div><p id="ratingStatus" role="status" aria-live="polite">Rating is optional and never required to download.</p></div><div id="report-actions" class="actions"><button class="primary" id="print" type="button">Save sample as PDF</button><button class="secondary" id="again" type="button">Explore again</button></div><p id="downloadStatus" role="status" aria-live="polite"></p>
-<p class="small">Browser print-to-PDF preview: charts and text are included, but this is not the finished production PDF service.</p><div class="report-final"><strong>SYNTROPIX™</strong><p>Human potential deserves thoughtful evidence, accessible insights and opportunities to grow.</p><p>Thank you for taking time to reflect. Your next step belongs to you.</p><small>CONFIDENTIAL · COGNIMORPH · SYNTHETIC POC</small></div>
+<p class="small">Browser print-to-PDF preview: charts and text are included, but this is not the finished production PDF service.</p><div class="report-final">
+<div class="final-brand"><strong>SYNTROPIX™</strong><span>HUMAN ELEVATION ARCHITECTURE</span></div>
+<div class="final-message"><p>Thoughtful evidence. Meaningful reflection. Human growth.</p><h2>Continue your development journey</h2><p>Your report is a beginning, not a conclusion. Discuss one real challenge and translate what you've learned into action.</p>
+<div class="coaching-offer"><strong>Explore a 1:1 developmental coaching session</strong><p>A guided conversation to reflect on real work and life situations, set a practical goal and plan your next steps. Available subject to consultation and confirmation; no booking or payment is completed through this POC.</p></div></div>
+<div class="final-contact"><p><strong>www.syntropix.in</strong></p><p>contact@syntropix.in</p><small>CONFIDENTIAL · COGNIMORPH DEVELOPMENT REPORT · SYNTHETIC POC</small></div></div>
 </div></div></section>
 <footer>Syntropix™ Cognimorph POC · Synthetic data only · No network submissions, external analytics, checkout, AI, or user authentication.</footer>
 </main>
@@ -508,9 +515,29 @@ var cfg=window.SyntropixAssessmentRegistryV3&&window.SyntropixAssessmentRegistry
 var $=function(id){return document.getElementById(id)};
 if(!cfg||cfg.questions.length!==20){$('intro').innerHTML='<h1>Preview unavailable</h1><p>The approved instrument registry could not be loaded.</p>';return}
 var responses={};
+var SESSION_LIMIT_MS=3*60*60*1000,sessionStartedAt=null,sessionTicker=null;
 var texts={ALOR:['Learning through change','How you describe taking on unfamiliar tasks and learning from experience.'],ERAE:['Learning after setbacks','How you describe responding to mistakes and trying a different approach.'],CTAP:['Handling pressure','How you describe choosing your next step when work becomes demanding.'],FRUP:['Using feedback','How you describe listening to criticism and deciding what to change.']};
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function show(view){if(view==='results')document.title='Syntropix™ | Cognimorph Development Report · POC';else document.title='Syntropix™ | Cognimorph POC Preview';var note=document.querySelector("main > .notice");if(note)note.hidden=view==="results";['intro','questionsView','results'].forEach(function(id){$(id).hidden=id!==view});window.scrollTo(0,0)}
+function clockLabel(milliseconds){
+ var seconds=Math.max(0,Math.ceil(milliseconds/1000)),h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),sec=seconds%60;
+ return [h,m,sec].map(function(x){return String(x).padStart(2,'0')}).join(':');
+}
+function stopSessionClock(){if(sessionTicker!==null){clearInterval(sessionTicker);sessionTicker=null}sessionStartedAt=null}
+function updateSessionClock(){
+ if(sessionStartedAt===null)return;
+ var left=SESSION_LIMIT_MS-(Date.now()-sessionStartedAt);
+ if(left<=0){
+  stopSessionClock();responses={};draw();show('intro');
+  $('sessionNotice').textContent='Your three-hour assessment session ended. Unfinished answers were cleared. Select Explore the questions to begin again.';
+  $('sessionNotice').hidden=false;return;
+ }
+ $('timeRemaining').textContent=clockLabel(left);
+}
+function startSessionClock(){
+ stopSessionClock();sessionStartedAt=Date.now();$('timeRemaining').textContent='03:00:00';
+ sessionTicker=setInterval(updateSessionClock,1000);updateSessionClock();
+}
 function progress(){var n=Object.keys(responses).length;$('progressText').textContent=n+' of 20 statements answered';$('progressBar').style.width=(n/20*100)+'%';$('finish').disabled=n!==20}
 function draw(){var host=$('items');host.replaceChildren();cfg.questions.forEach(function(q,index){var article=document.createElement('article');article.className='question';var label=document.createElement('p');label.className='question-title';label.id='q-label-'+q.id;label.textContent=(index+1)+'. '+q.text;var scale=document.createElement('div');scale.className='scale';scale.setAttribute('role','group');scale.setAttribute('aria-labelledby',label.id);for(var n=1;n<=6;n++){var button=document.createElement('button');button.type='button';button.textContent=String(n);button.dataset.value=String(n);button.setAttribute('aria-label','Response '+n+' of 6');button.setAttribute('aria-pressed','false');button.addEventListener('click',(function(item,value,container){return function(){responses[item.id]=value;container.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(Number(b.dataset.value)===value))});progress()}})(q,n,scale));scale.appendChild(button)}article.appendChild(label);article.appendChild(scale);host.appendChild(article)});progress()}
 function calculate(){var sums={},counts={},total=0;cfg.keys.forEach(function(k){sums[k]=0;counts[k]=0});cfg.questions.forEach(function(q){var raw=responses[q.id],v=q.rev?7-raw:raw;sums[q.dim]+=v;counts[q.dim]++;total+=v});var dimensions={};cfg.keys.forEach(function(k){dimensions[k]=Math.round(((sums[k]/counts[k]-1)/5)*100)});return{overall:Math.round((((total/cfg.questions.length)-1)/5)*1000)/10,dims:dimensions}}
@@ -712,10 +739,10 @@ $('coachAction').onclick=function(){setCoach(focus.key,'action')};
 $('coachAnswer').textContent='Choose a prompt above to see an offline example. Live AI Coach is not connected in this preview.';
 show('results');
 }
-function reset(){responses={};selectedRating=0;const field=$('ratingNote');if(field)field.value='';draw();show('intro')}
-$('start').addEventListener('click',function(){draw();show('questionsView')});
-$('demo').addEventListener('click',function(){responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
-$('finish').addEventListener('click',function(){if(Object.keys(responses).length===20)report()});
+function reset(){stopSessionClock();responses={};selectedRating=0;const field=$('ratingNote');if(field)field.value='';draw();show('intro')}
+$('start').addEventListener('click',function(){$('sessionNotice').hidden=true;responses={};draw();startSessionClock();show('questionsView')});
+$('demo').addEventListener('click',function(){stopSessionClock();responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
+$('finish').addEventListener('click',function(){if(sessionStartedAt!==null&&Date.now()-sessionStartedAt>=SESSION_LIMIT_MS){updateSessionClock();return}if(Object.keys(responses).length===20){stopSessionClock();report()}});
 $('reset').addEventListener('click',reset);$('again').addEventListener('click',reset);
 $('print').addEventListener('click',function(){$('downloadStatus').textContent='Opening print options. Choose Save as PDF in your browser; no report is uploaded.';window.print()});
 })();
