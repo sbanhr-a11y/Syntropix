@@ -203,7 +203,7 @@ main{width:100%;max-width:none;padding:0}
 </div>
 <div class="panel"><h2>Your profile at a glance</h2><div id="quickScores" class="mini-metrics"></div></div>
 <div id="report-map" class="report-section-heading"><h2>Profile map</h2><span>02 / 08</span></div><div class="panel"><h2>Your four-part profile map</h2>
-<div class="topology-wrap"><svg id="topography" viewBox="0 0 520 440" role="img" aria-labelledby="topoTitle topoDesc">
+<div class="topology-wrap"><svg id="topography" viewBox="0 0 700 470" role="img" aria-labelledby="topoTitle topoDesc">
 <title id="topoTitle">Four-area response profile</title><desc id="topoDesc">A visual map of your responses across learning, setbacks, pressure and feedback. The individual scores also appear in the table below.</desc></svg>
 <div class="legend"><strong>How to read this picture</strong><p>The shape connects your four response indexes. A wider area means you agreed more strongly with statements in that area after reverse scoring.</p><span>Not a brain image, norm or test of intelligence</span></div></div></div>
 <div id="report-areas" class="report-section-heading"><h2>Four areas to explore</h2><span>03 / 08</span></div><p>Each area includes five questionnaire statements. These explanations are examples for reflection, not descriptions of your actual behaviour.</p>
@@ -231,7 +231,7 @@ if(!cfg||cfg.questions.length!==20){$('intro').innerHTML='<h1>Preview unavailabl
 var responses={};
 var texts={ALOR:['Learning through change','How you describe taking on unfamiliar tasks and learning from experience.'],ERAE:['Learning after setbacks','How you describe responding to mistakes and trying a different approach.'],CTAP:['Handling pressure','How you describe choosing your next step when work becomes demanding.'],FRUP:['Using feedback','How you describe listening to criticism and deciding what to change.']};
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function show(view){var note=document.querySelector("main > .notice");if(note)note.hidden=view==="results";['intro','questionsView','results'].forEach(function(id){$(id).hidden=id!==view});window.scrollTo(0,0)}
+function show(view){if(view==='results')document.title='Syntropix™ | Cognimorph Development Report · POC';else document.title='Syntropix™ | Cognimorph POC Preview';var note=document.querySelector("main > .notice");if(note)note.hidden=view==="results";['intro','questionsView','results'].forEach(function(id){$(id).hidden=id!==view});window.scrollTo(0,0)}
 function progress(){var n=Object.keys(responses).length;$('progressText').textContent=n+' of 20 statements answered';$('progressBar').style.width=(n/20*100)+'%';$('finish').disabled=n!==20}
 function draw(){var host=$('items');host.replaceChildren();cfg.questions.forEach(function(q,index){var article=document.createElement('article');article.className='question';var label=document.createElement('p');label.className='question-title';label.id='q-label-'+q.id;label.textContent=(index+1)+'. '+q.text;var scale=document.createElement('div');scale.className='scale';scale.setAttribute('role','group');scale.setAttribute('aria-labelledby',label.id);for(var n=1;n<=6;n++){var button=document.createElement('button');button.type='button';button.textContent=String(n);button.dataset.value=String(n);button.setAttribute('aria-label','Response '+n+' of 6');button.setAttribute('aria-pressed','false');button.addEventListener('click',(function(item,value,container){return function(){responses[item.id]=value;container.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(Number(b.dataset.value)===value))});progress()}})(q,n,scale));scale.appendChild(button)}article.appendChild(label);article.appendChild(scale);host.appendChild(article)});progress()}
 function calculate(){var sums={},counts={},total=0;cfg.keys.forEach(function(k){sums[k]=0;counts[k]=0});cfg.questions.forEach(function(q){var raw=responses[q.id],v=q.rev?7-raw:raw;sums[q.dim]+=v;counts[q.dim]++;total+=v});var dimensions={};cfg.keys.forEach(function(k){dimensions[k]=Math.round(((sums[k]/counts[k]-1)/5)*100)});return{overall:Math.round((((total/cfg.questions.length)-1)/5)*1000)/10,dims:dimensions}}
@@ -285,11 +285,11 @@ var svg=$('topography'),ns='http://www.w3.org/2000/svg';while(svg.lastChild)svg.
 function element(tag,attrs,content){var e=document.createElementNS(ns,tag);Object.keys(attrs).forEach(function(key){e.setAttribute(key,attrs[key])});if(content!==undefined)e.textContent=content;svg.appendChild(e);return e}
 element('title',{id:'topoTitle'},'Four-area response profile');
 element('desc',{id:'topoDesc'},'Response indexes for '+cfg.keys.map(function(k){return texts[k][0]+' '+result.dims[k]+' out of 100'}).join(', ')+'. This is a visual summary of answers, not a validated benchmark.');
-var cx=260,cy=207,max=128;
+var cx=350,cy=228,max=132;
 function point(i,r){var angle=(-Math.PI/2)+i*Math.PI/2;return [cx+Math.cos(angle)*r,cy+Math.sin(angle)*r]}
 [.25,.5,.75,1].forEach(function(frac){var pts=cfg.keys.map(function(k,i){return point(i,max*frac).join(',')}).join(' ');element('polygon',{points:pts,fill:'none',stroke:'#667768','stroke-width':'1'});});
 cfg.keys.forEach(function(k,i){var end=point(i,max);element('line',{x1:cx,y1:cy,x2:end[0],y2:end[1],stroke:'#718274','stroke-width':'1'});
-var outer=point(i,max+32),anchor=i===1?'start':i===3?'end':'middle';element('text',{x:outer[0],y:outer[1],fill:'#F7E7CE','text-anchor':anchor,'font-size':'12','font-family':'system-ui'},texts[k][0]);});
+var outer=point(i,max+39),anchor=i===1?'start':i===3?'end':'middle';element('text',{x:outer[0],y:outer[1],fill:'#F7E7CE','text-anchor':anchor,'font-size':'12','font-family':'system-ui'},texts[k][0]);});
 var outline=cfg.keys.map(function(k,i){return point(i,max*result.dims[k]/100).join(',')}).join(' ');
 element('polygon',{class:'radar-value',points:outline,fill:'#50C878','fill-opacity':'0.23',stroke:'#9DC183','stroke-width':'3'});
 cfg.keys.forEach(function(k,i){var p=point(i,max*result.dims[k]/100);element('circle',{cx:p[0],cy:p[1],r:'5',fill:'#50C878',stroke:'#fff','stroke-width':'1'});});
