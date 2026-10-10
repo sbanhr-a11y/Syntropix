@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 const base='http://127.0.0.1:4179';
 await mkdir('qa-output-cognimorph',{recursive:true});
 const browser=await chromium.launch({headless:true});
+function observeErrors(page){page.on('pageerror',error=>console.error('POC PAGE ERROR:',error.stack||error.message));page.on('console',msg=>{if(msg.type()==='error')console.error('POC CONSOLE ERROR:',msg.text())})}
 const records=[];
 async function scenario(name,fn){
   try{await fn();records.push({scenario:name,status:'PASS'});console.log('PASS',name)}
@@ -17,10 +18,10 @@ function assertNoNetwork(page){
 }
 await scenario('Fictional report: 4 segments, profile topology, score cards, 90-day activities and local coaching',async()=>{
   const page=await browser.newPage({viewport:{width:1440,height:900}});
-  const safe=assertNoNetwork(page);
+  const safe=assertNoNetwork(page);observeErrors(page);
   await page.goto(base+'/',{waitUntil:'networkidle'});
   assert.equal(await page.locator('#intro h1').innerText(),'How do you respond when work changes?');
-  await page.getByRole('button',{name:'View a fictional completed report'}).click();
+  await page.getByRole('button',{name:'View a fictional completed report'}).click(); console.log('DIAGNOSTIC after demo',await page.evaluate(()=>({hidden:document.getElementById('results').hidden,html:document.getElementById('results').outerHTML.slice(0,100),score:document.getElementById('overallIndex').textContent})));
   assert.equal(await page.locator('#results').isVisible(),true);
   assert.equal(await page.locator('#segmentDetails .segment').count(),4);
   assert.equal(await page.locator('#dimensions article.metric').count(),4);
@@ -42,7 +43,7 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
 });
 await scenario('Questionnaire: seven accessible candidate items and complete-response gate',async()=>{
   const page=await browser.newPage({viewport:{width:1280,height:850}});
-  const safe=assertNoNetwork(page);
+  const safe=assertNoNetwork(page);observeErrors(page);
   await page.goto(base+'/',{waitUntil:'networkidle'});
   await page.getByRole('button',{name:/Explore the questions/}).click();
   assert.equal(await page.locator('.question').count(),20);
