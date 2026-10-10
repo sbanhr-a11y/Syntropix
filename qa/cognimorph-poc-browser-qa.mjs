@@ -110,7 +110,8 @@ await scenario('Privacy: refresh clears responses; keyboard buttons work',async(
 });
 await scenario('Automated WCAG accessibility: questionnaire and report at desktop and mobile',async()=>{
   for(const viewport of [{width:1440,height:900},{width:375,height:812}]){
-    const page=await browser.newPage({viewport});
+    const context=await browser.newContext({viewport});
+    const page=await context.newPage();
     await page.goto(base+'/',{waitUntil:'networkidle'});
     await page.locator('#start').click();
     const quiz=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
@@ -122,7 +123,7 @@ await scenario('Automated WCAG accessibility: questionnaire and report at deskto
     await writeFile('qa-output-cognimorph/axe-'+viewport.width+'.json',JSON.stringify({quiz:quiz.violations,report:report.violations},null,2));
     assert.equal(badQuiz.length,0,'Questionnaire serious/critical a11y issues: '+JSON.stringify(badQuiz.map(x=>({id:x.id,targets:x.nodes.map(n=>n.target)}))));
     assert.equal(badReport.length,0,'Report serious/critical a11y issues: '+JSON.stringify(badReport.map(x=>({id:x.id,targets:x.nodes.map(n=>n.target)}))));
-    await page.close();
+    await context.close();
   }
 });
 await writeFile('qa-output-cognimorph/results.json',JSON.stringify(records,null,2));
