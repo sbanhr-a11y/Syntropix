@@ -36,3 +36,12 @@ Pass automated browser/mobile scenarios, report/PDF parity checks, RLS/privacy a
 - Preview contains only `index.html` and `cognimorph-registry.js` with the original 20 items, no public site scripts, no live API requests, no login, no checkout, no analytics, no participant PII fields. Browser memory only, refresh clears responses.
 - Source tests: inline preview JavaScript syntax and preview registry JavaScript syntax PASS; 20 unique item IDs PASS; 8 reverse-keyed items verified; no external scripts or API traffic in preview source PASS; print-save output uses browser print, not backend PDF.
 - Preview must remain demonstration-only. This does not establish staging backend integration, PDF parity, or scientific validity. Existing PR #92 remains draft and may NOT merge into `main`.
+
+## Chromium acceptance results — 2026-10-10
+- New isolated GitHub Actions workflow: `.github/workflows/cognimorph-poc-browser-qa.yml` / script `qa/cognimorph-poc-browser-qa.mjs`.
+- Initial browser QA failed due to POC-only runtime error: `texts[focus].toLowerCase is not a function` in fillPlan(), preventing completed report display. RCA: label collection is an array; the code called a string method on it. Fixed by `texts[focus][0].toLowerCase()` at commit `1b55c5b3e2f80c6bd9ffb0710b5e7d6ac9ce48f2`.
+- Verified passing GitHub Actions run: https://github.com/sbanhr-a11y/Syntropix/actions/runs/38022379524
+- Four end-to-end suites **PASS**: synthetic demo with 4 dimension stories, topology, score cards, offline coaching, 12 plan actions and generated print PDF; 20-question completion including exact seven candidate wordings and response state; 375px and 768px mobile no horizontal overflow; keyboard controls and refresh privacy.
+- Artifacts available in run: `desktop-report.png`, `mobile-375.png`, `mobile-768.png`, `fictional-report.pdf`, `results.json`.
+- Existing Canonical Assessment Runtime Safety Gate and Public Repository Research IP Guard passed on prior PR commits; pre-existing V7 protected boundary intentionally **FAILS** because PR #92 includes shared `assessment-runtime-v3.js` and `.css`. Do not weaken the V7 boundary. Separate POC acceptance from any future shared-runtime integration.
+- Live AI support, signed PDF renderer parity, manual screen-reader audit, cognitive interviews for seven new candidate texts, and production release are NOT complete.
