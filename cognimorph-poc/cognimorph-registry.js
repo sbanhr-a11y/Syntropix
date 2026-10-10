@@ -1,6 +1,6 @@
-/* Cognimorph-only synthetic preview registry. Extracted from canonical unchanged source; no other instruments. */
+/* PREVIEW-ONLY experimental item wording. Canonical source registry remains unchanged. */
 window.SyntropixAssessmentRegistryV3={
-  "version": "3.0.0-poc",
+  "version": "3.0.0-poc-candidate-wording",
   "sourceHash": "fc3277609366dcd733112f02d0a955af31dc9becd39ec07f517eb94e94569098",
   "bank": {
     "CogniMorph Index": {
@@ -74,8 +74,10 @@ window.SyntropixAssessmentRegistryV3={
         {
           "id": 11,
           "dim": "CTAP",
-          "text": "I systematically enforce mental prioritization rules to maintain focus during chaotic market shifts.",
-          "rev": false
+          "text": "When work suddenly gets busy or confusing, I decide what needs my attention first.",
+          "rev": false,
+          "originalText": "I systematically enforce mental prioritization rules to maintain focus during chaotic market shifts.",
+          "proposedWording": true
         },
         {
           "id": 12,
@@ -86,14 +88,18 @@ window.SyntropixAssessmentRegistryV3={
         {
           "id": 13,
           "dim": "FRUP",
-          "text": "I possess the ability to separate my personal self-worth from harsh, unvarnished critiques of my work.",
-          "rev": false
+          "text": "When someone says my work needs to improve, I can listen without feeling like a failure.",
+          "rev": false,
+          "originalText": "I possess the ability to separate my personal self-worth from harsh, unvarnished critiques of my work.",
+          "proposedWording": true
         },
         {
           "id": 14,
           "dim": "FRUP",
-          "text": "When a stakeholder challenges my strategic plan, my immediate instinct is to deploy a defensive justification.",
-          "rev": true
+          "text": "When someone questions my plan, my first reaction is to defend it.",
+          "rev": true,
+          "originalText": "When a stakeholder challenges my strategic plan, my immediate instinct is to deploy a defensive justification.",
+          "proposedWording": true
         },
         {
           "id": 15,
@@ -104,26 +110,34 @@ window.SyntropixAssessmentRegistryV3={
         {
           "id": 16,
           "dim": "FRUP",
-          "text": "I find it difficult to discern valid, useful feedback from poorly framed criticism, often rejecting both.",
-          "rev": true
+          "text": "I sometimes reject useful advice because I do not like how it was given.",
+          "rev": true,
+          "originalText": "I find it difficult to discern valid, useful feedback from poorly framed criticism, often rejecting both.",
+          "proposedWording": true
         },
         {
           "id": 17,
           "dim": "ALOR",
-          "text": "I treat deliberate effort and persistence as the primary drivers of my career acceleration.",
-          "rev": false
+          "text": "I believe that hard work and not giving up help me grow in my career.",
+          "rev": false,
+          "originalText": "I treat deliberate effort and persistence as the primary drivers of my career acceleration.",
+          "proposedWording": true
         },
         {
           "id": 18,
           "dim": "ERAE",
-          "text": "I systematically conduct blameless post-mortems on my own failed initiatives.",
-          "rev": false
+          "text": "When a plan I worked on fails, I look at what went wrong without blaming people.",
+          "rev": false,
+          "originalText": "I systematically conduct blameless post-mortems on my own failed initiatives.",
+          "proposedWording": true
         },
         {
           "id": 19,
           "dim": "CTAP",
-          "text": "I consciously reframe high-stakes evaluative pressure as a challenge to be solved rather than an identity threat.",
-          "rev": false
+          "text": "When my work is judged under pressure, I try to see it as a problem I can work through.",
+          "rev": false,
+          "originalText": "I consciously reframe high-stakes evaluative pressure as a challenge to be solved rather than an identity threat.",
+          "proposedWording": true
         },
         {
           "id": 20,
@@ -133,5 +147,6 @@ window.SyntropixAssessmentRegistryV3={
         }
       ]
     }
-  }
+  },
+  "previewNotice": "Candidate wording only. Not the released or validated item version."
 };
