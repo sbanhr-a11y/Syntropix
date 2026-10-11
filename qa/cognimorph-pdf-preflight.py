@@ -41,7 +41,7 @@ for n,page in enumerate(pdf,1):
 text="\n".join(page.get_text() for page in pdf)
 for phrase in ["Your Cognimorph report","Learning through change",
                "Learning after setbacks","Handling pressure","Using feedback",
-               "Your 30–60–90 day development plan","What this report can and cannot tell you",
+               "Your 30–60–90 day development plan","How to make these reflections useful",
                "How the response indexes are calculated","Why the numbers need careful interpretation",
                "CONFIDENTIAL","Mindset","Thanks for the Feedback","Atomic Habits",
                "www.syntropix.in","contact@syntropix.in","1:1 developmental coaching session"]:
