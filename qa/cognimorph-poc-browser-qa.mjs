@@ -40,8 +40,8 @@ await scenario('Fictional report: 4 segments, profile topology, score cards, 90-
   assert.equal(await page.locator('.next-assessment-grid article').count(),3);
   assert.equal(await page.locator('.report-cover').count(),1);
   assert.equal(await page.locator('.report-final').count(),1);
-  assert.match(await page.locator('#glanceNarrative').innerText(),/These numbers summarize/);
-  assert.match(await page.locator('#mapInterpretation').innerText(),/map looks fairly even/);
+  assert.match(await page.locator('#glanceNarrative').innerText(),/Each number summarizes the choices/);
+  assert.match(await page.locator('#mapInterpretation').innerText(),/Start with the point for a situation/);
   assert.equal(await page.locator('#ratingGroup button').count(),5);
   assert(await page.locator('#rateSubmit').isDisabled());
   await page.locator('#ratingGroup button[data-rating="4"]').click();
