@@ -1,0 +1,138 @@
+/* Isolated responsive corrections for the professional assessment catalogue.
+   Audit 2026-10-12 — no runtime or payment/auth changes. */
+.sx-v7-professionals .assessment-catalogue-inline .assessment-card{min-width:0}
+.sx-v7-professionals .assessment-card .assessment-meta{
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:8px!important;
+ width:100%;
+ min-width:0;
+ align-items:stretch!important;
+ flex-wrap:wrap!important;
+}
+.sx-v7-professionals .assessment-card .assessment-meta .meta-icon{
+ box-sizing:border-box;
+ min-width:0!important;
+ width:100%!important;
+ max-width:100%;
+ height:auto;
+ min-height:44px;
+ padding:8px 6px!important;
+ flex-wrap:wrap;
+ white-space:normal;
+ gap:5px!important;
+ overflow-wrap:anywhere;
+}
+.sx-v7-professionals .assessment-card .assessment-meta .meta-value{
+ white-space:normal!important;
+ overflow-wrap:anywhere;
+ text-align:center;
+ line-height:1.3!important;
+}
+.sx-v7-professionals .assessment-card .assessment-meta .meta-value small{
+ white-space:normal!important;
+ opacity:1!important;
+ color:#e4eae5!important;
+}
+.sx-v7-professionals .assessment-card .assessment-commercial,
+.sx-v7-professionals .assessment-card .assessment-savings,
+.sx-v7-professionals .assessment-card .assessment-saving-line{
+ min-width:0;
+ overflow-wrap:anywhere;
+}
+.sx-v7-professionals .assessment-card .assessment-commercial .assessment-savings{
+ display:flex;
+ flex-wrap:wrap;
+ gap:5px 10px;
+}
+.sx-v7-professionals .assessment-card .btn{
+ box-sizing:border-box;
+ max-width:100%;
+ min-height:44px;
+ white-space:normal;
+ overflow-wrap:anywhere;
+ text-align:center;
+}
+@media(max-width:480px){
+ .sx-v7-professionals .assessment-card .assessment-meta{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ .sx-v7-professionals .assessment-card .assessment-meta .meta-icon:last-child:nth-child(odd){
+  grid-column:1/-1;
+ }
+}
+
+/* 12 October: spacious three-up catalogue with clean two-line savings.
+   Preserve JS-rendered region pricing and existing discount eligibility logic. */
+@media(min-width:1200px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:24px!important;
+ }
+}
+@media(min-width:768px) and (max-width:1199px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:20px!important;
+ }
+}
+@media(max-width:767px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-grid{
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:16px!important;
+ }
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-commercial{
+ min-width:0;
+ gap:14px;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr);
+ align-items:start;
+ column-gap:12px;
+ row-gap:8px;
+ min-width:0;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line>span{
+ white-space:nowrap!important;
+ overflow-wrap:normal!important;
+ word-break:normal!important;
+ line-height:1.5;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line>.assessment-savings{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr);
+ gap:9px!important;
+ min-width:0;
+ font-size:12px;
+ line-height:1.45;
+ text-align:left;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings>span{
+ display:flex!important;
+ align-items:baseline;
+ justify-content:flex-start;
+ gap:7px;
+ min-width:0;
+ flex-wrap:wrap;
+ overflow-wrap:normal;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings b,
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings s,
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings strong{
+ white-space:nowrap;
+ margin-left:0;
+}
+@media(max-width:680px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line{
+  grid-template-columns:minmax(0,1fr);
+  gap:8px;
+ }
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line>.assessment-savings{
+  text-align:left;
+ }
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-savings>span{
+  justify-content:flex-start;
+ }
+}

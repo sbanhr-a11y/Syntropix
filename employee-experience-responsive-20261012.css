@@ -1,0 +1,8 @@
+/* Prevent Culture Compass preview navigation from clipping at narrow mobile widths. */
+@media (max-width:420px){
+ body.v6-marketing .signal-exec-shell{min-width:0;padding:12px}
+ body.v6-marketing .signal-exec-rail{min-width:0;grid-template-columns:minmax(0,1fr);padding:12px}
+ body.v6-marketing .signal-exec-rail button{box-sizing:border-box;min-width:0;width:100%;white-space:normal;overflow-wrap:anywhere;min-height:44px}
+ body.v6-marketing .signal-exec-rail button span{flex:0 0 28px}
+ body.v6-marketing .signal-exec-canvas{min-width:0}
+}
