@@ -1,0 +1,40 @@
+name: Isolated Render preview browser smoke
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/visual-pr-preview-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          npm install --no-save --no-package-lock --ignore-scripts @playwright/test@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Verify Render preview hosts proposed correction
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsSL --max-time 10 https://syntropix-visual-pr98-preview.onrender.com/visual-regression-responsive-20261012.css -o /tmp/expected.css && grep -q "responsive corrections" /tmp/expected.css; then exit 0; fi
+            sleep 10
+          done
+          echo 'Preview did not publish expected CSS'; exit 1
+      - name: Run read-only live preview route checks
+        env:
+          BASE_URL: https://syntropix-visual-pr98-preview.onrender.com
+        run: npx playwright test tests/visual-linked-pages.spec.js --browser=chromium --workers=2 --reporter=line
+      - name: Save browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: isolated-render-preview-browser-screenshots
+          path: test-results/
+          retention-days: 14
