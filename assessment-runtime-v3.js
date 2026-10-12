@@ -202,7 +202,17 @@ if(refer&&dialog){
     finally{btn.disabled=false;btn.textContent='Send by email →'}
   };
 }setupRating();localStorage.setItem('syntropix_runtime_v3_completed',JSON.stringify({assessment:name,completedAt:Date.now(),result:r,registryHash:registry.sourceHash}));localStorage.removeItem('syntropix_runtime_v3');setupInteractiveCoach(r,arch);await Promise.allSettled([submitValidation(r),submitReport(r)]);scrollTo(0,0)}$('submit').onclick=()=>{if(Object.keys(answers).length===cfg.questions.length)buildReport()};$('save').onclick=async()=>{if($('save').disabled)return;$('save').textContent='Preparing premium PDF…';try{const s=await getSession();if(!s?.token)throw Error('Please sign in again to download your report.');const payload={token:s.token,assessmentName:name,participant:profile(),score:Number(String($('overall').textContent).split('/')[0]),archetype:$('archetype').textContent,rating:Number(document.querySelector('#rating-stars button.selected:last-of-type')?.dataset.rating||0),dimensionScores:currentReportResult?.dims||{},reportData:currentReportResult?buildStructuredReportData(currentReportResult,{title:$('archetype').textContent}):null,reportHtml:$('report').innerHTML,runtimeVersion:'3.0.0',download:true};const isCognimorph=name==='CogniMorph Index';
-const approvedReportId=isCognimorph?String(window.__cognimorphApprovedReportId||''):'';
+let approvedReportId='';
+if(isCognimorph){
+ const completionReference=String(window.__cognimorphCompletionReference||'');
+ if(!/^[a-f0-9-]{36}$/i.test(completionReference))throw Error('Your Cognimorph assessment completion is not yet confirmed. Please retry saving before downloading.');
+ const statusResponse=await fetch(API+'/cognimorph/report-status?completionReference='+encodeURIComponent(completionReference),{headers:{'Authorization':`Bearer ${s.token}`}});
+ if(statusResponse.status===202)throw Error('Your approved Cognimorph PDF is still being prepared. Please try again shortly.');
+ if(!statusResponse.ok)throw Error('Could not verify your approved Cognimorph report.');
+ const verified=await statusResponse.json();
+ if(verified.reportReady!==true)throw Error('Your secure report is not yet approved for download.');
+ approvedReportId=String(verified.reportId||'');
+}
 if(isCognimorph&&!/^cmi_[a-z0-9_-]{16,100}$/i.test(approvedReportId))throw Error('Your secure Cognimorph report is being finalized. No unverified PDF or email was generated.');
 const reportEndpoint=isCognimorph?'/cognimorph/deliver':'/reports/pdf';
 const secureRequest=isCognimorph?{reportId:approvedReportId,rating:payload.rating,requestId:crypto.randomUUID(),emailRequested:true}:payload;
