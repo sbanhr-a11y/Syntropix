@@ -25,7 +25,7 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/sbanhr-a11y/Syntropix/audit/visual-regression-responsive-20261012/tests/visual-evidence-capture.js -o /tmp/visual-evidence-capture.js
       - name: Select comparison script
         run: |
-          if [ "${{ matrix.ref }}" = "main" ]; then cp /tmp/visual-evidence-capture.js /tmp/visual-capture.js; else cp tests/visual-evidence-capture.js /tmp/visual-capture.js; fi
+          if [ "${{ matrix.ref }}" = "main" ]; then mkdir -p tests && cp /tmp/visual-evidence-capture.js tests/visual-evidence-capture.js; fi
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -37,7 +37,7 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/visual-local.log 2>&1 &
           for i in $(seq 1 20); do curl -fsS http://127.0.0.1:8765/ >/dev/null && break; sleep 1; done
       - name: Capture comparable screenshots
-        run: node /tmp/visual-capture.js
+        run: node tests/visual-evidence-capture.js
       - name: Publish evidence without changing production
         uses: actions/upload-artifact@v4
         if: always()
