@@ -1,0 +1,30 @@
+name: Public production DNS and visual audit
+on:
+  pull_request:
+    paths:
+      - 'qa/production-dns-live-visual-20261012.cjs'
+      - '.github/workflows/production-dns-live-visual-20261012.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          npm install --no-save --no-package-lock --ignore-scripts @playwright/test@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run public production DNS and screenshot audit
+        run: node qa/production-dns-live-visual-20261012.cjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-dns-visual-evidence
+          path: production-evidence/
+          retention-days: 14
