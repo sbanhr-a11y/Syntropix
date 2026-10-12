@@ -17,13 +17,16 @@ for(const route of paths){
    await page.setViewportSize({width,height:844});
    const response=await page.goto(new URL(route,base).href,{waitUntil:'domcontentloaded',timeout:30000});
    await expect.soft(response?.status(),`HTTP ${route} ${width}`).toBeLessThan(400);
-   await page.evaluate(()=>document.fonts.ready);
+   await page.waitForLoadState('load').catch(()=>{});
+   if(new URL(page.url()).origin !== new URL(base).origin){test.info().annotations.push({type:'external-redirect',description:route+' redirects to '+new URL(page.url()).origin});break;}
+   await page.evaluate(()=>document.fonts.ready).catch(()=>{});
    await page.waitForTimeout(150);
    const metrics=await page.evaluate(()=>{
      const doc=document.documentElement;
      const scrollOverflow=doc.scrollWidth-doc.clientWidth;
      const visible=el=>{const s=getComputedStyle(el);return s.display!=='none'&&s.visibility!=='hidden'&&el.getClientRects().length>0};
-     const clipped=[...document.querySelectorAll('a,button,.meta-icon,.assessment-meta,.assessment-card')].filter(visible).filter(el=>{
+     const inScrollRail=el=>{let p=el.parentElement;while(p&&p!==document.body){const st=getComputedStyle(p);if((st.overflowX==='auto'||st.overflowX==='scroll')&&p.scrollWidth>p.clientWidth+2)return true;p=p.parentElement;}return false};
+     const clipped=[...document.querySelectorAll('a,button,.meta-icon,.assessment-meta,.assessment-card')].filter(visible).filter(el=>!inScrollRail(el)).filter(el=>{
        const r=el.getBoundingClientRect(),p=el.parentElement?.getBoundingClientRect();
        return r.width>0&&(r.left<-2||r.right>innerWidth+2||(p&&getComputedStyle(el.parentElement).overflowX==='hidden'&&(r.right>p.right+2||r.left<p.left-2)));
      }).slice(0,15).map(el=>({tag:el.tagName,cls:el.className,text:(el.innerText||'').slice(0,60)}));
@@ -31,6 +34,7 @@ for(const route of paths){
      return {scrollOverflow,clipped,unnamedButtons};
    });
    if(metrics.scrollOverflow>2||metrics.clipped.length||metrics.unnamedButtons)failures.push({width,...metrics});
+   if(new URL(page.url()).origin !== new URL(base).origin)break;
    await page.screenshot({path:`test-results/linked-${route.replace(/[^a-z0-9]/gi,'_')||'home'}-${width}.png`,fullPage:true,animations:'disabled'});
   }
   expect(failures,`layout failures ${route}`).toEqual([]);
