@@ -547,7 +547,7 @@ main{width:100%;max-width:none;padding:0}
 <h3>What happens after this report?</h3>
 <p>Choose one situation that matters to you. Notice what happened, try a realistic change, and ask for a specific observation from someone you trust. You can return to these reflections over time without treating a target number as proof of personal growth. This POC does not use your answers for hiring decisions, does not connect to a live AI service, and does not submit your responses to the production backend.</p>
 </div>
-<div id="report-next" class="report-section-heading"><h2>Explore what comes next</h2><span>OPTIONAL PATHWAYS</span></div><div class="panel"><p>These are possible learning paths, not results of a diagnostic decision rule. Confirm the availability and validation status of any assessment before use.</p><div class="next-assessment-grid"><article><h3>Coachability Quotient</h3><p>Explore how you approach learning opportunities and advice.</p></article><article><h3>Prism360</h3><p>Compare self-perception with feedback from colleagues.</p></article><article><h3>Developmental coaching</h3><p>Examine real experiences and choose your next action.</p></article></div></div><div class="report-section-heading" id="report-feedback-heading"><h2>Your next step</h2><span>OPTIONAL</span></div><div class="panel report-feedback"><h3>What will you try next?</h3><p>Pick one action that matters to you. This preview does not collect or save personal notes.</p><h3>How useful was this report?</h3><div id="ratingGroup" class="rating-group" role="group" aria-label="Rate report usefulness, from 1 to 5 stars"></div><label for="ratingNote">What would make the report clearer? (optional)</label><textarea id="ratingNote" rows="3" maxlength="300" placeholder="Your comment stays on this page and is cleared on refresh."></textarea><div class="actions"><button id="rateSubmit" class="secondary" type="button" disabled>Record sample feedback</button></div><p id="ratingStatus" role="status" aria-live="polite">Rating is optional and never required to download.</p></div><div id="report-actions" class="actions"><button class="primary" id="print" type="button">Save sample as PDF</button><button class="secondary" id="again" type="button">Explore again</button></div><p id="downloadStatus" role="status" aria-live="polite"></p>
+<div id="report-next" class="report-section-heading"><h2>Explore what comes next</h2><span>OPTIONAL PATHWAYS</span></div><div class="panel"><p>These are possible learning paths, not results of a diagnostic decision rule. Confirm the availability and validation status of any assessment before use.</p><div class="next-assessment-grid"><article><h3>Coachability Quotient</h3><p>Explore how you approach learning opportunities and advice.</p></article><article><h3>Prism360</h3><p>Compare self-perception with feedback from colleagues.</p></article><article><h3>Developmental coaching</h3><p>Examine real experiences and choose your next action.</p></article></div></div><div class="report-section-heading" id="report-feedback-heading"><h2>Your next step</h2><span>OPTIONAL</span></div><div class="panel report-feedback"><h3>What will you try next?</h3><p>Pick one action that matters to you. This preview does not collect or save personal notes.</p><h3>How useful was this report?</h3><div id="ratingGroup" class="rating-group" role="group" aria-label="Rate report usefulness, from 1 to 5 stars"></div><label for="ratingNote">What would make the report clearer? (optional)</label><textarea id="ratingNote" rows="3" maxlength="300" placeholder="Your comment stays on this page and is cleared on refresh."></textarea><div class="actions"><button id="rateSubmit" class="secondary" type="button" disabled>Submit rating to unlock PDF</button></div><p id="ratingStatus" role="status" aria-live="polite">Select and submit a 1–5 star rating to unlock the PDF. This offline POC does not transmit or store feedback.</p></div><div id="report-actions" class="actions"><button class="primary" id="print" type="button" disabled aria-disabled="true">Rate report to unlock PDF</button><button class="secondary" id="again" type="button">Explore again</button></div><p id="downloadStatus" role="status" aria-live="polite"></p>
 <p class="small">Browser print-to-PDF preview: charts and text are included, but this is not the finished production PDF service.</p><div class="report-final">
 <div class="final-brand"><strong>SYNTROPIX™</strong><span>HUMAN ELEVATION ARCHITECTURE</span></div>
 <div class="final-message"><p>Thoughtful evidence. Meaningful reflection. Human growth.</p><h2>Continue your development journey</h2><p>Your report is a beginning, not a conclusion. Discuss one real challenge and translate what you've learned into action.</p>
@@ -722,7 +722,8 @@ function renderCompletePrintPlans(){
 }
 
 /* Premium participant view: explanatory scores, choice-led plan and offline-only rating. */
-var selectedRating=0;
+var selectedRating=0, ratingSubmitted=false;
+function lockPdf(){ratingSubmitted=false;$('print').disabled=true;$('print').setAttribute('aria-disabled','true');$('print').textContent='Rate report to unlock PDF';}
 function renderResponseBars(dims){
  var host=$('responseBars');host.replaceChildren();
  cfg.keys.forEach(function(key,index){
@@ -742,20 +743,23 @@ function renderRating(){
   b.setAttribute('aria-pressed',String(selectedRating===value));b.setAttribute('data-rating',value);
   b.addEventListener('click',function(){
     selectedRating=value;
+    lockPdf();
     host.querySelectorAll('button').forEach(function(x){
       x.setAttribute('aria-pressed',String(Number(x.dataset.rating)===value));
       x.classList.toggle('selected',Number(x.dataset.rating)<=value)
     });
-    $('rateSubmit').disabled=false;$('ratingStatus').textContent=value+' out of five selected. Optional feedback stays only in this page.';
+    $('rateSubmit').disabled=false;$('ratingStatus').textContent=value+' out of five selected. Submit the rating to unlock your PDF. Feedback stays in the browser.';
   });
   host.appendChild(b)
  })(n)}
  $('rateSubmit').disabled=true;
- $('ratingStatus').textContent='Rating is optional and never required to download.';
+ lockPdf();
+ $('ratingStatus').textContent='Select and submit a 1–5 star rating to unlock the PDF. This offline POC does not transmit or store feedback.';
 }
 $('rateSubmit').addEventListener('click',function(){
  if(!selectedRating)return;
- $('ratingStatus').textContent='Thank you for previewing this feature. No feedback has been transmitted or stored.';
+ ratingSubmitted=true;$('print').disabled=false;$('print').removeAttribute('aria-disabled');$('print').textContent='Save sample as PDF';
+ $('ratingStatus').textContent='Rating submitted locally: '+selectedRating+' out of 5 stars. PDF unlocked. No feedback has been transmitted or stored.';
 });
 $('developmentFocus').addEventListener('change',function(){
  fillPlan(this.value);
@@ -786,11 +790,11 @@ $('coachAction').onclick=function(){setCoach(focus.key,'action')};
 $('coachAnswer').textContent='Choose a prompt above to see an offline example. Live AI Coach is not connected in this preview.';
 show('results');
 }
-function reset(){stopSessionClock();responses={};selectedRating=0;const field=$('ratingNote');if(field)field.value='';draw();show('intro')}
+function reset(){stopSessionClock();responses={};selectedRating=0;lockPdf();const field=$('ratingNote');if(field)field.value='';draw();show('intro')}
 $('start').addEventListener('click',function(){$('sessionNotice').hidden=true;responses={};draw();startSessionClock();show('questionsView')});
 $('demo').addEventListener('click',function(){stopSessionClock();responses={};cfg.questions.forEach(function(q){responses[q.id]=q.rev?2+(q.id%2):4+(q.id%2)});report()});
 $('finish').addEventListener('click',function(){if(sessionStartedAt!==null&&Date.now()-sessionStartedAt>=SESSION_LIMIT_MS){updateSessionClock();return}if(Object.keys(responses).length===20){stopSessionClock();report()}});
 $('reset').addEventListener('click',reset);$('again').addEventListener('click',reset);
-$('print').addEventListener('click',function(){$('downloadStatus').textContent='Opening print options. Choose Save as PDF in your browser; no report is uploaded.';window.print()});
+$('print').addEventListener('click',function(){if(!ratingSubmitted||selectedRating<1||selectedRating>5){$('downloadStatus').textContent='Submit a 1–5 star rating before downloading.';return;}$('downloadStatus').textContent='Opening print options. Choose Save as PDF in your browser; no report is uploaded.';window.print()});
 })();
 </script></body></html>
