@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/visual-pr-evidence.yml'
+      - 'tests/visual-compare.py'
       - 'tests/visual-evidence-capture.js'
   workflow_dispatch:
 permissions:
@@ -44,4 +45,30 @@ jobs:
         with:
           name: screenshot-${{ strategy.job-index }}
           path: test-results/comparison
+          retention-days: 14
+
+  compare:
+    needs: capture
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/visual-regression-responsive-20261012
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: screenshot-*
+          path: evidence
+      - name: Install image difference dependency
+        run: python3 -m pip install pillow==11.3.0
+      - name: Compute pixel-by-pixel changes and guard unrelated pages
+        run: python3 tests/visual-compare.py
+      - name: Publish comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pixel-difference-report
+          path: visual-diff/
+          if-no-files-found: warn
           retention-days: 14
