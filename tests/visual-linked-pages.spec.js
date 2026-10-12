@@ -5,7 +5,7 @@ const {test,expect}=require('@playwright/test');
 const paths=['/','/solutions.html','/enterprise.html','/professionals.html','/talent-solutions.html','/manager-development.html','/professional-coaching.html','/prism360.html','/employee-experience.html','/compliance-learning.html','/pricing.html','/company.html','/science.html','/evidence-in-practice.html','/technical-notes.html','/trust.html','/trust-center.html','/privacy.html','/terms.html','/refund-cancellation.html','/signin.html','/assessment-runtime-v3.html','/assessment-intelligence.html'];
 const widths=[320,360,375,390,430,768,820,1024,1280,1440,1920];
 const base=process.env.BASE_URL;
-const approvedHosts=['syntropix-v7-staging.onrender.com','syntropix-home-hcs-staging.onrender.com','localhost','127.0.0.1'];
+const approvedHosts=['syntropix-v7-staging.onrender.com','syntropix-home-hcs-staging.onrender.com','syntropix-visual-pr98-preview.onrender.com','localhost','127.0.0.1'];
 if(!base)throw Error('BASE_URL is required; use isolated staging, not production');
 if(!approvedHosts.includes(new URL(base).hostname))throw Error('Refusing to run against an unapproved or production host: '+new URL(base).hostname);
 test.describe.configure({mode:'parallel'});
