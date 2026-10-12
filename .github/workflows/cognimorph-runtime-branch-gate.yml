@@ -1,0 +1,18 @@
+name: Cognimorph isolated runtime contract
+on:
+  push:
+    branches:
+      - work/cognimorph-runtime-compat-oct12
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  runtime-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check assessment-runtime-v3.js
+      - run: node --test scripts/cognimorph-runtime-contract.test.js
