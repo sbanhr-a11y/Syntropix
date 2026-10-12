@@ -61,3 +61,78 @@
   grid-column:1/-1;
  }
 }
+
+/* 12 October: spacious three-up catalogue with clean two-line savings.
+   Preserve JS-rendered region pricing and existing discount eligibility logic. */
+@media(min-width:1200px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:24px!important;
+ }
+}
+@media(min-width:768px) and (max-width:1199px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:20px!important;
+ }
+}
+@media(max-width:767px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-grid{
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:16px!important;
+ }
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-commercial{
+ min-width:0;
+ gap:14px;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line{
+ display:grid!important;
+ grid-template-columns:120px minmax(0,1fr);
+ align-items:start;
+ column-gap:12px;
+ row-gap:8px;
+ min-width:0;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line>span{
+ white-space:nowrap!important;
+ overflow-wrap:normal!important;
+ word-break:normal!important;
+ line-height:1.5;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line>.assessment-savings{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr);
+ gap:9px!important;
+ min-width:0;
+ font-size:12px;
+ line-height:1.45;
+ text-align:right;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings>span{
+ display:flex!important;
+ align-items:baseline;
+ justify-content:flex-end;
+ gap:7px;
+ min-width:0;
+ flex-wrap:wrap;
+ overflow-wrap:normal;
+}
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings b,
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings s,
+.sx-v7-professionals .assessment-catalogue-inline .assessment-savings strong{
+ white-space:nowrap;
+ margin-left:0;
+}
+@media(max-width:680px){
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line{
+  grid-template-columns:minmax(0,1fr);
+  gap:8px;
+ }
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line>.assessment-savings{
+  text-align:left;
+ }
+ .sx-v7-professionals .assessment-catalogue-inline .assessment-savings>span{
+  justify-content:flex-start;
+ }
+}
