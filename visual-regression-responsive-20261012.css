@@ -88,7 +88,7 @@
 }
 .sx-v7-professionals .assessment-catalogue-inline .assessment-saving-line{
  display:grid!important;
- grid-template-columns:120px minmax(0,1fr);
+ grid-template-columns:minmax(0,1fr);
  align-items:start;
  column-gap:12px;
  row-gap:8px;
@@ -107,12 +107,12 @@
  min-width:0;
  font-size:12px;
  line-height:1.45;
- text-align:right;
+ text-align:left;
 }
 .sx-v7-professionals .assessment-catalogue-inline .assessment-savings>span{
  display:flex!important;
  align-items:baseline;
- justify-content:flex-end;
+ justify-content:flex-start;
  gap:7px;
  min-width:0;
  flex-wrap:wrap;
