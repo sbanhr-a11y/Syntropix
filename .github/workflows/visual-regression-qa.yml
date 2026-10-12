@@ -1,0 +1,46 @@
+name: Visual regression QA (isolated PR)
+on:
+  pull_request:
+    paths:
+      - 'tests/visual-linked-pages.spec.js'
+      - 'visual-regression-responsive-20261012.css'
+      - 'professionals.html'
+      - '.github/workflows/visual-regression-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  responsive-audit:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated test dependency and Chromium
+        run: |
+          npm install --no-save --no-package-lock --ignore-scripts @playwright/test@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Start read-only localhost static preview
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/syntropix-preview.log 2>&1 &
+          for i in $(seq 1 25); do curl --fail -s http://127.0.0.1:8765/professionals.html >/dev/null && exit 0; sleep 1; done
+          echo "Preview failed"; cat /tmp/syntropix-preview.log; exit 1
+      - name: Capture screenshots and check layout (253 viewports)
+        env:
+          BASE_URL: http://127.0.0.1:8765
+        run: npx playwright test tests/visual-linked-pages.spec.js --browser=chromium --workers=2 --reporter=line
+      - name: Preserve screenshots and failure logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-pr-screenshots
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: warn
+          retention-days: 14
