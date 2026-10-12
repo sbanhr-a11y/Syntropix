@@ -41,3 +41,36 @@ for(const route of paths){
   await page.close();
  });
 }
+
+test('professionals pricing and 3-up catalogue alignment', async ({browser})=>{
+ const widths=[390,768,1024,1280,1440,1920];
+ for(const width of widths){
+  const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
+  await page.goto(new URL('/professionals.html',base).href,{waitUntil:'load'});
+  const grid=page.locator('.assessment-catalogue-inline .assessment-grid').first();
+  await expect(grid).toBeVisible();
+  await expect(page.locator('.assessment-catalogue-inline .assessment-savings').first()).toBeVisible();
+  const measurements=await page.evaluate(()=>{
+   const grid=document.querySelector('.assessment-catalogue-inline .assessment-grid');
+   const savings=document.querySelector('.assessment-catalogue-inline .assessment-savings');
+   const parent=savings?.closest('.assessment-saving-line');
+   const label=parent?.querySelector(':scope > span');
+   const lines=[...(savings?.children||[])];
+   return {
+    columns:getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length,
+    lines:lines.length,
+    text:lines.map(x=>x.textContent.trim()),
+    sameRow:lines.length>=2&&Math.abs(lines[0].getBoundingClientRect().top-lines[1].getBoundingClientRect().top)<3,
+    labelWraps:label?.getBoundingClientRect().height>parseFloat(getComputedStyle(label).lineHeight)*1.7
+   };
+  });
+  const expected=width>=1200?3:width>=768?2:1;
+  expect(measurements.columns,'grid columns at '+width).toBe(expected);
+  expect(measurements.lines,'savings rows at '+width).toBe(2);
+  expect(measurements.sameRow,'discounts visually separate at '+width).toBe(false);
+  expect(measurements.labelWraps,'eligible savings label wraps at '+width).toBe(false);
+  expect(measurements.text[0]).toContain('Research 15%');
+  expect(measurements.text[1]).toContain('3rd+ assessment 20%');
+  await page.close();
+ }
+});
