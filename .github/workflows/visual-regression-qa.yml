@@ -5,6 +5,8 @@ on:
       - 'tests/visual-linked-pages.spec.js'
       - 'visual-regression-responsive-20261012.css'
       - 'professionals.html'
+      - 'employee-experience.html'
+      - 'employee-experience-responsive-20261012.css'
       - '.github/workflows/visual-regression-qa.yml'
   workflow_dispatch:
 permissions:
