@@ -94,7 +94,11 @@ function installGoldNav(){
     const menu=nav.querySelector('.menu5'),panel=nav.querySelector('nav');if(!menu||!panel)return;
     if(!panel.id)panel.id='sx-primary-nav-'+i;
     menu.setAttribute('aria-controls',panel.id);
-    if(!menu.querySelector('.sx-menu-label'))menu.insertAdjacentHTML('beforeend','<span class="sx-menu-label">Menu</span>');
+    if(!menu.querySelector('.sx-menu-label')){
+      const hasMenuText=String(menu.textContent||'').trim().toLowerCase()==='menu';
+      if(hasMenuText)menu.innerHTML='<span class="sx-menu-label">Menu</span>';
+      else menu.insertAdjacentHTML('beforeend','<span class="sx-menu-label">Menu</span>');
+    }
     const products=nav.querySelector('.nav-products'),trigger=products?.querySelector('.nav-products-trigger'),sub=products?.querySelector('.nav-products-menu');
     if(trigger&&sub){
       if(!sub.id)sub.id='sx-product-nav-'+i;
