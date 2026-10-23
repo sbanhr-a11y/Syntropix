@@ -73,3 +73,19 @@ footer.sx-global-footer small{
     font-size:12px;
   }
 }
+
+
+/* Concierge enquiry: viewport-safe, readable, and consistent with the website */
+#chat5.chatpanel{top:auto!important;bottom:clamp(12px,5vh,80px)!important;max-height:calc(100dvh - 32px)!important;display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif!important;font-size:14px!important;line-height:1.45!important}
+#chat5 .chat-head{flex:0 0 auto;position:relative;z-index:2;min-height:54px;padding:12px 18px;background:#111612}
+#chat5 .chat-close{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;font-family:Arial,Helvetica,sans-serif;font-size:28px;flex-shrink:0;cursor:pointer}
+#chat5 .sx-enquiry-intro{flex:0 0 auto;padding:14px 20px 10px}
+#chat5 .sx-enquiry-intro h3{font-family:Arial,Helvetica,sans-serif!important;font-size:19px!important;line-height:1.25!important;letter-spacing:normal!important;margin:0 0 5px!important}
+#chat5 .sx-enquiry-intro p{font-size:13px!important;line-height:1.4!important;margin:0!important}
+#chat5 .sx-concierge-enquiry{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;gap:10px!important;padding:8px 20px 12px!important;scrollbar-width:thin}
+#chat5 .sx-concierge-enquiry label,#chat5 .sx-concierge-enquiry p,#chat5 .sx-concierge-enquiry span{font-family:Arial,Helvetica,sans-serif!important;font-size:13px!important;line-height:1.45!important;letter-spacing:normal!important;font-weight:400}
+#chat5 .sx-concierge-enquiry input:not([type=checkbox]),#chat5 .sx-concierge-enquiry textarea{font-family:Arial,Helvetica,sans-serif!important;font-size:14px!important;line-height:1.4!important;letter-spacing:normal!important;min-height:42px;padding:10px 12px!important}
+#chat5 .sx-concierge-enquiry textarea{min-height:88px;max-height:130px}
+#chat5 .sx-concierge-enquiry button[type=submit]{font-family:Arial,Helvetica,sans-serif!important;font-size:14px!important;line-height:1.3!important;min-height:46px;padding:11px 15px!important;border:0;box-shadow:none;cursor:pointer}
+#chat5 .chat-note{flex:0 0 auto;padding:9px 20px 12px!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;line-height:1.4!important}
+@media(max-width:600px){#chat5.chatpanel{bottom:12px!important;max-height:calc(100dvh - 24px)!important;width:calc(100vw - 24px)!important;right:12px!important}#chat5 .sx-enquiry-intro{padding:10px 16px 6px}#chat5 .sx-concierge-enquiry{padding:8px 16px 10px!important}}
