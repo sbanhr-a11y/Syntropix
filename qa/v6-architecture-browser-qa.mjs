@@ -571,14 +571,14 @@ for(const vp of viewports){
  await page.locator('[data-chat]').first().click();
  await page.waitForTimeout(120);
  const panelVisible=await page.locator('#chat5').isVisible();
- const directWhatsApp=await page.locator('.chat-wa-link[href="https://syntropix-backend.onrender.com/api/chat/whatsapp"]').count();
- await page.locator('#sx-chat-input').fill('QA message');
- await page.locator('.chat-compose button').click();
- await page.waitForTimeout(180);
- const text=await page.locator('.chat-messages').innerText();
- const pass=panelVisible && directWhatsApp===0 && text.includes('QA message') && !text.includes('could not be delivered');
- report.targeted.conciergeCommandFallback={panelVisible,directWhatsApp,text,pass};
- if(!pass) report.failures.push({target:'conciergeCommandFallback',panelVisible,directWhatsApp,text});
+ const enquiryForm=page.locator('.sx-concierge-enquiry');
+ const fields=await enquiryForm.locator('[name="name"],[name="email"],[name="phone"],[name="query"]').count();
+ const directWhatsApp=await page.locator('.chat-wa-link').count();
+ const liveCompose=await page.locator('#sx-chat-input,.chat-compose').count();
+ const consent=await enquiryForm.locator('input[name="consent"][required]').count();
+ const pass=panelVisible && fields===4 && consent===1 && directWhatsApp===0 && liveCompose===0;
+ report.targeted.conciergeCommandFallback={panelVisible,fields,consent,directWhatsApp,liveCompose,pass};
+ if(!pass) report.failures.push({target:'conciergeCommandFallback',panelVisible,fields,consent,directWhatsApp,liveCompose});
  await context.close();
 }
 
