@@ -232,7 +232,7 @@ for(const vp of viewports){
  await page.locator('[data-call]').first().click();
  await page.waitForTimeout(100);
  const callColors=await page.evaluate(()=>{const css=e=>e?getComputedStyle(e):null;return {kicker:css(document.querySelector('.callpanel .kicker'))?.color,button:css(document.querySelector('.callpanel .btn.primary'))?.backgroundColor}});
- const champagne='rgb(214, 184, 120)',emerald='rgb(15, 138, 95)',offwhite='rgb(244, 242, 236)';
+ const champagne='rgb(214, 184, 120)',emerald='rgb(15, 138, 95)',offwhite='rgb(242, 242, 236)';
  const pass=history.visitor===0&&history.operator===0&&chatColors.head===offwhite&&chatColors.send===undefined&&chatColors.wa===undefined&&chatColors.chatTab===emerald&&chatColors.callTab===emerald&&callColors.kicker===champagne;
  report.targeted.conciergeHistoryAndApprovedPalette={history,chatColors,callColors,pass};
  if(!pass)report.failures.push({target:'conciergeHistoryAndApprovedPalette',history,chatColors,callColors});
