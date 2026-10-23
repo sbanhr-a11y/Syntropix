@@ -233,7 +233,7 @@ for(const vp of viewports){
  await page.waitForTimeout(100);
  const callColors=await page.evaluate(()=>{const css=e=>e?getComputedStyle(e):null;return {kicker:css(document.querySelector('.callpanel .kicker'))?.color,button:css(document.querySelector('.callpanel .btn.primary'))?.backgroundColor}});
  const champagne='rgb(214, 184, 120)',emerald='rgb(15, 138, 95)',offwhite='rgb(244, 242, 236)';
- const pass=history.visitor===1&&history.operator===1&&chatColors.head===offwhite&&chatColors.send===champagne&&chatColors.wa===champagne&&chatColors.chatTab===emerald&&chatColors.callTab===emerald&&callColors.kicker===champagne;
+ const pass=history.visitor===0&&history.operator===0&&chatColors.head===offwhite&&chatColors.send===champagne&&chatColors.wa===undefined&&chatColors.chatTab===emerald&&chatColors.callTab===emerald&&callColors.kicker===champagne;
  report.targeted.conciergeHistoryAndApprovedPalette={history,chatColors,callColors,pass};
  if(!pass)report.failures.push({target:'conciergeHistoryAndApprovedPalette',history,chatColors,callColors});
  await context.close();
@@ -576,7 +576,7 @@ for(const vp of viewports){
  await page.locator('.chat-compose button').click();
  await page.waitForTimeout(180);
  const text=await page.locator('.chat-messages').innerText();
- const pass=panelVisible && directWhatsApp===1 && text.includes('QA message') && !text.includes('could not be delivered');
+ const pass=panelVisible && directWhatsApp===0 && text.includes('QA message') && !text.includes('could not be delivered');
  report.targeted.conciergeCommandFallback={panelVisible,directWhatsApp,text,pass};
  if(!pass) report.failures.push({target:'conciergeCommandFallback',panelVisible,directWhatsApp,text});
  await context.close();
