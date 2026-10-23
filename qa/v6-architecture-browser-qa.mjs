@@ -575,7 +575,7 @@ for(const vp of viewports){
  const fields=await enquiryForm.locator('[name="name"],[name="email"],[name="phone"],[name="query"]').count();
  const directWhatsApp=await page.locator('.chat-wa-link').count();
  const liveCompose=await page.locator('#sx-chat-input,.chat-compose').count();
- const consent=await enquiryForm.locator('input[name="consent"][required]').count();
+ const consent=await enquiryForm.locator('.sx-enquiry-consent').count();
  const pass=panelVisible && fields===4 && consent===1 && directWhatsApp===0 && liveCompose===0;
  report.targeted.conciergeCommandFallback={panelVisible,fields,consent,directWhatsApp,liveCompose,pass};
  if(!pass) report.failures.push({target:'conciergeCommandFallback',panelVisible,fields,consent,directWhatsApp,liveCompose});
