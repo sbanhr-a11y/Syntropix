@@ -89,3 +89,23 @@ footer.sx-global-footer small{
 #chat5 .sx-concierge-enquiry button[type=submit]{font-family:Arial,Helvetica,sans-serif!important;font-size:14px!important;line-height:1.3!important;min-height:46px;padding:11px 15px!important;border:0;box-shadow:none;cursor:pointer}
 #chat5 .chat-note{flex:0 0 auto;padding:9px 20px 12px!important;font-family:Arial,Helvetica,sans-serif!important;font-size:11px!important;line-height:1.4!important}
 @media(max-width:600px){#chat5.chatpanel{bottom:12px!important;max-height:calc(100dvh - 24px)!important;width:calc(100vw - 24px)!important;right:12px!important}#chat5 .sx-enquiry-intro{padding:10px 16px 6px}#chat5 .sx-concierge-enquiry{padding:8px 16px 10px!important}}
+
+/* Concierge compact v2: explicit panel height prevents header clipping at browser zoom. */
+#chat5.chatpanel{position:fixed!important;inset:auto 20px 20px auto!important;width:min(380px,calc(100vw - 32px))!important;height:min(570px,calc(100dvh - 40px))!important;max-height:calc(100dvh - 40px)!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;box-sizing:border-box!important;border-radius:16px!important}
+#chat5.chatpanel.hidden{display:none!important}
+#chat5 .chat-head{position:sticky!important;top:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex:0 0 56px!important;min-height:56px!important;max-height:56px!important;box-sizing:border-box!important;padding:6px 12px 6px 16px!important;z-index:5!important}
+#chat5 .chat-head>div{display:flex!important;gap:9px!important;align-items:center!important;min-width:0}
+#chat5 .sx-concierge-mark{height:27px!important;width:27px!important;object-fit:contain;flex:0 0 27px;border-radius:5px}
+#chat5 .chat-head b{font:600 15px/1.2 Arial,Helvetica,sans-serif!important;letter-spacing:normal!important}
+#chat5 .chat-close{position:relative!important;z-index:6!important;flex:0 0 42px!important;width:42px!important;height:42px!important;padding:0!important;font:400 29px/1 Arial,Helvetica,sans-serif!important;color:#e3e7e1!important}
+#chat5 .chat-close:hover,#chat5 .chat-close:focus-visible{color:#d6b878!important}
+#chat5 .sx-enquiry-intro{flex:0 0 auto!important;padding:12px 18px 8px!important}
+#chat5 .sx-enquiry-intro h3{font-size:18px!important;margin:0 0 4px!important}
+#chat5 .sx-enquiry-intro p{font-size:12px!important;line-height:1.4!important}
+#chat5 .sx-concierge-enquiry{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-auto-rows:min-content!important;align-content:start!important;flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;gap:8px!important;padding:6px 18px 10px!important}
+#chat5 .sx-concierge-enquiry label{gap:3px!important}
+#chat5 .sx-concierge-enquiry input:not([type=checkbox]){min-height:38px!important;height:38px!important;padding:8px 10px!important;border-radius:8px!important}
+#chat5 .sx-concierge-enquiry textarea{min-height:72px!important;max-height:100px!important;padding:9px 10px!important;border-radius:8px!important}
+#chat5 .sx-concierge-enquiry button[type=submit]{min-height:42px!important;padding:9px 12px!important;border-radius:8px!important}
+#chat5 .chat-note{flex:0 0 auto!important;padding:8px 18px 10px!important;font-size:10px!important}
+@media(max-width:600px){#chat5.chatpanel{inset:auto 12px 12px auto!important;width:calc(100vw - 24px)!important;height:min(570px,calc(100dvh - 24px))!important;max-height:calc(100dvh - 24px)!important}}
