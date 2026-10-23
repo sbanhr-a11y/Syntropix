@@ -214,7 +214,7 @@ for(const vp of viewports){
  await context.close();
 }
 
-// Targeted regression: Concierge history restores after reload and contact widgets use Burnt Terracotta.
+// Targeted regression: new Concierge visitor sessions begin empty while approved palette remains unchanged.
 {
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
@@ -222,7 +222,7 @@ for(const vp of viewports){
  await page.route('https://syntropix-backend.onrender.com/api/chat/sessions',async route=>route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',session:token,transport:'command'})}));
  await page.route(new RegExp('https://syntropix-backend\\.onrender\\.com/api/chat/sessions/'+token+'/messages'),async route=>{
    if(route.request().method()==='POST')return route.fulfill({status:201,contentType:'application/json',body:JSON.stringify({status:'success',delivered:true,transport:'command',messageId:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'})});
-   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor QA'},messages:[{id:'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',direction:'visitor',body:'Earlier visitor message',delivery_status:'command'},{id:'cccccccc-cccc-4ccc-8ccc-cccccccccccc',direction:'operator',body:'Earlier Syntropix reply',delivery_status:'command'}]})});
+   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({status:'success',session:{status:'open',visitorLabel:'Visitor QA'},messages:[]})});
  });
  await page.goto(base+'/enterprise.html',{waitUntil:'domcontentloaded',timeout:12000});
  await page.locator('[data-chat]').first().click();
